@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=3 uid="uid://d1hcqxvtlt1h"]
+
+[ext_resource type="Script" path="res://scenes/Objects/Door/Blue/door_blue.gd" id="1_8g60c"]
+[ext_resource type="PackedScene" uid="uid://srpe0tpkp3nf" path="res://models/objects/Door/door_red.glb" id="2_3pgus"]
+[ext_resource type="PackedScene" uid="uid://dxu567g1ijga1" path="res://models/objects/Door/door.glb" id="3_vh67p"]
+[ext_resource type="PackedScene" uid="uid://han1p4pop0eb" path="res://models/objects/Door/door_blue.glb" id="4_uh3fh"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fp0ob"]
+size = Vector3(0.472412, 4.8, 7.9749)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_al718"]
+size = Vector3(4.58057, 4.83054, 7.87852)
+
+[node name="Door" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_8g60c")
+
+[node name="door_red" parent="." instance=ExtResource("2_3pgus")]
+transform = Transform3D(1, 0, 0, 0, 0.721167, 0, 0, 0, 0.800414, 0, 0, 1)
+visible = false
+
+[node name="door" parent="." instance=ExtResource("3_vh67p")]
+transform = Transform3D(1, 0, 0, 0, 0.864, 0, 0, 0, 1, 0, 0, 1)
+visible = false
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00119627, 2.4, 1.0021)
+shape = SubResource("BoxShape3D_fp0ob")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1.01938, 0, 0, 0, 1.01938, 0, 0, 0, 1.01938, -0.198486, 2.41527, 1.03926)
+shape = SubResource("BoxShape3D_al718")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.676651, 3.61122, 0.950532)
+light_color = Color(3.46541e-06, 0.676476, 0.915568, 1)
+light_energy = 5.405
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.590979, 3.61122, 0.950532)
+light_color = Color(3.46541e-06, 0.676476, 0.915568, 1)
+light_energy = 5.405
+
+[node name="door_blue" parent="." instance=ExtResource("4_uh3fh")]
+transform = Transform3D(1, 0, 0, 0, 0.720297, 0, 0, 0, 0.8, 0, 0, 1)

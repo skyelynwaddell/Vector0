@@ -1,0 +1,153 @@
+[gd_scene load_steps=16 format=3 uid="uid://dj5ii0jiiu3lv"]
+
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="1_svpug"]
+[ext_resource type="Texture2D" uid="uid://b5sa7ey3ccl7b" path="res://assets/monster_sprites.png" id="1_yvxfh"]
+[ext_resource type="AudioStream" uid="uid://u5xwkmfk85eh" path="res://assets/monster_die.wav" id="2_coj1h"]
+[ext_resource type="PackedScene" uid="uid://dutx0ng68sdob" path="res://scenes/enemys/alien1/root_alien_1.tscn" id="4_njrus"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jjurw"]
+radius = 0.981446
+height = 2.38603
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q6esk"]
+atlas = ExtResource("1_yvxfh")
+region = Rect2(0, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wrycp"]
+atlas = ExtResource("1_yvxfh")
+region = Rect2(256, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1staf"]
+atlas = ExtResource("1_yvxfh")
+region = Rect2(512, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d0av8"]
+atlas = ExtResource("1_yvxfh")
+region = Rect2(768, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iv5se"]
+atlas = ExtResource("1_yvxfh")
+region = Rect2(1024, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f6sxd"]
+atlas = ExtResource("1_yvxfh")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cbfpm"]
+atlas = ExtResource("1_yvxfh")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ql2qi"]
+atlas = ExtResource("1_yvxfh")
+region = Rect2(512, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o5gl8"]
+atlas = ExtResource("1_yvxfh")
+region = Rect2(768, 0, 256, 256)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_n1odm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q6esk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wrycp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1staf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d0av8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iv5se")
+}],
+"loop": false,
+"name": &"death",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f6sxd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cbfpm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ql2qi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o5gl8")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}]
+
+[node name="Enemy" type="CharacterBody3D" groups=["Enemy"]]
+floor_stop_on_slope = false
+floor_max_angle = 1.22173
+script = ExtResource("1_svpug")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1.00622, 0, 0, 0, 1.00622, 0, 0, 0, 1.00622, 0, 1.2, 0)
+shape = SubResource("CapsuleShape3D_jjurw")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(1.42427, 0, 0, 0, 1.42427, 0, 0, 0, 1.78034, 0, 1.83358, -0.0398631)
+visible = false
+billboard = 2
+sprite_frames = SubResource("SpriteFrames_n1odm")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="sndDeath" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_coj1h")
+unit_size = 2.0
+bus = &"SFX"
+
+[node name="alien1" parent="." instance=ExtResource("4_njrus")]
+transform = Transform3D(0.997582, 0.0434478, -0.0542427, -0.042113, 0.998787, 0.025513, 0.0552854, -0.023167, 0.998202, 0, 0, -0.2)
+
+[node name="Skeleton3D" parent="alien1/Armature" index="0"]
+bones/0/position = Vector3(-0.5528, 2.48842, -0.0498204)
+bones/0/rotation = Quaternion(0.0361204, 0.000155479, -0.196625, 0.979813)
+bones/1/position = Vector3(1.05468, -0.355858, 0.549828)
+bones/1/rotation = Quaternion(-0.313952, -0.00541926, 0.330529, 0.890031)
+bones/2/position = Vector3(-0.287959, -0.666998, -0.200597)
+bones/2/rotation = Quaternion(0.134279, -0.0151502, -0.19995, 0.970443)
+bones/3/rotation = Quaternion(0.0589922, 0.021446, -0.265894, 0.961956)
+bones/4/rotation = Quaternion(0.369457, 0.534018, 0.394847, -0.649941)
+bones/7/position = Vector3(0.971439, -0.472215, -0.381118)
+bones/7/rotation = Quaternion(0.244995, 0.0302532, 0.263272, 0.932604)
+bones/8/rotation = Quaternion(-0.135221, 0.0139115, -0.0876259, 0.986835)
+bones/9/rotation = Quaternion(-0.0678438, -0.0187287, -0.276584, 0.958409)
+bones/10/rotation = Quaternion(0.408586, 0.583422, -0.390281, 0.583401)
+bones/13/position = Vector3(0.00562823, 3.83766, -0.000624266)
+bones/13/rotation = Quaternion(-0.000117213, -0.000104889, -0.000927783, 1)
+bones/14/rotation = Quaternion(0.00901635, -0.00899275, -0.649401, 0.760339)
+bones/15/rotation = Quaternion(0.0016914, -9.68458e-06, 0.00981956, 0.99995)
+bones/17/rotation = Quaternion(-4.91855e-08, 4.04252e-08, 3.49246e-10, 1)
+bones/20/position = Vector3(0.657486, 1.81413, 0.24063)
+bones/20/rotation = Quaternion(-0.0655628, 0.0275216, -0.228186, 0.971018)
+bones/21/rotation = Quaternion(0.036399, 0.0152119, -0.382147, 0.923259)
+bones/24/position = Vector3(0.66808, 1.81871, -0.291286)
+bones/24/rotation = Quaternion(0.0364315, 0.0241123, -0.225385, 0.97329)
+bones/25/rotation = Quaternion(-0.00650917, -0.0511564, -0.383807, 0.921972)
+bones/28/position = Vector3(-0.000361308, 0.00399602, 4.75184e-05)
+bones/28/rotation = Quaternion(0.704348, -0.0624055, 0.0624054, 0.704348)
+bones/29/rotation = Quaternion(0.215238, -0.317986, -0.379483, 0.841754)
+bones/30/rotation = Quaternion(-0.1999, 0.134483, -0.205683, 0.948498)
+bones/31/rotation = Quaternion(0.496065, 0.0178635, -0.0933638, 0.863067)
+bones/32/rotation = Quaternion(0.392998, 0.152719, -0.300391, 0.855567)
+bones/34/position = Vector3(0.0301915, -0.00524956, -0.0189631)
+bones/35/rotation = Quaternion(-0.380925, 0.831683, 0.205116, -0.348034)
+bones/36/rotation = Quaternion(0.230533, -0.171107, -0.240725, 0.927161)
+bones/37/rotation = Quaternion(-0.34628, -0.117723, -0.140123, 0.920107)
+bones/40/position = Vector3(0, -0.00313976, 0)
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_height_offset = 0.5
+
+[editable path="alien1"]

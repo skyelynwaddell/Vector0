@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://bvie0235himyc"]
+
+[ext_resource type="PackedScene" uid="uid://dvgcsgg7oo2xp" path="res://scenes/Parents/pickup.tscn" id="1_nt4of"]
+[ext_resource type="Script" path="res://scenes/Objects/KeycardBlue/pickup_keycard_blue.gd" id="2_c71yo"]
+[ext_resource type="PackedScene" uid="uid://c6lgj1pr1n1hc" path="res://models/objects/KeycardBlue/keycard_blue.glb" id="2_puglr"]
+
+[node name="KeycardBlue" instance=ExtResource("1_nt4of")]
+script = ExtResource("2_c71yo")
+
+[node name="healthpack" parent="." index="2"]
+visible = false
+
+[node name="keycard_blue" parent="." index="3" instance=ExtResource("2_puglr")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, -0.5, 0)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0.966009, 0)
+light_color = Color(0.420268, 0.660298, 0.984697, 1)
+light_energy = 5.0
+light_indirect_energy = 1.218

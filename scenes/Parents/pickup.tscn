@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://dvgcsgg7oo2xp"]
+
+[ext_resource type="Script" path="res://scripts/pickup.gd" id="1_cumef"]
+[ext_resource type="PackedScene" uid="uid://d21mkacpedr0" path="res://scenes/Objects/HealthPack/root_healthpack.tscn" id="2_s5uvo"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1n5pd"]
+size = Vector3(1, 1.98193, 1)
+
+[node name="Pickup" type="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_cumef")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.490967, 0)
+shape = SubResource("BoxShape3D_1n5pd")
+
+[node name="healthpack" parent="." instance=ExtResource("2_s5uvo")]
+transform = Transform3D(-1.48619e-08, -0.34, 0, 0.34, -1.48619e-08, 0, 0, 0, 0.34, 0, 0.191837, 0)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_shape_entered" from="." to="." method="_on_body_shape_entered"]

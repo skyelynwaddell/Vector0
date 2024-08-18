@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://c2pdmss28gil1"]
+
+[ext_resource type="PackedScene" uid="uid://d4mfea8nkw1qs" path="res://models/Wall_Parents/thickwall_techmetal.fbx" id="1_i5b8d"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ebs5v"]
+size = Vector3(12.0426, 8.01025, 3.99652)
+
+[node name="Wall" type="MeshInstance3D" groups=["Wall"]]
+
+[node name="Root Scene" parent="." instance=ExtResource("1_i5b8d")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Root Scene"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Root Scene/StaticBody3D"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.000331998, 3.99487, -0.00521839)
+shape = SubResource("BoxShape3D_ebs5v")
