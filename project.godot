@@ -24,7 +24,7 @@ buses/default_bus_layout="res://audio/default_bus_layout.tres"
 
 [autoload]
 
-Game="*res://Game.gd"
+Game="*res://scripts/Game.gd"
 Console="*res://addons/console/Console.gd"
 
 [debug]

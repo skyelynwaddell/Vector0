@@ -4,4 +4,6 @@
 *.mp3
 *.wav
 /addons
-/FuncGodotManual
+/godot/FuncGodotManual
+/maps/autosave
+*.log

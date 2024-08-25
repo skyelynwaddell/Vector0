@@ -2,27 +2,26 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b5sa7ey3ccl7b"
-path.s3tc="res://.godot/imported/monster_sprites.png-b591b9f0a69c630b63f650ac5bb935a5.s3tc.ctex"
+uid="uid://copv6urgtsvtf"
+path="res://.godot/imported/card_red.png-e52cb9acc29b1d7c3439b7a89add4459.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/monster_sprites.png"
-dest_files=["res://.godot/imported/monster_sprites.png-b591b9f0a69c630b63f650ac5bb935a5.s3tc.ctex"]
+source_file="res://textures/hud (2)/card_red.png"
+dest_files=["res://.godot/imported/card_red.png-e52cb9acc29b1d7c3439b7a89add4459.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
@@ -32,4 +31,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1
