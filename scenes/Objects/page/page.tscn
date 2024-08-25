@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://caeiscn88n0ad"]
+
+[ext_resource type="PackedScene" uid="uid://dfpqiinbos7pf" path="res://models/objects/page/page1.fbx" id="1_rw84s"]
+
+[node name="Page" instance=ExtResource("1_rw84s")]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)

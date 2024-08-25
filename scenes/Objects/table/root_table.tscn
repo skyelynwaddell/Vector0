@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://6sjjnthymqa2"]
+
+[ext_resource type="PackedScene" uid="uid://ccopmffdw50ux" path="res://models/objects/table/table.fbx" id="1_1jfcp"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rwl3d"]
+size = Vector3(1.8, 1.8, 4.4)
+
+[node name="Table" instance=ExtResource("1_1jfcp")]
+
+[node name="StaticBody" type="StaticBody3D" parent="." index="1"]
+collision_layer = 7
+collision_mask = 7
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.9407e-08, 0.9, -5.96046e-08)
+shape = SubResource("BoxShape3D_rwl3d")

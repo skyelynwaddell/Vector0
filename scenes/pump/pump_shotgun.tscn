@@ -5,16 +5,16 @@
 [node name="PumpShotgun2" instance=ExtResource("1_n6mnb")]
 
 [node name="Skeleton3D" parent="RootNode/Armature" index="0"]
-bones/0/position = Vector3(0.0215151, 0.0174208, 0.00341671)
-bones/2/position = Vector3(0.0223903, 0.0235945, 0.00453756)
-bones/23/position = Vector3(0.0434421, -0.0335898, 0.0179336)
-bones/27/position = Vector3(0.00819836, 0.0589272, 0.0076411)
-bones/49/position = Vector3(-0.0328255, 0.0211721, -0.0110962)
-bones/53/position = Vector3(0.0208383, 0.0363813, 0.0128929)
-bones/56/position = Vector3(0.0187851, 0.0649792, 0.00541385)
+bones/0/position = Vector3(0.0215151, 0.0174208, 0.0040266)
+bones/2/position = Vector3(0.0223903, 0.0235945, 0.00514746)
+bones/23/position = Vector3(0.0434421, -0.0335898, 0.0185435)
+bones/27/position = Vector3(0.00819836, 0.0589272, 0.00825099)
+bones/49/position = Vector3(-0.0328255, 0.0211721, -0.0104863)
+bones/53/position = Vector3(0.0208383, 0.0363813, 0.0135028)
+bones/56/position = Vector3(0.0187851, 0.0649792, 0.00602375)
 
 [node name="Cube_003" parent="RootNode/Armature/Skeleton3D" index="0"]
-transform = Transform3D(0.994576, -0.104014, -5.96046e-08, 0.104014, 0.994576, 1.56462e-07, 4.47035e-08, -1.56462e-07, 1, 0.00261197, 0.00695286, 7.42925e-05)
+transform = Transform3D(0.994576, -0.104014, -5.96046e-08, 0.104014, 0.994576, 1.56462e-07, 4.47035e-08, -1.56462e-07, 1, 0.00261197, 0.00695286, 0.000684192)
 
 [node name="Cube_001" parent="RootNode/Armature/Skeleton3D" index="1"]
-transform = Transform3D(-0.994202, 0.107528, -1.86265e-09, -0.107528, -0.994202, -1.49012e-07, -1.49012e-08, -1.3411e-07, 1, 0.0189093, 0.0694256, 0.0120378)
+transform = Transform3D(-0.994202, 0.107528, -1.86265e-09, -0.107528, -0.994202, -1.49012e-07, -1.49012e-08, -1.3411e-07, 1, 0.0189093, 0.0694256, 0.0126477)

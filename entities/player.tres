@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="FuncGodotFGDPointClass" load_steps=4 format=3 uid="uid://c16aedpw1bxtx"]
+
+[ext_resource type="Script" path="res://addons/func_godot/src/fgd/func_godot_fgd_point_class.gd" id="1_wcubw"]
+[ext_resource type="PackedScene" uid="uid://jdby8m1f1hub" path="res://scenes/player.tscn" id="1_ytquy"]
+[ext_resource type="Script" path="res://scripts/player.gd" id="3_jowvu"]
+
+[resource]
+script = ExtResource("1_wcubw")
+scene_file = ExtResource("1_ytquy")
+script_class = ExtResource("3_jowvu")
+apply_rotation_on_map_build = true
+classname = "player"
+description = "Player Entity Spawn. Set Rotation/Angle to 180 for correct movement directions."
+func_godot_internal = false
+base_classes = Array[Resource]([])
+class_properties = {}
+class_property_descriptions = {
+"spawndir": "Controls the Player Spawn Direction , can use the following directions: forward, backward, left, right"
+}
+meta_properties = {
+"color": Color(0.8, 0.8, 0.8, 1),
+"size": AABB(-8, -8, -8, 8, 8, 8)
+}
+node_class = ""
+name_property = ""

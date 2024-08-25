@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://creic5h08o4wg"]
+
+[ext_resource type="PackedScene" uid="uid://c26yw1xuohqly" path="res://models/objects/vent/insideVentAngled.fbx" id="1_h4i86"]
+
+[node name="Root Scene" instance=ExtResource("1_h4i86")]

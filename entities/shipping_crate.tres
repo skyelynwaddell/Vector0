@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="FuncGodotFGDModelPointClass" load_steps=4 format=3 uid="uid://blkdvmhfr2x6t"]
+
+[ext_resource type="Script" path="res://addons/func_godot/src/fgd/func_godot_fgd_model_point_class.gd" id="1_jphxq"]
+[ext_resource type="PackedScene" uid="uid://bo6wj3bxjv5vk" path="res://scenes/Objects/shipping_crate.tscn" id="1_vp57q"]
+[ext_resource type="Script" path="res://scripts/shippingcrate.gd" id="3_ptv40"]
+
+[resource]
+script = ExtResource("1_jphxq")
+target_map_editor = 1
+models_sub_folder = "glb/shippingcrate"
+scale_expression = ""
+generate_size_property = false
+generate_gd_ignore_file = false
+scene_file = ExtResource("1_vp57q")
+script_class = ExtResource("3_ptv40")
+apply_rotation_on_map_build = true
+classname = "shipping_crate"
+description = "Shipping Container"
+func_godot_internal = false
+base_classes = Array[Resource]([])
+class_properties = {}
+class_property_descriptions = {}
+meta_properties = {
+"color": Color(0.8, 0.8, 0.8, 1),
+"model": "\"models/glb/shippingcrate/shipping_crate.glb\"",
+"size": AABB(-8, -8, -8, 8, 8, 8)
+}
+node_class = ""
+name_property = ""

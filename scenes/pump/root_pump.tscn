@@ -21,7 +21,7 @@ animation = &"Armature|Shoot"
 [sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_sjsi4"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_6q2bx"]
-graph_offset = Vector2(-117, 46)
+graph_offset = Vector2(-313, 133)
 nodes/AnimIdle/node = SubResource("AnimationNodeAnimation_7qbib")
 nodes/AnimIdle/position = Vector2(-400, 100)
 nodes/AnimReload/node = SubResource("AnimationNodeAnimation_yxgpe")
@@ -42,9 +42,9 @@ node_connections = [&"Reload", 0, &"AnimIdle", &"Reload", 1, &"AnimReload", &"Ru
 [node name="PumpShotgun" instance=ExtResource("1_ujqnu")]
 
 [node name="Skeleton3D" parent="RootNode/Armature" index="0"]
-bones/0/position = Vector3(0.0215151, 0.0174208, 0.00376919)
+bones/0/position = Vector3(0.0215151, 0.0174208, 0.00420804)
 bones/0/rotation = Quaternion(0.806277, 0.429488, -0.145087, 0.38001)
-bones/2/position = Vector3(0.0223903, 0.0235945, 0.00489004)
+bones/2/position = Vector3(0.0223903, 0.0235945, 0.00532889)
 bones/2/rotation = Quaternion(0.132922, 0.985793, 0.0195955, -0.100793)
 bones/2/scale = Vector3(1, 1, 1)
 bones/3/rotation = Quaternion(0.0405383, 0.00266167, -0.149142, 0.987981)
@@ -70,12 +70,12 @@ bones/20/rotation = Quaternion(0.284739, -0.0345199, 0.103524, 0.952373)
 bones/20/scale = Vector3(1, 1, 1)
 bones/21/rotation = Quaternion(0.0269326, 0.116445, 0.0609214, 0.990961)
 bones/21/scale = Vector3(1, 1, 1)
-bones/23/position = Vector3(0.0434421, -0.0335898, 0.0182861)
+bones/23/position = Vector3(0.0434421, -0.0335898, 0.018725)
 bones/23/rotation = Quaternion(-0.291227, 0.139374, 0.0110194, 0.946383)
 bones/24/rotation = Quaternion(-0.174387, 0.98154, 0.0133391, 0.0773968)
 bones/24/scale = Vector3(1, 1, 1)
 bones/25/rotation = Quaternion(-0.274117, -0.0230785, -0.0909036, 0.957112)
-bones/27/position = Vector3(0.00819836, 0.0589272, 0.00799357)
+bones/27/position = Vector3(0.00819836, 0.0589272, 0.00843243)
 bones/27/rotation = Quaternion(0.389217, -0.407274, -0.0257176, 0.825819)
 bones/27/scale = Vector3(1, 1, 1)
 bones/28/rotation = Quaternion(-0.119111, 0.756381, -0.584419, 0.268616)
@@ -100,29 +100,29 @@ bones/45/rotation = Quaternion(-0.252074, -0.356386, 0.511388, 0.740223)
 bones/46/rotation = Quaternion(0.241676, -0.00809307, -0.201046, 0.949267)
 bones/46/scale = Vector3(1, 1, 1)
 bones/47/scale = Vector3(1, 1, 1)
-bones/49/position = Vector3(-0.0328255, 0.0211721, -0.0107437)
+bones/49/position = Vector3(-0.0328255, 0.0211721, -0.0103048)
 bones/49/rotation = Quaternion(-0.14585, -0.693988, -0.282379, 0.646042)
 bones/49/scale = Vector3(1, 1, 1)
 bones/50/rotation = Quaternion(0.224221, 0.929624, -0.197846, -0.215361)
 bones/50/scale = Vector3(1, 1, 1)
 bones/51/rotation = Quaternion(-0.074049, 0.158304, -0.27962, 0.944071)
 bones/51/scale = Vector3(1, 1, 0.999999)
-bones/53/position = Vector3(0.0208383, 0.0363813, 0.0132454)
+bones/53/position = Vector3(0.0208383, 0.0363813, 0.0136842)
 bones/53/rotation = Quaternion(-0.0349792, -0.0202028, 0.0796278, 0.996006)
 bones/53/scale = Vector3(1, 1, 1)
-bones/56/position = Vector3(0.0187851, 0.0649792, 0.00576633)
+bones/56/position = Vector3(0.0187851, 0.0649792, 0.00620518)
 bones/56/rotation = Quaternion(-0.0364069, 0.0181405, 0.0689652, 0.99679)
 bones/56/scale = Vector3(1, 1, 1)
 bones/57/scale = Vector3(1, 1, 1)
 
 [node name="Cube_003" parent="RootNode/Armature/Skeleton3D" index="0"]
-transform = Transform3D(0.994576, -0.104014, -5.96046e-08, 0.104014, 0.994576, 1.56462e-07, 4.47035e-08, -1.56462e-07, 1, 0.00261197, 0.00695286, 0.000426793)
+transform = Transform3D(0.994576, -0.104014, -5.96046e-08, 0.104014, 0.994576, 1.56462e-07, 4.47035e-08, -1.56462e-07, 1, 0.00261197, 0.00695286, 0.000865593)
 
 [node name="Cube_003" parent="RootNode/Armature/Skeleton3D/Cube_003" index="0"]
 layers = 524288
 
 [node name="Cube_001" parent="RootNode/Armature/Skeleton3D" index="1"]
-transform = Transform3D(-0.994202, 0.107528, -1.86265e-09, -0.107528, -0.994202, -1.49012e-07, -1.49012e-08, -1.3411e-07, 1, 0.0189093, 0.0694256, 0.0123903)
+transform = Transform3D(-0.994202, 0.107528, -1.86265e-09, -0.107528, -0.994202, -1.49012e-07, -1.49012e-08, -1.3411e-07, 1, 0.0189093, 0.0694256, 0.0128292)
 
 [node name="Cube_001" parent="RootNode/Armature/Skeleton3D/Cube_001" index="0"]
 layers = 524288

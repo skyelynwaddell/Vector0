@@ -1,4 +1,4 @@
-extends StaticBody3D
+extends RigidBody3D
 
 @onready var particle = $Smoke
 @onready var model = $Model

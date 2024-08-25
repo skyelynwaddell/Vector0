@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="FuncGodotFGDModelPointClass" load_steps=4 format=3 uid="uid://c1iu3jq1gcv58"]
+
+[ext_resource type="Script" path="res://addons/func_godot/src/fgd/func_godot_fgd_model_point_class.gd" id="1_8jgix"]
+[ext_resource type="PackedScene" uid="uid://bob4gbko1tsn4" path="res://scenes/Objects/HealthPack/pickup_healthpack.tscn" id="1_wqoxo"]
+[ext_resource type="Script" path="res://scripts/pickup_healthpack.gd" id="3_j8r18"]
+
+[resource]
+script = ExtResource("1_8jgix")
+target_map_editor = 1
+models_sub_folder = "glb/healthpack"
+scale_expression = ""
+generate_size_property = false
+generate_gd_ignore_file = false
+scene_file = ExtResource("1_wqoxo")
+script_class = ExtResource("3_j8r18")
+apply_rotation_on_map_build = true
+classname = "health_pack"
+description = "Health Pack"
+func_godot_internal = false
+base_classes = Array[Resource]([])
+class_properties = {}
+class_property_descriptions = {}
+meta_properties = {
+"color": Color(0.8, 0.8, 0.8, 1),
+"model": "\"models/glb/healthpack/health_pack.glb\"",
+"size": AABB(-8, -8, -8, 8, 8, 8)
+}
+node_class = ""
+name_property = ""

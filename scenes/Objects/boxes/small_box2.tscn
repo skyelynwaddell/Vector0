@@ -1,0 +1,56 @@
+[gd_scene load_steps=6 format=3 uid="uid://bonwlnglm1upx"]
+
+[ext_resource type="Texture2D" uid="uid://cshus2wrjp1u1" path="res://models/objects/boxes/smallbox2/smallbox2-403f070c01c1844938f8222f60b2a777_box2.png" id="1_dvb3k"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0n701"]
+resource_name = "box2"
+albedo_color = Color(1, 1, 1, 1)
+albedo_texture = ExtResource("1_dvb3k")
+metallic = 0.4
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_j7yxi"]
+_surfaces = [{
+"aabb": AABB(-0.005, -0.005, 0, 0.01, 0.01001, 0.01001),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray(0, 0, 2, 0, 1, 0, 1, 0, 3, 0, 0, 0, 4, 0, 0, 0, 3, 0, 3, 0, 5, 0, 4, 0, 6, 0, 4, 0, 5, 0, 5, 0, 7, 0, 6, 0, 2, 0, 6, 0, 7, 0, 7, 0, 1, 0, 2, 0, 7, 0, 3, 0, 1, 0, 7, 0, 5, 0, 3, 0, 0, 0, 4, 0, 2, 0, 4, 0, 6, 0, 2, 0),
+"name": "box2",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray(0, 0, 189, 255, 189, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 189, 255, 0, 0, 0, 0, 189, 255, 0, 0, 0, 0, 255, 255, 189, 255, 189, 255, 0, 0, 255, 255, 189, 255, 0, 0, 0, 0, 255, 255, 0, 0, 189, 255, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0)
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_atpw3"]
+resource_name = "Root Scene_smallbox"
+_surfaces = [{
+"aabb": AABB(-0.005, -0.005, 0, 0.01, 0.01001, 0.01001),
+"attribute_data": PackedByteArray(255, 255, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 0, 0, 255, 255, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 0, 0, 255, 255, 255, 255),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray(0, 0, 2, 0, 1, 0, 1, 0, 3, 0, 0, 0, 4, 0, 6, 0, 5, 0, 5, 0, 7, 0, 4, 0, 8, 0, 10, 0, 9, 0, 9, 0, 11, 0, 8, 0, 12, 0, 14, 0, 13, 0, 13, 0, 15, 0, 12, 0, 16, 0, 18, 0, 17, 0, 16, 0, 19, 0, 18, 0, 20, 0, 22, 0, 21, 0, 22, 0, 23, 0, 21, 0),
+"material": SubResource("StandardMaterial3D_0n701"),
+"name": "box2",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray(0, 0, 189, 255, 189, 255, 170, 42, 0, 0, 0, 0, 0, 0, 170, 42, 0, 0, 0, 0, 189, 255, 170, 42, 0, 0, 189, 255, 0, 0, 170, 42, 255, 255, 189, 255, 189, 255, 255, 63, 0, 0, 189, 255, 0, 0, 255, 63, 0, 0, 189, 255, 189, 255, 255, 63, 255, 255, 189, 255, 0, 0, 255, 63, 255, 255, 0, 0, 189, 255, 84, 213, 255, 255, 189, 255, 0, 0, 84, 213, 255, 255, 189, 255, 189, 255, 84, 213, 255, 255, 0, 0, 0, 0, 84, 213, 0, 0, 0, 0, 189, 255, 255, 191, 255, 255, 0, 0, 0, 0, 255, 191, 255, 255, 0, 0, 189, 255, 255, 191, 0, 0, 0, 0, 0, 0, 255, 191, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 189, 255, 0, 0, 0, 0, 255, 255, 189, 255, 0, 0, 0, 0, 0, 0, 189, 255, 189, 255, 0, 128, 0, 0, 0, 0, 189, 255, 0, 128, 255, 255, 189, 255, 189, 255, 0, 128, 255, 255, 0, 0, 189, 255, 0, 128, 84, 213, 84, 213, 84, 213, 84, 213, 84, 213, 84, 213, 84, 213, 84, 213, 255, 255, 255, 127, 255, 255, 255, 127, 255, 255, 255, 127, 255, 255, 255, 127, 170, 42, 170, 42, 170, 42, 170, 42, 170, 42, 170, 42, 170, 42, 170, 42, 0, 0, 255, 127, 0, 0, 255, 127, 0, 0, 255, 127, 0, 0, 255, 127, 255, 255, 255, 127, 255, 255, 255, 127, 255, 255, 255, 127, 255, 255, 255, 127, 255, 127, 255, 255, 255, 127, 255, 255, 255, 127, 255, 255, 255, 127, 255, 255)
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_j7yxi")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_je3q7"]
+
+[node name="SmallBox" type="RigidBody3D"]
+
+[node name="RootNode" type="Node3D" parent="."]
+
+[node name="smallbox" type="MeshInstance3D" parent="RootNode"]
+transform = Transform3D(100, 0, 0, 0, -1.19209e-05, 100, 0, -100, -1.19209e-05, 0, 0, 0)
+mesh = SubResource("ArrayMesh_atpw3")
+skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_je3q7")

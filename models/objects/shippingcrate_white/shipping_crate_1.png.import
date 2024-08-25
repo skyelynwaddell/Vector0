@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://fjxbxvut0vwt"
+path.s3tc="res://.godot/imported/shipping_crate_1.png-6fecbbbfc0b0a8016ad89f46b2d14c09.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "e6baa697cfa5969475d8b9b945e9313a"
+}
+
+[deps]
+
+source_file="res://models/objects/shippingcrate_white/shipping_crate_1.png"
+dest_files=["res://.godot/imported/shipping_crate_1.png-6fecbbbfc0b0a8016ad89f46b2d14c09.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

@@ -16,11 +16,11 @@ use_particle_trails = true
 
 [node name="Bullet" type="Node3D"]
 transform = Transform3D(1.03339, 0, 0, 0, 0.993897, 0, 0, 0, 0.47015, 0, 0, 0)
-visible = false
 script = ExtResource("1_yfm0j")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.144086, 0, 0, 0, -1.6025e-08, -0.110377, 0, 0.366608, -4.82473e-09, 0, 0, 0)
+visible = false
 layers = 5
 material_override = SubResource("StandardMaterial3D_wdh7k")
 cast_shadow = 0

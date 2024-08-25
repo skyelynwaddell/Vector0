@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://c77i5uvpb243t"
+path.s3tc="res://.godot/imported/shippingcrate-5b81a6756075cd55edec0e4dde68845a_shippingcartdoor.png-479e05a8062b4bf5575bbbeef20b6cd0.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "da761c11a7f322f77c61301efc18efec"
+}
+
+[deps]
+
+source_file="res://models/objects/shippingcrate_white/shippingcrate-5b81a6756075cd55edec0e4dde68845a_shippingcartdoor.png"
+dest_files=["res://.godot/imported/shippingcrate-5b81a6756075cd55edec0e4dde68845a_shippingcartdoor.png-479e05a8062b4bf5575bbbeef20b6cd0.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

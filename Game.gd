@@ -1,7 +1,10 @@
 extends Node
 
 #Player Save Data
-var playerData = {}
+var filename = "user://savefile.sav"
+var godmode = false
+var keycard = { red=false, yellow=false, blue=false }
+var hp = { current=100, maximum=100 } 
 
 #List of all weapons in game
 var weaponList = [
@@ -29,8 +32,15 @@ var weaponList = [
 	# 3 - PUMP SHOTGUN
 	{
 		title     = "Pump Shotgun",
-		power     = 100,
+		power     = 50,
 		magSize = 8,
+		spd = 200
+	},	
+	# 4 - REVOLVER
+	{
+		title     = "Revolver",
+		power     = 100,
+		magSize = 6,
 		spd = 200
 	},
 ]
@@ -46,7 +56,7 @@ var weapons = [
 	},
 	{ index = 1,
 	  ammo = 100,
-	  clip = 30,
+	  clip = 15,
 	},
 	{ index = 2,
 	  ammo = 100,
@@ -55,17 +65,41 @@ var weapons = [
 	{ index = 3,
 	  ammo = 80,
 	  clip = 8
+	},	
+	{ index = 4,
+	  ammo = 80,
+	  clip = 6
 	},
 	]
 
 #Current weapon index, according to weaponList index order
 var currentWeapon = 0
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func SaveGame():
+	var file: FileAccess = FileAccess.open(filename, FileAccess.WRITE)
+	var data = {
+		hp = Game.hp,
+		godmode = Game.godmode,
+		keycard = Game.keycard,
+		weapons = Game.weapons,
+		currentWeapon = Game.currentWeapon
+	}
+	file.store_string(JSON.stringify(data))
+	file.close()
 	pass
+
+func LoadGame():
+	var player : CharacterBody3D = get_tree().get_first_node_in_group("Player")
+	if FileAccess.file_exists(filename):
+		var file = FileAccess.open(filename, FileAccess.READ)
+		var data = JSON.parse_string(file.get_as_text())
+		file.close()
+		print_debug(data)
+		Game.hp = data.hp
+		Game.godmode = data.godmode
+		Game.keycard = data.keycard
+		Game.weapons = data.weapons
+		Game.currentWeapon = data.currentWeapon
+		player.ChangeWeapon(data.currentWeapon)
+		
+	pass 

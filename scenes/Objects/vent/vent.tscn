@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://cbbkpurxgr7wn"]
+
+[ext_resource type="PackedScene" uid="uid://0xtpe3id6vul" path="res://models/objects/vent/vent.fbx" id="1_4gkk5"]
+[ext_resource type="Script" path="res://scripts/vent.gd" id="2_6cxje"]
+
+[node name="Root Scene" instance=ExtResource("1_4gkk5")]
+script = ExtResource("2_6cxje")

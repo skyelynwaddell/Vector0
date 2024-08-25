@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dbcbt85yj4bta"]
+
+[ext_resource type="PackedScene" uid="uid://dxve5objyw2rs" path="res://models/objects/lights/light1/light1.fbx" id="1_l28aj"]
+
+[node name="Light" instance=ExtResource("1_l28aj")]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.446142, 0)
+light_size = 1.0
+omni_range = 20.0

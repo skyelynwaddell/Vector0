@@ -1,15 +1,15 @@
 [gd_scene load_steps=3 format=3 uid="uid://74a13t67nivm"]
 
 [ext_resource type="PackedScene" uid="uid://dvgcsgg7oo2xp" path="res://scenes/Parents/pickup.tscn" id="1_il03m"]
-[ext_resource type="Script" path="res://scenes/Objects/HealthPack/pickup_healthpack.gd" id="2_lyw0h"]
+[ext_resource type="Script" path="res://scripts/pickup_healthpack.gd" id="2_lyw0h"]
 
 [node name="HealthPack" instance=ExtResource("1_il03m")]
 script = ExtResource("2_lyw0h")
 
-[node name="healthpack" parent="." index="2"]
+[node name="healthpack" parent="." index="1"]
 visible = false
 
-[node name="OmniLight3D" type="OmniLight3D" parent="." index="3"]
+[node name="OmniLight3D" type="OmniLight3D" parent="." index="2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 light_color = Color(0.937935, 0.50619, 0.526195, 1)
 light_energy = 3.0

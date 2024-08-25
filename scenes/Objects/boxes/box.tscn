@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://b54lpdrubjm6y"]
+
+[ext_resource type="PackedScene" uid="uid://cg2tartpdtctg" path="res://models/objects/boxes/box1/box1.fbx" id="1_4pb8d"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wkyj7"]
+size = Vector3(2, 2, 2)
+
+[node name="Crate" type="RigidBody3D"]
+collision_layer = 5
+collision_mask = 5
+mass = 2.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_wkyj7")
+
+[node name="Root Scene" parent="." instance=ExtResource("1_4pb8d")]

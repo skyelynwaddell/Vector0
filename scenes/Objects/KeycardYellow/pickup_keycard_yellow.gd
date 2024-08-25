@@ -12,6 +12,6 @@ func _process(delta):
 
 func _on_body_entered(body):
 		if body.name == "Player":
-			body.keycardYellow = true
+			Game.keycard.yellow = true
 			body.UpdateHUD()
 			queue_free()

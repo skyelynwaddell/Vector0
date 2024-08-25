@@ -10,8 +10,8 @@ size = Vector3(9.86829, 8.01025, 1)
 [node name="Root Scene" parent="." instance=ExtResource("1_bqdob")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1, 0, 0)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Root Scene"]
+[node name="Wall" type="StaticBody3D" parent="Root Scene"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Root Scene/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Root Scene/Wall"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5.99623e-05, 3.99487, 1.19209e-07)
 shape = SubResource("BoxShape3D_ebs5v")
