@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://dpspbtsttyn47"]
+
+[ext_resource type="PackedScene" uid="uid://ckvplc5c621p" path="res://scenes/Parents/breakable.tscn" id="1_hhn21"]
+[ext_resource type="PackedScene" uid="uid://b2iexvsmr4yiu" path="res://models/objects/boxes/explosivecrate/explosivebox.fbx" id="2_wbh2i"]
+[ext_resource type="PackedScene" uid="uid://br3biywpqyl00" path="res://scenes/Parents/breakable_particles.tscn" id="3_t0fyf"]
+
+[node name="ExplosiveBox" instance=ExtResource("1_hhn21")]
+
+[node name="Model" parent="." index="1" instance=ExtResource("2_wbh2i")]
+
+[node name="BreakableParticles" parent="." index="2" instance=ExtResource("3_t0fyf")]
+
+[connection signal="finished" from="BreakableParticles/Smoke" to="." method="_on_smoke_finished"]
+[connection signal="finished" from="BreakableParticles/Wood" to="." method="_on_smoke_finished"]
+[connection signal="finished" from="BreakableParticles/Paper" to="." method="_on_smoke_finished"]
+[connection signal="finished" from="BreakableParticles/Metal" to="." method="_on_smoke_finished"]
+
+[editable path="BreakableParticles"]

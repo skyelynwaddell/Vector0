@@ -1,10 +1,8 @@
-extends CharacterBody3D
+extends NPC
 
 @onready var animated_sprite_3d = $AnimatedSprite3D
 @onready var sndDeath = $sndDeath
 @onready var col = $CollisionShape3D
-@export var moveSpeed = 3.0
-@export var attackRange = 2
 @export var power = 10
 @export var hp = { current = 100, maximum = 100 }
 
@@ -13,10 +11,6 @@ var attackSpd = 0.0
 var deathSpd = 0.0
 
 @onready var animTree = $alien1/AnimationTree
-@onready var player : CharacterBody3D = get_tree().get_first_node_in_group("Player")
-@onready var navAgent = $NavigationAgent3D
-
-var distToPlayer = 0
 
 var dead = false
 
@@ -41,7 +35,7 @@ func State(delta):
 			AttemptToKillPlayer()
 			runSpd = lerp(runSpd,1.0,.1)
 			attackSpd = lerp(attackSpd,.0,.1)
-			MoveToPlayer(delta)
+			MoveToTarget(delta)
 		ATTACK:
 			runSpd = 0.0
 			AttemptToKillPlayer()
@@ -50,27 +44,14 @@ func State(delta):
 			runSpd = 0.0
 			deathSpd = lerp(deathSpd,1.0,.1)
 			
-func _physics_process(delta):
+func _process(delta):
 	if player == null: return
-	distToPlayer = global_position.distance_to(player.global_position)
 	
 	animTree["parameters/RunBlend/blend_amount"] = runSpd
 	animTree["parameters/AttackBlend/blend_amount"] = attackSpd
 	animTree["parameters/DeathBlend/blend_amount"] = deathSpd
 		
 	State(delta)
-	
-func MoveToPlayer(delta):
-	velocity = Vector3.ZERO
-	navAgent.set_target_position(player.global_transform.origin)
-	var nextNavPoint = navAgent.get_next_path_position()
-	var point = nextNavPoint - global_transform.origin
-	velocity = point.normalized() * moveSpeed
-	rotation.y = lerp_angle(rotation.y,atan2(-velocity.x,-velocity.z), delta * 10.0)
-	
-	#look_at(Vector3(player.global_position.x, global_position.y, player.global_position.z), Vector3.UP)
-	
-	move_and_slide()
 	
 func Hurt(dmg):
 	hp.current -= dmg
@@ -86,7 +67,7 @@ func Kill():
 	
 func AttemptToKillPlayer():
 	
-	if distToPlayer > attackRange:
+	if distToPlayer > collisionRange:
 		state = IDLE
 		return
 		

@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="FuncGodotFGDModelPointClass" load_steps=3 format=3 uid="uid://dif4cnpiweq7c"]
+[gd_resource type="Resource" script_class="FuncGodotFGDModelPointClass" load_steps=4 format=3 uid="uid://dif4cnpiweq7c"]
 
 [ext_resource type="PackedScene" uid="uid://bonwlnglm1upx" path="res://scenes/Objects/boxes/small_box2.tscn" id="1_v7hqk"]
 [ext_resource type="Script" path="res://addons/func_godot/src/fgd/func_godot_fgd_model_point_class.gd" id="1_yls1l"]
+[ext_resource type="Script" path="res://scripts/classes/breakable.gd" id="3_u6ppu"]
 
 [resource]
 script = ExtResource("1_yls1l")
@@ -11,6 +12,7 @@ scale_expression = ""
 generate_size_property = false
 generate_gd_ignore_file = false
 scene_file = ExtResource("1_v7hqk")
+script_class = ExtResource("3_u6ppu")
 apply_rotation_on_map_build = true
 classname = "box_small2"
 description = "Small Box"

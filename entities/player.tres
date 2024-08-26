@@ -13,7 +13,14 @@ classname = "player"
 description = "Player Entity Spawn. Set Rotation/Angle to 180 for correct movement directions."
 func_godot_internal = false
 base_classes = Array[Resource]([])
-class_properties = {}
+class_properties = {
+"spawndir": {
+"backward": 1,
+"forward": 0,
+"left": 2,
+"right": 3
+}
+}
 class_property_descriptions = {
 "spawndir": "Controls the Player Spawn Direction , can use the following directions: forward, backward, left, right"
 }

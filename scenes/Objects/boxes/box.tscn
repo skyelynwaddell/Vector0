@@ -1,17 +1,29 @@
-[gd_scene load_steps=3 format=3 uid="uid://b54lpdrubjm6y"]
+[gd_scene load_steps=5 format=3 uid="uid://b54lpdrubjm6y"]
 
 [ext_resource type="PackedScene" uid="uid://cg2tartpdtctg" path="res://models/objects/boxes/box1/box1.fbx" id="1_4pb8d"]
+[ext_resource type="Script" path="res://scripts/classes/breakable.gd" id="1_gy304"]
+[ext_resource type="PackedScene" uid="uid://br3biywpqyl00" path="res://scenes/Parents/breakable_particles.tscn" id="3_cnj8f"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wkyj7"]
 size = Vector3(2, 2, 2)
 
-[node name="Crate" type="RigidBody3D"]
+[node name="Crate" type="RigidBody3D" groups=["Breakable"]]
 collision_layer = 5
 collision_mask = 5
 mass = 2.0
+script = ExtResource("1_gy304")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("BoxShape3D_wkyj7")
 
-[node name="Root Scene" parent="." instance=ExtResource("1_4pb8d")]
+[node name="Model" parent="." instance=ExtResource("1_4pb8d")]
+
+[node name="BreakableParticles" parent="." instance=ExtResource("3_cnj8f")]
+
+[connection signal="finished" from="BreakableParticles/Smoke" to="." method="_on_smoke_finished"]
+[connection signal="finished" from="BreakableParticles/Wood" to="." method="_on_smoke_finished"]
+[connection signal="finished" from="BreakableParticles/Paper" to="." method="_on_smoke_finished"]
+[connection signal="finished" from="BreakableParticles/Metal" to="." method="_on_smoke_finished"]
+
+[editable path="BreakableParticles"]

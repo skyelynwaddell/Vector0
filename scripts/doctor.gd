@@ -1,5 +1,5 @@
 #Doctor
-extends CharacterBody3D
+extends NPC
 
 #Doctor Type [ 1 - 4 ]
 @export var type = 1
@@ -45,7 +45,7 @@ func _ready():
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta):
+func _process(delta):
 	if Input.is_action_just_pressed("num1"): state = IDLE
 	if Input.is_action_just_pressed("num2"): state = TALK
 	if Input.is_action_just_pressed("num3"): state = WALK
@@ -148,3 +148,14 @@ func _physics_process(delta):
 			pass
 	
 	pass
+
+func _physics_process(delta):
+	MoveToTarget(delta)
+
+func onAreaEntered(area):
+	if area.is_in_group("WalkPoint"):
+		self.state = WALK
+	GetTarget(area)
+
+func _on_findtarget():
+	pass # Replace with function body.

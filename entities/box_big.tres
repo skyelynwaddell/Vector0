@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="FuncGodotFGDModelPointClass" load_steps=3 format=3 uid="uid://bu14mf4uylkf1"]
+[gd_resource type="Resource" script_class="FuncGodotFGDModelPointClass" load_steps=4 format=3 uid="uid://bu14mf4uylkf1"]
 
 [ext_resource type="PackedScene" uid="uid://b54lpdrubjm6y" path="res://scenes/Objects/boxes/box.tscn" id="1_e42tl"]
 [ext_resource type="Script" path="res://addons/func_godot/src/fgd/func_godot_fgd_model_point_class.gd" id="1_hg60r"]
+[ext_resource type="Script" path="res://scripts/classes/breakable.gd" id="3_0qhnb"]
 
 [resource]
 script = ExtResource("1_hg60r")
@@ -11,6 +12,7 @@ scale_expression = ""
 generate_size_property = false
 generate_gd_ignore_file = false
 scene_file = ExtResource("1_e42tl")
+script_class = ExtResource("3_0qhnb")
 apply_rotation_on_map_build = true
 classname = "box_big"
 description = "Big Box"

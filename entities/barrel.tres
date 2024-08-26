@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="FuncGodotFGDModelPointClass" load_steps=4 format=3 uid="uid://bs87l7eo7dlrf"]
 
-[ext_resource type="PackedScene" uid="uid://ckvplc5c621p" path="res://scenes/Objects/Barrel/barrel.tscn" id="1_7xe8b"]
+[ext_resource type="PackedScene" uid="uid://bckmld2g4vyuj" path="res://scenes/Objects/Barrel/barrel.tscn" id="1_7xe8b"]
 [ext_resource type="Script" path="res://addons/func_godot/src/fgd/func_godot_fgd_model_point_class.gd" id="1_stm01"]
-[ext_resource type="Script" path="res://scenes/Objects/Barrel/barrel.gd" id="3_0fc60"]
+[ext_resource type="Script" path="res://scripts/classes/breakable.gd" id="3_rvoue"]
 
 [resource]
 script = ExtResource("1_stm01")
@@ -12,7 +12,7 @@ scale_expression = ""
 generate_size_property = false
 generate_gd_ignore_file = false
 scene_file = ExtResource("1_7xe8b")
-script_class = ExtResource("3_0fc60")
+script_class = ExtResource("3_rvoue")
 apply_rotation_on_map_build = true
 classname = "barrel"
 description = "Barrel"

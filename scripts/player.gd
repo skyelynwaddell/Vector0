@@ -1,3 +1,4 @@
+@tool
 extends CharacterBody3D
 #NODE REFS
 @onready var animated_sprite_2d = $CanvasLayer/GunBase/AnimatedSprite2D
@@ -13,6 +14,7 @@ extends CharacterBody3D
 @onready var animM4A1 = $Head/Camera3D/arms_m4a1/AnimationTree
 @onready var animPumpShotgun = $Head/Camera3D/PumpShotgun/AnimationTree
 @onready var animRevolver = $Head/Camera3D/Revolver/AnimationTree
+@onready var animCrowbar = $Head/Camera3D/Crowbar/AnimationTree
 @onready var anim_tree = animPistol
 
 #models
@@ -20,6 +22,7 @@ extends CharacterBody3D
 @onready var modelM4A1 = $Head/Camera3D/arms_m4a1
 @onready var modelPumpShotgun = $Head/Camera3D/PumpShotgun
 @onready var modelRevolver = $Head/Camera3D/Revolver
+@onready var modelCrowbar = $Head/Camera3D/Crowbar
 
 #HUD
 @onready var lblEnergy = $CanvasLayer/lblEnergy
@@ -36,13 +39,7 @@ extends CharacterBody3D
 @onready var sfxShotgun = $Audio/sfxShotgun
 @onready var sfxReload = $Audio/sfxShotgunReload
 
-#Entity Properties -- FuncGodot
-@export var entProperties : Dictionary = {
-	"spawndir" : "forward"
-}
-func _func_godot_apply_properties(properties : Dictionary):
-	entProperties = properties
-
+@export var spawndir = "forward"
 
 var weaponSFX = sfxShotgun
 
@@ -111,8 +108,28 @@ const SWIMMING = 2
 const WALKING = 3
 var state = DEFAULT
 
+func _func_godot_apply_properties(props : Dictionary):
+	print_debug(props)
+	spawndir = props.spawndir
+	print_debug(spawndir)
+
 #READY EVENT
 func _ready():
+	#_func_godot_apply_properties(func_godot_properties)
+	print_debug(spawndir)
+	#Get Data from Trenchbroom
+	match(spawndir):
+		"0":
+			$Head.rotation_degrees = Vector3(0,0,0)		
+		"1":
+			$Head.rotation_degrees = Vector3(0,180,0)
+		"2":
+			$Head.rotation_degrees = Vector3(0,90,0)
+		"3":
+			$Head.rotation_degrees = Vector3(0,-90,0)
+	
+	if Engine.is_editor_hint(): return
+		
 	#initiate game settings
 	InputMap.load_from_project_settings()	#IMPORTANT DONT REMOVE OR HELL WILL BREAK LOOSE NOT JOKING THE MOUSE WILL DISAPPEAR AND 100000 ERRORS WILL SPIT OUT IDEK WTF ITS A GODOT ERROR APPARENTLY WITH USING @TOOL
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -122,22 +139,13 @@ func _ready():
 	#initiate head height
 	headPosY = head.position.y
 	SetHeadHeight(headPosY)
-	
-	match(entProperties.spawndir):
-		"forward":
-			$Head.rotation_degrees = Vector3(0,0,0)		
-		"backward":
-			$Head.rotation_degrees = Vector3(0,180,0)
-		"left":
-			$Head.rotation_degrees = Vector3(0,90,0)
-		"right":
-			$Head.rotation_degrees = Vector3(0,-90,0)
-		
+
 	
 
 #STEP EVENT
 func _process(delta): 
-	print_debug(entProperties)
+	if Engine.is_editor_hint(): return
+	#print_debug(spawndir)
 	#set camera position	
 	svp_camera_3d.set_global_transform(camera_3d.get_global_transform())
 	
@@ -207,7 +215,7 @@ func _process(delta):
 
 #PHYSICS PROCESS
 func _physics_process(delta):
-	
+	if Engine.is_editor_hint(): return
 
 	_push_away_rigid_bodies()
 	move_and_slide()
@@ -371,7 +379,7 @@ func Crouch():
 		var result = KinematicCollision3D.new()
 		self.test_move(self.transform, Vector3(0,translatey,0),result)
 		self.position.y += result.get_travel().y
-		$Head.position.y = lerp($Head.position.y, result.get_travel().y , 0.1)
+		$Head.position.y = lerp($Head.position.y, result.get_travel().y , 0.05)
 		$Head.position.y = clamp($Head.position.y, -crouchHeight*2, 0)
 		pass
 		
@@ -439,6 +447,7 @@ func ChangeWeapon(type):
 	modelM4A1.visible = false
 	modelPumpShotgun.visible = false
 	modelRevolver.visible = false
+	modelCrowbar.visible = false
 	
 	canShoot = false
 	changingWeapon = true
@@ -470,14 +479,19 @@ func ChangeWeapon(type):
 		4:
 			anim_tree = animRevolver
 			modelRevolver.visible = true
+			pass		
+		#CROWBAR
+		5:
+			anim_tree = animCrowbar
+			modelCrowbar.visible = true
 			pass
 					
 	Game.currentWeapon = type
 	
 	for w in Game.weapons:
 		if w.index == Game.currentWeapon:
-			
-			if Game.currentWeapon == 0:
+			var isMelee = Game.weaponList[Game.currentWeapon].melee
+			if isMelee:
 				sBullet.visible = false
 				lblAmmo.text = ""
 			else:
@@ -601,35 +615,42 @@ func GetRayCastTarget(target, group, hasMethod):
 
 #Bullet collision
 func CreateRayCast():
-	#print_debug("shoot")
+	
 	if ray_cast_3d.is_colliding():
-		var colPoint = ray_cast_3d.get_collision_point()
-		var normal = ray_cast_3d.get_collision_normal()
+		#var colPoint = ray_cast_3d.get_collision_point()
+		#var normal = ray_cast_3d.get_collision_normal()
 		var target = ray_cast_3d.get_collider()
+		if target == null: return
+		print_debug(target)
 		
-		if target != null:
-			
-			#Enemy
-			if GetRayCastTarget(target,"Enemy","Hurt"):
-				target.Hurt(Game.weaponList[Game.currentWeapon].power)
-				return target
-				
-			#Barrel
-			if GetRayCastTarget(target,"Barrel","BlowUp"):
-				target.BlowUp()
-				return target
+		#Every Entity that can be interacted with must inherit from Entity and have a type defined in _ready
+		if target.is_in_group("Enemy"): target.Hurt(Game.weaponList[Game.currentWeapon].power)
+		if target.is_in_group("Breakable"): target.Destroy()
+		#if "type" in target:
+			#match(target.type):
+				#"Enemy":
+					#target.Hurt(Game.weaponList[Game.currentWeapon].power)
+				#"Breakable":
+					#target.Destroy()
+		
+		return target
 
 #SHOOT
 func Shoot():
+	var weaponData = Game.weaponList[Game.currentWeapon]
+	
+	var isMelee = weaponData.melee
 	for weapon in Game.weapons:
 		if weapon.index == Game.currentWeapon:
+			if weapon.index == 0: return
 			
-			if weapon.clip <= 0:
+			if weapon.clip <= 0 && isMelee == false:
 				Reload()
 				return
 	
 	if canShoot == false || reloading || changingWeapon :
 		return
+		
 	canShoot = false
 	$Audio/sfxShotgun.play()
 	CreateRayCast()
@@ -639,7 +660,8 @@ func Shoot():
 		if weapon.index == Game.currentWeapon:
 			
 			#if weapon.clip <= 0: return
-			
+			if isMelee: 
+				return
 			weapon.clip -= 1
 			lblAmmo.text = str(weapon.clip, " | ", weapon.ammo)
 			if weapon.clip <= 0:

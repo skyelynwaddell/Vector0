@@ -1,0 +1,126 @@
+[gd_scene load_steps=10 format=3 uid="uid://c0pbdw60qjrfn"]
+
+[ext_resource type="PackedScene" uid="uid://ci1t46v3wo4ln" path="res://models/Weapons/crowbar/arms_crowbar.fbx" id="1_m0a2g"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_a60c3"]
+animation = &"Armature|Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6h1id"]
+animation = &"Armature|Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_g4jnj"]
+animation = &"Armature|Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_p0ges"]
+animation = &"Armature|Shoot"
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_7efpe"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_82hqa"]
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_n0u3x"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_mfvdg"]
+graph_offset = Vector2(250.832, 138.831)
+nodes/AnimIdle/node = SubResource("AnimationNodeAnimation_a60c3")
+nodes/AnimIdle/position = Vector2(-140, 180)
+nodes/AnimReload/node = SubResource("AnimationNodeAnimation_6h1id")
+nodes/AnimReload/position = Vector2(0, 320)
+nodes/AnimRun/node = SubResource("AnimationNodeAnimation_g4jnj")
+nodes/AnimRun/position = Vector2(340, 360)
+nodes/AnimShoot/node = SubResource("AnimationNodeAnimation_p0ges")
+nodes/AnimShoot/position = Vector2(700, 420)
+nodes/Reload/node = SubResource("AnimationNodeOneShot_7efpe")
+nodes/Reload/position = Vector2(175.72, 169.279)
+nodes/RunBlend/node = SubResource("AnimationNodeBlend2_82hqa")
+nodes/RunBlend/position = Vector2(514.331, 254.437)
+nodes/Shoot/node = SubResource("AnimationNodeOneShot_n0u3x")
+nodes/Shoot/position = Vector2(940, 280)
+nodes/output/position = Vector2(1140, 260)
+node_connections = [&"Reload", 0, &"AnimIdle", &"Reload", 1, &"AnimReload", &"RunBlend", 0, &"Reload", &"RunBlend", 1, &"AnimRun", &"Shoot", 0, &"RunBlend", &"Shoot", 1, &"AnimShoot", &"output", 0, &"Shoot"]
+
+[node name="Crowbar" instance=ExtResource("1_m0a2g")]
+
+[node name="Armature" parent="RootNode" index="0"]
+transform = Transform3D(100, 0, 0, 0, -4.37114e-06, 100, 0, -100, -4.37114e-06, 0, 0, 0)
+
+[node name="Skeleton3D" parent="RootNode/Armature" index="0"]
+bones/0/position = Vector3(0.0200651, 0.0249698, 0.0118084)
+bones/0/rotation = Quaternion(0.769645, 0.636689, -0.0159307, -0.0449497)
+bones/0/scale = Vector3(1, 1, 1)
+bones/2/position = Vector3(0.0198432, 0.0250118, 0.0118287)
+bones/2/scale = Vector3(1, 1, 1)
+bones/3/rotation = Quaternion(-0.0489394, -0.036227, -0.179232, 0.981921)
+bones/3/scale = Vector3(1, 1, 1)
+bones/4/rotation = Quaternion(0.0438068, -0.00560453, -0.646191, 0.761897)
+bones/5/rotation = Quaternion(0.00108999, 0.0413803, -0.514538, 0.856468)
+bones/7/rotation = Quaternion(0.0244059, 0.00631186, -0.399967, 0.916183)
+bones/8/rotation = Quaternion(-0.0133143, -0.0430506, -0.744365, 0.666251)
+bones/9/rotation = Quaternion(-0.00840262, 0.0995746, -0.627182, 0.772436)
+bones/9/scale = Vector3(1, 1, 1)
+bones/11/rotation = Quaternion(0.0507953, 0.0120404, -0.414421, 0.908587)
+bones/12/rotation = Quaternion(0.0641329, 0.102061, -0.620694, 0.774732)
+bones/13/rotation = Quaternion(0.034261, -0.0346827, -0.721547, 0.690647)
+bones/13/scale = Vector3(1, 1, 1)
+bones/16/rotation = Quaternion(-0.242687, -0.00826462, -0.504323, 0.828669)
+bones/16/scale = Vector3(1, 1, 1)
+bones/17/rotation = Quaternion(-0.318852, -0.0497712, -0.431406, 0.842464)
+bones/17/scale = Vector3(1, 1, 1)
+bones/19/rotation = Quaternion(-0.337765, -0.0983255, -0.435963, 0.828362)
+bones/20/rotation = Quaternion(-0.309265, 0.652628, 0.482514, -0.495593)
+bones/21/rotation = Quaternion(0.196251, 0.098532, -0.496334, 0.839899)
+bones/21/scale = Vector3(1, 1, 1)
+bones/23/rotation = Quaternion(-0.701835, -0.0268099, 0.124876, 0.700796)
+bones/23/scale = Vector3(1, 1, 1)
+bones/24/rotation = Quaternion(0.294621, 0.632574, 0.703029, -0.13711)
+bones/24/scale = Vector3(1, 1, 1)
+bones/26/position = Vector3(0.00440288, -0.0140519, 0.0265863)
+bones/26/rotation = Quaternion(-0.662409, 0.0648105, 0.00853725, 0.746285)
+bones/26/scale = Vector3(1, 1, 1)
+bones/27/rotation = Quaternion(0.594101, 0.712644, 0.225416, 0.297271)
+bones/28/rotation = Quaternion(-0.434494, 0.00786385, 0.119427, 0.892687)
+bones/28/scale = Vector3(1, 1, 1)
+bones/30/position = Vector3(-0.0362906, -0.00208816, 0.00440137)
+bones/30/rotation = Quaternion(0.603717, -0.379333, 0.542818, 0.443825)
+bones/31/rotation = Quaternion(-0.0192449, -0.0151125, 0.624064, 0.78099)
+bones/31/scale = Vector3(1, 1, 1)
+bones/32/rotation = Quaternion(0.0405382, -0.00266175, 0.149142, 0.987981)
+bones/33/rotation = Quaternion(1.02457e-08, 1.1263e-07, -0.0151787, 0.999885)
+bones/34/rotation = Quaternion(4.65677e-10, 1.9151e-08, 0.00831828, 0.999965)
+bones/34/scale = Vector3(1, 1, 1)
+bones/36/rotation = Quaternion(0.0405648, -0.00221966, 0.138367, 0.989548)
+bones/36/scale = Vector3(1, 1, 1)
+bones/40/rotation = Quaternion(0.0405183, -0.00294947, 0.156156, 0.986897)
+bones/41/rotation = Quaternion(1.66559e-16, 7.40226e-08, -0.0176776, 0.999844)
+bones/42/rotation = Quaternion(6.98525e-10, -7.36508e-08, 0.00973625, 0.999953)
+bones/44/rotation = Quaternion(0.0406106, -0.00109902, 0.110997, 0.99299)
+bones/48/rotation = Quaternion(-0.408766, -0.0515508, 0.317544, 0.85406)
+bones/49/rotation = Quaternion(0.264706, 0.0173563, -0.141579, 0.953722)
+bones/50/rotation = Quaternion(0.0946109, 0.00119059, 0.0484752, 0.994333)
+bones/52/position = Vector3(0.000399693, -1.02438e-06, 0.0402552)
+bones/52/rotation = Quaternion(-0.484576, 0.213515, 0.512795, 0.67575)
+bones/52/scale = Vector3(1, 1, 1)
+bones/53/rotation = Quaternion(-0.003548, 0.923011, -0.355998, -0.145956)
+bones/53/scale = Vector3(1, 1, 1)
+bones/54/rotation = Quaternion(-0.51595, 0.055387, 0.285772, 0.805644)
+bones/54/scale = Vector3(1, 1, 0.999999)
+
+[node name="crowbar" parent="RootNode/Armature/Skeleton3D" index="0"]
+transform = Transform3D(1, 2.08616e-07, -1.20141e-07, 2.98023e-08, 1, 7.63685e-08, 3.63216e-08, -2.70084e-07, 1, 5.58794e-09, 3.72529e-09, -4.34984e-05)
+
+[node name="crowbar" parent="RootNode/Armature/Skeleton3D/crowbar" index="0"]
+layers = 524288
+
+[node name="Arms" parent="RootNode/Armature/Skeleton3D" index="1"]
+layers = 524288
+
+[node name="AnimationTree" type="AnimationTree" parent="." index="2"]
+tree_root = SubResource("AnimationNodeBlendTree_mfvdg")
+anim_player = NodePath("../AnimationPlayer")
+parameters/Reload/active = false
+parameters/Reload/internal_active = false
+parameters/Reload/request = 0
+parameters/RunBlend/blend_amount = 0.0
+parameters/Shoot/active = false
+parameters/Shoot/internal_active = false
+parameters/Shoot/request = 0

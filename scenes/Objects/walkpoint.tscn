@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://b7iulj62x0cg5"]
+
+[ext_resource type="Script" path="res://scripts/walkpoint.gd" id="1_nogdg"]
+[ext_resource type="PackedScene" uid="uid://cdkl1cd8n48bu" path="res://models/glb/diamond/diamond.glb" id="1_ybts8"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gqru7"]
+
+[node name="Walkpoint" type="Area3D" groups=["WalkPoint"]]
+script = ExtResource("1_nogdg")
+target = null
+waittime = null
+
+[node name="diamond" parent="." instance=ExtResource("1_ybts8")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_gqru7")

@@ -11,6 +11,7 @@ var weaponList = [
 	# 0 - NO WEAPON
 	{
 		title = "No Weapon",
+		melee = true,
 		power = 0,
 		magSize = 0,
 		spd = 0,
@@ -18,6 +19,7 @@ var weaponList = [
 	# 1 - PISTOL
 	{
 		title     = "Pistol",
+		melee = false,
 		power     = 10,
 		magSize = 15,
 		spd = 100
@@ -25,6 +27,7 @@ var weaponList = [
 	# 2 - M4A1
 	{
 		title     = "M4A1",
+		melee = false,
 		power     = 20,
 		magSize = 30,
 		spd = 200
@@ -32,6 +35,7 @@ var weaponList = [
 	# 3 - PUMP SHOTGUN
 	{
 		title     = "Pump Shotgun",
+		melee = false,
 		power     = 50,
 		magSize = 8,
 		spd = 200
@@ -39,6 +43,15 @@ var weaponList = [
 	# 4 - REVOLVER
 	{
 		title     = "Revolver",
+		melee = false,
+		power     = 100,
+		magSize = 6,
+		spd = 200
+	},	
+	# 4 - CROWBAR
+	{
+		title     = "Crowbar",
+		melee = true,
 		power     = 100,
 		magSize = 6,
 		spd = 200
@@ -67,6 +80,10 @@ var weapons = [
 	  clip = 8
 	},	
 	{ index = 4,
+	  ammo = 80,
+	  clip = 6
+	},	
+	{ index = 5,
 	  ammo = 80,
 	  clip = 6
 	},

@@ -1,69 +1,19 @@
-[gd_scene load_steps=10 format=3 uid="uid://ckvplc5c621p"]
+[gd_scene load_steps=4 format=3 uid="uid://bckmld2g4vyuj"]
 
-[ext_resource type="Script" path="res://scenes/Objects/Barrel/barrel.gd" id="1_2o2ib"]
+[ext_resource type="PackedScene" uid="uid://ckvplc5c621p" path="res://scenes/Parents/breakable.tscn" id="1_324s2"]
 [ext_resource type="PackedScene" uid="uid://1wvstx8katp5" path="res://models/objects/barrel/barrel.fbx" id="1_h3uk3"]
-[ext_resource type="Texture2D" uid="uid://5fb83s4oit2k" path="res://textures/hud/smoke.png" id="3_x0ay6"]
+[ext_resource type="PackedScene" uid="uid://br3biywpqyl00" path="res://scenes/Parents/breakable_particles.tscn" id="3_wlduq"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a8idh"]
-transparency = 1
-cull_mode = 2
-shading_mode = 0
-vertex_color_use_as_albedo = true
-albedo_texture = ExtResource("3_x0ay6")
+[node name="Barrel" instance=ExtResource("1_324s2")]
 
-[sub_resource type="Curve" id="Curve_34ny0"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_wr2w2"]
-curve = SubResource("Curve_34ny0")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_s18ay"]
-emission_shape = 1
-emission_sphere_radius = 1.0
-angle_min = -720.0
-angle_max = 720.0
-spread = 180.0
-initial_velocity_min = 10.0
-initial_velocity_max = 15.0
-gravity = Vector3(0, 0, 0)
-scale_max = 10.0
-scale_curve = SubResource("CurveTexture_wr2w2")
-
-[sub_resource type="QuadMesh" id="QuadMesh_3bpme"]
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_cgt4t"]
-margin = 1.0
-height = 1.8
-radius = 0.75
-
-[node name="Barrel" type="RigidBody3D" groups=["Barrel"]]
-collision_layer = 5
-collision_mask = 5
-mass = 3.0
-freeze_mode = 1
-script = ExtResource("1_2o2ib")
-
-[node name="Smoke" type="GPUParticles3D" parent="."]
-material_override = SubResource("StandardMaterial3D_a8idh")
-emitting = false
-amount = 30
-sub_emitter = NodePath(".")
-lifetime = 0.48
-one_shot = true
-explosiveness = 1.0
-randomness = 1.0
-fixed_fps = 60
-collision_base_size = 2.0
-transform_align = 1
-process_material = SubResource("ParticleProcessMaterial_s18ay")
-draw_pass_1 = SubResource("QuadMesh_3bpme")
-
-[node name="Barrel" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.846201, 0)
-shape = SubResource("CylinderShape3D_cgt4t")
-
-[node name="Root Scene" parent="." instance=ExtResource("1_h3uk3")]
+[node name="Model" parent="." index="1" instance=ExtResource("1_h3uk3")]
 transform = Transform3D(0.7, 0, 0, 0, 0.56525, 0, 0, 0, 0.7, 0, 1.02807, 0)
 
-[connection signal="finished" from="Smoke" to="." method="_on_smoke_finished"]
+[node name="BreakableParticles" parent="." index="2" instance=ExtResource("3_wlduq")]
+
+[connection signal="finished" from="BreakableParticles/Smoke" to="." method="_on_smoke_finished"]
+[connection signal="finished" from="BreakableParticles/Wood" to="." method="_on_smoke_finished"]
+[connection signal="finished" from="BreakableParticles/Paper" to="." method="_on_smoke_finished"]
+[connection signal="finished" from="BreakableParticles/Metal" to="." method="_on_smoke_finished"]
+
+[editable path="BreakableParticles"]
