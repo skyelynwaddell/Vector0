@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwkbo0eb6jg62"]
+
+[ext_resource type="PackedScene" uid="uid://jvjxd3n84ne3" path="res://models/objects/valve/valve.fbx" id="1_r8h1t"]
+[ext_resource type="Script" path="res://scripts/valve.gd" id="2_xijt0"]
+
+[node name="Valve" instance=ExtResource("1_r8h1t")]
+script = ExtResource("2_xijt0")
+
+[node name="RootNode" parent="." index="0"]
+transform = Transform3D(2.98023e-08, 0, 1, 0, 1, 0, -1, 0, 2.98023e-08, 0, -0.381163, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="RootNode/Cylinder" index="0"]

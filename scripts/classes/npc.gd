@@ -1,3 +1,4 @@
+@tool
 extends CharacterBody3D
 class_name NPC
 
@@ -5,12 +6,28 @@ signal findtarget
 
 @onready var player : CharacterBody3D = get_tree().get_first_node_in_group("Player")
 @onready var navAgent = $NavigationAgent3D
+## The name of this entity
 @export var targetname = name
+## The target of this entity
 @export var target = ""
+## Max collision range between self and Player
 @export var collisionRange = 2
-@export var speed = { current=2, walk=2, run=5 }
+## Movement Speed
+@export var speed = 2
+## Velocity
 @export var vel = Vector3.ZERO
+## Gravity
 @export var grvty = 100
+## The Max HP of this entity
+@export var hp = 100
+## The current HP of this entity on spawn.
+@export var hpcurrent = 100
+
+func _func_godot_apply_properties(props:Dictionary):
+	rotation_degrees.y -= 90
+	if "targetname" in props:
+		targetname = props["targetname"] as String
+	pass
 
 var targetOrigin = null
 
@@ -19,14 +36,6 @@ var direction = 0
 var waittime = 1
 var timer = 0.0
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 func MoveToTarget(delta):
 	if targetOrigin == null: return
 	timer += delta
@@ -34,14 +43,12 @@ func MoveToTarget(delta):
 	if timer < float(waittime): return
 	
 	var direction = global_position.direction_to(targetOrigin)
-	var playerDirection = global_position.direction_to(player.position)
 	direction.y = 0
 	
 	var distance = global_transform.origin.distance_to(targetOrigin)
-	distToPlayer = global_transform.origin.distance_to(player.position)
 	
 	if distance > 0.1:
-		velocity = direction * speed.current
+		velocity = direction * speed
 		move_and_slide()
 		var target_rotation = atan2(direction.x, direction.z)
 		rotation.y = lerp_angle(rotation.y, target_rotation, delta * 5)  # Adjust the '5' to control rotation speed
@@ -56,7 +63,6 @@ func FacePlayer(delta):
 	direction.y = 0
 	var target_rotation = atan2(direction.x, direction.z)
 	rotation.y = lerp_angle(rotation.y, target_rotation, delta * 5)  # Adjust the '5' to control rotation speed
-	
 
 func GetTarget(area):
 	if area.is_in_group("WalkPoint"):
@@ -69,4 +75,7 @@ func GetTarget(area):
 				target = _target
 				targetOrigin = walkPoint.position
 	pass
+	
+func on_trigger():
+	print_debug("Triggered!")
 	

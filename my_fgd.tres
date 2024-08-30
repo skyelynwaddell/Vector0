@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FuncGodotFGDFile" load_steps=19 format=3 uid="uid://dvmaoy567g875"]
+[gd_resource type="Resource" script_class="FuncGodotFGDFile" load_steps=27 format=3 uid="uid://dvmaoy567g875"]
 
 [ext_resource type="Resource" uid="uid://crgpdahjaj" path="res://addons/func_godot/fgd/func_godot_fgd.tres" id="1_dhm07"]
 [ext_resource type="Script" path="res://addons/func_godot/src/fgd/func_godot_fgd_file.gd" id="1_stvr3"]
@@ -18,6 +18,14 @@
 [ext_resource type="Resource" uid="uid://b61fe25jlvmw" path="res://entities/doctor1.tres" id="15_jdems"]
 [ext_resource type="Resource" uid="uid://b2g5whw178ph3" path="res://entities/network_rack.tres" id="16_ur43t"]
 [ext_resource type="Resource" uid="uid://bddgumqrgw0k" path="res://entities/walkpoint.tres" id="17_mmcjc"]
+[ext_resource type="Resource" uid="uid://bym3ae0q6plg1" path="res://entities/alien_scorpion.tres" id="18_7i57j"]
+[ext_resource type="Resource" uid="uid://cttl8ia5l0mx7" path="res://entities/trigger.tres" id="19_sywb2"]
+[ext_resource type="Resource" uid="uid://bf67eqa3xsktr" path="res://entities/func_door.tres" id="20_b21b6"]
+[ext_resource type="Resource" uid="uid://c7o67bu4xprup" path="res://entities/switch_panel.tres" id="21_aaqau"]
+[ext_resource type="Resource" uid="uid://codrq2jgorkix" path="res://entities/func_glass.tres" id="22_clehb"]
+[ext_resource type="Resource" uid="uid://dr44huswtnb41" path="res://entities/func_physics.tres" id="23_ws2a0"]
+[ext_resource type="Resource" uid="uid://8od1gumkbbpr" path="res://entities/valve.tres" id="24_qemg7"]
+[ext_resource type="Resource" uid="uid://goho33qqk2k3" path="res://entities/switch_metal.tres" id="25_iyjsj"]
 
 [resource]
 script = ExtResource("1_stvr3")
@@ -25,4 +33,4 @@ export_file = false
 model_key_word_supported = true
 fgd_name = "func"
 base_fgd_files = Array[Resource]([ExtResource("1_dhm07")])
-entity_definitions = Array[Resource]([ExtResource("2_4fyca"), ExtResource("3_4pxoa"), ExtResource("4_s0ddu"), ExtResource("5_8u3kx"), ExtResource("6_qpk66"), ExtResource("8_yff7c"), ExtResource("9_7fma4"), ExtResource("3_td7vf"), ExtResource("10_smak7"), ExtResource("11_rw5h3"), ExtResource("14_hcp7d"), ExtResource("12_3onds"), ExtResource("13_op86p"), ExtResource("15_jdems"), ExtResource("16_ur43t"), ExtResource("17_mmcjc")])
+entity_definitions = Array[Resource]([ExtResource("2_4fyca"), ExtResource("3_4pxoa"), ExtResource("4_s0ddu"), ExtResource("5_8u3kx"), ExtResource("6_qpk66"), ExtResource("8_yff7c"), ExtResource("9_7fma4"), ExtResource("3_td7vf"), ExtResource("10_smak7"), ExtResource("11_rw5h3"), ExtResource("14_hcp7d"), ExtResource("12_3onds"), ExtResource("13_op86p"), ExtResource("15_jdems"), ExtResource("16_ur43t"), ExtResource("17_mmcjc"), ExtResource("18_7i57j"), ExtResource("19_sywb2"), ExtResource("20_b21b6"), ExtResource("21_aaqau"), ExtResource("22_clehb"), ExtResource("23_ws2a0"), ExtResource("24_qemg7"), ExtResource("25_iyjsj")])

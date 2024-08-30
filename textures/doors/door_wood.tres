@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dcnwoa3lioxr4"]
+
+[ext_resource type="Texture2D" uid="uid://b3jve6w8kqi63" path="res://textures/doors/door_wood.png" id="1_p51wm"]
+
+[resource]
+albedo_texture = ExtResource("1_p51wm")
+metallic_specular = 0.0

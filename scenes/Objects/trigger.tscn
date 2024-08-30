@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://c7mh4a8graqte"]
+
+[ext_resource type="PackedScene" uid="uid://bbfxcqsgns4rd" path="res://models/glb/debug_trigger/debug_trigger.glb" id="1_pyx77"]
+[ext_resource type="Script" path="res://scripts/trigger.gd" id="1_sqggy"]
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_tih1b"]
+data = PackedVector3Array(1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, -1, 1, 1, 1, 1, 1, 1, -1, 1, -1, -1, 1, -1, 1, 1, -1, -1, 1, -1, 1, -1, -1, 1, 1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, -1, -1, 1, -1, 1, 1, -1, -1, -1, -1, -1, -1, -1, 1, 1, -1, 1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, -1, 1, -1, 1, 1, 1, 1, -1, -1, -1, 1, 1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, -1)
+
+[node name="Trigger" type="Node3D" groups=["Trigger"]]
+script = ExtResource("1_sqggy")
+function = null
+type = null
+waittime = null
+chaintrigger = null
+targetname = null
+
+[node name="debug_trigger" parent="." instance=ExtResource("1_pyx77")]
+
+[node name="Area3D" type="Area3D" parent="debug_trigger/debug_entity" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="debug_trigger/debug_entity/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("ConcavePolygonShape3D_tih1b")
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="area_entered" from="debug_trigger/debug_entity/Area3D" to="." method="_on_area_3d_area_entered"]
+[connection signal="area_exited" from="debug_trigger/debug_entity/Area3D" to="." method="_on_area_3d_area_exited"]
+
+[editable path="debug_trigger"]

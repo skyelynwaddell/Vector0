@@ -29,6 +29,7 @@ volumetric_fog_albedo = Color(0.773425, 0.612901, 0.84686, 1)
 script = ExtResource("1_bareh")
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0020237, 0.0441914, 0.0120869)
 navigation_mesh = SubResource("NavigationMesh_mieig")
 
 [node name="Level1" parent="NavigationRegion3D" instance=ExtResource("28_og2bi")]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=3 uid="uid://dj5ii0jiiu3lv"]
 
-[ext_resource type="Script" path="res://scripts/enemy.gd" id="1_svpug"]
+[ext_resource type="Script" path="res://scripts/alien1.gd" id="1_svpug"]
 [ext_resource type="PackedScene" uid="uid://dutx0ng68sdob" path="res://scenes/enemys/alien1/root_alien_1.tscn" id="4_njrus"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jjurw"]

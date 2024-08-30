@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="FuncGodotFGDModelPointClass" load_steps=4 format=3 uid="uid://c7o67bu4xprup"]
+
+[ext_resource type="PackedScene" uid="uid://bfnoc1ukdwvem" path="res://scenes/Objects/panel.tscn" id="1_iiopf"]
+[ext_resource type="Script" path="res://addons/func_godot/src/fgd/func_godot_fgd_model_point_class.gd" id="1_t6jqc"]
+[ext_resource type="Script" path="res://scripts/classes/switch.gd" id="3_ggnia"]
+
+[resource]
+script = ExtResource("1_t6jqc")
+target_map_editor = 1
+models_sub_folder = "glb/switch_panel"
+scale_expression = ""
+generate_size_property = false
+generate_gd_ignore_file = false
+scene_file = ExtResource("1_iiopf")
+script_class = ExtResource("3_ggnia")
+apply_rotation_on_map_build = true
+classname = "switch_panel"
+description = ""
+func_godot_internal = false
+base_classes = Array[Resource]([])
+class_properties = {}
+class_property_descriptions = {}
+meta_properties = {
+"color": Color(0.8, 0.8, 0.8, 1),
+"size": AABB(-8, -8, -8, 8, 8, 8)
+}
+node_class = ""
+name_property = ""

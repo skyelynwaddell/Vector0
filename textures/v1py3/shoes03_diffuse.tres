@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://hh8enx6csapb"]
+
+[ext_resource type="Texture2D" uid="uid://ct0isdhw56t73" path="res://textures/v1py3/shoes03_diffuse.png" id="1_xrcd7"]
+
+[resource]
+albedo_texture = ExtResource("1_xrcd7")
+metallic_specular = 0.0
+texture_filter = 2

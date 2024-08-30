@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="FuncGodotFGDModelPointClass" load_steps=4 format=3 uid="uid://goho33qqk2k3"]
+
+[ext_resource type="PackedScene" uid="uid://btgmhlxhpnwwd" path="res://scenes/Objects/switch_metal.tscn" id="1_dcs02"]
+[ext_resource type="Script" path="res://addons/func_godot/src/fgd/func_godot_fgd_model_point_class.gd" id="2_cpkay"]
+[ext_resource type="Script" path="res://scripts/classes/switch.gd" id="3_m44e6"]
+
+[resource]
+script = ExtResource("2_cpkay")
+target_map_editor = 1
+models_sub_folder = "glb/switch_metal"
+scale_expression = ""
+generate_size_property = false
+generate_gd_ignore_file = false
+scene_file = ExtResource("1_dcs02")
+script_class = ExtResource("3_m44e6")
+apply_rotation_on_map_build = true
+classname = "switch_metal"
+description = ""
+func_godot_internal = false
+base_classes = Array[Resource]([])
+class_properties = {}
+class_property_descriptions = {}
+meta_properties = {
+"color": Color(0.8, 0.8, 0.8, 1),
+"size": AABB(-8, -8, -8, 8, 8, 8)
+}
+node_class = ""
+name_property = ""

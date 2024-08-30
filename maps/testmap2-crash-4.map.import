@@ -1,0 +1,14 @@
+[remap]
+
+importer="func_godot.map"
+type="Resource"
+uid="uid://bipauiuljyi81"
+path="res://.godot/imported/testmap2-crash-4.map-47dcc504739b547ebbbe006681351502.tres"
+
+[deps]
+
+source_file="res://maps/testmap2-crash-4.map"
+dest_files=["res://.godot/imported/testmap2-crash-4.map-47dcc504739b547ebbbe006681351502.tres"]
+
+[params]
+

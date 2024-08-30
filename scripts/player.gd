@@ -39,7 +39,10 @@ extends CharacterBody3D
 @onready var sfxShotgun = $Audio/sfxShotgun
 @onready var sfxReload = $Audio/sfxShotgunReload
 
+## Initial Spawn Direction
 @export var spawndir = "forward"
+## Target Name - Default is "Player"
+@export var targetname = "Player"
 
 var weaponSFX = sfxShotgun
 
@@ -50,14 +53,14 @@ signal HideHUDInteract
 #VARIABLES
 const mouseSens = 0.2
 var direction = 0
-var spd = { current=11, default=11, walk=7, crouch=5, swim=7, climb=7 } 
+var spd = { current=12, default=12, walk=7, crouch=5, swim=7, climb=7 } 
 var jumpHeight = { current=10, default=10, water=5}
 var grvty = { default=20, swim=5 }
-var frict = { default=7.0, jump=2.0, accel=4.0 }
+var frict = { default=7.0, jump=0.0, accel=6.0 }
 
 #crouching
 var crouching = false
-var crouchHeight = 1.3
+var crouchHeight = 1	
 var crouchJumpBoost = crouchHeight * 0.9
 var headpos = 0
 @onready var ogCapsuleHeight = $Player.shape.height
@@ -233,21 +236,21 @@ func HandlePlayerDirection(delta):
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 	direction = (head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
-	if is_on_floor() || state == CLIMBING:
-		if direction:
-			#move player
-			velocity.x = lerp(velocity.x,direction.x * spd.current, delta * frict.accel)
-			velocity.z = lerp(velocity.z,direction.z * spd.current, delta * frict.accel)
-		else:
-			#apply regular friction
-			runVal = 0.0
-			velocity.x = lerp(velocity.x,direction.x*spd.current, delta * frict.default)
-			velocity.z = lerp(velocity.z,direction.z*spd.current, delta * frict.default)
+	#if is_on_floor() || state == CLIMBING:
+	if direction:
+		#move player
+		velocity.x = lerp(velocity.x,direction.x * spd.current, delta * frict.accel)
+		velocity.z = lerp(velocity.z,direction.z * spd.current, delta * frict.accel)
 	else:
+		#apply regular friction
+		runVal = 0.0
+		velocity.x = lerp(velocity.x,direction.x*spd.current, delta * frict.default)
+		velocity.z = lerp(velocity.z,direction.z*spd.current, delta * frict.default)
+	#else:
 		#apply airborne friction
-		velocity.x = lerp(velocity.x,direction.x*spd.current, delta * frict.jump)
-		velocity.z = lerp(velocity.z,direction.z*spd.current, delta * frict.jump)
-	
+		#velocity.x = lerp(velocity.x,direction.x*spd.current, delta * frict.jump)
+		#velocity.z = lerp(velocity.z,direction.z*spd.current, delta * frict.jump)
+	#	pass
 	# Head Bobbing
 	tBob += delta * velocity.length() * float(is_on_floor())
 	camera_3d.transform.origin = HeadBob(tBob)
@@ -354,39 +357,43 @@ func _input(event):
 
 #SET HEAD HEIGHT
 func SetHeadHeight(posY):
-	head.position.y = lerp(head.position.y,posY,0.1)
-	$Player.shape.height = ogCapsuleHeight - crouchHeight*2 if crouching else ogCapsuleHeight
-	$Player.position.y = $Player.shape.height/2 - 1
+	#head.position.y = posY
+	#$Player.shape.height = ogCapsuleHeight - crouchHeight if crouching else ogCapsuleHeight
+	#$Player.position.y = $Player.shape.height/2 - 1
 	pass
 	
 #CROUCH
 func Crouch():
+	return
 	#Crouch [CTRL]
 	var wascrouchinglastframe = crouching
 	
 	if Input.is_action_pressed("Crouch"):
 		crouching = true
 	#prevent player from getting head stuck in roofs
-	elif crouching and not self.test_move(self.transform,Vector3(0,crouchHeight*2,0)):
+	elif crouching and not self.test_move(self.transform,Vector3(0,crouchHeight,0)):
 		crouching = false
-		
+	
+	if !crouching: return
 	#Give jump boost when crouch jumping
 	var translatey := 0.0
 	if wascrouchinglastframe != crouching and not is_on_floor():
-		translatey = crouchJumpBoost if crouching else -crouchJumpBoost
+		#translatey = crouchJumpBoost if crouching else -crouchJumpBoost
 		pass
 	if translatey != 0.0:
 		var result = KinematicCollision3D.new()
 		self.test_move(self.transform, Vector3(0,translatey,0),result)
-		self.position.y += result.get_travel().y
-		$Head.position.y = lerp($Head.position.y, result.get_travel().y , 0.05)
-		$Head.position.y = clamp($Head.position.y, -crouchHeight*2, 0)
+		#self.position.y += result.get_travel().y
+		#$Head/Camera3D.position.y = result.get_travel().y
+		#$Head/Camera3D.position.y = -crouchHeight
 		pass
 		
 	if crouching:
 		SetHeadHeight(headPosY - crouchHeight)
+		pass
 	else:
 		SetHeadHeight(headPosY)
+		pass
 	pass
 
 #RELOAD
@@ -615,10 +622,9 @@ func GetRayCastTarget(target, group, hasMethod):
 
 #Bullet collision
 func CreateRayCast():
-	
 	if ray_cast_3d.is_colliding():
-		#var colPoint = ray_cast_3d.get_collision_point()
-		#var normal = ray_cast_3d.get_collision_normal()
+		var colPoint = ray_cast_3d.get_collision_point()
+		var normal = ray_cast_3d.get_collision_normal()
 		var target = ray_cast_3d.get_collider()
 		if target == null: return
 		print_debug(target)

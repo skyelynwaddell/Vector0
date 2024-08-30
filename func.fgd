@@ -1,4 +1,8 @@
-//Game Settings
+/////////////////
+///**CLASSES**///
+/////////////////
+
+//Phong Class
 @BaseClass color(204 204 204) size(-8 -8 -8, 8 8 8) = Phong
 [
 	_phong(choices) : "Phong shading" : 0 = 
@@ -9,6 +13,44 @@
 	_phong_angle(float) : "Phong smoothing angle" : "89"
 ]
 
+@BaseClass = func_entity [
+	targetname(string) : "Target Name" : : ""
+	target(target_destination) : "Target" : : ""
+]
+
+//In the Scale Property (You will have to add this to Entities)
+//You can add 1 scale  value example: 32
+//or you can affect the X Y Z scale by providing 3 numbers : 32 64 128
+//Scale Class
+@BaseClass base(func_entity) = func_entity_scaled [
+	scale(string) : "Scale. Specificy the scale with X Y Z, or set all to 1 single value. Example #1: 32 64 128 Example #2: 32"
+]
+
+@BaseClass base(func_entity_scaled) = func_trigger [
+	
+	waittime(float): "Wait Time" : 0 : "How long in seconds until this function is called after being triggered."
+	sounds(choices) : "Sound Effect Played on Trigger" : 0 =
+	[
+		0 : "None"
+		1 : "Metal Door Open"
+	]
+]
+
+//Enemy Class
+@BaseClass base(func_entity) = Enemy
+[
+	collision_range(integer) : "Collision Range" : 2 : "How far in Godot Units this entity can collide with Player entity."
+	speed(integer) : "Movement Speed" : 2 : "Entity movement speed"
+	hp(integer) : "Max HP" : 100 : "Entity max hp"
+	hpcurrent(integer) : "Initial HP" : 100 : "Entity intitial HP on spawn"
+]
+
+//Trigger
+
+/////////////////////
+///**SOLID CLASS**///
+/////////////////////
+
 @SolidClass color(204 204 204) = worldspawn : "Default static world geometry. Builds a StaticBody3D with a single MeshInstance3D and a single convex CollisionShape3D shape. Also builds Occluder3D to aid in render culling of other VisualInstance3D nodes." []
 
 @SolidClass color(204 204 204) base(Phong) = func_detail : "Static collidable geometry. Builds a StaticBody3D with a MeshInstance3D and a single convex CollisionShape3D. Does not occlude other VisualInstance3D nodes." []
@@ -17,10 +59,33 @@
 
 @SolidClass color(204 204 204) base(Phong) = func_illusionary : "Static geometry with no collision. Builds a Node3D with a MeshInstance3D and an Occluder3D to aid in render culling of other VisualInstance3D nodes." []
 
+@SolidClass color(204 204 204) base(func_entity) = func_glass : "Transparent Glass Mesh" []
+
+@SolidClass color(204 204 204) base(func_entity) = func_physics : "Builds RigidBody3D Brush." []
+
+@SolidClass color(204 204 204) base(func_entity) = func_door : "Sliding Door" 
+[
+	type(choices): "type" : 0 =
+	[
+		0 : "Up"
+		1 : "Down"
+		2 : "Left"
+		3 : "Right"
+	]
+
+	open(choices): "open" : 0 =
+	[
+		0 : "Initially Closed"
+		1 : "Initially Open"
+	]
+
+	opensize(float) : "Door Open Size" : 2 : "How far should the door open (in Godot Units)"
+]
+
 //Entities
 
 //Player
-@PointClass color(204 204 204) model("models/glb/debug_player/debug_player.glb") size(-8 -8 -8, 8 8 8) = player : "Player Entity Spawn. Set Rotation/Angle to 180 for correct movement directions." 
+@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/debug_player/debug_player.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = player : "Player Entity Spawn. Set Rotation/Angle to 180 for correct movement directions." 
 [
 	spawndir(choices): "spawndir" : 0 =
 	[
@@ -31,52 +96,113 @@
 	]
 ]
 
+//Button Switch Panel
+@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/switch_panel/switch_panel.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = switch_panel : "Switch Panel" []
+
+//Metal Switch Panel
+@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/switch_metal/switch_metal.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = switch_metal : "Switch Metal" []
+
+//Valve
+@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/valve/valve.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = valve : "Valve" []
+
 //Barrel
-@PointClass color(204 204 204) model("models/glb/barrel/barrel.glb") size(-8 -8 -8, 8 8 8) studio("models/objects/barrel/barrel.glb") = barrel : "Barrel" []
+@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/barrel/barrel.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = barrel : "Barrel" []
 
 //Box Big
-@PointClass color(204 204 204) model("models/glb/box_big/box_big.glb") size(-8 -8 -8, 8 8 8) = box_big : "Big Box" []
+@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/box_big/box_big.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = box_big : "Big Box" []
 
 //Box Explosives
-@PointClass color(204 204 204) model("models/glb/box_explosives/box_explosives.glb") size(-8 -8 -8, 8 8 8) = box_explosives : "Explosive Box" []
+@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/box_explosives/box_explosives.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = box_explosives : "Explosive Box" []
 
 //Box Small #1
-@PointClass color(204 204 204) model("models/glb/box_small1/box_small1.glb") size(-8 -8 -8, 8 8 8) = box_small1 : "Small Box #1" []
+@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/box_small1/box_small1.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = box_small1 : "Small Box #1" []
 
 //Box Small #2
-@PointClass color(204 204 204) model("models/glb/box_small2/box_small2.glb") size(-8 -8 -8, 8 8 8) = box_small2 : "Small Box #2" []
+@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/box_small2/box_small2.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = box_small2 : "Small Box #2" []
 
 //Computer
-@PointClass color(204 204 204) model("models/glb/computer/computer.glb") size(-8 -8 -8, 8 8 8) = computer : "Computer" []
+@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/computer/computer.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = computer : "Computer" []
 
 //Health Pack
-@PointClass color(204 204 204) model("models/glb/healthpack/health_pack.glb") size(-8 -8 -8, 8 8 8) = health_pack : "Health Pack" []
+@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/healthpack/health_pack.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = health_pack : "Health Pack" []
 
 //Table
-@PointClass color(204 204 204) model("models/glb/table/table.glb") size(-8 -8 -8, 8 8 8) = table : "Table" []
+@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/table/table.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = table : "Table" []
 
 //Vent
-@PointClass color(204 204 204) size(-8 -8 -8, 8 8 8) studio("models/glb/vent/vent.glb") = vent : "Vent" []
+@PointClass base(func_entity) color(204 204 204)  model({"path":"models/glb/vent/vent.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = vent : "Vent" []
 
 //Shipping Crate
-@PointClass color(204 204 204) model("models/glb/shippingcrate/shipping_crate.glb") size(-8 -8 -8, 8 8 8) = shipping_crate : "Shipping Container" []
+@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/shippingcrate/shipping_crate.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = shipping_crate : "Shipping Container" []
 
 //Light #1
-@PointClass color(204 204 204) model("models/glb/light1/light1.glb") size(-8 -8 -8, 8 8 8) = light1 : "Light" []
+@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/light1/light1.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = light1 : "Light" []
 
 //Network Rack
-@PointClass color(204 204 204) model("models/glb/network_rack/network_rack.glb") size(-8 -8 -8, 8 8 8) = network_rack : "Network Rack" []
+@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/network_rack/network_rack.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = network_rack : "Network Rack" []
 
-//Door Wooden
-@PointClass color(204 204 204) model("models/glb/door_wooden/door_wooden.glb") size(-8 -8 -8, 8 8 8) = door_wooden : "Wooden Door" []
+//Door
+@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/door_wooden/door_wooden.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = door_wooden : "Door" 
+[
+	locked(flags) = 
+	[
+		1 : "Locked" : 0 // 0 means the flag isnt ticked by default
+	]
+	type(choices): "Type" : 0 =
+	[
+		0 : "wooden"
+		1 : "metal"
+	]
+]
 
 //Doctor #1
-@PointClass color(204 204 204) model("models/glb/debug_npc/debug_npc.glb") size(-8 -8 -8, 8 8 8) = doctor1 : "Doctor NPC #1" []
+@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/debug_npc/debug_npc.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = doctor1 : "Doctor NPC #1" []
 
 //Walk Point
-@PointClass color(204 204 204) model("models/glb/diamond/diamond.glb") size(-8 -8 -8, 8 8 8) = walkpoint : "Walk Point. Set new target after NPC collides with self." 
+@PointClass base(func_entity_scaled) color(204 204 204) model({"path":"models/glb/diamond/diamond.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = walkpoint : "Walk Point. Set new target after NPC collides with self."
 [
-	targetname(string): "Target Name" : : "Target Name ; other walkpoints will look for this as their Target value."
-	target(string): "Target" : : "Set to the Targetname of the Entity in which the NPC should now move towards upon colliding with self."
 	waittime(float): "Wait Time" : 0 : "How long the Entity should wait upon collision before moving to new target."
+]
+
+
+//Default Trigger
+//trigger_once , trigger_multiple, trigger_relay, trigger_auto
+@PointClass base(func_trigger) color(204 204 204) model({"path":"models/glb/debug_trigger/debug_trigger.glb", "scale":Scale}) size(-8 -8 -8, 8 8 8) = trigger : "Trigger Methods on different Entities upon Collision."
+[
+	chaintrigger(target_destination) : "Chain Trigger" : : "Chain a trigger to this trigger that will also then be triggered. it's like magic."
+
+	type(flags) =
+	[
+		1 : "Trigger On Collision" : 1
+		2 : "Trigger On Interact" : 0 
+	]
+
+	func(choices): "Function" : 0 : "Function to call. For most to all entities, their trigger effect is on_trigger. For lights/doors etc. this will turn them on, then off as well." =
+	[
+		0 : "on_trigger"
+		1 : "NULL"
+	]
+
+	
+	//Is this trigger active by default?
+	triggered(flags) =
+	[ 
+		1 : "Starts Triggered" : 0 
+	]
+
+	//Is this trigger destroyed upon colliding with Player?
+	permanent(flags) = 
+	[ 
+		1 : "Permanent" : 0 
+	] 
+]
+
+@PointClass base(func_trigger) color(204 204 204) model({"path":"models/glb/debug_trigger/debug_trigger.glb", "scale":Scale}) size(-8 -8 -8, 8 8 8) = trigger_counter : "Waits for a specified number of activations before triggering its target. Useful for puzzles or events that require multiple actions to be complete."
+[
+	counter(integer): "Counter" : 0 : "How many time this trigger has to increase its Count to be triggered. This trigger will look for its target trigger to activate."
+]
+
+//Enemy
+@PointClass base(Enemy) color(204 204 204) model({"path":"models/glb/alien_scorpion/alien_scorpion.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = alien_scorpion : "Walk Point. Set new target after NPC collides with self."
+[
 ]
