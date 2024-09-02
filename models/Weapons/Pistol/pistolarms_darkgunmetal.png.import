@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cn57qy6mqxndb"
-path.s3tc="res://.godot/imported/pistolarms_darkgunmetal.png-0b422941ea29ef23d7a1591669631aa2.s3tc.ctex"
+path.s3tc="res://.godot/imported/pistolarms_darkgunmetal.png-d46c810b33c25d3136753a00ed15bd20.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://models/Weapons/Pistol/pistolarms_darkgunmetal.png"
-dest_files=["res://.godot/imported/pistolarms_darkgunmetal.png-0b422941ea29ef23d7a1591669631aa2.s3tc.ctex"]
+source_file="res://models/weapons/pistol/pistolarms_darkgunmetal.png"
+dest_files=["res://.godot/imported/pistolarms_darkgunmetal.png-d46c810b33c25d3136753a00ed15bd20.s3tc.ctex"]
 
 [params]
 

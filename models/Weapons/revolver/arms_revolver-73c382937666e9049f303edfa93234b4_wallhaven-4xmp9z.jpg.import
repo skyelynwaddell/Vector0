@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c7pknu1xv8er4"
-path.s3tc="res://.godot/imported/arms_revolver-73c382937666e9049f303edfa93234b4_wallhaven-4xmp9z.jpg-e9bcc4f0428e97c9be5806612dc207a4.s3tc.ctex"
+path.s3tc="res://.godot/imported/arms_revolver-73c382937666e9049f303edfa93234b4_wallhaven-4xmp9z.jpg-e1b4ceec3b671b70dfed68d6b70f11ff.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://models/Weapons/revolver/arms_revolver-73c382937666e9049f303edfa93234b4_wallhaven-4xmp9z.jpg"
-dest_files=["res://.godot/imported/arms_revolver-73c382937666e9049f303edfa93234b4_wallhaven-4xmp9z.jpg-e9bcc4f0428e97c9be5806612dc207a4.s3tc.ctex"]
+source_file="res://models/weapons/revolver/arms_revolver-73c382937666e9049f303edfa93234b4_wallhaven-4xmp9z.jpg"
+dest_files=["res://.godot/imported/arms_revolver-73c382937666e9049f303edfa93234b4_wallhaven-4xmp9z.jpg-e1b4ceec3b671b70dfed68d6b70f11ff.s3tc.ctex"]
 
 [params]
 

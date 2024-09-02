@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bqs4kf2cln1f4"
-path.s3tc="res://.godot/imported/arms_pump-abf15e0759a01dedf2cd2099fdd768f8_skin.jpg-21833555ed5292b66c86746071224285.s3tc.ctex"
+path.s3tc="res://.godot/imported/arms_pump-abf15e0759a01dedf2cd2099fdd768f8_skin.jpg-a847c53a8a27c091e3ec23609235a13f.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://models/Weapons/pump/arms_pump-abf15e0759a01dedf2cd2099fdd768f8_skin.jpg"
-dest_files=["res://.godot/imported/arms_pump-abf15e0759a01dedf2cd2099fdd768f8_skin.jpg-21833555ed5292b66c86746071224285.s3tc.ctex"]
+source_file="res://models/weapons/pump/arms_pump-abf15e0759a01dedf2cd2099fdd768f8_skin.jpg"
+dest_files=["res://.godot/imported/arms_pump-abf15e0759a01dedf2cd2099fdd768f8_skin.jpg-a847c53a8a27c091e3ec23609235a13f.s3tc.ctex"]
 
 [params]
 

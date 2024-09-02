@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://vjm2wfti33la"
-path.s3tc="res://.godot/imported/doctor2-e4056565f94b58c0cf1c20b215a2c54c_short01_diffuse.png-0f28f8d55c8c6fcb28c1978fdc5a5b5b.s3tc.ctex"
+path.s3tc="res://.godot/imported/doctor2-e4056565f94b58c0cf1c20b215a2c54c_short01_diffuse.png-f961daa7704dbfdb05d0a1ea62e648ec.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://models/NPC/doctor2/doctor2-e4056565f94b58c0cf1c20b215a2c54c_short01_diffuse.png"
-dest_files=["res://.godot/imported/doctor2-e4056565f94b58c0cf1c20b215a2c54c_short01_diffuse.png-0f28f8d55c8c6fcb28c1978fdc5a5b5b.s3tc.ctex"]
+source_file="res://models/npc/doctor2/doctor2-e4056565f94b58c0cf1c20b215a2c54c_short01_diffuse.png"
+dest_files=["res://.godot/imported/doctor2-e4056565f94b58c0cf1c20b215a2c54c_short01_diffuse.png-f961daa7704dbfdb05d0a1ea62e648ec.s3tc.ctex"]
 
 [params]
 

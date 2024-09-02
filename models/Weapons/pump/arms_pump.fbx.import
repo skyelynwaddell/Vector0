@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://cnhix1383oyof"
-path="res://.godot/imported/arms_pump.fbx-abf15e0759a01dedf2cd2099fdd768f8.scn"
+path="res://.godot/imported/arms_pump.fbx-8be7e670539998ed2505164009fa1f2c.scn"
 
 [deps]
 
-source_file="res://models/Weapons/pump/arms_pump.fbx"
-dest_files=["res://.godot/imported/arms_pump.fbx-abf15e0759a01dedf2cd2099fdd768f8.scn"]
+source_file="res://models/weapons/pump/arms_pump.fbx"
+dest_files=["res://.godot/imported/arms_pump.fbx-8be7e670539998ed2505164009fa1f2c.scn"]
 
 [params]
 

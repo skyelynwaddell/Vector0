@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c5rlgby68f2b7"
-path.s3tc="res://.godot/imported/arms_revolver-73c382937666e9049f303edfa93234b4_skin.jpg-e1af1d214690946eb0cf259e6b5fb862.s3tc.ctex"
+path.s3tc="res://.godot/imported/arms_revolver-73c382937666e9049f303edfa93234b4_skin.jpg-6eb9e57ae17e01034892d3784731bb56.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://models/Weapons/revolver/arms_revolver-73c382937666e9049f303edfa93234b4_skin.jpg"
-dest_files=["res://.godot/imported/arms_revolver-73c382937666e9049f303edfa93234b4_skin.jpg-e1af1d214690946eb0cf259e6b5fb862.s3tc.ctex"]
+source_file="res://models/weapons/revolver/arms_revolver-73c382937666e9049f303edfa93234b4_skin.jpg"
+dest_files=["res://.godot/imported/arms_revolver-73c382937666e9049f303edfa93234b4_skin.jpg-6eb9e57ae17e01034892d3784731bb56.s3tc.ctex"]
 
 [params]
 

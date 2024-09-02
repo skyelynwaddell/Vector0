@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://6g3euk1a8bqj"
-path.s3tc="res://.godot/imported/arms_submachinegun-22b50e3d82856f9951ff55e83c5e4eed_skin.jpg-2abd9e0d9170c7d46407a29c9f10c7c8.s3tc.ctex"
+path.s3tc="res://.godot/imported/arms_submachinegun-22b50e3d82856f9951ff55e83c5e4eed_skin.jpg-954e03cdd9cc9129c41ca37d6433ca5b.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://models/Weapons/submachine_gun/arms_submachinegun-22b50e3d82856f9951ff55e83c5e4eed_skin.jpg"
-dest_files=["res://.godot/imported/arms_submachinegun-22b50e3d82856f9951ff55e83c5e4eed_skin.jpg-2abd9e0d9170c7d46407a29c9f10c7c8.s3tc.ctex"]
+source_file="res://models/weapons/submachine_gun/arms_submachinegun-22b50e3d82856f9951ff55e83c5e4eed_skin.jpg"
+dest_files=["res://.godot/imported/arms_submachinegun-22b50e3d82856f9951ff55e83c5e4eed_skin.jpg-954e03cdd9cc9129c41ca37d6433ca5b.s3tc.ctex"]
 
 [params]
 

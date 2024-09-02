@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b1d3n0gpmkx6b"
-path.s3tc="res://.godot/imported/pistolarms_skin.jpg-69b9951de96cc91600b4ceb2f4f74568.s3tc.ctex"
+path.s3tc="res://.godot/imported/pistolarms_skin.jpg-3d3e270eea65621b24ef6232474085ab.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://models/Weapons/Pistol/pistolarms_skin.jpg"
-dest_files=["res://.godot/imported/pistolarms_skin.jpg-69b9951de96cc91600b4ceb2f4f74568.s3tc.ctex"]
+source_file="res://models/weapons/pistol/pistolarms_skin.jpg"
+dest_files=["res://.godot/imported/pistolarms_skin.jpg-3d3e270eea65621b24ef6232474085ab.s3tc.ctex"]
 
 [params]
 

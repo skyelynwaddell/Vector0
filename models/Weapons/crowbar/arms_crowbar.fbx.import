@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://ci1t46v3wo4ln"
-path="res://.godot/imported/arms_crowbar.fbx-836ef5635fff8ba3219d2ee09dc4060c.scn"
+path="res://.godot/imported/arms_crowbar.fbx-e8d99d03cd8fa9f11acc6f105e185a1d.scn"
 
 [deps]
 
-source_file="res://models/Weapons/crowbar/arms_crowbar.fbx"
-dest_files=["res://.godot/imported/arms_crowbar.fbx-836ef5635fff8ba3219d2ee09dc4060c.scn"]
+source_file="res://models/weapons/crowbar/arms_crowbar.fbx"
+dest_files=["res://.godot/imported/arms_crowbar.fbx-e8d99d03cd8fa9f11acc6f105e185a1d.scn"]
 
 [params]
 

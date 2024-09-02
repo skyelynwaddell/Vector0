@@ -1,6 +1,6 @@
 [gd_scene load_steps=24 format=3 uid="uid://ckkfaih41jhwi"]
 
-[ext_resource type="PackedScene" uid="uid://dpi6pyfx816q2" path="res://models/NPC/doctor2/doctor2.fbx" id="2_5nc0g"]
+[ext_resource type="PackedScene" uid="uid://dpi6pyfx816q2" path="res://models/npc/doctor2/doctor2.fbx" id="2_5nc0g"]
 [ext_resource type="Script" path="res://scripts/doctor.gd" id="2_ty4yg"]
 [ext_resource type="PackedScene" uid="uid://dycw30nfi3txx" path="res://models/enemys/small_alien/small_alien.fbx" id="3_rytcr"]
 

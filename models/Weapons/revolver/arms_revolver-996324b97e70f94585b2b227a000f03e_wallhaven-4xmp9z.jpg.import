@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://cy40prnp3p83f"
+path.s3tc="res://.godot/imported/arms_revolver-996324b97e70f94585b2b227a000f03e_wallhaven-4xmp9z.jpg-44b9203b36b5a1e5eead71fd68660529.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "c0e3065f1abd903d3ccbc958a850aff0"
+}
+
+[deps]
+
+source_file="res://models/weapons/revolver/arms_revolver-996324b97e70f94585b2b227a000f03e_wallhaven-4xmp9z.jpg"
+dest_files=["res://.godot/imported/arms_revolver-996324b97e70f94585b2b227a000f03e_wallhaven-4xmp9z.jpg-44b9203b36b5a1e5eead71fd68660529.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

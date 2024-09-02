@@ -4,9 +4,9 @@ class_name Switch
 
 @onready var mesh = $RootNode/Cube
 
-@export var matOn = preload("res://models/panel/on.tres")
-@export var matOff = preload("res://models/panel/off.tres")
-@export var matNoPower = preload("res://models/panel/nopower.tres")
+@export var matOn = preload("res://models/objects/panel/on.tres")
+@export var matOff = preload("res://models/objects/panel/off.tres")
+@export var matNoPower = preload("res://models/objects/panel/nopower.tres")
 
 var OFF = 1
 var ON = 2

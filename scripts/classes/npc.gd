@@ -42,10 +42,10 @@ func MoveToTarget(delta):
 	
 	if timer < float(waittime): return
 	
-	var direction = global_position.direction_to(targetOrigin)
+	var direction = position.direction_to(targetOrigin)
 	direction.y = 0
 	
-	var distance = global_transform.origin.distance_to(targetOrigin)
+	var distance = transform.origin.distance_to(targetOrigin)
 	
 	if distance > 0.1:
 		velocity = direction * speed
@@ -59,7 +59,7 @@ func MoveToTarget(delta):
 	
 func FacePlayer(delta):
 	if player == null: return
-	var direction = global_position.direction_to(player.position)
+	var direction = position.direction_to(player.position)
 	direction.y = 0
 	var target_rotation = atan2(direction.x, direction.z)
 	rotation.y = lerp_angle(rotation.y, target_rotation, delta * 5)  # Adjust the '5' to control rotation speed

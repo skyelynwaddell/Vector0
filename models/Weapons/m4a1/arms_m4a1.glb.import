@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://cypav1n2o2a6p"
-path="res://.godot/imported/arms_m4a1.glb-59fbe75e9d2efc31f2af6ddc609abf22.scn"
+path="res://.godot/imported/arms_m4a1.glb-72c7c6cb51a7e892ce282211914157e3.scn"
 
 [deps]
 
-source_file="res://models/Weapons/m4a1/arms_m4a1.glb"
-dest_files=["res://.godot/imported/arms_m4a1.glb-59fbe75e9d2efc31f2af6ddc609abf22.scn"]
+source_file="res://models/weapons/m4a1/arms_m4a1.glb"
+dest_files=["res://.godot/imported/arms_m4a1.glb-72c7c6cb51a7e892ce282211914157e3.scn"]
 
 [params]
 

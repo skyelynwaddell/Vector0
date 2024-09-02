@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://d3nlumk5pejxa"
-path.s3tc="res://.godot/imported/doctor1-09edd5c395fefa14e4ca3a439039545b_PXL_20240821_140920943.jpg-a4c87e089c4fcb3ba6eedd3f2c5210c2.s3tc.ctex"
+path.s3tc="res://.godot/imported/doctor1-09edd5c395fefa14e4ca3a439039545b_PXL_20240821_140920943.jpg-38550533b5bd7925382983e3d04f242a.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://models/NPC/doctor1/doctor1-09edd5c395fefa14e4ca3a439039545b_PXL_20240821_140920943.jpg"
-dest_files=["res://.godot/imported/doctor1-09edd5c395fefa14e4ca3a439039545b_PXL_20240821_140920943.jpg-a4c87e089c4fcb3ba6eedd3f2c5210c2.s3tc.ctex"]
+source_file="res://models/npc/doctor1/doctor1-09edd5c395fefa14e4ca3a439039545b_PXL_20240821_140920943.jpg"
+dest_files=["res://.godot/imported/doctor1-09edd5c395fefa14e4ca3a439039545b_PXL_20240821_140920943.jpg-38550533b5bd7925382983e3d04f242a.s3tc.ctex"]
 
 [params]
 

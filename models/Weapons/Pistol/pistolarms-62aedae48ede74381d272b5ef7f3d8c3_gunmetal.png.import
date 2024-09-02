@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://djxyl86aap6f0"
-path.s3tc="res://.godot/imported/pistolarms-62aedae48ede74381d272b5ef7f3d8c3_gunmetal.png-983289f4dc84b43af1aedd0d663351f4.s3tc.ctex"
+path.s3tc="res://.godot/imported/pistolarms-62aedae48ede74381d272b5ef7f3d8c3_gunmetal.png-166c38e31b1a28f82afc520be10fe33d.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://models/Weapons/Pistol/pistolarms-62aedae48ede74381d272b5ef7f3d8c3_gunmetal.png"
-dest_files=["res://.godot/imported/pistolarms-62aedae48ede74381d272b5ef7f3d8c3_gunmetal.png-983289f4dc84b43af1aedd0d663351f4.s3tc.ctex"]
+source_file="res://models/weapons/pistol/pistolarms-62aedae48ede74381d272b5ef7f3d8c3_gunmetal.png"
+dest_files=["res://.godot/imported/pistolarms-62aedae48ede74381d272b5ef7f3d8c3_gunmetal.png-166c38e31b1a28f82afc520be10fe33d.s3tc.ctex"]
 
 [params]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://cwkbo0eb6jg62"]
+[gd_scene load_steps=3 format=3 uid="uid://bubtwcc5eg2qr"]
 
 [ext_resource type="PackedScene" uid="uid://jvjxd3n84ne3" path="res://models/objects/valve/valve.fbx" id="1_r8h1t"]
 [ext_resource type="Script" path="res://scripts/valve.gd" id="2_xijt0"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://dm3kfplm8nadq"]
 
-[ext_resource type="PackedScene" uid="uid://1j2ve2kkn61p" path="res://models/Weapons/submachine_gun/arms_submachinegun.fbx" id="1_cub8d"]
+[ext_resource type="PackedScene" uid="uid://1j2ve2kkn61p" path="res://models/weapons/submachine_gun/arms_submachinegun.fbx" id="1_cub8d"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_toy3s"]
 animation = &"Armature|Idle"

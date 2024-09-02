@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://ckgxudjlusy1x"
-path="res://.godot/imported/pistolarms.glb-3a364a242cda733b1bf102ddf195316a.scn"
+path="res://.godot/imported/pistolarms.glb-27660ae8572eb78dfd163065efdc1602.scn"
 
 [deps]
 
-source_file="res://models/Weapons/Pistol/pistolarms.glb"
-dest_files=["res://.godot/imported/pistolarms.glb-3a364a242cda733b1bf102ddf195316a.scn"]
+source_file="res://models/weapons/pistol/pistolarms.glb"
+dest_files=["res://.godot/imported/pistolarms.glb-27660ae8572eb78dfd163065efdc1602.scn"]
 
 [params]
 

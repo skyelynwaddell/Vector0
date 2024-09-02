@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dc4ipqujdo6yd"
-path.s3tc="res://.godot/imported/arms_crowbar-836ef5635fff8ba3219d2ee09dc4060c_camo.jpg-ea69232c2ca47ff216b8a42d5215d6c7.s3tc.ctex"
+path.s3tc="res://.godot/imported/arms_crowbar-836ef5635fff8ba3219d2ee09dc4060c_camo.jpg-8b3726baa093f0a76eca6e463946dad7.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://models/Weapons/crowbar/arms_crowbar-836ef5635fff8ba3219d2ee09dc4060c_camo.jpg"
-dest_files=["res://.godot/imported/arms_crowbar-836ef5635fff8ba3219d2ee09dc4060c_camo.jpg-ea69232c2ca47ff216b8a42d5215d6c7.s3tc.ctex"]
+source_file="res://models/weapons/crowbar/arms_crowbar-836ef5635fff8ba3219d2ee09dc4060c_camo.jpg"
+dest_files=["res://.godot/imported/arms_crowbar-836ef5635fff8ba3219d2ee09dc4060c_camo.jpg-8b3726baa093f0a76eca6e463946dad7.s3tc.ctex"]
 
 [params]
 

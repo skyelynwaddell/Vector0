@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bwtiao0taebfd"
-path.s3tc="res://.godot/imported/arms_revolver-73c382937666e9049f303edfa93234b4_MAGNUM CLIP.png-4bdc7507c967224be2db0fef54f51004.s3tc.ctex"
+path.s3tc="res://.godot/imported/arms_revolver-73c382937666e9049f303edfa93234b4_MAGNUM CLIP.png-804a9189252413abf9bbe565a1b797e6.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://models/Weapons/revolver/arms_revolver-73c382937666e9049f303edfa93234b4_MAGNUM CLIP.png"
-dest_files=["res://.godot/imported/arms_revolver-73c382937666e9049f303edfa93234b4_MAGNUM CLIP.png-4bdc7507c967224be2db0fef54f51004.s3tc.ctex"]
+source_file="res://models/weapons/revolver/arms_revolver-73c382937666e9049f303edfa93234b4_MAGNUM CLIP.png"
+dest_files=["res://.godot/imported/arms_revolver-73c382937666e9049f303edfa93234b4_MAGNUM CLIP.png-804a9189252413abf9bbe565a1b797e6.s3tc.ctex"]
 
 [params]
 

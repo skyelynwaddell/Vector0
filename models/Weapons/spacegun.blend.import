@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://bbxol3kbjb5x4"
-path="res://.godot/imported/spacegun.blend-e7dc582270ba9cf79875af849f8836d3.scn"
+path="res://.godot/imported/spacegun.blend-d8926d2515381151639adf57be0fe06b.scn"
 
 [deps]
 
-source_file="res://models/Weapons/spacegun.blend"
-dest_files=["res://.godot/imported/spacegun.blend-e7dc582270ba9cf79875af849f8836d3.scn"]
+source_file="res://models/weapons/spacegun.blend"
+dest_files=["res://.godot/imported/spacegun.blend-d8926d2515381151639adf57be0fe06b.scn"]
 
 [params]
 

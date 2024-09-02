@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://7pgc5phrrn7t"
-path.s3tc="res://.godot/imported/doctor1-09edd5c395fefa14e4ca3a439039545b_paleskin.png-eeca58590bf80321062b4028ee4c9ebd.s3tc.ctex"
+path.s3tc="res://.godot/imported/doctor1-09edd5c395fefa14e4ca3a439039545b_paleskin.png-b8f3a73a31dcc6e5f89f68dc027b4b8c.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://models/NPC/doctor1/doctor1-09edd5c395fefa14e4ca3a439039545b_paleskin.png"
-dest_files=["res://.godot/imported/doctor1-09edd5c395fefa14e4ca3a439039545b_paleskin.png-eeca58590bf80321062b4028ee4c9ebd.s3tc.ctex"]
+source_file="res://models/npc/doctor1/doctor1-09edd5c395fefa14e4ca3a439039545b_paleskin.png"
+dest_files=["res://.godot/imported/doctor1-09edd5c395fefa14e4ca3a439039545b_paleskin.png-b8f3a73a31dcc6e5f89f68dc027b4b8c.s3tc.ctex"]
 
 [params]
 

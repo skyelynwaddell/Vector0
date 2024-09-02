@@ -19,7 +19,8 @@ func _process(delta):
 	if Input.is_action_just_pressed("num2"): ChangeState(WALK)
 	if Input.is_action_just_pressed("num3"): ChangeState(ATTACK)
 	if Input.is_action_just_pressed("num4"): ChangeState(SUCKONHEAD)
-	distToPlayer = global_transform.origin.distance_to(player.position)
+	
+	distToPlayer = transform.origin.distance_to(player.position)
 	
 	match(state):
 		IDLE:

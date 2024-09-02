@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://lpj8fmbfpa50"]
 
-[ext_resource type="PackedScene" uid="uid://ckgxudjlusy1x" path="res://models/Weapons/Pistol/pistolarms.glb" id="1_uajlp"]
-[ext_resource type="PackedScene" uid="uid://batlfs3yf2ew8" path="res://models/Weapons/Pistol/pistolarms.fbx" id="2_im5ts"]
+[ext_resource type="PackedScene" uid="uid://ckgxudjlusy1x" path="res://models/weapons/pistol/pistolarms.glb" id="1_uajlp"]
+[ext_resource type="PackedScene" uid="uid://batlfs3yf2ew8" path="res://models/weapons/pistol/pistolarms.fbx" id="2_im5ts"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_a60c3"]
 animation = &"Armature|Idle"

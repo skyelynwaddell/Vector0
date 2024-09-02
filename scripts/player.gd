@@ -123,6 +123,7 @@ func _func_godot_apply_properties(props : Dictionary):
 
 #READY EVENT
 func _ready():
+	print_debug("player made")
 	#_func_godot_apply_properties(func_godot_properties)
 	print_debug(spawndir)
 	#Get Data from Trenchbroom

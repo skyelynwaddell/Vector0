@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://83r7b4vyt3uo"
-path.s3tc="res://.godot/imported/doctor1-09edd5c395fefa14e4ca3a439039545b_old_darkskinned_male_diffuse.png-9624bbdfdf6958daba8b1080fd69367a.s3tc.ctex"
+path.s3tc="res://.godot/imported/doctor1-09edd5c395fefa14e4ca3a439039545b_old_darkskinned_male_diffuse.png-9bb67c7ea207a79fe1bf5d809c424b4b.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://models/NPC/doctor1/doctor1-09edd5c395fefa14e4ca3a439039545b_old_darkskinned_male_diffuse.png"
-dest_files=["res://.godot/imported/doctor1-09edd5c395fefa14e4ca3a439039545b_old_darkskinned_male_diffuse.png-9624bbdfdf6958daba8b1080fd69367a.s3tc.ctex"]
+source_file="res://models/npc/doctor1/doctor1-09edd5c395fefa14e4ca3a439039545b_old_darkskinned_male_diffuse.png"
+dest_files=["res://.godot/imported/doctor1-09edd5c395fefa14e4ca3a439039545b_old_darkskinned_male_diffuse.png-9bb67c7ea207a79fe1bf5d809c424b4b.s3tc.ctex"]
 
 [params]
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://denpcyrr2hb73"]
 
-[ext_resource type="PackedScene" uid="uid://dqt0dbc80a7us" path="res://models/Weapons/revolver/arms_revolver.fbx" id="1_htup4"]
+[ext_resource type="PackedScene" uid="uid://dqt0dbc80a7us" path="res://models/weapons/revolver/arms_revolver.fbx" id="1_htup4"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kar0i"]
 animation = &"Armature|Idle"

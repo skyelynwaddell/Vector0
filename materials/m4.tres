@@ -1,6 +1,6 @@
 [gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://ski62kukmh2n"]
 
-[ext_resource type="Texture2D" uid="uid://cab72bgs2jcf8" path="res://models/Weapons/m4a1/arms_m4a1_darkgunmetal.png" id="1_mpivh"]
+[ext_resource type="Texture2D" uid="uid://cab72bgs2jcf8" path="res://models/weapons/m4a1/arms_m4a1_darkgunmetal.png" id="1_mpivh"]
 
 [resource]
 resource_name = "Material.004"

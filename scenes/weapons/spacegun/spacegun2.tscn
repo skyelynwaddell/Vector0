@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://d22xpivkdiv6x"]
 
-[ext_resource type="PackedScene" uid="uid://bbxol3kbjb5x4" path="res://models/Weapons/spacegun.blend" id="1_fhe87"]
+[ext_resource type="PackedScene" uid="uid://bbxol3kbjb5x4" path="res://models/weapons/spacegun.blend" id="1_fhe87"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_eaavq"]
 animation = &"Idle"

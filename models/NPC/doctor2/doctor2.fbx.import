@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://dpi6pyfx816q2"
-path="res://.godot/imported/doctor2.fbx-e4056565f94b58c0cf1c20b215a2c54c.scn"
+path="res://.godot/imported/doctor2.fbx-b9141b249c4edd6e4ca3ffc6e47a9d7f.scn"
 
 [deps]
 
-source_file="res://models/NPC/doctor2/doctor2.fbx"
-dest_files=["res://.godot/imported/doctor2.fbx-e4056565f94b58c0cf1c20b215a2c54c.scn"]
+source_file="res://models/npc/doctor2/doctor2.fbx"
+dest_files=["res://.godot/imported/doctor2.fbx-b9141b249c4edd6e4ca3ffc6e47a9d7f.scn"]
 
 [params]
 

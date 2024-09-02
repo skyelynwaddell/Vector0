@@ -1210,6 +1210,9 @@
 "hp" "100"
 "hpcurrent" "100"
 "origin" "-904 872 8"
+"targetname" "door1"
+"target" "player"
+"angle" "240"
 }
 // entity 46
 {

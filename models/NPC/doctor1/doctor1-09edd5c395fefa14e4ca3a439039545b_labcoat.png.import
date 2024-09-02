@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://s4mqbdh370m4"
-path.s3tc="res://.godot/imported/doctor1-09edd5c395fefa14e4ca3a439039545b_labcoat.png-a5bf982e3c9eb0e70e0eb811e127c13e.s3tc.ctex"
+path.s3tc="res://.godot/imported/doctor1-09edd5c395fefa14e4ca3a439039545b_labcoat.png-3df12c35bc0e92f67e0b08f00ea48ae8.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://models/NPC/doctor1/doctor1-09edd5c395fefa14e4ca3a439039545b_labcoat.png"
-dest_files=["res://.godot/imported/doctor1-09edd5c395fefa14e4ca3a439039545b_labcoat.png-a5bf982e3c9eb0e70e0eb811e127c13e.s3tc.ctex"]
+source_file="res://models/npc/doctor1/doctor1-09edd5c395fefa14e4ca3a439039545b_labcoat.png"
+dest_files=["res://.godot/imported/doctor1-09edd5c395fefa14e4ca3a439039545b_labcoat.png-3df12c35bc0e92f67e0b08f00ea48ae8.s3tc.ctex"]
 
 [params]
 

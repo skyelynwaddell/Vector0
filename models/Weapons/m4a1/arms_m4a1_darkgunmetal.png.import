@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cab72bgs2jcf8"
-path.s3tc="res://.godot/imported/arms_m4a1_darkgunmetal.png-3a8b3ea7a7529bfb8f6649462c083304.s3tc.ctex"
+path.s3tc="res://.godot/imported/arms_m4a1_darkgunmetal.png-5d093a2b43ab8f49b0da58bff0f1cafc.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://models/Weapons/m4a1/arms_m4a1_darkgunmetal.png"
-dest_files=["res://.godot/imported/arms_m4a1_darkgunmetal.png-3a8b3ea7a7529bfb8f6649462c083304.s3tc.ctex"]
+source_file="res://models/weapons/m4a1/arms_m4a1_darkgunmetal.png"
+dest_files=["res://.godot/imported/arms_m4a1_darkgunmetal.png-5d093a2b43ab8f49b0da58bff0f1cafc.s3tc.ctex"]
 
 [params]
 

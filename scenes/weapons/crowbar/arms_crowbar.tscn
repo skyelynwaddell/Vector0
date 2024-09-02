@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://c0pbdw60qjrfn"]
 
-[ext_resource type="PackedScene" uid="uid://ci1t46v3wo4ln" path="res://models/Weapons/crowbar/arms_crowbar.fbx" id="1_m0a2g"]
+[ext_resource type="PackedScene" uid="uid://ci1t46v3wo4ln" path="res://models/weapons/crowbar/arms_crowbar.fbx" id="1_m0a2g"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_a60c3"]
 animation = &"Armature|Idle"

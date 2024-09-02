@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cnr7ebpgsy36y"
-path.s3tc="res://.godot/imported/pistolarms_idle-8794e4d5a1f59da05900495d5ca913cc_camo.jpg-7f5b67a894492e00d84738df84afa593.s3tc.ctex"
+path.s3tc="res://.godot/imported/pistolarms_idle-8794e4d5a1f59da05900495d5ca913cc_camo.jpg-4552da26acabc422eaa7a6746f614264.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://models/Weapons/Pistol/pistolarms_idle-8794e4d5a1f59da05900495d5ca913cc_camo.jpg"
-dest_files=["res://.godot/imported/pistolarms_idle-8794e4d5a1f59da05900495d5ca913cc_camo.jpg-7f5b67a894492e00d84738df84afa593.s3tc.ctex"]
+source_file="res://models/weapons/pistol/pistolarms_idle-8794e4d5a1f59da05900495d5ca913cc_camo.jpg"
+dest_files=["res://.godot/imported/pistolarms_idle-8794e4d5a1f59da05900495d5ca913cc_camo.jpg-4552da26acabc422eaa7a6746f614264.s3tc.ctex"]
 
 [params]
 

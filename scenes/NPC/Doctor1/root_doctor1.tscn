@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c1bb2xwe0npsp"]
 
-[ext_resource type="PackedScene" uid="uid://cbyl1kii4fi2j" path="res://models/NPC/doctor1/doctor1.fbx" id="1_eyv24"]
+[ext_resource type="PackedScene" uid="uid://cbyl1kii4fi2j" path="res://models/npc/doctor1/doctor1.fbx" id="1_eyv24"]
 
 [node name="Root Scene" instance=ExtResource("1_eyv24")]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
