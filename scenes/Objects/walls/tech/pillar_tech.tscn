@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://dktdf5w06klyj"]
+
+[ext_resource type="PackedScene" uid="uid://8f2a7eydqyt2" path="res://scenes/Objects/walls/parents/wallpillar.tscn" id="1_53ajn"]
+
+[node name="Wall" instance=ExtResource("1_53ajn")]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://7rwmy0yrj2j1"]
 
-[ext_resource type="PackedScene" uid="uid://dtmmqvlg4idrh" path="res://models/network_rack/network_rack.fbx" id="1_wfjmp"]
+[ext_resource type="PackedScene" uid="uid://dtmmqvlg4idrh" path="res://models/objects/network_rack/network_rack.fbx" id="1_wfjmp"]
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_lb1jq"]
 data = PackedVector3Array(-0.006, 0.01, 0.04, -0.006, -0.01, 0.04, -0.006, -0.01, 0, -0.006, -0.01, 0, -0.006, 0.01, 0, -0.006, 0.01, 0.04, 0.006, 0.01, 0.04, -0.006, 0.01, 0.04, -0.006, 0.01, 0, -0.006, 0.01, 0, 0.006, 0.01, 0, 0.006, 0.01, 0.04, 0.006, -0.01, 0.04, 0.006, 0.01, 0.04, 0.006, 0.01, 0, 0.006, 0.01, 0, 0.006, -0.01, 0, 0.006, -0.01, 0.04, -0.006, -0.01, 0.04, 0.006, -0.01, 0.04, 0.006, -0.01, 0, 0.006, -0.01, 0, -0.006, -0.01, 0, -0.006, -0.01, 0.04, 0.006, -0.01, 0, -0.006, 0.01, 0, -0.006, -0.01, 0, 0.006, -0.01, 0, 0.006, 0.01, 0, -0.006, 0.01, 0, -0.006, 0.01, 0.04, 0.006, 0.01, 0.04, -0.006, -0.01, 0.04, 0.006, 0.01, 0.04, 0.006, -0.01, 0.04, -0.006, -0.01, 0.04)

@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://c427puecfdmr0"]
 
 [ext_resource type="Script" path="res://scenes/world.gd" id="1_bareh"]
-[ext_resource type="PackedScene" uid="uid://cvpk0of8h0jjo" path="res://maps/level1.tscn" id="28_og2bi"]
+[ext_resource type="PackedScene" uid="uid://cvpk0of8h0jjo" path="res://scenes/levels/level1.tscn" id="28_og2bi"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_8fv6p"]
 

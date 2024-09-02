@@ -1,5 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://c0l68rftsx5eg"]
-
-[ext_resource type="PackedScene" uid="uid://ss1pkyl6pdf4" path="res://models/ladder/ladder.fbx" id="1_b0561"]
-
-[node name="Ladder" instance=ExtResource("1_b0561")]

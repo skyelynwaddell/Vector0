@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://bs352x4t2aiqw"]
+
+[ext_resource type="PackedScene" uid="uid://dpudgxude5q6y" path="res://models/objects/Wall_Parents/wall_techmetal.fbx" id="1_bqdob"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ebs5v"]
+size = Vector3(9.86829, 8.01025, 1)
+
+[node name="Wall" type="MeshInstance3D" groups=["Wall"]]
+
+[node name="Root Scene" parent="." instance=ExtResource("1_bqdob")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1, 0, 0)
+
+[node name="Wall" type="StaticBody3D" parent="Root Scene"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Root Scene/Wall"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5.99623e-05, 3.99487, 1.19209e-07)
+shape = SubResource("BoxShape3D_ebs5v")

@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://dgdumvppysbmt"]
+
+[ext_resource type="PackedScene" uid="uid://betpkxnrgft0g" path="res://models/objects/Stairs/stair_block.fbx" id="1_rpuka"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_53tgy"]
+size = Vector3(2, 1.9, 2)
+
+[node name="StairBlock" type="MeshInstance3D"]
+
+[node name="Root Scene" parent="." instance=ExtResource("1_rpuka")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Root Scene"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Root Scene/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.945435, -1)
+shape = SubResource("BoxShape3D_53tgy")

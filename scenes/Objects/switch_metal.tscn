@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://btgmhlxhpnwwd"]
 
-[ext_resource type="PackedScene" uid="uid://davbs3s8qx066" path="res://models/switch_metal/metal_switch.fbx" id="1_1jck4"]
+[ext_resource type="PackedScene" uid="uid://davbs3s8qx066" path="res://models/objects/switch_metal/metal_switch.fbx" id="1_1jck4"]
 [ext_resource type="Script" path="res://scripts/classes/switch.gd" id="2_xf10n"]
-[ext_resource type="Material" uid="uid://cs1vfj1qlgr6" path="res://models/switch_metal/ metalswitch_on.tres" id="3_kdhkg"]
-[ext_resource type="Material" uid="uid://cxjgdhqe8ynxy" path="res://models/switch_metal/metalswitch_off.tres" id="4_7bb4e"]
+[ext_resource type="Material" uid="uid://cs1vfj1qlgr6" path="res://models/objects/switch_metal/ metalswitch_on.tres" id="3_kdhkg"]
+[ext_resource type="Material" uid="uid://cxjgdhqe8ynxy" path="res://models/objects/switch_metal/metalswitch_off.tres" id="4_7bb4e"]
 
 [node name="SwitchMetal" groups=["Entity"] instance=ExtResource("1_1jck4")]
 script = ExtResource("2_xf10n")
