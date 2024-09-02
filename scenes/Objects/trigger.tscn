@@ -13,6 +13,8 @@ type = null
 waittime = null
 chaintrigger = null
 targetname = null
+sounds = null
+countMax = null
 
 [node name="debug_trigger" parent="." instance=ExtResource("1_pyx77")]
 

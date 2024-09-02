@@ -20,7 +20,12 @@ class_name Trigger
 @export var target = ""
 ## Target Name
 @export var targetname = ""
+## Sound Effect played when Triggered
+@export var sounds = 0
+## Count Max
+@export var countMax = 0 as int
 
+@export var counter = 0 as int
 var targetOrigin = 0
 var TriggerEffect = null
 var inArea = false
@@ -36,7 +41,9 @@ func _func_godot_apply_properties(props : Dictionary):
 	if "chaintrigger" in props: chaintrigger = props["chaintrigger"] as String
 	if "targetname" in props: targetname = props["targetname"] as String
 	if "target" in props: target = props["target"] as String
-	
+	if "countmax" in props: countMax = props["countmax"].to_int()
+		
+	print_debug(countMax)
 	# Set trigger scale to match the scale set in Trenchbroom
 	if "scale" in props:
 		var _scaleStr = props["scale"] as String
@@ -51,7 +58,7 @@ func _func_godot_apply_properties(props : Dictionary):
 
 func _ready():
 	if Engine.is_editor_hint(): return
-	self.visible = false
+	#self.visible = false
 	pass
 	
 # When Player Entity collides with this Trigger
@@ -61,20 +68,22 @@ func _on_area_3d_area_entered(area):
 	##  Trigger Typing : 
 	## 0 = Can't Trigger
 	## 1 = Collision
-	## 2 = Interact
-	## 3 = Collision & Interact
+	## 2 = Interact Pressed
+	## 3 = Interact Hold
 	
 	#Collision Type
-
-	if area.is_in_group("Player"):
-		inArea = true
-		if type == "1" || type == "3": Trigger()
-		pass
+	inArea = true		
+	if type == "1" || type == "3": Trigger()
+	pass
 	pass # Replace with function body.
 	
 #Trigger this entity, check if ChainTrigger needs to be triggered, and destroy self if not permanent
 func Trigger():
-	print_debug("Init trigger")
+	if countMax != null:
+		counter += 1
+		if counter < countMax: return
+		
+	#print_debug("Init trigger")
 	GetTriggerEffect(function)
 	self.triggered = true
 	#if chaintrigger != null && chaintrigger != "" && chaintrigger != "0":
@@ -87,7 +96,7 @@ func GetTriggerEffect(fn):
 		# on_trigger
 		"0":
 			on_trigger(target)
-			print_debug("Found Function")
+			#print_debug("Found Function")
 			pass
 	pass
 
@@ -97,27 +106,27 @@ func on_trigger(target):
 		timer.wait_time = waittime
 		timer.one_shot = true
 		timer.start()
-		print_debug(timer)
-		print_debug("Calling Timer")
+		#print_debug(timer)
+		#print_debug("Calling Timer")
 		await timer.timeout
 		
 	if chaintrigger:
 		for trigger in get_tree().get_nodes_in_group(&"Trigger"):
-			print_debug(trigger)
+			#print_debug(trigger)
 			if "targetname" in trigger:
 				if trigger.targetname == chaintrigger:
-					print_debug("found trigger " , trigger.targetname)
-					trigger.on_trigger(trigger.target)
+					#print_debug("found trigger " , trigger.targetname)
+					trigger.Trigger() #on_trigger(trigger.target)
 	
-	print_debug("Checking entities")
+	#print_debug("Checking entities")
 	for entity in get_tree().get_nodes_in_group(&"Entity"):
-		print_debug(entity)
+		#print_debug(entity)
 		if "targetname" in entity:
 			if entity.targetname == target:
-				print_debug("found entity target ", entity.targetname)
+				#print_debug("found entity target ", entity.targetname)
 				if entity.has_method("on_trigger"):
 					entity.on_trigger()
-					print_debug("calling " , entity, " func")
+					#print_debug("calling " , entity, " func")
 
 
 func _on_area_3d_area_exited(area):

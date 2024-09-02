@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cmv7vduf2to6m"]
+
+[ext_resource type="Texture2D" uid="uid://dms1u4d7t3wuo" path="res://models/Weapons/Pistol/pistolarms-62aedae48ede74381d272b5ef7f3d8c3_darkgunmetal.png" id="1_d0ocs"]
+
+[resource]
+resource_name = "Material.005"
+albedo_texture = ExtResource("1_d0ocs")
+metallic = 0.4

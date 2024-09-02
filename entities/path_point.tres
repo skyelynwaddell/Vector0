@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="FuncGodotFGDModelPointClass" load_steps=4 format=3 uid="uid://cljpe7uxeql8r"]
+
+[ext_resource type="PackedScene" uid="uid://b7iulj62x0cg5" path="res://scenes/Objects/walkpoint.tscn" id="1_jr4ii"]
+[ext_resource type="Script" path="res://addons/func_godot/src/fgd/func_godot_fgd_model_point_class.gd" id="2_txi75"]
+[ext_resource type="Script" path="res://scripts/func/func_generic.gd" id="3_nr5g5"]
+
+[resource]
+script = ExtResource("2_txi75")
+target_map_editor = 1
+models_sub_folder = "glb/diamond"
+scale_expression = ""
+generate_size_property = false
+generate_gd_ignore_file = false
+scene_file = ExtResource("1_jr4ii")
+script_class = ExtResource("3_nr5g5")
+apply_rotation_on_map_build = true
+classname = "path_point"
+description = "Point to get a location, useful for teleports."
+func_godot_internal = false
+base_classes = Array[Resource]([])
+class_properties = {}
+class_property_descriptions = {}
+meta_properties = {
+"color": Color(0.8, 0.8, 0.8, 1),
+"size": AABB(-8, -8, -8, 8, 8, 8)
+}
+node_class = "Node3D"
+name_property = ""

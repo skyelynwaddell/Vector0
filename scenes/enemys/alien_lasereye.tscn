@@ -1,0 +1,140 @@
+[gd_scene load_steps=16 format=3 uid="uid://bgwea2tmis38m"]
+
+[ext_resource type="Script" path="res://scripts/scorpion_alien.gd" id="1_e8v8h"]
+[ext_resource type="PackedScene" uid="uid://csxvsb013p015" path="res://models/enemys/alien_lasereye/alien3.fbx" id="2_ci4ex"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kd7oq"]
+animation = &"root|Attack"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fqv46"]
+animation = &"root|Die"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_cu7ih"]
+animation = &"root|Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3t4pd"]
+animation = &"root|Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1q3aw"]
+animation = &"root|Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_x2wp8"]
+animation = &"root|Walk"
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_nu4kh"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_8q3fa"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_y46pj"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_doltx"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_o3pog"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_b0hth"]
+graph_offset = Vector2(-200.863, -14.4466)
+nodes/AnimAttack/node = SubResource("AnimationNodeAnimation_kd7oq")
+nodes/AnimAttack/position = Vector2(60, 340)
+nodes/AnimDeath/node = SubResource("AnimationNodeAnimation_fqv46")
+nodes/AnimDeath/position = Vector2(1020, 260)
+nodes/AnimIdle/node = SubResource("AnimationNodeAnimation_cu7ih")
+nodes/AnimIdle/position = Vector2(-180, 140)
+nodes/AnimJumpOnHead/node = SubResource("AnimationNodeAnimation_3t4pd")
+nodes/AnimJumpOnHead/position = Vector2(360, 300)
+nodes/AnimSuckOnHead/node = SubResource("AnimationNodeAnimation_1q3aw")
+nodes/AnimSuckOnHead/position = Vector2(620, 300)
+nodes/AnimWalk/node = SubResource("AnimationNodeAnimation_x2wp8")
+nodes/AnimWalk/position = Vector2(-160, 320)
+nodes/Attack/node = SubResource("AnimationNodeBlend2_nu4kh")
+nodes/Attack/position = Vector2(300, 80)
+nodes/Death/node = SubResource("AnimationNodeBlend2_8q3fa")
+nodes/Death/position = Vector2(1160, 120)
+nodes/JumpOnHead/node = SubResource("AnimationNodeBlend2_y46pj")
+nodes/JumpOnHead/position = Vector2(540, 100)
+nodes/SuckOnHead/node = SubResource("AnimationNodeBlend2_doltx")
+nodes/SuckOnHead/position = Vector2(860, 100)
+nodes/Walk/node = SubResource("AnimationNodeBlend2_o3pog")
+nodes/Walk/position = Vector2(20, 100)
+nodes/output/position = Vector2(1320, 140)
+node_connections = [&"Attack", 0, &"Walk", &"Attack", 1, &"AnimAttack", &"Death", 0, &"SuckOnHead", &"Death", 1, &"AnimDeath", &"JumpOnHead", 0, &"Attack", &"JumpOnHead", 1, &"AnimJumpOnHead", &"SuckOnHead", 0, &"JumpOnHead", &"SuckOnHead", 1, &"AnimSuckOnHead", &"Walk", 0, &"AnimIdle", &"Walk", 1, &"AnimWalk", &"output", 0, &"Death"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_642ki"]
+size = Vector3(0.543798, 1.14169, 0.715393)
+
+[node name="AlienLaserEye" type="CharacterBody3D" groups=["Enemy", "Entity"]]
+collision_layer = 11
+collision_mask = 11
+script = ExtResource("1_e8v8h")
+targetname = &""
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+root_node = NodePath("../Root Scene")
+tree_root = SubResource("AnimationNodeBlendTree_b0hth")
+anim_player = NodePath("../Root Scene/AnimationPlayer")
+parameters/Attack/blend_amount = 0.0
+parameters/Death/blend_amount = 0
+parameters/JumpOnHead/blend_amount = 0.0
+parameters/SuckOnHead/blend_amount = 0.0
+parameters/Walk/blend_amount = 0.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(2.2191, 0, 0, 0, 2.2191, 0, 0, 0, 2.2191, 0.0892759, 1.24359, 0.616081)
+shape = SubResource("BoxShape3D_642ki")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1.00236, 0, 0, 0, 1.00236, 0, 0, 0, 1.00236, -0.0175279, 1.42696, 0.481826)
+shape = SubResource("BoxShape3D_642ki")
+
+[node name="Root Scene" parent="." instance=ExtResource("2_ci4ex")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+
+[node name="Skeleton3D" parent="Root Scene/RootNode/root" index="0"]
+bones/0/position = Vector3(0, 0, 0)
+bones/0/rotation = Quaternion(0.5, -0.5, -0.5, 0.5)
+bones/2/position = Vector3(-1.10702e-10, 0.00146629, 0.0126564)
+bones/2/rotation = Quaternion(-0.568118, 0.362679, 0.625881, -0.392401)
+bones/2/scale = Vector3(1, 1, 1)
+bones/3/rotation = Quaternion(-0.0706363, -0.0160739, -0.229108, 0.970702)
+bones/4/rotation = Quaternion(-0.00166099, -0.0275207, -0.0641035, 0.997562)
+bones/4/scale = Vector3(1, 1, 1)
+bones/5/rotation = Quaternion(-0.0351869, -0.0313753, 0.170919, 0.984157)
+bones/5/scale = Vector3(1, 1, 1)
+bones/6/rotation = Quaternion(0.0452435, -0.0102405, -0.606197, 0.793961)
+bones/6/scale = Vector3(1, 1, 1)
+bones/8/rotation = Quaternion(0.737625, 0.0298599, 0.190572, 0.64707)
+bones/8/scale = Vector3(1, 1, 1)
+bones/9/rotation = Quaternion(0.6864, 0.153644, -0.144883, 0.695886)
+bones/9/scale = Vector3(1, 1, 1)
+bones/10/rotation = Quaternion(0.0547232, 0.0395349, 0.0678796, 0.995407)
+bones/10/scale = Vector3(1, 1, 1)
+bones/11/rotation = Quaternion(-0.0357719, -5.28849e-08, 0.0933954, 0.994986)
+bones/13/rotation = Quaternion(-0.090062, 3.1591e-07, -0.149484, 0.984654)
+bones/13/scale = Vector3(1, 1, 1)
+bones/15/rotation = Quaternion(0.22029, 0.120444, -0.198549, 0.947388)
+bones/17/rotation = Quaternion(0.435237, -0.596281, 0.625282, -0.253062)
+bones/17/scale = Vector3(1, 1, 1)
+bones/18/rotation = Quaternion(-0.103407, -0.56965, -0.556198, 0.596196)
+bones/18/scale = Vector3(1, 1, 1)
+bones/19/scale = Vector3(1, 1, 1)
+bones/20/rotation = Quaternion(0.0183185, 0.091462, -0.0983196, 0.990774)
+bones/20/scale = Vector3(1, 1, 1)
+bones/22/rotation = Quaternion(0.00109163, -0.831962, 0.174515, 0.526671)
+bones/22/scale = Vector3(1, 1, 1)
+bones/24/rotation = Quaternion(-0.127594, 0.613509, 0.267711, 0.731887)
+bones/26/position = Vector3(-0.00134686, -0.000454368, 0.0118412)
+bones/26/rotation = Quaternion(-0.493017, -0.417472, 0.5781, 0.49845)
+bones/26/scale = Vector3(1, 1, 1)
+bones/27/rotation = Quaternion(-0.0781387, -0.0018159, -0.160228, 0.983981)
+bones/27/scale = Vector3(1, 1, 1)
+bones/28/rotation = Quaternion(-0.0027692, -0.00162342, 0.763456, 0.645852)
+bones/28/scale = Vector3(1, 1, 1)
+bones/30/position = Vector3(0.00138659, 0.00312219, 0.0118412)
+bones/30/rotation = Quaternion(0.591838, 0.50957, -0.456587, -0.426139)
+bones/30/scale = Vector3(1, 1, 1)
+bones/31/rotation = Quaternion(0.0767229, 0.0269841, -0.160911, 0.983612)
+bones/32/rotation = Quaternion(0.00208197, -0.00862188, 0.763458, 0.645796)
+bones/32/scale = Vector3(1, 1, 1)
+
+[editable path="Root Scene"]

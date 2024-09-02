@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://mbffxlqvvwgd"]
+
+[ext_resource type="Shader" path="res://scenes/WaterMaker3D/FogFade.gdshader" id="1_04r8r"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fnsex"]
+shader = ExtResource("1_04r8r")
+shader_parameter/density = 1.0
+shader_parameter/albedo = Color(0.884036, 0.712469, 0.567112, 1)
+shader_parameter/emission = Color(0, 0, 0, 1)
+shader_parameter/height_falloff = 0.0
+shader_parameter/edge_fade = 0.1
+shader_parameter/fade_plane = Vector4(0, 1, 0, -999)
+
+[node name="FogVolume" type="Node3D"]
+
+[node name="FogVolume" type="FogVolume" parent="."]
+size = Vector3(1, 1, 1)
+material = SubResource("ShaderMaterial_fnsex")

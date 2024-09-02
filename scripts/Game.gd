@@ -48,12 +48,20 @@ var weaponList = [
 		magSize = 6,
 		spd = 200
 	},	
-	# 4 - CROWBAR
+	# 5 - CROWBAR
 	{
 		title     = "Crowbar",
 		melee = true,
 		power     = 100,
 		magSize = 6,
+		spd = 200
+	},	
+	# 6 - SUB MACHINE GUN
+	{
+		title     = "Sub Machine Gun",
+		melee = false,
+		power     = 20,
+		magSize = 30,
 		spd = 200
 	},
 ]
@@ -84,6 +92,10 @@ var weapons = [
 	  clip = 6
 	},	
 	{ index = 5,
+	  ammo = 80,
+	  clip = 6
+	},	
+	{ index = 6,
 	  ammo = 80,
 	  clip = 6
 	},

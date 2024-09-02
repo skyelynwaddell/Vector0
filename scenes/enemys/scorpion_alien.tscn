@@ -1,7 +1,7 @@
 [gd_scene load_steps=17 format=3 uid="uid://bfdvn2nmn3vng"]
 
 [ext_resource type="Script" path="res://scripts/scorpion_alien.gd" id="1_jqck8"]
-[ext_resource type="PackedScene" uid="uid://dycw30nfi3txx" path="res://models/enemys/small_alien/small_alien.fbx" id="1_uoui1"]
+[ext_resource type="PackedScene" uid="uid://dycw30nfi3txx" path="res://models/enemys/small_alien/small_alien.fbx" id="2_53le2"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kd7oq"]
 animation = &"Armature|Attack"
@@ -69,58 +69,8 @@ collision_mask = 11
 script = ExtResource("1_jqck8")
 targetname = &""
 
-[node name="Model" parent="." instance=ExtResource("1_uoui1")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.173544, 0.174866, -0.00624549)
-
-[node name="Skeleton3D" parent="Model/RootNode/Armature" index="0"]
-bones/0/position = Vector3(0, 2.65169e-28, -1.69505e-05)
-bones/2/position = Vector3(-2.05001e-18, 0.00326778, 0.0113463)
-bones/2/rotation = Quaternion(0.995715, -0.000194422, 0.000106997, -0.0924762)
-bones/2/scale = Vector3(1, 1, 0.999993)
-bones/3/rotation = Quaternion(0.0324068, 2.98896e-08, 1.33528e-07, 0.999475)
-bones/4/rotation = Quaternion(-0.592464, 0.00669773, -0.00566033, 0.80555)
-bones/6/position = Vector3(0, 0.00326778, 0.0113476)
-bones/6/rotation = Quaternion(-0.33742, -4.23661e-05, -0.000214442, 0.941354)
-bones/7/rotation = Quaternion(0.0972557, -0.0343409, -0.346381, 0.932407)
-bones/7/scale = Vector3(1, 1, 1)
-bones/8/rotation = Quaternion(-0.371579, -0.0115759, 0.171867, 0.912281)
-bones/10/rotation = Quaternion(0.106333, 0.0650971, 0.336084, 0.933544)
-bones/10/scale = Vector3(1, 1, 1)
-bones/11/rotation = Quaternion(-0.371579, 0.0115759, -0.171867, 0.912281)
-bones/11/scale = Vector3(1, 1, 1)
-bones/13/position = Vector3(0.00502846, -0.0123304, 0.00197496)
-bones/13/rotation = Quaternion(0.786897, 0.543077, 0.118306, 0.268075)
-bones/14/rotation = Quaternion(0.512353, 0.0596674, -0.0704984, 0.853794)
-bones/15/rotation = Quaternion(0.552271, -0.0173042, 0.0492281, 0.83203)
-bones/17/position = Vector3(0.00388247, -0.000855848, -0.000562759)
-bones/17/rotation = Quaternion(0.775856, 0.560902, 0.0967036, 0.272187)
-bones/17/scale = Vector3(1, 1, 1)
-bones/18/rotation = Quaternion(0.358305, 0.108292, 0.0373904, 0.926549)
-bones/19/rotation = Quaternion(0.702031, -0.038927, 0.0590289, 0.708627)
-bones/19/scale = Vector3(1, 1, 1)
-bones/21/position = Vector3(0.00568001, 0.00836783, 0.000487123)
-bones/21/rotation = Quaternion(0.738176, 0.630823, 0.1168, 0.208605)
-bones/21/scale = Vector3(1, 1, 1)
-bones/22/rotation = Quaternion(0.466553, 0.113811, -0.0432279, 0.876074)
-bones/23/rotation = Quaternion(0.390168, 0.218565, -0.0568649, 0.892617)
-bones/25/position = Vector3(-0.00521466, -0.0123198, 0.00197496)
-bones/25/rotation = Quaternion(0.795824, -0.561272, -0.0771643, 0.213736)
-bones/25/scale = Vector3(1, 1, 1)
-bones/26/rotation = Quaternion(0.512353, -0.0596674, 0.0704985, 0.853794)
-bones/27/rotation = Quaternion(0.58439, -0.026374, 0.0418982, 0.809961)
-bones/29/position = Vector3(-0.00400921, -0.000816639, -0.000562759)
-bones/29/rotation = Quaternion(0.75083, -0.607803, -0.0154864, 0.258052)
-bones/29/scale = Vector3(1, 1, 1)
-bones/30/rotation = Quaternion(0.385498, -0.184037, -0.0317443, 0.903612)
-bones/31/rotation = Quaternion(0.724689, -0.00278657, 0.00453798, 0.689056)
-bones/31/scale = Vector3(1, 1, 1)
-bones/33/position = Vector3(-0.00568903, 0.00836646, 0.000487123)
-bones/33/rotation = Quaternion(0.761632, -0.61168, -0.0595909, 0.205457)
-bones/33/scale = Vector3(1, 1, 1)
-bones/34/rotation = Quaternion(0.466749, -0.113867, 0.0432424, 0.875962)
-bones/34/scale = Vector3(1, 1, 1)
-bones/35/rotation = Quaternion(0.390006, -0.218537, 0.0569477, 0.892689)
-bones/35/scale = Vector3(1, 1, 1)
+[node name="Model" parent="." instance=ExtResource("2_53le2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0238743, 0.148925, -0.162428)
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 root_node = NodePath("../Model")
@@ -133,12 +83,10 @@ parameters/SuckOnHead/blend_amount = 0.0
 parameters/Walk/blend_amount = 0.63
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(2.21387, 0, 0, 0, 2.21387, 0, 0, 0, 2.21387, -0.176147, 0.249466, -0.139218)
+transform = Transform3D(2.21387, 0, 0, 0, 2.21387, 0, 0, 0, 2.21387, 0.023853, 0.249466, -0.139218)
 shape = SubResource("SphereShape3D_rb4q1")
 
 [node name="Area3D" type="Area3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 shape = SubResource("BoxShape3D_642ki")
-
-[editable path="Model"]

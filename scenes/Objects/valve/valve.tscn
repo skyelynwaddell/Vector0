@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bbraoikbo4s8w"]
+
+[ext_resource type="PackedScene" uid="uid://bh3vhhcxuglp0" path="res://scenes/Objects/valve/root_valve.tscn" id="1_6a85u"]
+[ext_resource type="Script" path="res://scripts/valve.gd" id="2_xijt0"]
+
+[node name="Valve" type="Node3D" groups=["Entity"]]
+script = ExtResource("2_xijt0")
+state = 1
+
+[node name="Root Scene" parent="." instance=ExtResource("1_6a85u")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)

@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="FuncGodotFGDModelPointClass" load_steps=4 format=3 uid="uid://bym3ae0q6plg1"]
+
+[ext_resource type="PackedScene" uid="uid://bfdvn2nmn3vng" path="res://scenes/enemys/scorpion_alien.tscn" id="1_dylvj"]
+[ext_resource type="Script" path="res://addons/func_godot/src/fgd/func_godot_fgd_model_point_class.gd" id="1_uqxdd"]
+[ext_resource type="Script" path="res://scripts/scorpion_alien.gd" id="3_bdog7"]
+
+[resource]
+script = ExtResource("1_uqxdd")
+target_map_editor = 1
+models_sub_folder = "glb/alien_scorpion"
+scale_expression = ""
+generate_size_property = false
+generate_gd_ignore_file = false
+scene_file = ExtResource("1_dylvj")
+script_class = ExtResource("3_bdog7")
+apply_rotation_on_map_build = true
+classname = "monster_scorpion"
+description = "Alien Scorpion"
+func_godot_internal = false
+base_classes = Array[Resource]([])
+class_properties = {}
+class_property_descriptions = {}
+meta_properties = {
+"color": Color(0.8, 0.8, 0.8, 1),
+"size": AABB(-8, -8, -8, 8, 8, 8)
+}
+node_class = ""
+name_property = ""

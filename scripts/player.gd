@@ -15,6 +15,7 @@ extends CharacterBody3D
 @onready var animPumpShotgun = $Head/Camera3D/PumpShotgun/AnimationTree
 @onready var animRevolver = $Head/Camera3D/Revolver/AnimationTree
 @onready var animCrowbar = $Head/Camera3D/Crowbar/AnimationTree
+@onready var animSubMachineGun = $Head/Camera3D/SubMachineGun/AnimationTree
 @onready var anim_tree = animPistol
 
 #models
@@ -23,6 +24,7 @@ extends CharacterBody3D
 @onready var modelPumpShotgun = $Head/Camera3D/PumpShotgun
 @onready var modelRevolver = $Head/Camera3D/Revolver
 @onready var modelCrowbar = $Head/Camera3D/Crowbar
+@onready var modelSubMachineGun = %SubMachineGun
 
 #HUD
 @onready var lblEnergy = $CanvasLayer/lblEnergy
@@ -42,7 +44,7 @@ extends CharacterBody3D
 ## Initial Spawn Direction
 @export var spawndir = "forward"
 ## Target Name - Default is "Player"
-@export var targetname = "Player"
+@export var targetname = "player"
 
 var weaponSFX = sfxShotgun
 
@@ -55,7 +57,9 @@ const mouseSens = 0.2
 var direction = 0
 var spd = { current=12, default=12, walk=7, crouch=5, swim=7, climb=7 } 
 var jumpHeight = { current=10, default=10, water=5}
-var grvty = { default=20, swim=5 }
+@export var grvty = 20
+var grvtyDefault = 20
+var grvtyWater = 5
 var frict = { default=7.0, jump=0.0, accel=6.0 }
 
 #crouching
@@ -100,7 +104,7 @@ var shootVal = 0.0
 
 #BOBBING
 var bobFreq = 2.0
-var bobAmp = 0.08
+var bobAmp = 0.05
 var tBob = 0
 var headPosY = 0.0
 
@@ -114,6 +118,7 @@ var state = DEFAULT
 func _func_godot_apply_properties(props : Dictionary):
 	print_debug(props)
 	spawndir = props.spawndir
+	targetname = props.targetname
 	print_debug(spawndir)
 
 #READY EVENT
@@ -166,7 +171,7 @@ func _process(delta):
 				
 			Walk()
 			Crouch()
-			ApplyGravity(delta,grvty.default)
+			ApplyGravity(delta,grvty)
 			SetJumpHeight(jumpHeight.default)
 			if is_on_floor:
 					if !reloading:
@@ -185,7 +190,7 @@ func _process(delta):
 			SetSpeed(spd.swim)
 			Walk()
 			Crouch()
-			ApplyGravity(delta,grvty.swim)
+			ApplyGravity(delta,grvty)
 			
 			pass
 		
@@ -193,7 +198,7 @@ func _process(delta):
 			SetJumpHeight(jumpHeight.default)
 			Walk()
 			Crouch()
-			ApplyGravity(delta,grvty.default)
+			ApplyGravity(delta,grvty)
 			
 			if Input.is_action_just_released("run"):
 				state = DEFAULT
@@ -221,7 +226,32 @@ func _physics_process(delta):
 	if Engine.is_editor_hint(): return
 
 	_push_away_rigid_bodies()
+	var lastVelocity = velocity
 	move_and_slide()
+	push_rigid_bodies(lastVelocity,delta)
+	pass
+
+func push_rigid_bodies(lastVelocity, delta):
+	var push_force = 10
+	for i in get_slide_collision_count():
+		var collision := get_slide_collision(i)
+ 		
+		# ignore everything that isn't a RigidBody
+		if collision.get_collider() is RigidBody3D:
+			var body = collision.get_collider() as RigidBody3D
+			# invert the collision normal to get the push direction
+			var push_direction = -collision.get_normal()
+ 
+			# following line will avoid pushing into a body when right on top of it
+			# so the player doesnt push boxes while standing on them
+			if push_direction.dot(Vector3.DOWN) > 0.99: continue
+ 
+			var push_velocity = lastVelocity.length() * delta
+			# offset from pushed body origin in global space
+			var push_position = collision.get_position() - body.global_position
+ 
+			# push the RigidBody by combining the push_force and players (previous) velocity
+			body.apply_impulse(push_direction * push_velocity * push_force, push_position)
 	pass
 
 #SET SPEED
@@ -455,6 +485,7 @@ func ChangeWeapon(type):
 	modelPumpShotgun.visible = false
 	modelRevolver.visible = false
 	modelCrowbar.visible = false
+	modelSubMachineGun.visible = false
 	
 	canShoot = false
 	changingWeapon = true
@@ -491,6 +522,11 @@ func ChangeWeapon(type):
 		5:
 			anim_tree = animCrowbar
 			modelCrowbar.visible = true
+			pass		
+		#SUB MACHINE GUN
+		6:
+			anim_tree = animSubMachineGun
+			modelSubMachineGun.visible = true
 			pass
 					
 	Game.currentWeapon = type
@@ -511,40 +547,29 @@ func ChangeWeapon(type):
 	pass
 
 #PUSH AWAY RIGID BODIES
+# CC0/public domain/use for whatever you want no need to credit
+# Call this function directly before move_and_slide() on your CharacterBody3D script
 func _push_away_rigid_bodies():
 	for i in get_slide_collision_count():
 		var c := get_slide_collision(i)
-		
-		#We are colliding with a RigidBody3D
-		if c.get_collider() is RigidBody3D:
-			
-			#get push direction
+		if c.get_collider() is RigidBody3D && is_on_floor():
 			var push_dir = -c.get_normal()
-
-			#Prevent collision impulses from vertical movemewnt/jumping
-			if abs(push_dir.y) > 0.1:  # Adjust this threshold if needed
-				continue
-			
-			#make sure to only push objects horizontally	
-			push_dir.y = 0
-			push_dir = push_dir.normalized()
-			
 			# How much velocity the object needs to increase to match player velocity in the push direction
 			var velocity_diff_in_push_dir = self.velocity.dot(push_dir) - c.get_collider().linear_velocity.dot(push_dir)
 			# Only count velocity towards push dir, away from character
 			velocity_diff_in_push_dir = max(0., velocity_diff_in_push_dir)
 			# Objects with more mass than us should be harder to push. But doesn't really make sense to push faster than we are going
-			const MY_APPROX_MASS_KG = 80.0
+			const MY_APPROX_MASS_KG = 300.0
 			var mass_ratio = min(1., MY_APPROX_MASS_KG / c.get_collider().mass)
 			# Optional add: Don't push object at all if it's 4x heavier or more
 			if mass_ratio < 0.25:
 				continue
-
+			# Don't push object from above/below
+			push_dir.y = 0
 			# 5.0 is a magic number, adjust to your needs
-			var push_force = mass_ratio * 5.0
-						
+			var push_force = mass_ratio
 			c.get_collider().apply_impulse(push_dir * velocity_diff_in_push_dir * push_force, c.get_position() - c.get_collider().global_position)
-
+			
 #WEAPON CHANGE ON SCROLL WHEEL
 func ChangeWeaponScroll(isUp):
 	if isUp:
@@ -558,7 +583,7 @@ func ChangeWeaponScroll(isUp):
 func Hurt(dmg):
 	if isHurt || Game.godmode :
 		return
-	
+	print_debug("Player Hurt")
 	isHurt = true
 	Game.hp.current = Game.hp.current - dmg
 	Game.hp.current = clamp(Game.hp.current,0,Game.hp.maximum)
@@ -743,12 +768,13 @@ func onAreaEntered(area):
 	#print_debug(area.name)
 	
 	#WATER
-	if area.name == "SwimmableArea3D":
+	if area.is_in_group("Water"):
 		#print_debug("swim")
+		grvty = grvtyWater
 		state = SWIMMING
 	
 	#LADDER
-	if area.name == "Ladder":
+	if area.is_in_group("Ladder"):
 		state = CLIMBING
 		currentLadder = area
 		
@@ -757,11 +783,12 @@ func onAreaEntered(area):
 #ON COLLISION EXITED CHECKS
 func onAreaExited(area):
 	#WATER
-	if area.name == "SwimmableArea3D":
+	if area.is_in_group("Water"):
 		state = DEFAULT
+		grvty = grvtyDefault
 	
 	#LADDER
-	if area.name == "Ladder":
+	if area.is_in_group("Ladder"):
 		state = DEFAULT
 		currentLadder = null
 	pass # Replace with function body.

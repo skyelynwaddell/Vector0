@@ -1,0 +1,127 @@
+[gd_scene load_steps=16 format=3 uid="uid://c32egk1354qse"]
+
+[ext_resource type="Script" path="res://scripts/scorpion_alien.gd" id="1_aq1le"]
+[ext_resource type="PackedScene" uid="uid://b0bekmh3pskfd" path="res://models/enemys/alien_big/alien2.fbx" id="2_7w56g"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kd7oq"]
+animation = &"root|Attack"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fqv46"]
+animation = &"root|Die"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_cu7ih"]
+animation = &"root|Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3t4pd"]
+animation = &"root|Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1q3aw"]
+animation = &"root|Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_x2wp8"]
+animation = &"root|Walk"
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_nu4kh"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_8q3fa"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_y46pj"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_doltx"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_o3pog"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_b0hth"]
+graph_offset = Vector2(-112.848, -47)
+nodes/AnimAttack/node = SubResource("AnimationNodeAnimation_kd7oq")
+nodes/AnimAttack/position = Vector2(60, 340)
+nodes/AnimDeath/node = SubResource("AnimationNodeAnimation_fqv46")
+nodes/AnimDeath/position = Vector2(1020, 260)
+nodes/AnimIdle/node = SubResource("AnimationNodeAnimation_cu7ih")
+nodes/AnimIdle/position = Vector2(-180, 140)
+nodes/AnimJumpOnHead/node = SubResource("AnimationNodeAnimation_3t4pd")
+nodes/AnimJumpOnHead/position = Vector2(360, 300)
+nodes/AnimSuckOnHead/node = SubResource("AnimationNodeAnimation_1q3aw")
+nodes/AnimSuckOnHead/position = Vector2(620, 300)
+nodes/AnimWalk/node = SubResource("AnimationNodeAnimation_x2wp8")
+nodes/AnimWalk/position = Vector2(-160, 320)
+nodes/Attack/node = SubResource("AnimationNodeBlend2_nu4kh")
+nodes/Attack/position = Vector2(300, 80)
+nodes/Death/node = SubResource("AnimationNodeBlend2_8q3fa")
+nodes/Death/position = Vector2(1160, 120)
+nodes/JumpOnHead/node = SubResource("AnimationNodeBlend2_y46pj")
+nodes/JumpOnHead/position = Vector2(540, 100)
+nodes/SuckOnHead/node = SubResource("AnimationNodeBlend2_doltx")
+nodes/SuckOnHead/position = Vector2(860, 100)
+nodes/Walk/node = SubResource("AnimationNodeBlend2_o3pog")
+nodes/Walk/position = Vector2(20, 100)
+nodes/output/position = Vector2(1320, 140)
+node_connections = [&"Attack", 0, &"Walk", &"Attack", 1, &"AnimAttack", &"Death", 0, &"SuckOnHead", &"Death", 1, &"AnimDeath", &"JumpOnHead", 0, &"Attack", &"JumpOnHead", 1, &"AnimJumpOnHead", &"SuckOnHead", 0, &"JumpOnHead", &"SuckOnHead", 1, &"AnimSuckOnHead", &"Walk", 0, &"AnimIdle", &"Walk", 1, &"AnimWalk", &"output", 0, &"Death"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_642ki"]
+size = Vector3(1.30068, 1.69395, 1)
+
+[node name="AlienBig" type="CharacterBody3D" groups=["Enemy", "Entity"]]
+collision_layer = 11
+collision_mask = 11
+script = ExtResource("1_aq1le")
+targetname = &""
+
+[node name="Root Scene" parent="." instance=ExtResource("2_7w56g")]
+
+[node name="Skeleton3D" parent="Root Scene/RootNode/root" index="0"]
+bones/0/position = Vector3(0, 0, 0.000990747)
+bones/0/scale = Vector3(1, 1, 1)
+bones/2/position = Vector3(0, 0, 0.0183214)
+bones/2/rotation = Quaternion(0.706669, -8.79576e-07, 1.24463e-06, 0.707544)
+bones/2/scale = Vector3(1, 1, 1)
+bones/4/rotation = Quaternion(-0.0149349, -0.0298322, -0.00970979, 0.999396)
+bones/6/rotation = Quaternion(-0.0603639, -0.0177506, 0.886023, 0.459352)
+bones/6/scale = Vector3(1, 1, 1)
+bones/7/rotation = Quaternion(0.489813, -0.00386695, 0.233405, 0.839994)
+bones/7/scale = Vector3(1, 1, 1)
+bones/8/rotation = Quaternion(-0.268364, -0.00224807, -0.0903688, 0.959067)
+bones/10/rotation = Quaternion(-0.0968879, -0.000428611, -0.0980792, 0.990451)
+bones/10/scale = Vector3(1, 1, 1)
+bones/12/rotation = Quaternion(-0.174513, -0.0594978, 0.100509, 0.977703)
+bones/12/scale = Vector3(1, 1, 1)
+bones/14/rotation = Quaternion(0.00434212, -0.264642, 0.855213, -0.445596)
+bones/15/rotation = Quaternion(0.371669, 0.0533587, -0.255625, 0.890882)
+bones/16/rotation = Quaternion(-0.268364, 0.00224806, 0.0903689, 0.959067)
+bones/18/rotation = Quaternion(-0.0968879, 0.000428623, 0.0980792, 0.990451)
+bones/20/rotation = Quaternion(-0.174513, 0.0594978, -0.100509, 0.977703)
+bones/22/position = Vector3(-0.00658446, 0.00162217, 0.0216582)
+bones/22/rotation = Quaternion(0.0970964, -0.639755, 0.758527, 0.0769587)
+bones/22/scale = Vector3(1, 1, 1)
+bones/23/rotation = Quaternion(-0.571326, -0.0176586, 0.0374199, 0.81968)
+bones/23/scale = Vector3(1, 1, 1)
+bones/24/rotation = Quaternion(0.870926, -1.87865e-08, 0.00400159, 0.491398)
+bones/24/scale = Vector3(1, 1, 1)
+bones/26/position = Vector3(0.00658446, 0.00162217, 0.0216582)
+bones/26/rotation = Quaternion(-0.0566193, -0.291767, 0.947054, -0.121474)
+bones/26/scale = Vector3(1, 1, 1)
+bones/27/rotation = Quaternion(-0.443799, 0.00515608, -0.0477704, 0.894837)
+bones/28/rotation = Quaternion(0.870926, 1.36406e-08, -0.0040016, 0.491398)
+bones/28/scale = Vector3(1, 1, 1)
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+root_node = NodePath("../Root Scene")
+tree_root = SubResource("AnimationNodeBlendTree_b0hth")
+anim_player = NodePath("../Root Scene/AnimationPlayer")
+parameters/Attack/blend_amount = 0.0
+parameters/Death/blend_amount = 0
+parameters/JumpOnHead/blend_amount = 0.0
+parameters/SuckOnHead/blend_amount = 0.0
+parameters/Walk/blend_amount = 0.63
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(2.2191, 0, 0, 0, 2.2191, 0, 0, 0, 2.2191, 0.0753533, 2.25924, -0.139218)
+shape = SubResource("BoxShape3D_642ki")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1.00236, 0, 0, 0, 1.00236, 0, 0, 0, 1.00236, -0.0213776, 2.21207, 0)
+shape = SubResource("BoxShape3D_642ki")
+
+[editable path="Root Scene"]

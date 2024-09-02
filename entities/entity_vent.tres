@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="FuncGodotFGDModelPointClass" load_steps=4 format=3 uid="uid://d1ku7hg2l5tmk"]
+
+[ext_resource type="PackedScene" uid="uid://cbbkpurxgr7wn" path="res://scenes/Objects/vent/vent.tscn" id="1_4xe2h"]
+[ext_resource type="Script" path="res://addons/func_godot/src/fgd/func_godot_fgd_model_point_class.gd" id="2_oy612"]
+[ext_resource type="Script" path="res://scripts/classes/breakable.gd" id="3_i5wfk"]
+
+[resource]
+script = ExtResource("2_oy612")
+target_map_editor = 0
+models_sub_folder = "glb/vent"
+scale_expression = ""
+generate_size_property = false
+generate_gd_ignore_file = false
+scene_file = ExtResource("1_4xe2h")
+script_class = ExtResource("3_i5wfk")
+apply_rotation_on_map_build = true
+classname = "entity_vent"
+description = "Vent"
+func_godot_internal = false
+base_classes = Array[Resource]([])
+class_properties = {}
+class_property_descriptions = {}
+meta_properties = {
+"color": Color(0.8, 0.8, 0.8, 1),
+"size": AABB(-8, -8, -8, 8, 8, 8),
+"studio": "\"models/glb/vent/vent.glb\""
+}
+node_class = ""
+name_property = ""
