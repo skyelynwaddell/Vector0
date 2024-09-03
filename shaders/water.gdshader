@@ -3,6 +3,14 @@ render_mode shadows_disabled;
 render_mode unshaded;
 render_mode cull_disabled;
 
+uniform sampler2D tex;
+
+uniform vec2 uv_scale;
+
+uniform vec2 uv_offset;
+
+uniform bool warp_ScreenSpace = true;
+
 uniform vec4 WATER_COL : source_color =  vec4(0.67, 0.73, 0.46, 1.0);
 
 uniform vec4 WATER2_COL : source_color =  vec4(0.40, 0.44, 0.28, 1.0);
@@ -266,9 +274,14 @@ vec3 water(vec2 uv, vec3 cdir, float iTime)
 
 
 void fragment() {
-
 	vec2 uv = UV;
+	
+	// TWEAK THE COEFFS AND/OR EQUATION FOR A DIFFERENT WARP PATTERN
+	uv.x += sin(uv.y * wave_speed * PI + TIME) * cos(uv.y * wave_speed * PI + TIME) * 0.1; 
+	uv.y += cos(uv.x * wave_speed * PI + TIME) * -sin(uv.y * wave_speed * PI + TIME) * 0.1; 
 
-   ALBEDO.rgb = vec3(water(uv * tile, vec3(0,1,0), TIME * distortion_speed));
-	ALPHA = water_transparency;
+	vec4 color = texture(tex, uv);
+
+	ALBEDO = color.xyz;
+	ALPHA = water_transparency * color.a;
 }

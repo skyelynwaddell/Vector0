@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://ob6tgoulpvpa"]
+
+[ext_resource type="Texture2D" uid="uid://ds7sb2hoq3d5c" path="res://textures/textures/blood_3.png" id="1_la1gu"]
+
+[resource]
+transparency = 1
+albedo_texture = ExtResource("1_la1gu")
+metallic_specular = 0.0
+texture_filter = 0

@@ -276,7 +276,7 @@ func HandlePlayerDirection(delta):
 		#apply regular friction
 		runVal = 0.0
 		velocity.x = lerp(velocity.x,direction.x*spd.current, delta * frict.default)
-		velocity.z = lerp(velocity.z,direction.z*spd.current, delta * frict.default)
+		velocity.z =  lerp(velocity.z,direction.z*spd.current, delta * frict.default)
 	#else:
 		#apply airborne friction
 		#velocity.x = lerp(velocity.x,direction.x*spd.current, delta * frict.jump)

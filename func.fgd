@@ -102,7 +102,7 @@
 		3 : "Right"
 	]
 
-	autoclose(choices): "Should this door Automatically close if Player is too far from door?" : 0 =
+	autoclose(choices): "Should this door Automatically close if Player is too far from door?" : 1 =
 	[
 		0 : "FALSE"
 		1 : "TRUE"
@@ -115,6 +115,16 @@
 	]
 
 	opensize(float) : "Door Open Size" : 2 : "How far should the door open (in Godot Units)"
+
+	speed(float) : "Door Speed" : 2.0 : "Control how fast the door opens."
+
+	locked(choices): "Determine the lock status of this door" : 0 =
+	[
+		0 : "Unlocked"
+		1 : "Locked and can only open WHEN triggered"
+		2 : "Locked and can only open on Interact AFTER triggered"
+	]
+
 ]
 
 ///////////////////////////

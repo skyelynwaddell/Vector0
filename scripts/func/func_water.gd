@@ -9,6 +9,7 @@ extends Area3D
 @export var colorString = ""
 @export var alpha = 0.6
 @export var duplicateMaterial = Resource
+@export var texture = Resource
 
 var mySize = Vector3.ZERO
 
@@ -28,16 +29,35 @@ func _func_godot_apply_properties(props:Dictionary):
 	pass
 
 func SetMaterial():
+	var setmesh = null
+	var uvscale = Vector2(1,1)
+	var uvoffset = Vector2(0, 0)
+	
+	for mesh in self.get_children():
+		if mesh is MeshInstance3D:
+			mySize = mesh.get_aabb().size
+			var mat = mesh.get_active_material(0)
+			
+			if mat is StandardMaterial3D:
+				texture = mat.albedo_texture
+				uvscale = mat.uv1_scale
+				uvoffset = mat.uv1_offset
+				setmesh = mesh
+			break
+			
 	duplicateMaterial = waterMaterial.duplicate()	
 	duplicateMaterial.set_shader_parameter("WATER_COL", color)
 	duplicateMaterial.set_shader_parameter("WATER2_COL", color2)
 	duplicateMaterial.set_shader_parameter("water_transparency", alpha)
+	duplicateMaterial.set_shader_parameter("tex", texture)
+	duplicateMaterial.set_shader_parameter("uv_scale", uvscale)
+	duplicateMaterial.set_shader_parameter("uv_offset", uvoffset)
 	
-	for mesh in self.get_children():
-		if mesh is MeshInstance3D:
-			mesh.material_override = duplicateMaterial
-			mySize = mesh.get_aabb().size
-			break
+	if setmesh != null:
+		setmesh.material_override = duplicateMaterial
+		pass
+	
+	
 	pass
 	
 # Called when the node enters the scene tree for the first time.

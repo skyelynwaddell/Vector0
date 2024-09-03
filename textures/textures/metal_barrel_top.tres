@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cwx5iyvh6v1fx"]
+
+[ext_resource type="Texture2D" uid="uid://dpjmuvsyjaacu" path="res://textures/textures/metal_barrel_top.png" id="1_jdloi"]
+
+[resource]
+albedo_texture = ExtResource("1_jdloi")
+metallic_specular = 0.0
+texture_filter = 0

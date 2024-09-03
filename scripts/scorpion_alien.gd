@@ -5,6 +5,7 @@ extends Enemy
 var SUCKONHEAD = 10
 var chaseDistance = 20
 @onready var animTree = $AnimationTree
+@onready var gibParticles = $GibParticles/GPUParticles3D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -36,6 +37,7 @@ func _process(delta):
 			FacePlayer(delta)
 			pass
 		DEATH:
+			gibParticles.set_emitting(true)
 			animTree["parameters/Walk/blend_amount"] = 0.0
 			animTree["parameters/Attack/blend_amount"] = 0.0
 			animTree["parameters/Death/blend_amount"] = 1.0

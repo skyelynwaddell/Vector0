@@ -4,11 +4,31 @@
 
 [node name="Doctor" instance=ExtResource("1_v2tsw")]
 
+[node name="CollisionShape3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -0.0603716)
+
+[node name="Doctor1" parent="." index="2"]
+transform = Transform3D(0.72, 0, 0, 0, 0.72, 0, 0, 0, 0.72, 0, 0, 0)
+
 [node name="Skeleton3D" parent="Doctor1/RootNode/Root" index="0"]
-bones/2/rotation = Quaternion(0.0472236, 0.00152005, 0.00557935, 0.998868)
-bones/11/rotation = Quaternion(-0.210282, 0.945001, 0.125437, -0.216842)
-bones/12/rotation = Quaternion(-0.228741, 0.279076, -0.165658, 0.917797)
-bones/31/rotation = Quaternion(0.340018, 0.437321, 0.247172, 0.795012)
-bones/32/rotation = Quaternion(-0.141889, -0.216503, 0.225905, 0.939128)
+bones/2/rotation = Quaternion(0.0426175, 0.00078889, 0.00289585, 0.999087)
+bones/11/rotation = Quaternion(-0.20863, 0.943614, 0.132894, -0.220013)
+bones/12/rotation = Quaternion(-0.225015, 0.27539, -0.167149, 0.91956)
+bones/31/rotation = Quaternion(0.33939, 0.435748, 0.250642, 0.795057)
+bones/32/rotation = Quaternion(-0.144095, -0.216232, 0.230466, 0.937745)
+
+[node name="Skeleton3D" parent="Root Scene/RootNode/Armature" index="0"]
+bones/3/rotation = Quaternion(0.113635, -0.0128407, -0.230417, 0.966349)
+bones/4/rotation = Quaternion(0.545275, 0.11438, 0.207809, 0.803995)
+bones/7/rotation = Quaternion(-0.359066, 0.0244315, -0.211659, 0.908667)
+bones/8/rotation = Quaternion(-0.577316, -0.273484, 0.140303, 0.756458)
+bones/10/rotation = Quaternion(-0.385123, 0.109911, 0.24288, 0.883521)
+bones/13/rotation = Quaternion(0.525346, 0.532188, 0.175662, -0.640258)
+bones/17/rotation = Quaternion(0.460069, 0.577656, 0.230747, -0.633566)
+bones/21/rotation = Quaternion(0.346354, 0.586474, 0.360188, -0.637458)
+bones/25/rotation = Quaternion(0.51825, -0.5391, -0.167166, -0.642529)
+bones/29/rotation = Quaternion(0.452376, -0.5837, -0.222334, -0.636568)
+bones/33/rotation = Quaternion(0.348645, -0.596524, -0.342529, -0.636616)
 
 [editable path="Doctor1"]
+[editable path="Root Scene"]

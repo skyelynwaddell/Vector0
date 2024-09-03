@@ -1,7 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://bfdvn2nmn3vng"]
+[gd_scene load_steps=18 format=3 uid="uid://bfdvn2nmn3vng"]
 
 [ext_resource type="Script" path="res://scripts/scorpion_alien.gd" id="1_jqck8"]
 [ext_resource type="PackedScene" uid="uid://dycw30nfi3txx" path="res://models/enemys/small_alien/small_alien.fbx" id="2_53le2"]
+[ext_resource type="PackedScene" uid="uid://bkyxdm7t5qmw3" path="res://scenes/other/gib_particles.tscn" id="3_mvjng"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kd7oq"]
 animation = &"Armature|Attack"
@@ -90,3 +91,8 @@ shape = SubResource("SphereShape3D_rb4q1")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 shape = SubResource("BoxShape3D_642ki")
+
+[node name="GibParticles" parent="." instance=ExtResource("3_mvjng")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0157295, 0.314417, -0.299007)
+
+[editable path="GibParticles"]

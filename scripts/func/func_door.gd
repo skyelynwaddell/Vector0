@@ -13,10 +13,14 @@ extends StaticBody3D
 @export var type = 0
 ## Should Automatically Close when Player is too far 0=FALSE 1=TRUE
 @export var autoClose = 0
+## Locked determines if this door needs to be opened by a trigger first | 0 = Unlocked | 1 = "Locked and can only open WHEN triggered" | 2 = "Locked and can only open on Interact AFTER triggered"
+@export var locked = 0
+var currentlyLocked = 0
+
+@export var speed = 0.0
 
 @onready var player : CharacterBody3D = get_tree().get_first_node_in_group("Player")
 var distToPlayer = 0
-var speed = 1
 var initPos = Vector3.ZERO
 var rotAmt = 90
 
@@ -27,6 +31,9 @@ func _func_godot_apply_properties(props:Dictionary):
 	if "targetname" in props: targetname = props.targetname as String
 	if "type" in props: type = props.type as int
 	if "autoclose" in props: autoClose = props.autoclose as int
+	if "locked" in props: locked = props.locked as int
+	if "speed" in props: speed = props.speed as float
+	currentlyLocked = locked
 	add_to_group("Entity")
 	
 	##Initial Spawn Location , useful for setting doors open by default
@@ -75,9 +82,18 @@ func _physics_process(delta):
 	
 func _process(delta):
 	if Engine.is_editor_hint(): return
-	distToPlayer = global_transform.origin.distance_to(player.position)
+	distToPlayer = transform.origin.distance_to(player.position)
 	
-	if autoClose && open && distToPlayer > 6:
+	var openRange = 3
+	var closingRange = 6
+	
+	if currentlyLocked == 0:
+		if open == 0:
+			if distToPlayer <= openRange && Input.is_action_pressed("Interact"): 
+				on_trigger()
+		
+	
+	if autoClose && open && distToPlayer > closingRange:
 		on_trigger()
 	
 	#Rotate or Slide the Door
@@ -139,4 +155,5 @@ func RotateY(rotSpd):
 	pass
 
 func on_trigger():
-	open = !open
+	if locked == 2: currentlyLocked = 0
+	open = !open as int
