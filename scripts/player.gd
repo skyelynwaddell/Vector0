@@ -55,8 +55,8 @@ signal HideHUDInteract
 #VARIABLES
 const mouseSens = 0.2
 var direction = 0
-var spd = { current=12, default=12, walk=7, crouch=5, swim=7, climb=7 } 
-var jumpHeight = { current=10, default=10, water=5}
+var spd = { current=10, default=10, walk=7, crouch=5, swim=7, climb=7 } 
+var jumpHeight = { current=8, default=8, water=5}
 @export var grvty = 20
 var grvtyDefault = 20
 var grvtyWater = 5

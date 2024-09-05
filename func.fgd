@@ -94,12 +94,21 @@
 		1 : "Rotating Door"
 	]
 
-	direction(choices): "Direction of Movement. Has no effect on rotating doors." : 0 =
+	direction(choices): "Direction of Movement, or Rotation Direction (depending on the door type)." : 0 =
 	[
 		0 : "Up"
 		1 : "Down"
 		2 : "Left"
 		3 : "Right"
+		4 : "Backwards"
+		5 : "Forwards"
+	]
+
+	rotatedir(choices): "Rotation direction for Rotating Doors (ignore for sliding doors)" : 0 =
+	[
+		0 : "0 Degree"
+		1 : "90 Degree"
+
 	]
 
 	autoclose(choices): "Should this door Automatically close if Player is too far from door?" : 1 =
@@ -198,7 +207,6 @@
 ///////////////////////////
 
 //Stores all the Buttons & Switches, or Entities that -Switch- their texture on trigger
-
 //Button Switch Panel
 @PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/switch_panel/switch_panel.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = switch_panel : "Switch Panel" []
 
@@ -213,6 +221,9 @@
 //////////////////////////
 
 //Some predefined entities that can be used quickly to assist in the mapping/brushing process
+
+//Car Police
+@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/car_police/car_police.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = car_police : "Car Police" []
 
 //Box Big
 @PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/box_big/box_big.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = box_big : "Big Box" []
@@ -243,6 +254,9 @@
 
 //Network Rack
 @PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/network_rack/network_rack.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = entity_networkrack : "Network Rack" []
+
+//Light Default (no model)
+@PointClass base(func_entity) color(204 204 204) size(-8 -8 -8, 8 8 8) = light_default : "Light Default" []
 
 //Light #1
 @PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/light1/light1.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = light_light1 : "Light 1" []

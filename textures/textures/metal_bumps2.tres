@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://c7v4pfm1b8gap"]
+
+[ext_resource type="Texture2D" uid="uid://7eqvfhyvsy2p" path="res://textures/textures/metal_bumps2.jpg" id="1_hjvdx"]
+
+[resource]
+albedo_texture = ExtResource("1_hjvdx")
+metallic_specular = 0.0
+texture_filter = 1

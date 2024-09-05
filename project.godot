@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="fps"
+config/name="Vec0"
 config/version="1.0"
 run/main_scene="res://scenes/world.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")

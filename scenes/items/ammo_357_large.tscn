@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bpi0iafgt7olq"]
+
+[ext_resource type="PackedScene" uid="uid://ctq2qjst7tnun" path="res://models/objects/ammo_357_large/ammo_357_large.fbx" id="1_hp51j"]
+
+[node name="Ammo357Large" type="Node3D"]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
+
+[node name="Root Scene" parent="." instance=ExtResource("1_hp51j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)

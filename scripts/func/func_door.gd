@@ -17,12 +17,16 @@ extends StaticBody3D
 @export var locked = 0
 var currentlyLocked = 0
 
+## Determines which way the door should rotate (only applies to rotating doors)
+@export var rotatedir = 0
+
 @export var speed = 0.0
 
 @onready var player : CharacterBody3D = get_tree().get_first_node_in_group("Player")
 var distToPlayer = 0
 var initPos = Vector3.ZERO
 var rotAmt = 90
+var timer = 0
 
 func _func_godot_apply_properties(props:Dictionary):
 	if "direction" in props: direction = props.direction as int
@@ -33,6 +37,7 @@ func _func_godot_apply_properties(props:Dictionary):
 	if "autoclose" in props: autoClose = props.autoclose as int
 	if "locked" in props: locked = props.locked as int
 	if "speed" in props: speed = props.speed as float
+	if "rotatedir" in props: rotatedir = props.rotatedir as int
 	currentlyLocked = locked
 	add_to_group("Entity")
 	
@@ -57,7 +62,12 @@ func _ready():
 	if Engine.is_editor_hint(): return
 	if type == 1:
 		var og = global_transform.origin
-		self.global_transform.origin = Vector3(og.x ,og.y,og.z + 1.0 )
+		if rotatedir == 0:
+			rotAmt = 90
+			self.global_transform.origin = Vector3(og.x ,og.y,og.z + 1.0 )
+		elif rotatedir == 1:
+			rotAmt = -90
+			self.global_transform.origin = Vector3(og.x + 1.0 ,og.y,og.z)
 		var NewNode = Node3D.new()
 		NewNode.set_name("Door")
 		add_child(NewNode)
@@ -79,7 +89,7 @@ func _physics_process(delta):
 	if Engine.is_editor_hint(): return
 	
 	pass
-	
+
 func _process(delta):
 	if Engine.is_editor_hint(): return
 	distToPlayer = transform.origin.distance_to(player.position)
@@ -87,73 +97,128 @@ func _process(delta):
 	var openRange = 3
 	var closingRange = 6
 	
-	if currentlyLocked == 0:
-		if open == 0:
-			if distToPlayer <= openRange && Input.is_action_pressed("Interact"): 
-				on_trigger()
-		
+	timer += delta
 	
-	if autoClose && open && distToPlayer > closingRange:
+	print_debug(timer)
+	
+	if currentlyLocked == 0 && timer > 0.5:
+		if distToPlayer <= openRange && Input.is_action_pressed("Interact"): 
+			on_trigger()
+		
+	if autoClose and open and distToPlayer > closingRange:
 		on_trigger()
 	
-	#Rotate or Slide the Door
+	# Rotate or Slide the Door
 	match(type):
 		0: ## Sliding Door
-			var pos = self.position
 			var moveSpd = speed * delta
 			match(direction):
 				## UP
 				0:
 					if open:
-						if pos.y < (initPos.y + opensize):
-							self.global_position.y += moveSpd
+						if position.y < (initPos.y + opensize):
+							self.translate(self.transform.basis.y * moveSpd) # Move along local UP
 					else:
-						if pos.y > (initPos.y):
-							self.global_position.y -= moveSpd
-					pass
+						if position.y > initPos.y:
+							self.translate(self.transform.basis.y * -moveSpd) # Move along local DOWN
 				## DOWN
 				1:
 					if open:
-						if pos.y > (initPos.y - opensize):
-							self.global_position.y -= moveSpd
+						if position.y > (initPos.y - opensize):
+							self.translate(self.transform.basis.y * -moveSpd)
 					else:
-						if pos.y < (initPos.y):
-							self.global_position.y += moveSpd
-					pass
+						if position.y < initPos.y:
+							self.translate(self.transform.basis.y * moveSpd)
 				## LEFT
 				2:
 					if open:
-						if pos.z > (initPos.z - opensize):
-							self.global_position.z -= moveSpd
+						if position.z > (initPos.z - opensize):
+							self.translate(self.transform.basis.z * -moveSpd) # Move along local LEFT
 					else:
-						if pos.z < (initPos.z):
-							self.global_position.z += moveSpd
-					pass
+						if position.z < initPos.z:
+							self.translate(self.transform.basis.z * moveSpd) # Move along local RIGHT
 				## RIGHT
 				3:
 					if open:
-						if pos.z < (initPos.z + opensize):
-							self.global_position.z += moveSpd
+						if position.z < (initPos.z + opensize):
+							self.translate(self.transform.basis.z * moveSpd) # Move along local RIGHT
 					else:
-						if pos.z > (initPos.z):
-							self.global_position.z -= moveSpd
-					pass
+						if position.z > initPos.z:
+							self.translate(self.transform.basis.z * -moveSpd) # Move along local LEFT
+				## BACKWARDS 
+				4:
+					if open:
+						if position.x > (initPos.x - opensize):
+							self.translate(self.transform.basis.x * -moveSpd) # Move along local LEFT
+					else:
+						if position.x < initPos.x:
+							self.translate(self.transform.basis.x * moveSpd) # Move along local RIGHT
+				5:
+				## FORWARDS
+					if open:
+						if position.x > (initPos.x + opensize):
+							self.translate(self.transform.basis.x * -moveSpd) # Move along local LEFT
+					else:
+						if position.x > initPos.x:
+							self.translate(self.transform.basis.x * moveSpd) # Move along local RIGHT
+		
 		1: ## Rotating Door:
 			var rotSpd = 200
-			if open:
-				if self.rotation_degrees.y > -rotAmt:
-					RotateY(-rotSpd * delta)
-					pass
-			else:
-				if self.rotation_degrees.y < 0:
-					RotateY(rotSpd * delta)
-					pass
-			pass
+			
+			match(direction):
+				0:
+					if open:
+						if self.rotation_degrees.x > -rotAmt:
+							RotateX(-rotSpd * delta)
+					else:
+						if self.rotation_degrees.x < 0:
+							RotateX(rotSpd * delta)
+				1:
+					if open:
+						if self.rotation_degrees.y > -rotAmt:
+							RotateY(-rotSpd * delta)
+					else:
+						if self.rotation_degrees.y < 0:
+							RotateY(rotSpd * delta)
+				2:
+					if open:
+						if self.rotation_degrees.z > -rotAmt:
+							RotateZ(-rotSpd * delta)
+					else:
+						if self.rotation_degrees.z < 0:
+							RotateZ(rotSpd * delta)				
 	
+	pass
+
+
 func RotateY(rotSpd):
-	self.rotation_degrees.y += rotSpd
+	if rotatedir == 0:
+		self.rotation_degrees.y += rotSpd
+	else:
+		self.rotation_degrees.y -= rotSpd
+	pass
+	
+func RotateZ(rotSpd):
+	if rotatedir == 0:
+		self.rotation_degrees.z += rotSpd
+	else:
+		self.rotation_degrees.z -= rotSpd
+	pass
+	
+func RotateX(rotSpd):
+	if rotatedir == 0:
+		self.rotation_degrees.x += rotSpd
+	else:
+		self.rotation_degrees.x -= rotSpd
 	pass
 
 func on_trigger():
+	
+	##If this door is a "key" door it will be unlocked once its been unlocked once
 	if locked == 2: currentlyLocked = 0
+	
+	##Reset timer so that player doesnt accidentally press the open button more than once at a time
+	timer = 0
+	
 	open = !open as int
+

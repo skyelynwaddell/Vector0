@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="FuncGodotFGDModelPointClass" load_steps=4 format=3 uid="uid://do84m4imbwdxi"]
+
+[ext_resource type="PackedScene" uid="uid://c0nnmpixq4v5g" path="res://scenes/Objects/police_car.tscn" id="1_bq3ak"]
+[ext_resource type="Script" path="res://addons/func_godot/src/fgd/func_godot_fgd_model_point_class.gd" id="1_sixds"]
+[ext_resource type="Script" path="res://scripts/car_police.gd" id="3_xebn2"]
+
+[resource]
+script = ExtResource("1_sixds")
+target_map_editor = 1
+models_sub_folder = "glb/car_police"
+scale_expression = ""
+generate_size_property = false
+generate_gd_ignore_file = false
+scene_file = ExtResource("1_bq3ak")
+script_class = ExtResource("3_xebn2")
+apply_rotation_on_map_build = true
+classname = "car_police"
+description = ""
+func_godot_internal = false
+base_classes = Array[Resource]([])
+class_properties = {}
+class_property_descriptions = {}
+meta_properties = {
+"color": Color(0.8, 0.8, 0.8, 1),
+"model": "\"glb/car_police/car_police.glb\"",
+"size": AABB(-8, -8, -8, 8, 8, 8)
+}
+node_class = "CharacterBody3D"
+name_property = ""

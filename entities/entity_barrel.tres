@@ -22,7 +22,7 @@ class_properties = {}
 class_property_descriptions = {}
 meta_properties = {
 "color": Color(0.8, 0.8, 0.8, 1),
-"model": "\"models/glb/barrel/barrel.glb\"",
+"model": "\"glb/barrel/entity_barrel.glb\"",
 "size": AABB(-8, -8, -8, 8, 8, 8),
 "studio": "\"models/objects/barrel/barrel.glb\""
 }

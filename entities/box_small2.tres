@@ -22,7 +22,7 @@ class_properties = {}
 class_property_descriptions = {}
 meta_properties = {
 "color": Color(0.8, 0.8, 0.8, 1),
-"model": "\"models/glb/box_small2/box_small2.glb\"",
+"model": "\"glb/box_small2/box_small2.glb\"",
 "size": AABB(-8, -8, -8, 8, 8, 8)
 }
 node_class = ""

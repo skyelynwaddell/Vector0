@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dix8tqujuqwrv"]
+
+[ext_resource type="Texture2D" uid="uid://bwnj0fimdr82x" path="res://textures/textures/caution_angle.png" id="1_1afmk"]
+
+[resource]
+albedo_texture = ExtResource("1_1afmk")
+metallic_specular = 0.0
+texture_filter = 1
