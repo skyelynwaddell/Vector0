@@ -136,6 +136,39 @@
 
 ]
 
+@SolidClass color(204 204 204) base(func_detail) = func_door_slide : "Sliding door, will open/close when triggered"
+[
+	speed(float) : "Door Speed" : 4.0 : "Control how fast the door opens. Use negative values to move the door the other way."
+
+	opensize(float) : "Open Size" : 2.0 : "Determines how far the door should open."
+
+	open(choices): "Controls if door is open by default" : 0 =
+	[
+		0 : "Initially Closed"
+		1 : "Initially Open"
+	]
+
+	direction(choices): "Controls which direction the door opens" : 0 =
+	[
+		0 : "X"
+		1 : "Y"
+		2 : "Z"
+	]
+
+	autoclose(choices): "Controls if door closes automatically when the player walks away" : 1 =
+	[
+		0 : "FALSE"
+		1 : "TRUE"
+	]
+
+	lockstatus(choices): "Determine the lock status of this door" : 0 =
+	[
+		0 : "Unlocked"
+		1 : "Locked and can only open WHEN triggered"
+		2 : "Locked and can only open on Interact AFTER triggered"
+	]
+]
+ 
 ///////////////////////////
 ////**TRIGGER BRUSHES**////
 ///////////////////////////

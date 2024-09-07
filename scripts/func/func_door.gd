@@ -93,13 +93,14 @@ func _physics_process(delta):
 func _process(delta):
 	if Engine.is_editor_hint(): return
 	distToPlayer = transform.origin.distance_to(player.position)
+	print_debug(distToPlayer)
 	
 	var openRange = 3
 	var closingRange = 6
 	
 	timer += delta
 	
-	print_debug(timer)
+	#print_debug(timer)
 	
 	if currentlyLocked == 0 && timer > 0.5:
 		if distToPlayer <= openRange && Input.is_action_pressed("Interact"): 

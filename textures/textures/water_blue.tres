@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://uo4mgi2m1b6i"]
+
+[ext_resource type="Texture2D" uid="uid://dsvhu4qt5juux" path="res://textures/textures/water_blue.png" id="1_8a2fa"]
+
+[resource]
+albedo_texture = ExtResource("1_8a2fa")
+metallic_specular = 0.0
+texture_filter = 1
