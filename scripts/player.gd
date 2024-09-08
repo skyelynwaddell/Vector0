@@ -37,9 +37,13 @@ extends CharacterBody3D
 @onready var sBullet = $CanvasLayer/Bullet
 @onready var hudAnimPlayer = $CanvasLayer/AnimationPlayer
 @onready var standingRaycast = $Head/StandingRayCast
+
 #SFX
 @onready var sfxShotgun = $Audio/sfxShotgun
 @onready var sfxReload = $Audio/sfxShotgunReload
+@onready var sfxInteractNowork = $Audio/sfxInteractNowork
+@onready var sfxInteractSwitch = $Audio/sfxInteractSwitch
+@onready var currentSFX = sfxInteractNowork
 
 ## Initial Spawn Direction
 @export var spawndir = "forward"
@@ -163,6 +167,8 @@ func _process(delta):
 	Exit()
 	
 	if dead: return
+	
+	if Input.is_action_just_pressed("Interact"): currentSFX.play()
 	
 	#print_debug(state)
 	match(state):
@@ -768,6 +774,10 @@ func _on_animation_player_animation_finished(anim_name):
 func onAreaEntered(area):
 	#print_debug(area.name)
 	
+	# Set sfx to the switch effect if the area is an interactable entity
+	if area.is_in_group("Interact"):
+		currentSFX = sfxInteractSwitch
+	
 	#WATER
 	if area.is_in_group("Water"):
 		#print_debug("swim")
@@ -783,6 +793,11 @@ func onAreaEntered(area):
 
 #ON COLLISION EXITED CHECKS
 func onAreaExited(area):
+	
+	# Reset sfx to the no work effect
+	if area.is_in_group("Interact"):
+		currentSFX = sfxInteractNowork
+	
 	#WATER
 	if area.is_in_group("Water"):
 		state = DEFAULT

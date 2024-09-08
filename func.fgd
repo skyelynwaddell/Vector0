@@ -18,7 +18,8 @@
 ]
 
 //Entity Class
-@BaseClass = func_entity [
+@BaseClass = func_entity 
+[
 	targetname(string) : "Target Name" : : ""
 	target(target_destination) : "Target" : : ""
 ]
@@ -28,12 +29,14 @@
 //or you can affect the X Y Z scale by providing 3 numbers : 32 64 128
 
 //Scale Class
-@BaseClass base(func_entity) = func_entity_scaled [
+@BaseClass base(func_entity) = func_entity_scaled 
+[
 	scale(string) : "Scale. Specificy the scale with X Y Z, or set all to 1 single value. Example #1: 32 64 128 Example #2: 32"
 ]
 
 //Entity Scaled Class
-@BaseClass base(func_entity_scaled) = func_trigger [
+@BaseClass base(func_entity_scaled) = func_trigger 
+[
 	
 	waittime(float): "Wait Time" : 0 : "How long in seconds until this function is called after being triggered."
 	sounds(choices) : "Sound Effect Played on Trigger" : 0 =
@@ -64,11 +67,11 @@
 //Func Detail
 @SolidClass color(204 204 204) base(func_entity) = func_detail : "Static collidable geometry. Builds a StaticBody3D with a MeshInstance3D and a single convex CollisionShape3D. Does not occlude other VisualInstance3D nodes." []
 
-//Func Detail Illusionary
-@SolidClass color(204 204 204) base(func_entity) = func_detail_illusionary : "Static geometry with no collision. Builds a Node3D with a MeshInstance3D. Does not occlude other VisualInstance3D nodes." []
+//Func Detail Noclip
+@SolidClass color(204 204 204) base(func_entity) = func_detail_noclip : "Static Geometry with no collision and doesnt use Alpha." []
 
-//Func Illusionary
-@SolidClass color(204 204 204) base(func_entity) = func_illusionary : "Static geometry with no collision. Builds a Node3D with a MeshInstance3D and an Occluder3D to aid in render culling of other VisualInstance3D nodes." []
+//Func Detail Illusionary
+@SolidClass color(204 204 204) base(func_entity) = func_detail_illusionary : "Static geometry with no collision and uses Alpha for Decals/Fencing. Builds a Node3D with a MeshInstance3D. Does not occlude other VisualInstance3D nodes." []
 
 //Func Glass
 @SolidClass color(204 204 204) base(func_entity) = func_glass : "Transparent Glass Mesh" []
@@ -77,13 +80,52 @@
 @SolidClass color(204 204 204) base(func_entity) = func_physics : "Builds RigidBody3D Brush." []
 
 //Func Water
-@SolidClass color(204 204 204) base(func_entity) = func_water : "Turns brush into Water in-game." [
+@SolidClass color(204 204 204) base(func_entity) = func_water : "Turns brush into Water in-game." 
+[
 	color(color255) : "Water Color" : "255 255 255"
 	alpha(float) : "Water Alpha" : 0.6 : "Control how see-through the liquid is. Default=0.6"
 ]
 
 //Func Ladder
 @SolidClass color(204 204 204) base(func_detail) = func_ladder : "Turns brush into a Ladder for the player." []
+
+//Func Animated
+@SolidClass color(204 204 204) base(func_detail) = func_animated : "Turns brush into an animated texture that plays at 30FPS (up to 10 frames)." 
+[
+	fps(float) : "Animation Speed FPS" : 15.0 : "Control the animation speed of the brush"
+
+	texture0(string) : "Texture #0" : "" : ""
+	texture1(string) : "Texture #1" : "" : ""
+	texture2(string) : "Texture #2" : "" : ""
+	texture3(string) : "Texture #3" : "" : ""
+	texture4(string) : "Texture #4" : "" : ""
+	texture5(string) : "Texture #5" : "" : ""
+	texture6(string) : "Texture #6" : "" : ""
+	texture7(string) : "Texture #7" : "" : ""
+	texture8(string) : "Texture #8" : "" : ""
+	texture9(string) : "Texture #9" : "" : ""
+]
+
+//Func Switch
+@SolidClass color(204 204 204) base(func_detail) = func_switch : "Turns brush into a switch with multiple textures." 
+[
+	texture_on(string) : "Texture On" : "+1_switch_brown" : "Type the name of the texture when this switch is ON (without file extension)"
+	texture_off(string) : "Texture Off" : "-1_switch_brown" : "Type the name of the texture when this switch is OFF (without file extension)"
+	texture_nopower(string) : "Texture No Power" : "-1_switch_brown" : "Type the name of the texture when this switch has NO POWER (without file extension)"
+
+	on(choices): "Controls if the switch is intially on." : 0 = 
+	[
+		0 : "Initially Off"
+		1 : "Initially On"
+	]
+
+	power(choices): "If the switch initially has power to be turned on." : 1 =
+	[
+		0 : "NO POWER"
+		1 : "HAS POWER"
+	]
+
+]
 
 //Func Door
 @SolidClass color(204 204 204) base(func_entity) = func_door : "Sliding Door & Rotating Door" 
@@ -138,9 +180,9 @@
 
 @SolidClass color(204 204 204) base(func_detail) = func_door_slide : "Sliding door, will open/close when triggered"
 [
-	speed(float) : "Door Speed" : 4.0 : "Control how fast the door opens. Use negative values to move the door the other way."
+	speed(float) : "Door Speed (float)" : 6.0 : "Control how fast the door opens. Use negative values to move the door the other way."
 
-	opensize(float) : "Open Size" : 2.0 : "Determines how far the door should open."
+	opensize(float) : "Open Size (float)" : 2.1 : "Determines how far the door should open."
 
 	open(choices): "Controls if door is open by default" : 0 =
 	[
@@ -174,6 +216,41 @@
 ///////////////////////////
 
 //Trigger Brushes are usually invisible objects that are designed to be called by a Trigger Entity to perform a function/effect
+
+//Default Trigger targets other triggers!!!
+@SolidClass color(204 204 204) base(func_detail_illusionary) = trigger_caller : "Trigger Methods on different Entities upon Collision."
+[
+	chaintrigger(target_destination) : "Chain Trigger" : : "Chain a trigger to this trigger that will also then be triggered. it's like magic."
+
+	countmax(integer) : "Counter Max" : 0 : "The trigger will increment the counter value every time it is triggered. If the Counter is Greater or Equal to the countMax after being interacted with: The trigger function on it's target will be invoked."
+
+	waittime(float) : "Wait Time" : 0.0 : "How long until Effect detonates after being triggered"
+
+	type(flags) =
+	[
+		1 : "Trigger On Collision" : 1
+		2 : "Trigger On Interact Pressed" : 0 
+		3 : "Trigger On Both" : 0
+	]
+
+	func(choices): "Function" : 0 : "Function/Trigger to call. For most to all entities, their trigger effect is on_trigger. For lights/doors etc. this will turn them on, then off as well. Hurt will call Hurt() on its target. Teleport will call Teleport() on the Target. ChangeLevel will call ChangeLevel() for the Player" =
+	[
+		0 : "on_trigger"
+	]
+
+	
+	//Is this trigger active by default?
+	triggered(flags) =
+	[ 
+		1 : "Starts Triggered" : 0 
+	]
+
+	//Is this trigger destroyed upon colliding with Player?
+	permanent(flags) = 
+	[ 
+		1 : "Permanent" : 0 
+	] 
+]
 
 //Trigger Sound
 @SolidClass color(204 204 204) base(func_detail_illusionary) = trigger_sound : "When triggered it will play a Sound Effect from the Target's Location" 
@@ -224,7 +301,7 @@
 //These Entities are crucial for a map to work properly
 
 //Player
-@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/debug_player/debug_player.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = info_player_start : "Player Entity Spawn. Set Rotation/Angle to 180 for correct movement directions." 
+@PointClass base(func_entity) color(204 204 204) model({"path":"glb/debug_player/debug_player.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = info_player_start : "Player Entity Spawn. Set Rotation/Angle to 180 for correct movement directions." 
 [
 	spawndir(choices): "spawndir" : 0 =
 	[
@@ -241,13 +318,16 @@
 
 //Stores all the Buttons & Switches, or Entities that -Switch- their texture on trigger
 //Button Switch Panel
-@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/switch_panel/switch_panel.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = switch_panel : "Switch Panel" []
+@PointClass base(func_entity) color(204 204 204) model({"path":"glb/switch_panel/switch_panel.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = switch_panel : "Switch Panel" []
 
 //Metal Switch Panel
-@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/switch_metal/switch_metal.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = switch_metal : "Switch Metal" []
+@PointClass base(func_entity) color(204 204 204) model({"path":"glb/switch_metal/switch_metal.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = switch_metal : "Switch Metal" []
 
 //Valve
-@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/valve/valve.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = switch_valve : "Switch Valve" []
+@PointClass base(func_entity) color(204 204 204) model({"path":"glb/valve/switch_valve.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = switch_valve : "Switch Valve" []
+
+//Soldier
+@PointClass base(func_entity) color(204 204 204) model({"path":"glb/soldier/soldier.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = soldier : "Soldier" []
 
 //////////////////////////
 ///////**ENTITIES**///////
@@ -256,43 +336,19 @@
 //Some predefined entities that can be used quickly to assist in the mapping/brushing process
 
 //Car Police
-@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/car_police/car_police.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = car_police : "Car Police" []
-
-//Box Big
-@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/box_big/box_big.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = box_big : "Big Box" []
-
-//Box Explosives
-@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/box_explosives/box_explosives.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = box_explosives : "Explosive Box" []
-
-//Box Small #1
-@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/box_small1/box_small1.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = box_small1 : "Small Box #1" []
-
-//Box Small #2
-@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/box_small2/box_small2.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = box_small2 : "Small Box #2" []
-
-//Barrel
-@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/barrel/barrel.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = entity_barrel : "Barrel" []
+@PointClass base(func_entity) color(204 204 204) model({"path":"glb/car_police/car_police.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = car_police : "Car Police" []
 
 //Computer
-@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/computer/computer.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = entity_computer : "Computer" []
-
-//Table
-@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/table/table.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = entity_table : "Table" []
-
-//Vent
-@PointClass base(func_entity) color(204 204 204)  model({"path":"models/glb/vent/vent.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = entity_vent : "Vent" []
+@PointClass base(func_entity) color(204 204 204) model({"path":"glb/computer/entity_computer.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = entity_computer : "Computer" []
 
 //Shipping Crate
-@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/shippingcrate/shipping_crate.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = entity_shippingcrate : "Shipping Container" []
-
-//Network Rack
-@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/network_rack/network_rack.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = entity_networkrack : "Network Rack" []
+@PointClass base(func_entity) color(204 204 204) model({"path":"glb/shippingcrate/entity_shippingcrate.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = entity_shippingcrate : "Shipping Container" []
 
 //Light Default (no model)
 @PointClass base(func_entity) color(204 204 204) size(-8 -8 -8, 8 8 8) = light_default : "Light Default" []
 
 //Light #1
-@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/light1/light1.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = light_light1 : "Light 1" []
+@PointClass base(func_entity) color(204 204 204) model({"path":"glb/light1/light_light1.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = light_light1 : "Light 1" []
 
 ///////////////
 ////**NPC**////
@@ -301,7 +357,7 @@
 //Stores all the NPC's in the game
 
 //Doctor #1
-@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/debug_npc/debug_npc.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = npc_doctor1 : "Doctor NPC #1" []
+@PointClass base(func_entity) color(204 204 204) model({"path":"glb/debug_npc/debug_npc.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = npc_doctor1 : "Doctor NPC #1" []
 
 ///////////////////
 ////**MONSTER**////
@@ -310,7 +366,7 @@
 //Stores all the Enemy's / Monsters in the game
 
 //Scorpion Alien
-@PointClass base(Enemy) color(204 204 204) model({"path":"models/glb/alien_scorpion/alien_scorpion.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = monster_scorpion : "Scorpion Alien Monster"
+@PointClass base(func_entity) color(204 204 204) model({"path":"glb/alien_scorpion/monster_scorpion.glb", "scale":"1"}) size(-8 -8 -8, 8 8 8) = monster_scorpion : "Scorpion Alien Monster"
 [
 ]
 
@@ -321,13 +377,13 @@
 //These define path points and positions for entities
 
 //Walk Point
-@PointClass base(func_entity_scaled) color(204 204 204) model({"path":"models/glb/diamond/diamond.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = path_walkpoint : "Walk Point. Set new target after NPC collides with self."
+@PointClass base(func_entity_scaled) color(204 204 204) model({"path":"glb/diamond/path_walkpoint.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = path_walkpoint : "Walk Point. Set new target after NPC collides with self."
 [
 	waittime(float): "Wait Time" : 0 : "How long the Entity should wait upon collision before moving to new target."
 ]
 
 //Point
-@PointClass base(func_entity_scaled) color(204 204 204) model({"path":"models/glb/diamond/diamond.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = path_point : "This is an empty invisible node that gets spawned. Useful to get Location in world space for a teleport." []
+@PointClass base(func_entity_scaled) color(204 204 204) model({"path":"glb/diamond/path_walkpoint.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = path_point : "This is an empty invisible node that gets spawned. Useful to get Location in world space for a teleport." []
 
 ///////////////
 ///**ITEMS**///
@@ -336,41 +392,9 @@
 //Pickup Items that the Player can get
 
 //Health Pack
-@PointClass base(func_entity) color(204 204 204) model({"path":"models/glb/healthpack/health_pack.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = item_healthpack : "Health Pack" []
+@PointClass base(func_entity) color(204 204 204) model({"path":"glb/healthpack/item_healthpack.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = item_healthpack : "Health Pack" []
 
 /////////////////
 ///**TRIGGER**///
 /////////////////
 
-//Default Trigger | Acts as : trigger_once , trigger_multiple, trigger_relay, trigger_auto, trigger_counter
-@PointClass base(func_trigger) color(204 204 204) model({"path":"models/glb/debug_trigger/debug_trigger.glb", "scale":Scale}) size(-8 -8 -8, 8 8 8) = trigger_default : "Trigger Methods on different Entities upon Collision."
-[
-	chaintrigger(target_destination) : "Chain Trigger" : : "Chain a trigger to this trigger that will also then be triggered. it's like magic."
-
-	countmax(integer) : "Counter Max" : 0 : "The trigger will increment the counter value every time it is triggered. If the Counter is Greater or Equal to the countMax after being interacted with: The trigger function on it's target will be invoked."
-
-	type(flags) =
-	[
-		1 : "Trigger On Collision" : 1
-		2 : "Trigger On Interact Pressed" : 0 
-		3 : "Trigger On Both" : 0
-	]
-
-	func(choices): "Function" : 0 : "Function/Trigger to call. For most to all entities, their trigger effect is on_trigger. For lights/doors etc. this will turn them on, then off as well. Hurt will call Hurt() on its target. Teleport will call Teleport() on the Target. ChangeLevel will call ChangeLevel() for the Player" =
-	[
-		0 : "on_trigger"
-	]
-
-	
-	//Is this trigger active by default?
-	triggered(flags) =
-	[ 
-		1 : "Starts Triggered" : 0 
-	]
-
-	//Is this trigger destroyed upon colliding with Player?
-	permanent(flags) = 
-	[ 
-		1 : "Permanent" : 0 
-	] 
-]

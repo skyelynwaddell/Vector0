@@ -60,7 +60,7 @@ nodes/output/position = Vector2(1320, 140)
 node_connections = [&"Attack", 0, &"Walk", &"Attack", 1, &"AnimAttack", &"Death", 0, &"SuckOnHead", &"Death", 1, &"AnimDeath", &"JumpOnHead", 0, &"Attack", &"JumpOnHead", 1, &"AnimJumpOnHead", &"SuckOnHead", 0, &"JumpOnHead", &"SuckOnHead", 1, &"AnimSuckOnHead", &"Walk", 0, &"AnimIdle", &"Walk", 1, &"AnimWalk", &"output", 0, &"Death"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_rb4q1"]
-radius = 0.220101
+radius = 0.2
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_642ki"]
 
@@ -68,6 +68,7 @@ radius = 0.220101
 collision_layer = 11
 collision_mask = 11
 script = ExtResource("1_jqck8")
+kia = null
 targetname = &""
 
 [node name="Model" parent="." instance=ExtResource("2_53le2")]
@@ -84,10 +85,11 @@ parameters/SuckOnHead/blend_amount = 0.0
 parameters/Walk/blend_amount = 0.63
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(2.21387, 0, 0, 0, 2.21387, 0, 0, 0, 2.21387, 0.023853, 0.249466, -0.139218)
+transform = Transform3D(2.21387, 0, 0, 0, 2.21387, 0, 0, 0, 2.21387, 0.023853, 0.381649, -0.185275)
 shape = SubResource("SphereShape3D_rb4q1")
 
 [node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.509953, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 shape = SubResource("BoxShape3D_642ki")

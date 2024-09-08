@@ -1,10 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://b7iulj62x0cg5"]
+[gd_scene load_steps=4 format=3 uid="uid://b7iulj62x0cg5"]
 
 [ext_resource type="Script" path="res://scripts/walkpoint.gd" id="1_nogdg"]
+[ext_resource type="PackedScene" uid="uid://bc4titr8m4isl" path="res://models/other/diamond.fbx" id="2_55uft"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gqru7"]
 
 [node name="Walkpoint" type="Area3D" groups=["WalkPoint"]]
+transform = Transform3D(0.18, 0, 0, 0, 0.18, 0, 0, 0, 0.18, 0, 0, 0)
 script = ExtResource("1_nogdg")
 target = null
 waittime = null
@@ -12,3 +14,5 @@ waittime = null
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("BoxShape3D_gqru7")
+
+[node name="Root Scene" parent="." instance=ExtResource("2_55uft")]

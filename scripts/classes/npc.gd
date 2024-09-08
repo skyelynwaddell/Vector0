@@ -48,7 +48,9 @@ func MoveToTarget(delta):
 	var distance = transform.origin.distance_to(targetOrigin)
 	
 	if distance > 0.1:
-		velocity = direction * speed
+		velocity.x = direction.x * speed
+		velocity.z = direction.z * speed
+		
 		move_and_slide()
 		var target_rotation = atan2(direction.x, direction.z)
 		rotation.y = lerp_angle(rotation.y, target_rotation, delta * 5)  # Adjust the '5' to control rotation speed
@@ -79,3 +81,6 @@ func GetTarget(area):
 func on_trigger():
 	print_debug("Triggered!")
 	
+func ApplyGravity(grvty,delta):
+	if not is_on_floor():
+		self.velocity.y -= grvty * delta

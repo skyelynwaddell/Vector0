@@ -1,0 +1,116 @@
+[gd_scene load_steps=16 format=3 uid="uid://lsfq1hjdpv1s"]
+
+[ext_resource type="PackedScene" uid="uid://clqo0gyyf3med" path="res://scenes/enemys/soldier/soldier_root.tscn" id="1_fonx7"]
+[ext_resource type="Script" path="res://scripts/soldier.gd" id="1_vhnlg"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_t6q08"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_eidym"]
+animation = &"Root|Alert"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_65fia"]
+animation = &"Root|Die"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vy1cd"]
+animation = &"Root|Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_47337"]
+animation = &"Root|Run"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2mp36"]
+animation = &"Root|Shoot"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rocxl"]
+animation = &"Root|Walk"
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_frt1s"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_ckj3r"]
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_61jyk"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_wkt8l"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_8mf1k"]
+nodes/Alert/node = SubResource("AnimationNodeBlend2_t6q08")
+nodes/Alert/position = Vector2(-160, 120)
+nodes/AnimAlert/node = SubResource("AnimationNodeAnimation_eidym")
+nodes/AnimAlert/position = Vector2(-380, 260)
+nodes/AnimDie/node = SubResource("AnimationNodeAnimation_65fia")
+nodes/AnimDie/position = Vector2(1140, 380)
+nodes/AnimIdle/node = SubResource("AnimationNodeAnimation_vy1cd")
+nodes/AnimIdle/position = Vector2(-380, 100)
+nodes/AnimRun/node = SubResource("AnimationNodeAnimation_47337")
+nodes/AnimRun/position = Vector2(420, 280)
+nodes/AnimShoot/node = SubResource("AnimationNodeAnimation_2mp36")
+nodes/AnimShoot/position = Vector2(720, 320)
+nodes/AnimWalk/node = SubResource("AnimationNodeAnimation_rocxl")
+nodes/AnimWalk/position = Vector2(20, 220)
+nodes/Die/node = SubResource("AnimationNodeOneShot_frt1s")
+nodes/Die/position = Vector2(1320, 280)
+nodes/Run/node = SubResource("AnimationNodeBlend2_ckj3r")
+nodes/Run/position = Vector2(540, 180)
+nodes/Shoot/node = SubResource("AnimationNodeOneShot_61jyk")
+nodes/Shoot/position = Vector2(952.153, 216.082)
+nodes/Walk/node = SubResource("AnimationNodeBlend2_wkt8l")
+nodes/Walk/position = Vector2(280, 180)
+nodes/output/position = Vector2(1580, 260)
+node_connections = [&"Alert", 0, &"AnimIdle", &"Alert", 1, &"AnimAlert", &"Die", 0, &"Shoot", &"Die", 1, &"AnimDie", &"Run", 0, &"Walk", &"Run", 1, &"AnimRun", &"Shoot", 0, &"Run", &"Shoot", 1, &"AnimShoot", &"Walk", 0, &"Alert", &"Walk", 1, &"AnimWalk", &"output", 0, &"Die"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_foi64"]
+
+[node name="Soldier2" type="CharacterBody3D"]
+script = ExtResource("1_vhnlg")
+
+[node name="Soldier" parent="." instance=ExtResource("1_fonx7")]
+
+[node name="Skeleton3D" parent="Soldier/RootNode/Root" index="0"]
+bones/2/rotation = Quaternion(0.701061, -0.000611347, -0.00044975, 0.713101)
+bones/3/rotation = Quaternion(-0.0169076, 0.00111568, 0.00973899, 0.999809)
+bones/6/rotation = Quaternion(-0.242874, -1.42511e-10, -5.80014e-08, 0.970058)
+bones/9/rotation = Quaternion(0.218675, 0.024015, 0.1999, 0.954801)
+bones/12/rotation = Quaternion(-0.0669063, -0.0058034, 0.0524135, 0.996365)
+bones/21/rotation = Quaternion(-0.0289064, 0.114967, 0.368089, 0.922202)
+bones/27/scale = Vector3(1, 1, 1)
+bones/33/rotation = Quaternion(-0.204003, -0.225142, 0.30279, 0.903334)
+bones/38/rotation = Quaternion(0.0919753, -0.0279078, -0.354085, 0.930261)
+bones/38/scale = Vector3(1, 1, 1)
+bones/42/rotation = Quaternion(-0.00995453, -0.00861443, -0.0975032, 0.995148)
+bones/42/scale = Vector3(1, 1, 1)
+bones/44/scale = Vector3(1, 1, 1)
+bones/46/rotation = Quaternion(-0.00698179, -0.196511, -0.453718, 0.869181)
+bones/49/rotation = Quaternion(-0.0106902, 3.56906e-05, -0.257671, 0.966174)
+bones/52/rotation = Quaternion(0.0275674, -0.757947, -0.390148, 0.522054)
+bones/53/rotation = Quaternion(-0.0721182, -0.258018, -0.166961, 0.948868)
+bones/62/rotation = Quaternion(-0.223531, -0.0120598, 0.0494612, 0.973366)
+bones/63/rotation = Quaternion(0.85418, 2.19591e-08, 0.000478946, 0.519977)
+bones/68/rotation = Quaternion(-0.223531, 0.0120598, -0.0494612, 0.973366)
+bones/69/rotation = Quaternion(0.85418, -2.19591e-08, -0.000478946, 0.519977)
+
+[node name="female_genericMesh_001" parent="Soldier/RootNode/Root/Skeleton3D" index="0"]
+transform = Transform3D(0.999806, -0.000392679, -0.0196768, 0.0013925, 0.998706, 0.0508242, 0.0196314, -0.0508417, 0.998514, 0.000393651, -0.000910479, 2.89008e-05)
+
+[node name="Cube" parent="Soldier/RootNode/Root/Skeleton3D" index="1"]
+transform = Transform3D(0.48102, -0.856788, -0.185835, 0.875908, 0.460596, 0.143655, -0.0374867, -0.231875, 0.972023, 0.00160294, 0.00314196, -0.00491311)
+
+[node name="Cylinder" parent="Soldier/RootNode/Root/Skeleton3D" index="2"]
+transform = Transform3D(0.61286, -0.767396, -0.18843, 0.78947, 0.604825, 0.104517, 0.0337614, -0.212814, 0.976509, 0.00411335, 0.00374169, 0.00260806)
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+root_node = NodePath("../Soldier")
+tree_root = SubResource("AnimationNodeBlendTree_8mf1k")
+anim_player = NodePath("../Soldier/AnimationPlayer")
+parameters/Alert/blend_amount = 0
+parameters/Die/active = false
+parameters/Die/internal_active = false
+parameters/Die/request = 0
+parameters/Run/blend_amount = 0
+parameters/Shoot/active = false
+parameters/Shoot/internal_active = false
+parameters/Shoot/request = 0
+parameters/Walk/blend_amount = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_foi64")
+
+[editable path="Soldier"]

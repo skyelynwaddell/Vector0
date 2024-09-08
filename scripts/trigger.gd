@@ -2,7 +2,7 @@
 extends Node3D
 class_name Trigger
 
-@onready var timer = $Timer
+@onready var timer : Timer = null
 
 ## Function that is called when Triggered.
 @export var function = "0"
@@ -29,6 +29,8 @@ class_name Trigger
 var targetOrigin = 0
 var TriggerEffect = null
 var inArea = false
+var currentTriggered = false
+var area3d : Area3D = null
 
 # Get Properties from Trenchbroom Entities
 func _func_godot_apply_properties(props : Dictionary):
@@ -58,13 +60,37 @@ func _func_godot_apply_properties(props : Dictionary):
 
 func _ready():
 	if Engine.is_editor_hint(): return
-	#self.visible = false
+	area3d = Area3D.new()
+		
+	# Create Area3D collision area
+	var coll = CollisionShape3D.new()
+	var boxshape = BoxShape3D.new()
+	var size = Vector3.ZERO
+	for i in self.get_children():
+		if i is MeshInstance3D:
+			var aabb = i.get_aabb()
+			size = aabb.size
+	
+	# Change collision size & set shape
+	boxshape.size = size
+	coll.shape = boxshape
+	
+	timer = Timer.new()
+	
+	# Add Area3D and CollisionShape3D to the scene
+	area3d.add_child(coll) 
+	self.add_child(area3d)
+	self.add_child(timer)
+	
+	area3d.connect("area_entered",_on_area_3d_area_entered)
+	area3d.connect("area_exited",_on_area_3d_area_exited)
+	self.visible = false
 	pass
 	
 # When Player Entity collides with this Trigger
 func _on_area_3d_area_entered(area):
 	if Engine.is_editor_hint(): return
-	
+	print_debug("trigger")
 	##  Trigger Typing : 
 	## 0 = Can't Trigger
 	## 1 = Collision
@@ -102,14 +128,23 @@ func GetTriggerEffect(fn):
 
 #On Trigger Effect
 func on_trigger(target):
+	if currentTriggered: return
+	currentTriggered = true
 	if waittime > 0:
-		timer.wait_time = waittime
+		for i in self.get_children():
+			if i is Timer: timer = i
+			
+		print_debug("Starting timer ", timer )
 		timer.one_shot = true
-		timer.start()
+		timer.start(waittime)
+		print_debug("Time Left: " , timer.time_left)
+		await timer.is_stopped()
+		print_debug("timer finished")
+			
 		#print_debug(timer)
 		#print_debug("Calling Timer")
-		await timer.timeout
 		
+			
 	if chaintrigger:
 		for trigger in get_tree().get_nodes_in_group(&"Trigger"):
 			#print_debug(trigger)

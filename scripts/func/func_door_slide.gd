@@ -8,7 +8,7 @@ extends Node3D
 ## Sets if the door is currently open or not
 @export var open : bool = false
 ## Set the collision area the player can detect Interact button with
-@export var doorsize : Vector3 = Vector3(3, 3, 3)
+@export var doorsize : Vector3 = Vector3(4, 4, 4)
 ## The distance the door should open
 @export var opensize : float = 2.0
 ## Door speed
@@ -33,6 +33,13 @@ var mesh : MeshInstance3D = null
 ## Area3D of the door 
 var area3d : Area3D = null
 
+var sfxplayer: AudioStreamPlayer3D
+
+@onready var sfxopen = preload("res://audio/door_metal.ogg")
+@onready var sfxlocked = preload("res://audio/door_locked.ogg")
+
+@onready var currentSFX = sfxopen
+
 func _func_godot_apply_properties(props:Dictionary):
 	# Set props from trenchbroom
 	if "targetname" in props: targetname = props.targetname as String
@@ -52,9 +59,13 @@ func _ready():
 	area3d = Area3D.new()
 	area3d.name = "area3d"
 	
+	# Create sound effect player
+	sfxplayer = AudioStreamPlayer3D.new()
+	
 	# Create Area3D collision area
 	var coll = CollisionShape3D.new()
 	var boxshape = BoxShape3D.new()
+	
 	# Change collision size & set shape
 	boxshape.size = doorsize
 	coll.shape = boxshape
@@ -71,9 +82,14 @@ func _ready():
 		## Z Direction
 		2: targetPos = initPos + (global_transform.basis.z * opensize)
 	
+		
+	SetSFX(sfxopen)
+	
 	# Add Area3D and CollisionShape3D to the scene
 	area3d.add_child(coll) 
 	self.add_child(area3d)
+	self.add_child(sfxplayer)
+
 
 	# Connect the area entered & exited signals
 	area3d.connect("area_entered", _on_area_entered)
@@ -81,12 +97,34 @@ func _ready():
 	
 	# Check if the door should be initially locked on spawn
 	if lockstatus == 1 || lockstatus == 2: locked = true
+	
+	if locked == false:
+		area3d.add_to_group("Interact")
+	
+	self.add_to_group("Entity")
+	
+
+func SetSFX(sfx):
+	sfxplayer.set_stream(sfx)
+	sfxplayer.set_volume_db(-20.0)
+	sfxplayer.set_attenuation_filter_db(-5)
+	sfxplayer.set_pitch_scale(1.2)
+	sfxplayer.set_max_distance(200.0)
+	pass
 
 func _process(delta):
 	if Engine.is_editor_hint(): return
 	# Check if the player is within the area and can interact
 	if canOpen and Input.is_action_just_pressed("Interact"):  # Replace with your interact action
-		on_trigger()
+		
+		if locked == false:
+			SetSFX(sfxopen)
+			on_trigger()
+		else:
+			SetSFX(sfxlocked)
+			sfxplayer.play()
+		
+	
 	
 	# Slide the door to the target position if open, or back to its initial position if closed
 	if open:
@@ -114,19 +152,20 @@ func on_trigger():
 	# Toggle the door's open/closed state
 	open = not open
 	
+	sfxplayer.play()
+	
 	# Check if this door unlocks after being triggered
 	if lockstatus == 2: locked = false
+	
+	if locked == false:
+		area3d.add_to_group("Interact")
 
 func _on_area_entered(area):
-	if locked: return
-	
 	# If the player enters the area, allow them to open the door
 	if area.is_in_group("Player"):
 		canOpen = true
 
 func _on_area_exited(area):
-	if locked: return
-	
 	# If the player leaves the area, disallow opening and automatically close the door
 	if area.is_in_group("Player"):
 		canOpen = false
