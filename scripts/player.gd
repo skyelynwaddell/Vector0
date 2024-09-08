@@ -1,48 +1,46 @@
 @tool
 extends CharacterBody3D
 #NODE REFS
-@onready var animated_sprite_2d = $CanvasLayer/GunBase/AnimatedSprite2D
-@onready var ray_cast_3d = $Head/Camera3D/RayCast3D
-@onready var sndShoot = $sndShoot
-@onready var camera_3d = $Head/Camera3D
+@onready var ray_cast_3d = %RayCast3D
+@onready var camera_3d = %Camera3D
 @onready var svp_camera_3d = %Subviewport_camera
-@onready var head = $Head
-@onready var barrel = $Head/Camera3D/Barrel
+@onready var head = %Head
+@onready var barrel = %Barrel
+@onready var ogCapsuleHeight = %Player.shape.height
 
 #animation trees
-@onready var animPistol = $Head/Camera3D/arms_pistol/AnimationTree
-@onready var animM4A1 = $Head/Camera3D/arms_m4a1/AnimationTree
-@onready var animPumpShotgun = $Head/Camera3D/PumpShotgun/AnimationTree
-@onready var animRevolver = $Head/Camera3D/Revolver/AnimationTree
-@onready var animCrowbar = $Head/Camera3D/Crowbar/AnimationTree
-@onready var animSubMachineGun = $Head/Camera3D/SubMachineGun/AnimationTree
+@onready var animPistol = %arms_pistol/AnimationTree
+@onready var animCarbine = %arms_carbine/AnimationTree
+@onready var animPumpShotgun = %PumpShotgun/AnimationTree
+@onready var animRevolver = %Revolver/AnimationTree
+@onready var animCrowbar = %Crowbar/AnimationTree
+@onready var animSubMachineGun = %SubMachineGun/AnimationTree
 @onready var anim_tree = animPistol
 
 #models
-@onready var modelPistol = $Head/Camera3D/arms_pistol
-@onready var modelM4A1 = $Head/Camera3D/arms_m4a1
-@onready var modelPumpShotgun = $Head/Camera3D/PumpShotgun
-@onready var modelRevolver = $Head/Camera3D/Revolver
-@onready var modelCrowbar = $Head/Camera3D/Crowbar
+@onready var modelPistol = %arms_pistol
+@onready var modelCarbine = %arms_carbine 
+@onready var modelPumpShotgun = %PumpShotgun
+@onready var modelRevolver = %Revolver
+@onready var modelCrowbar = %Crowbar
 @onready var modelSubMachineGun = %SubMachineGun
 
 #HUD
-@onready var lblEnergy = $CanvasLayer/lblEnergy
-@onready var lblAmmo = $CanvasLayer/lblAmmo
-@onready var healthbar = $CanvasLayer/Health
-@onready var hudKeycardRed = $CanvasLayer/Node/CardRed
-@onready var hudKeycardYellow = $CanvasLayer/Node/CardYellow
-@onready var hudKeycardBlue = $CanvasLayer/Node/CardBlue
-@onready var hudInteract = $CanvasLayer/Interact
-@onready var sBullet = $CanvasLayer/Bullet
-@onready var hudAnimPlayer = $CanvasLayer/AnimationPlayer
-@onready var standingRaycast = $Head/StandingRayCast
+@onready var lblAmmo = %lblAmmo
+@onready var healthbar = %Health
+@onready var hudKeycardRed = %CardRed
+@onready var hudKeycardYellow = %CardYellow
+@onready var hudKeycardBlue = %CardBlue
+@onready var hudInteract = %Interact
+@onready var sBullet = %Bullet
+@onready var hudAnimPlayer = %AnimationPlayer
+#@onready var standingRaycast = $Head/StandingRayCast
 
 #SFX
-@onready var sfxShotgun = $Audio/sfxShotgun
-@onready var sfxReload = $Audio/sfxShotgunReload
-@onready var sfxInteractNowork = $Audio/sfxInteractNowork
-@onready var sfxInteractSwitch = $Audio/sfxInteractSwitch
+@onready var sfxShotgun = %sfxShotgun
+@onready var sfxReload = %sfxShotgunReload
+@onready var sfxInteractNowork = %sfxInteractNowork
+@onready var sfxInteractSwitch = %sfxInteractSwitch
 @onready var currentSFX = sfxInteractNowork
 
 ## Initial Spawn Direction
@@ -68,10 +66,9 @@ var frict = { default=7.0, jump=0.0, accel=6.0 }
 
 #crouching
 var crouching = false
-var crouchHeight = 1	
-var crouchJumpBoost = crouchHeight * 0.9
-var headpos = 0
-@onready var ogCapsuleHeight = $Player.shape.height
+var crouchHeight = 1.55
+var crouchJumpBoost = 0.7
+var crouchJumpFinal = crouchHeight * crouchJumpBoost
 
 #ladder climbing
 var climbing = false
@@ -97,7 +94,7 @@ var raycastRange = 2000
 var swimming = false
 
 #flashlight
-var flashlightModel = $Head/Camera3D/Flashlight
+var flashlightModel = %Flashlight
 var flashlight = false
 
 #amimation speeds
@@ -133,13 +130,13 @@ func _ready():
 	#Get Data from Trenchbroom
 	match(spawndir):
 		"0":
-			$Head.rotation_degrees = Vector3(0,0,0)		
+			%Head.rotation_degrees = Vector3(0,0,0)		
 		"1":
-			$Head.rotation_degrees = Vector3(0,180,0)
+			%Head.rotation_degrees = Vector3(0,180,0)
 		"2":
-			$Head.rotation_degrees = Vector3(0,90,0)
+			%Head.rotation_degrees = Vector3(0,90,0)
 		"3":
-			$Head.rotation_degrees = Vector3(0,-90,0)
+			%Head.rotation_degrees = Vector3(0,-90,0)
 	
 	if Engine.is_editor_hint(): return
 		
@@ -152,8 +149,6 @@ func _ready():
 	#initiate head height
 	headPosY = head.position.y
 	SetHeadHeight(headPosY)
-
-	
 
 #STEP EVENT
 func _process(delta): 
@@ -175,9 +170,7 @@ func _process(delta):
 		DEFAULT:
 			if crouching: SetSpeed(spd.crouch)
 			else: SetSpeed(spd.default)
-				
 			Walk()
-			Crouch()
 			ApplyGravity(delta,grvty)
 			SetJumpHeight(jumpHeight.default)
 			if is_on_floor:
@@ -196,7 +189,6 @@ func _process(delta):
 			SetJumpHeight(jumpHeight.water)
 			SetSpeed(spd.swim)
 			Walk()
-			Crouch()
 			ApplyGravity(delta,grvty)
 			
 			pass
@@ -204,7 +196,6 @@ func _process(delta):
 		WALKING:
 			SetJumpHeight(jumpHeight.default)
 			Walk()
-			Crouch()
 			ApplyGravity(delta,grvty)
 			
 			if Input.is_action_just_released("run"):
@@ -231,11 +222,12 @@ func _process(delta):
 #PHYSICS PROCESS
 func _physics_process(delta):
 	if Engine.is_editor_hint(): return
-
-	_push_away_rigid_bodies()
 	var lastVelocity = velocity
-	move_and_slide()
+
 	push_rigid_bodies(lastVelocity,delta)
+	
+	HandleCrouch(delta)
+	move_and_slide()
 	pass
 
 func push_rigid_bodies(lastVelocity, delta):
@@ -270,8 +262,8 @@ func SetSpeed(_spd):
 func HandlePlayerDirection(delta):
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
-	direction = (head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward").normalized()
+	direction = (head.transform.basis * Vector3(-input_dir.x, 0, -input_dir.y))
 	
 	#if is_on_floor() || state == CLIMBING:
 	if direction:
@@ -352,7 +344,7 @@ func HandleFlashlight():
 #UPDATE HUD
 func UpdateHUD():
 	hpGoto = lerpf(hpGoto,Game.hp.current,0.1)
-	lblEnergy.text = str(Game.hp.current)
+	#lblEnergy.text = str(Game.hp.current)
 	healthbar.value = hpGoto
 	hudKeycardRed.visible = Game.keycard.red
 	hudKeycardYellow.visible = Game.keycard.yellow
@@ -401,37 +393,37 @@ func SetHeadHeight(posY):
 	
 #CROUCH
 func Crouch():
-	return
-	#Crouch [CTRL]
-	var wascrouchinglastframe = crouching
 	
+	pass
+
+func HandleCrouch(delta):
+	
+	var wasCrouching = crouching
+
+	# Crouching input
 	if Input.is_action_pressed("Crouch"):
 		crouching = true
-	#prevent player from getting head stuck in roofs
-	elif crouching and not self.test_move(self.transform,Vector3(0,crouchHeight,0)):
+	elif crouching and not self.test_move(self.global_transform,Vector3(0,crouchHeight,0)):
 		crouching = false
 	
-	if !crouching: return
-	#Give jump boost when crouch jumping
-	var translatey := 0.0
-	if wascrouchinglastframe != crouching and not is_on_floor():
-		#translatey = crouchJumpBoost if crouching else -crouchJumpBoost
-		pass
-	if translatey != 0.0:
-		var result = KinematicCollision3D.new()
-		self.test_move(self.transform, Vector3(0,translatey,0),result)
-		#self.position.y += result.get_travel().y
-		#$Head/Camera3D.position.y = result.get_travel().y
-		#$Head/Camera3D.position.y = -crouchHeight
-		pass
+	var translateY = 0.0
+	if wasCrouching != crouching and not is_on_floor():
+		translateY = crouchJumpFinal if crouching else -crouchJumpFinal
+	
+	if translateY != 0.0:
+		var col = KinematicCollision3D.new()
+		self.test_move(self.global_transform,Vector3(0,translateY,0), col)
+		self.position.y += col.get_travel().y
+		%Head.position.y -= col.get_travel().y 
+		%Head.position.y = clamp(%Head.position.y,-crouchHeight,0)
+
+	var smoothingSpd = 5.0
+	if not crouching: smoothingSpd = 12.0
 		
-	if crouching:
-		SetHeadHeight(headPosY - crouchHeight)
-		pass
-	else:
-		SetHeadHeight(headPosY)
-		pass
-	pass
+	#%Head.position = Vector3(0,(-crouchHeight if crouching else 0),0) 
+	%Head.position.y = lerp(%Head.position.y, -crouchHeight if crouching else 0.0, smoothingSpd * delta)
+	%Player.shape.height = ogCapsuleHeight - crouchHeight if crouching else ogCapsuleHeight
+	%Player.position.y = %Player.shape.height / 2
 
 #RELOAD
 func Reload():
@@ -488,7 +480,7 @@ func ChangeWeapon(type):
 	
 	#set all gun models invisible
 	modelPistol.visible = false
-	modelM4A1.visible = false
+	modelCarbine.visible = false
 	modelPumpShotgun.visible = false
 	modelRevolver.visible = false
 	modelCrowbar.visible = false
@@ -512,8 +504,8 @@ func ChangeWeapon(type):
 			pass
 		#M4A1
 		2:
-			anim_tree = animM4A1
-			modelM4A1.visible = true
+			anim_tree = animCarbine
+			modelCarbine.visible = true
 			pass		
 		#PUMP SHOTGUN
 		3:
@@ -662,7 +654,9 @@ func CreateRayCast():
 		print_debug(target)
 		
 		#Every Entity that can be interacted with must inherit from Entity and have a type defined in _ready
-		if target.is_in_group("Enemy"): target.Hurt(Game.weaponList[Game.currentWeapon].power)
+		if target.is_in_group("Enemy"): 
+			target.EmitGibs()
+			target.Hurt(Game.weaponList[Game.currentWeapon].power)
 		if target.is_in_group("Breakable"): target.Destroy()
 		#if "type" in target:
 			#match(target.type):

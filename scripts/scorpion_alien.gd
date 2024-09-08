@@ -13,6 +13,7 @@ var jumpDurationMax = 0.2
 var jumpBlend = 0.0
 @onready var animTree = $AnimationTree
 @onready var gibParticles = $GibParticles/GPUParticles3D
+var canEmit = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -52,11 +53,11 @@ func _physics_process(delta):
 			FacePlayer(delta)
 			pass
 		DEATH:
+			EmitGibs()
 			ApplyGravity(grvty,delta)
 			velocity.x = 0
 			velocity.z = 0
 			move_and_slide()
-			gibParticles.set_emitting(true)
 			animTree["parameters/Walk/blend_amount"] = 0.0
 			animTree["parameters/Attack/blend_amount"] = 0.0
 			animTree["parameters/Death/blend_amount"] = 1.0
@@ -106,7 +107,11 @@ func _physics_process(delta):
 			
 	pass
 
-	
+func EmitGibs():
+	#gibParticles.restart()
+	gibParticles.emitting = true
+	pass
+
 func ChangeState(newState):
 	ResetAllAnims()
 	state = newState

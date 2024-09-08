@@ -218,7 +218,7 @@
 //Trigger Brushes are usually invisible objects that are designed to be called by a Trigger Entity to perform a function/effect
 
 //Default Trigger targets other triggers!!!
-@SolidClass color(204 204 204) base(func_detail_illusionary) = trigger_caller : "Trigger Methods on different Entities upon Collision."
+@SolidClass color(204 204 204) base(func_detail) = trigger_caller : "Trigger Methods on different Entities upon Collision."
 [
 	chaintrigger(target_destination) : "Chain Trigger" : : "Chain a trigger to this trigger that will also then be triggered. it's like magic."
 
@@ -301,7 +301,7 @@
 //These Entities are crucial for a map to work properly
 
 //Player
-@PointClass base(func_entity) color(204 204 204) model({"path":"glb/debug_player/debug_player.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = info_player_start : "Player Entity Spawn. Set Rotation/Angle to 180 for correct movement directions." 
+@PointClass base(func_entity) color(204 204 204) model({"path":"glb/debug_player/debug_player.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = info_player_start : "Player Entity Spawn Point." 
 [
 	spawndir(choices): "spawndir" : 0 =
 	[

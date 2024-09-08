@@ -25,6 +25,7 @@ func _ready():
 	if kia: state = DEATH
 
 func Hurt(dmg):
+	#if dead == true: return
 	print_debug("hurt", hpcurrent)
 	hpcurrent -= dmg
 	if hpcurrent <= 0:
@@ -35,8 +36,9 @@ func Kill():
 	dead = true
 	#sndDeath.play()
 	#col.disabled = true
-	self.set_collision_layer_value(2,false)
-	self.set_collision_mask_value(2,false)
+	#self.set_collision_layer_value(2,false)
+	#self.set_collision_mask_value(2,false)
+	pass
 	
 func AttemptToKillPlayer():
 	if distToPlayer > collisionRange:

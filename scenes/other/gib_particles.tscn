@@ -10,14 +10,17 @@ angle_max = 48.5
 direction = Vector3(0, 1, 0)
 spread = 21.065
 initial_velocity_min = 2.0
-initial_velocity_max = 5.61
-gravity = Vector3(0, -10, 0)
-scale_min = 0.1
+initial_velocity_max = 4.0
+gravity = Vector3(0, -20, 0)
+scale_min = 0.01
 scale_max = 0.5
 collision_mode = 1
-collision_friction = 0.0
-collision_bounce = 0.2
+collision_friction = 0.1
+collision_bounce = 0.25
 collision_use_scale = true
+sub_emitter_mode = 3
+sub_emitter_amount_at_collision = 19
+sub_emitter_keep_velocity = true
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_mp46m"]
 material = ExtResource("1_ldkgw")
@@ -36,15 +39,16 @@ bind/0/pose = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.318567, 0)
 emitting = false
-amount = 5
+amount = 10
 lifetime = 3.0
 one_shot = true
 explosiveness = 1.0
 transform_align = 1
+trail_lifetime = 0.29
 process_material = SubResource("ParticleProcessMaterial_q27qm")
 draw_pass_1 = SubResource("CapsuleMesh_mp46m")
 draw_skin = SubResource("Skin_bl3bj")
 
 [node name="GPUParticlesCollisionBox3D" type="GPUParticlesCollisionBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.188904, -1.47397, 0.0440979)
-size = Vector3(8.09192, 2.14539, 6.70062)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.95449, -1.47397, -0.617454)
+size = Vector3(35.1792, 2.14539, 20.6102)

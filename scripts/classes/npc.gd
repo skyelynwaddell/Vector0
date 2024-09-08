@@ -84,3 +84,4 @@ func on_trigger():
 func ApplyGravity(grvty,delta):
 	if not is_on_floor():
 		self.velocity.y -= grvty * delta
+	else: self.velocity.y = 0

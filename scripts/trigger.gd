@@ -135,11 +135,11 @@ func on_trigger(target):
 			if i is Timer: timer = i
 			
 		print_debug("Starting timer ", timer )
+		timer.connect("timeout",timer_finished)
 		timer.one_shot = true
 		timer.start(waittime)
 		print_debug("Time Left: " , timer.time_left)
-		await timer.is_stopped()
-		print_debug("timer finished")
+		
 			
 		#print_debug(timer)
 		#print_debug("Calling Timer")
@@ -163,6 +163,10 @@ func on_trigger(target):
 					entity.on_trigger()
 					#print_debug("calling " , entity, " func")
 
+
+func timer_finished():
+	print_debug("method succesfully awaited")
+	pass
 
 func _on_area_3d_area_exited(area):
 	if area.is_in_group("Player"): inArea = false
