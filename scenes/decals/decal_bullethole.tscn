@@ -1,0 +1,26 @@
+[gd_scene load_steps=6 format=3 uid="uid://davpkyqgpx2fh"]
+
+[ext_resource type="Script" path="res://scripts/decals.gd" id="1_es575"]
+[ext_resource type="Material" uid="uid://cqmaxb8qmqb5a" path="res://materials/decal_bullethole1.tres" id="2_vb1jp"]
+[ext_resource type="Material" uid="uid://c7nfvcblyphwn" path="res://materials/decal_scratch1.tres" id="3_xxn0f"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_66ymm"]
+material = ExtResource("2_vb1jp")
+size = Vector2(0.2, 0.2)
+
+[sub_resource type="QuadMesh" id="QuadMesh_c540w"]
+material = ExtResource("3_xxn0f")
+size = Vector2(0.2, 0.2)
+
+[node name="DecalBulletHole" type="Node3D"]
+script = ExtResource("1_es575")
+
+[node name="BulletHole1" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -0.02)
+mesh = SubResource("QuadMesh_66ymm")
+
+[node name="Scratch1" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -0.02)
+mesh = SubResource("QuadMesh_c540w")

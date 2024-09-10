@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cab72bgs2jcf8"
-path.s3tc="res://.godot/imported/arms_m4a1_darkgunmetal.png-5d093a2b43ab8f49b0da58bff0f1cafc.s3tc.ctex"
+uid="uid://cuq00bqbl6srf"
+path.s3tc="res://.godot/imported/arms_knife-0a3ff96ffb7ba093f69a1bb388556b72_metal_odd.png-13c48a4364c22f60ac5c9fdc4f7fb841.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "d4654d43fda66836ce40802de9e836ab"
+"md5": "eed82a326b2cca0cf2273fcc62e6e937"
 }
 
 [deps]
 
-source_file="res://models/weapons/m4a1/arms_m4a1_darkgunmetal.png"
-dest_files=["res://.godot/imported/arms_m4a1_darkgunmetal.png-5d093a2b43ab8f49b0da58bff0f1cafc.s3tc.ctex"]
+source_file="res://models/weapons/knife/arms_knife-0a3ff96ffb7ba093f69a1bb388556b72_metal_odd.png"
+dest_files=["res://.godot/imported/arms_knife-0a3ff96ffb7ba093f69a1bb388556b72_metal_odd.png-13c48a4364c22f60ac5c9fdc4f7fb841.s3tc.ctex"]
 
 [params]
 

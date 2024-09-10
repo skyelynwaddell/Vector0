@@ -88,7 +88,7 @@ script = ExtResource("1_5sci5")
 [node name="steering" parent="RootPoliceCar/RootNode/steering" index="0"]
 mesh = SubResource("ArrayMesh_jwnfp")
 
-[node name="red" type="OmniLight3D" parent="."]
+[node name="red" type="SpotLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.354758, 2.73477, 0.43759)
 light_color = Color(1, 0, 0, 1)
 light_energy = 9.0
@@ -96,9 +96,10 @@ light_indirect_energy = 1.5
 light_volumetric_fog_energy = 2.0
 light_size = 1.0
 light_specular = 2.0
+light_bake_mode = 1
 shadow_enabled = true
 
-[node name="blue" type="OmniLight3D" parent="."]
+[node name="blue" type="SpotLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.999965, -0.00839494, 0, 0.00839494, 0.999965, 0.361649, 2.72159, -0.383716)
 light_color = Color(0, 0, 1, 1)
 light_energy = 9.0
@@ -106,6 +107,7 @@ light_indirect_energy = 1.5
 light_volumetric_fog_energy = 2.0
 light_size = 1.0
 light_specular = 2.0
+light_bake_mode = 1
 shadow_enabled = true
 distance_fade_begin = 3903.75
 

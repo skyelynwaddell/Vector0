@@ -1,40 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://c427puecfdmr0"]
+[gd_scene load_steps=3 format=3 uid="uid://c427puecfdmr0"]
 
 [ext_resource type="Script" path="res://scenes/world.gd" id="1_bareh"]
 [ext_resource type="PackedScene" uid="uid://cvpk0of8h0jjo" path="res://scenes/levels/level1.tscn" id="28_og2bi"]
 
-[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_8fv6p"]
-
-[sub_resource type="Sky" id="Sky_p6ck8"]
-sky_material = SubResource("PhysicalSkyMaterial_8fv6p")
-
-[sub_resource type="Environment" id="Environment_fyda7"]
-background_mode = 2
-background_color = Color(0.662111, 0.580844, 0.309258, 1)
-sky = SubResource("Sky_p6ck8")
-ambient_light_source = 1
-glow_intensity = 0.38
-glow_strength = 0.45
-glow_bloom = 1.0
-glow_blend_mode = 0
-volumetric_fog_enabled = true
-volumetric_fog_density = 0.01
-volumetric_fog_albedo = Color(0.773425, 0.612901, 0.84686, 1)
-
 [node name="World" type="Node3D"]
 script = ExtResource("1_bareh")
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_fyda7")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.715, 27.9507, -0.105019)
-light_energy = 0.593
-light_angular_distance = 90.0
-light_cull_mask = 4294443008
-shadow_enabled = true
-directional_shadow_mode = 0
-directional_shadow_fade_start = 0.636
 
 [node name="Node3D" parent="." instance=ExtResource("28_og2bi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 0, -28)

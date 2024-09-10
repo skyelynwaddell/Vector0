@@ -2,5 +2,5 @@
 
 [node name="Light" type="OmniLight3D"]
 light_energy = 2.0
-light_size = 2.0
-omni_range = 10.0
+light_bake_mode = 1
+omni_range = 8.0

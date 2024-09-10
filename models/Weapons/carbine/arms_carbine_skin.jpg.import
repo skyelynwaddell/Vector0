@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://yd8nui7bd0fr"
-path.s3tc="res://.godot/imported/arms_m4a1_camo.jpg-e8fcb7c1bca861b97e0179bfe74c08ef.s3tc.ctex"
+uid="uid://bg2lx353b846f"
+path.s3tc="res://.godot/imported/arms_carbine_skin.jpg-206933d7cb93dc5965a630ccb554f2b2.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "8aaef3d83a9615c2199ea7ecbed1479f"
+"md5": "5c32f7df06285a5687172c347f208c67"
 }
 
 [deps]
 
-source_file="res://models/weapons/m4a1/arms_m4a1_camo.jpg"
-dest_files=["res://.godot/imported/arms_m4a1_camo.jpg-e8fcb7c1bca861b97e0179bfe74c08ef.s3tc.ctex"]
+source_file="res://models/weapons/carbine/arms_carbine_skin.jpg"
+dest_files=["res://.godot/imported/arms_carbine_skin.jpg-206933d7cb93dc5965a630ccb554f2b2.s3tc.ctex"]
 
 [params]
 

@@ -13,8 +13,9 @@ extends CharacterBody3D
 @onready var animCarbine = %arms_carbine/AnimationTree
 @onready var animPumpShotgun = %PumpShotgun/AnimationTree
 @onready var animRevolver = %Revolver/AnimationTree
-@onready var animCrowbar = %Crowbar/AnimationTree
 @onready var animSubMachineGun = %SubMachineGun/AnimationTree
+@onready var animCrowbar = %Crowbar/AnimationTree
+@onready var animKnife = %Knife/AnimationTree
 @onready var anim_tree = animPistol
 
 #models
@@ -22,8 +23,9 @@ extends CharacterBody3D
 @onready var modelCarbine = %arms_carbine 
 @onready var modelPumpShotgun = %PumpShotgun
 @onready var modelRevolver = %Revolver
-@onready var modelCrowbar = %Crowbar
 @onready var modelSubMachineGun = %SubMachineGun
+@onready var modelCrowbar = %Crowbar
+@onready var modelKnife = %Knife
 
 #HUD
 @onready var lblAmmo = %lblAmmo
@@ -34,7 +36,6 @@ extends CharacterBody3D
 @onready var hudInteract = %Interact
 @onready var sBullet = %Bullet
 @onready var hudAnimPlayer = %AnimationPlayer
-#@onready var standingRaycast = $Head/StandingRayCast
 
 #SFX
 @onready var sfxShotgun = %sfxShotgun
@@ -42,33 +43,78 @@ extends CharacterBody3D
 @onready var sfxInteractNowork = %sfxInteractNowork
 @onready var sfxInteractSwitch = %sfxInteractSwitch
 @onready var currentSFX = sfxInteractNowork
-
-## Initial Spawn Direction
-@export var spawndir = "forward"
-## Target Name - Default is "Player"
-@export var targetname = "player"
-
 var weaponSFX = sfxShotgun
+
+#Decals
+@onready var decalBulletHole = preload("res://scenes/decals/decal_bullethole.tscn")
 
 #signals
 signal UpdateHUDSignal(message)
 signal HideHUDInteract
 
-#VARIABLES
-const mouseSens = 0.2
-var direction = 0
-var spd = { current=10, default=10, walk=7, crouch=5, swim=7, climb=7 } 
-var jumpHeight = { current=8, default=8, water=5}
-@export var grvty = 20
-var grvtyDefault = 20
-var grvtyWater = 5
-var frict = { default=7.0, jump=0.0, accel=6.0 }
+@export_group("Properties")
+## Target Name - Default is "Player"
+@export var targetname : String = "player"
+## Initial Spawn Direction
+@export var spawndir : String = "forward"
+## Mouse Sensitivity
+@export_range(0,1) var mouseSens : float = 0.2
+
+@export_group("Weapon Properties")
+## Gun Bullet Distance
+@export var bulletDistance : float = 2000.0
+@export var meleeDistance : float = 1.5
+
+@export_group("Speed")
+## Default Movement Speed
+@export_range(0,50) var spdDefault : float = 10.0
+## Walking Speed
+@export_range(0,50) var spdWalk : float = 8.0
+## Crouching Speed
+@export_range(0,50) var spdCrouch : float = 5.0
+## Swimming Speed
+@export_range(0,50) var spdSwim : float = 10.0
+## Climb Speed
+@export_range(0,50) var spdClimb : float = 10.0
+@onready var spd = 12.0
+
+
+@export_group("Jump Height")
+## Default Jump Height
+@export_range(0,50) var jumpHeightDefault : int = 8
+## Water Jump Height
+@export_range(0,50) var jumpHeightWater : int = 5
+var jumpHeight = 8
+
+@export_group("Gravity")
+## Default Gravity
+@export_range(0,50) var grvtyDefault : float = 20.0
+## Water Gravity
+@export_range(0,50) var grvtyWater : float = 5.0
+var grvty = 20.0
+
+@export_group("Friction")
+## Default Friction
+@export_range(0,50) var frictDefault : float = 7.0 
+## Jumping Friction
+@export_range(0,50) var frictJump : float = 0.0
+## Acceleration Friction
+@export_range(0,50) var frictAccel : float = 6.0
 
 #crouching
-var crouching = false
-var crouchHeight = 1.55
-var crouchJumpBoost = 0.7
+@export_group("Crouch")
+## Crouch Height
+@export_range(0,5) var crouchHeight : float = 1.55
+## Crouch Jump Boost
+@export_range(0,2) var crouchJumpBoost : float = 0.7
 var crouchJumpFinal = crouchHeight * crouchJumpBoost
+var crouching = false
+
+#decals
+@export_group("Decals")
+## Maximum Amount of decals that can be placed in the room
+@export_range(0,100) var decalsMax : int = 15
+var decals : Array = []
 
 #ladder climbing
 var climbing = false
@@ -89,6 +135,7 @@ var reloadTimer = { current = 0, maximum = 0.5 }
 var shootTimer = 0
 var shootTimerMax = 0.1
 var raycastRange = 2000
+var currentMeleeAnim = 0
 
 #swimming
 var swimming = false
@@ -115,19 +162,16 @@ const CLIMBING = 1
 const SWIMMING = 2
 const WALKING = 3
 var state = DEFAULT
+var direction = 0
 
 func _func_godot_apply_properties(props : Dictionary):
-	print_debug(props)
 	spawndir = props.spawndir
 	targetname = props.targetname
-	print_debug(spawndir)
+	pass
 
 #READY EVENT
 func _ready():
-	print_debug("player made")
-	#_func_godot_apply_properties(func_godot_properties)
-	print_debug(spawndir)
-	#Get Data from Trenchbroom
+	# Make player face the spawn direction
 	match(spawndir):
 		"0":
 			%Head.rotation_degrees = Vector3(0,0,0)		
@@ -168,33 +212,35 @@ func _process(delta):
 	#print_debug(state)
 	match(state):
 		DEFAULT:
-			if crouching: SetSpeed(spd.crouch)
-			else: SetSpeed(spd.default)
+			if crouching && is_on_floor(): SetSpeed(spdCrouch)
+			else: SetSpeed(spdDefault)
 			Walk()
 			ApplyGravity(delta,grvty)
-			SetJumpHeight(jumpHeight.default)
+			SetJumpHeight(jumpHeightDefault)
 			if is_on_floor:
 					if !reloading:
 						runVal = lerp(runVal,0.2,0.1)
 			pass
 		
 		CLIMBING:
-			SetJumpHeight(jumpHeight.default)
-			SetSpeed(spd.climb)
+			SetJumpHeight(jumpHeightDefault)
+			SetSpeed(spdClimb)
 			ApplyGravity(delta,0)
 			HandleClimbing()
 			pass
 		
 		SWIMMING:
-			SetJumpHeight(jumpHeight.water)
-			SetSpeed(spd.swim)
+			SetJumpHeight(jumpHeightWater)
+			SetSpeed(spdSwim)
 			Walk()
 			ApplyGravity(delta,grvty)
 			
 			pass
 		
 		WALKING:
-			SetJumpHeight(jumpHeight.default)
+			if crouching && is_on_floor(): SetSpeed(spdCrouch)
+			else: SetSpeed(spdDefault)
+			SetJumpHeight(jumpHeightDefault)
 			Walk()
 			ApplyGravity(delta,grvty)
 			
@@ -203,7 +249,6 @@ func _process(delta):
 			
 			if is_on_floor:
 				runVal = lerp(runVal,0.4,0.1)
-				spd.current = spd.walk
 			else:
 				state = DEFAULT
 				
@@ -255,7 +300,7 @@ func push_rigid_bodies(lastVelocity, delta):
 
 #SET SPEED
 func SetSpeed(_spd):
-	spd.current = _spd
+	self.spd = _spd
 	pass
 
 #HANDLE PLAYER DIRECTION
@@ -265,21 +310,28 @@ func HandlePlayerDirection(delta):
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward").normalized()
 	direction = (head.transform.basis * Vector3(-input_dir.x, 0, -input_dir.y))
 	
-	#if is_on_floor() || state == CLIMBING:
-	if direction:
-		#move player
-		velocity.x = lerp(velocity.x,direction.x * spd.current, delta * frict.accel)
-		velocity.z = lerp(velocity.z,direction.z * spd.current, delta * frict.accel)
+	ChangeCrosshair()
+	
+	# Check if the player is on the floor
+	if is_on_floor():
+		# Ground movement: accelerate towards the desired direction
+		if direction != Vector3.ZERO:
+			# Apply movement direction
+			velocity.x = lerp(velocity.x, direction.x * spd, delta * frictAccel)
+			velocity.z = lerp(velocity.z, direction.z * spd, delta * frictAccel)
+		else:
+			# Apply friction when not moving
+			velocity.x = lerp(velocity.x, 0.0, delta * frictDefault)
+			velocity.z = lerp(velocity.z, 0.0, delta * frictDefault)
 	else:
-		#apply regular friction
-		runVal = 0.0
-		velocity.x = lerp(velocity.x,direction.x*spd.current, delta * frict.default)
-		velocity.z =  lerp(velocity.z,direction.z*spd.current, delta * frict.default)
-	#else:
-		#apply airborne friction
-		#velocity.x = lerp(velocity.x,direction.x*spd.current, delta * frict.jump)
-		#velocity.z = lerp(velocity.z,direction.z*spd.current, delta * frict.jump)
-	#	pass
+		if direction != Vector3.ZERO:
+			# Apply reduced air control movement (slower speed in the air)
+			var air_control_spd = spd 
+			var air_friction = 5.0
+			velocity.x = lerp(velocity.x, direction.x * air_control_spd, delta * air_friction)
+			velocity.z = lerp(velocity.z, direction.z * air_control_spd, delta * air_friction)
+
+
 	# Head Bobbing
 	tBob += delta * velocity.length() * float(is_on_floor())
 	camera_3d.transform.origin = HeadBob(tBob)
@@ -288,8 +340,6 @@ func HandlePlayerDirection(delta):
 func HandleClimbing():
 	#If no ladder exists, get outta here
 	if currentLadder == null: return;
-	
-	#if Input.is_action_pressed("jump"): state = DEFAULT
 	
 	#vars
 	var _vel = 0
@@ -301,7 +351,7 @@ func HandleClimbing():
 			rot = 45
 		_vel = climbSpd * (rot * 0.01)
 		
-	spd.current = spd.climb
+	spd = spdClimb
 	self.velocity.y = _vel
 	self.velocity.z = 0
 	self.velocity.x = 0
@@ -339,7 +389,7 @@ func HandleFlashlight():
 	#Flashlight [F]
 	if Input.is_action_just_pressed("Flashlight"):
 		flashlight = !flashlight
-		$Head/Camera3D/Flashlight.visible = flashlight	
+		%Flashlight.visible = flashlight	
 
 #UPDATE HUD
 func UpdateHUD():
@@ -349,7 +399,6 @@ func UpdateHUD():
 	hudKeycardRed.visible = Game.keycard.red
 	hudKeycardYellow.visible = Game.keycard.yellow
 	hudKeycardBlue.visible = Game.keycard.blue
-	
 	
 #ALLOW WEAPON CHANGE
 func AllowWeaponChange():
@@ -430,9 +479,13 @@ func Reload():
 	if canShoot == false: return
 	if reloading: return
 	
+	var currentWeapon = Game.weapons[Game.currentWeapon]
+	var weaponIndex = currentWeapon.index
+	
 	for w in Game.weapons:
-		if w.index == Game.currentWeapon:
-			if w.clip >= Game.weaponList[Game.currentWeapon].magSize:
+		if w.index == weaponIndex:
+			var weapon = Game.weaponList[weaponIndex]
+			if w.clip >= weapon.magSize || weapon.melee == true :
 				return
 			if w.ammo <= 0: return
 	
@@ -448,10 +501,12 @@ func Reload():
 	
 #RELOAD AMMO
 func ReloadAmmo():
-	var _magSize = Game.weaponList[Game.currentWeapon].magSize
+	var currentWeapon = Game.weapons[Game.currentWeapon]
+	var weaponIndex = currentWeapon.index
+	var _magSize = Game.weaponList[weaponIndex].magSize
 	
 	for w in Game.weapons:
-		if w.index == Game.currentWeapon:
+		if w.index == weaponIndex:
 			var neededAmmo = _magSize - w.clip
 			if w.ammo >= neededAmmo:
 				w.ammo -= neededAmmo
@@ -485,10 +540,12 @@ func ChangeWeapon(type):
 	modelRevolver.visible = false
 	modelCrowbar.visible = false
 	modelSubMachineGun.visible = false
+	modelKnife.visible = false
 	
 	canShoot = false
 	changingWeapon = true
 	
+	#Stop Reloading Animation if we shoot
 	anim_tree.set("parameters/Reload/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_ABORT)
 	
 	#set current weapon visible
@@ -521,24 +578,35 @@ func ChangeWeapon(type):
 		5:
 			anim_tree = animCrowbar
 			modelCrowbar.visible = true
-			pass		
+			pass	
 		#SUB MACHINE GUN
 		6:
 			anim_tree = animSubMachineGun
 			modelSubMachineGun.visible = true
+			pass	
+		#KNIFE
+		7:
+			anim_tree = animKnife
+			modelKnife.visible = true
 			pass
-					
-	Game.currentWeapon = type
-	
-	for w in Game.weapons:
-		if w.index == Game.currentWeapon:
-			var isMelee = Game.weaponList[Game.currentWeapon].melee
+
+	var _weapon = Game.weapons[Game.currentWeapon]
+	var weaponIndex = _weapon.index
+		
+	for w in Game.weaponList:
+		if w.index == weaponIndex:
+			var isMelee = false
+			if w.melee : isMelee = true
+			
 			if isMelee:
+				raycastRange = meleeDistance
 				sBullet.visible = false
 				lblAmmo.text = ""
 			else:
+				raycastRange = bulletDistance
 				sBullet.visible = true
-				lblAmmo.text = str(w.clip, " | ", w.ammo)
+				lblAmmo.text = str(_weapon.clip, " | ", _weapon.ammo)
+			%RayCast3D.target_position.z = raycastRange
 			
 	#shootTimerMax = Game.weaponList[type].cooldown
 	canShoot = true
@@ -569,15 +637,23 @@ func _push_away_rigid_bodies():
 			var push_force = mass_ratio
 			c.get_collider().apply_impulse(push_dir * velocity_diff_in_push_dir * push_force, c.get_position() - c.get_collider().global_position)
 			
-#WEAPON CHANGE ON SCROLL WHEEL
 func ChangeWeaponScroll(isUp):
+	var weaponCount = Game.weapons.size()
+	
 	if isUp:
-		Game.currentWeapon = int(Game.currentWeapon + 1) % Game.weapons.size()
+		Game.currentWeapon += 1
+		if Game.currentWeapon > weaponCount-1:
+			Game.currentWeapon = 0
 	else:
-		Game.currentWeapon = int(Game.currentWeapon - 1 + Game.weapons.size()) % Game.weapons.size()
-	ChangeWeapon(Game.currentWeapon)
-	pass
-
+		Game.currentWeapon -= 1
+		if Game.currentWeapon < 0:
+			Game.currentWeapon = weaponCount-1
+			
+	print_debug(Game.currentWeapon)
+	
+	var weaponIndex = Game.weapons[Game.currentWeapon].index
+	ChangeWeapon(weaponIndex)
+	
 #HURT
 func Hurt(dmg):
 	if isHurt || Game.godmode :
@@ -622,11 +698,11 @@ func Jump():
 	if is_on_floor() || state == SWIMMING || state == CLIMBING:
 		if state == CLIMBING:
 			state = DEFAULT
-		velocity.y = jumpHeight.current
+		velocity.y = jumpHeight
 
 #SET JUMP HEIGHT
 func SetJumpHeight(_jumpHeight):
-	jumpHeight.current=_jumpHeight
+	jumpHeight = _jumpHeight
 	pass
 
 #GRAVITY
@@ -644,71 +720,130 @@ func GetRayCastTarget(target, group, hasMethod):
 	else:
 		return false
 
+func ChangeCrosshair():
+	if ray_cast_3d.is_colliding():
+		var target = ray_cast_3d.get_collider()
+		if target.is_in_group("Enemy"):
+			%Crosshair.color = Color8(255,0,0)
+		else:
+			%Crosshair.color = Color8(255,255,255)
+	pass
+
 #Bullet collision
 func CreateRayCast():
 	if ray_cast_3d.is_colliding():
+		
+		#Get raycast collision data
 		var colPoint = ray_cast_3d.get_collision_point()
 		var normal = ray_cast_3d.get_collision_normal()
 		var target = ray_cast_3d.get_collider()
 		if target == null: return
-		print_debug(target)
 		
-		#Every Entity that can be interacted with must inherit from Entity and have a type defined in _ready
+		#Create Bullet Hole Decal on the surface we just shot
+		var weaponPower = 0
+		var _weapon = Game.weapons[Game.currentWeapon]
+		var isMelee = false
+		for w in Game.weaponList:
+			if w.index == _weapon.index:
+				weaponPower = w.power
+				isMelee = w.melee
+				
+		if target.is_in_group("Enemy") == false:
+			var decal = decalBulletHole.instantiate()
+					
+			if isMelee: decal.type = 2
+			else: decal.type = 1
+			
+			#Limit amount of decals that can be in the room for performance
+			if decals.size() >= decalsMax:
+				var old_decal = decals.pop_front()
+				old_decal.queue_free()
+			
+			# Add the decal to the scene and attach it to the wall we just shot
+			decals.append(decal)
+			target.add_child(decal)
+			decal.global_transform.origin = colPoint
+			decal.look_at(colPoint + normal, Vector3.UP)
+		print_debug(weaponPower)
+		#Enemies
 		if target.is_in_group("Enemy"): 
-			target.EmitGibs()
-			target.Hurt(Game.weaponList[Game.currentWeapon].power)
+			target.Hurt(weaponPower)
+		
+		#Breakables
 		if target.is_in_group("Breakable"): target.Destroy()
-		#if "type" in target:
-			#match(target.type):
-				#"Enemy":
-					#target.Hurt(Game.weaponList[Game.currentWeapon].power)
-				#"Breakable":
-					#target.Destroy()
 		
 		return target
 
 #SHOOT
 func Shoot():
-	var weaponData = Game.weaponList[Game.currentWeapon]
+	#Get global weapon properties 
 	
-	var isMelee = weaponData.melee
-	for weapon in Game.weapons:
-		if weapon.index == Game.currentWeapon:
+	var currentWeapon = Game.weapons[Game.currentWeapon]
+	var weaponIndex = currentWeapon.index
+	var weaponData = null
+	
+	var isMelee = false
+	for i in Game.weaponList:
+		if i.index == weaponIndex:
+			weaponData = i
+			isMelee = i.melee
+	
+	#Get our current weapons data from the weapons list 
+	for weapon in Game.weaponList:
+		if weapon.index == weaponIndex:
+			
+			#No weapon is equipped
 			if weapon.index == 0: return
 			
-			if weapon.clip <= 0 && isMelee == false:
+			#If we shoot and have no ammo, reload if not a melee weapon
+			if currentWeapon.clip <= 0 && isMelee == false:
 				Reload()
 				return
 	
+	#Check if we can shoot, and aren't doing the following actions
 	if canShoot == false || reloading || changingWeapon :
 		return
-		
+	
+	#Shooting checks succeeded, perform the shot
 	canShoot = false
+	
+	#Play Shoot audio for the correct weapon
 	$Audio/sfxShotgun.play()
+	
+	#Create a raycast to the point we just shot to get collider
 	CreateRayCast()
-	anim_tree.set("parameters/Shoot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)	
 	
+	#Update our Weapons array to reflect our new ammo after shooting
 	for weapon in Game.weapons:
-		if weapon.index == Game.currentWeapon:
+		if weapon.index == weaponIndex:
 			
-			#if weapon.clip <= 0: return
+			#If it is a melee weapon, we cannot reload duh
 			if isMelee: 
+				#Play our melee oneshot, they have multiple so it isnt so boring
+				if currentMeleeAnim == 0:
+					anim_tree.set("parameters/Shoot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)	
+				else:
+					anim_tree.set("parameters/Shoot2/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)	
+				currentMeleeAnim += 1
+				if currentMeleeAnim >= 2: currentMeleeAnim = 0
+				
 				return
-			weapon.clip -= 1
+			
+			#Play gun model one shot
+			anim_tree.set("parameters/Shoot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+				
+			#Decrease the weapon clip, and update the HUD
+			currentWeapon.clip -= 1
 			lblAmmo.text = str(weapon.clip, " | ", weapon.ammo)
-			if weapon.clip <= 0:
+			
+			#If we have no more ammo, reload the weapon instead of shooting
+			if currentWeapon.clip <= 0:
 				Reload()
-	
-			#print_debug('ammo: ' , weapon.clip , ' / ' , weapon.ammo)
-	
-	#if ray_cast_3d.is_colliding() and ray_cast_3d.get_collider().has_method("Kill"):
-	#	ray_cast_3d.get_collider().Kill()
 
 #SHOOT ANIM DONE
 func ShootAnimDone():
 	canShoot = true
 	shootVal = 0.0
-	#shootSpd = lerp(shootSpd,shootVal,0.1)
 
 #HEAD BOB
 func HeadBob(time) -> Vector3:
@@ -721,25 +856,20 @@ func HeadBob(time) -> Vector3:
 func _on_update_hud_signal(message):
 	hudInteract.text = message
 	hudInteract.visible = true
-	#print("update hud")
-	pass # Replace with function body.
+	pass
 
 #HIDE HUD INTERACT 
 func _on_hide_hud_interact():
 	hudInteract.visible = false
-	#hudInteract.text = ""
-	pass # Replace with function body.
+	pass 
 
 #ANIM CHANGED
 func _on_animation_player_animation_changed(old_name, new_name):
 	ShootAnimDone()
-	#anim_tree.set("parameters/TimeSeek/seek_request", 0.0)
-	pass # Replace with function body.
+	pass 
 
 #ANIM FINISHED
 func _on_animation_player_animation_finished(anim_name):
-	#print_debug("sasdasadasdad")
-	#print_debug(anim_name)
 	
 	#Damage Pain HUD Flash Finished
 	if anim_name == "Pain":
@@ -749,7 +879,8 @@ func _on_animation_player_animation_finished(anim_name):
 	#Finished Shooting
 	if (anim_name == "Armature|Shoot_001" ||
 		anim_name == "Armature|Shoot" ||
-		anim_name == "Shoot"):
+		anim_name == "Shoot" ||
+		anim_name == "Armature|Shoot2"):
 		ShootAnimDone()
 		return
 		
@@ -762,11 +893,10 @@ func _on_animation_player_animation_finished(anim_name):
 		ShootAnimDone()
 		return
 	
-	pass # Replace with function body.
+	pass
 
 #ON COLLISION ENTERED CHECKS
 func onAreaEntered(area):
-	#print_debug(area.name)
 	
 	# Set sfx to the switch effect if the area is an interactable entity
 	if area.is_in_group("Interact"):
@@ -774,7 +904,6 @@ func onAreaEntered(area):
 	
 	#WATER
 	if area.is_in_group("Water"):
-		#print_debug("swim")
 		grvty = grvtyWater
 		state = SWIMMING
 	
@@ -783,7 +912,7 @@ func onAreaEntered(area):
 		state = CLIMBING
 		currentLadder = area
 		
-	pass # Replace with function body.
+	pass 
 
 #ON COLLISION EXITED CHECKS
 func onAreaExited(area):
@@ -801,5 +930,4 @@ func onAreaExited(area):
 	if area.is_in_group("Ladder"):
 		state = DEFAULT
 		currentLadder = null
-	pass # Replace with function body.
-
+	pass 

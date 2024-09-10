@@ -34,10 +34,11 @@ func Hurt(dmg):
 func Kill():
 	state = DEATH
 	dead = true
+	self.remove_from_group("Enemy")
 	#sndDeath.play()
-	#col.disabled = true
-	#self.set_collision_layer_value(2,false)
-	#self.set_collision_mask_value(2,false)
+	self.set_collision_layer_value(2,false)
+	self.set_collision_mask_value(2,false)
+	self.set_collision_layer_value(1,false)
 	pass
 	
 func AttemptToKillPlayer():

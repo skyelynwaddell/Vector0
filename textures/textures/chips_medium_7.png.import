@@ -2,20 +2,17 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cslav1t3kjqvt"
-path.s3tc="res://.godot/imported/arms_m4a1_skin.jpg-89af5d0f39402e045279fddbafb39ea9.s3tc.ctex"
+uid="uid://bkwgtfm5u3y24"
+path.s3tc="res://.godot/imported/chips_medium_7.png-467db9acb3f5c6ce37bd9c5748d92deb.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
-generator_parameters={
-"md5": "5c32f7df06285a5687172c347f208c67"
-}
 
 [deps]
 
-source_file="res://models/weapons/m4a1/arms_m4a1_skin.jpg"
-dest_files=["res://.godot/imported/arms_m4a1_skin.jpg-89af5d0f39402e045279fddbafb39ea9.s3tc.ctex"]
+source_file="res://textures/textures/chips_medium_7.png"
+dest_files=["res://.godot/imported/chips_medium_7.png-467db9acb3f5c6ce37bd9c5748d92deb.s3tc.ctex"]
 
 [params]
 

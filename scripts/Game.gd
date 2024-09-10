@@ -10,6 +10,7 @@ var hp = { current=100, maximum=100 }
 var weaponList = [
 	# 0 - NO WEAPON
 	{
+		index = 0,
 		title = "No Weapon",
 		melee = true,
 		power = 0,
@@ -18,15 +19,17 @@ var weaponList = [
 	},
 	# 1 - PISTOL
 	{
+		index = 1,
 		title     = "Pistol",
 		melee = false,
 		power     = 10,
 		magSize = 15,
 		spd = 100
 	},
-	# 2 - M4A1
+	# 2 - Carbine
 	{
-		title     = "M4A1",
+		index = 2,
+		title     = "Carbine",
 		melee = false,
 		power     = 20,
 		magSize = 30,
@@ -34,6 +37,7 @@ var weaponList = [
 	},
 	# 3 - PUMP SHOTGUN
 	{
+		index = 3,
 		title     = "Pump Shotgun",
 		melee = false,
 		power     = 50,
@@ -42,14 +46,16 @@ var weaponList = [
 	},	
 	# 4 - REVOLVER
 	{
+		index = 4,
 		title     = "Revolver",
 		melee = false,
 		power     = 100,
 		magSize = 6,
 		spd = 200
 	},	
-	# 5 - CROWBAR
+	  #5 - CROWBAR
 	{
+		index = 5,
 		title     = "Crowbar",
 		melee = true,
 		power     = 100,
@@ -58,9 +64,19 @@ var weaponList = [
 	},	
 	# 6 - SUB MACHINE GUN
 	{
+		index = 6,
 		title     = "Sub Machine Gun",
 		melee = false,
 		power     = 20,
+		magSize = 30,
+		spd = 200
+	},	
+	# 7 - KNIFE
+	{
+		index = 7,
+		title     = "Knife",
+		melee = true,
+		power     = 100,
 		magSize = 30,
 		spd = 200
 	},
@@ -75,30 +91,34 @@ var weapons = [
 	  ammo = 0,
 	  clip = 0,
 	},
-	{ index = 1,
-	  ammo = 100,
-	  clip = 15,
-	},
-	{ index = 2,
-	  ammo = 100,
-	  clip = 30
-	},	
-	{ index = 3,
-	  ammo = 80,
-	  clip = 8
-	},	
-	{ index = 4,
+	#{ index = 1,
+	  #ammo = 100,
+	  #clip = 15,
+	#},
+	#{ index = 2,
+	  #ammo = 100,
+	  #clip = 30
+	#},	
+	#{ index = 3,
+	  #ammo = 80,
+	  #clip = 8
+	#},	
+	#{ index = 4,
+	  #ammo = 80,
+	  #clip = 6
+	#},	
+	#{ index = 5,
+	  #ammo = 80,
+	  #clip = 6
+	#},	
+	#{ index = 6,
+	  #ammo = 80,
+	  #clip = 6
+	#},		
+	{ index = 7,
 	  ammo = 80,
 	  clip = 6
 	},	
-	{ index = 5,
-	  ammo = 80,
-	  clip = 6
-	},	
-	{ index = 6,
-	  ammo = 80,
-	  clip = 6
-	},
 	]
 
 #Current weapon index, according to weaponList index order
