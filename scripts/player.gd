@@ -30,6 +30,7 @@ extends CharacterBody3D
 #HUD
 @onready var lblAmmo = %lblAmmo
 @onready var healthbar = %Health
+@onready var lblHealth = %lblHealth
 @onready var hudKeycardRed = %CardRed
 @onready var hudKeycardYellow = %CardYellow
 @onready var hudKeycardBlue = %CardBlue
@@ -42,15 +43,16 @@ extends CharacterBody3D
 @onready var sfxReload = %sfxShotgunReload
 @onready var sfxInteractNowork = %sfxInteractNowork
 @onready var sfxInteractSwitch = %sfxInteractSwitch
+@onready var sfxWhip1 = %sfxWhip1
+@onready var sfxWhip2 = %sfxWhip2
 @onready var currentSFX = sfxInteractNowork
-var weaponSFX = sfxShotgun
+@onready var weaponSFX = sfxShotgun
 
 #Decals
 @onready var decalBulletHole = preload("res://scenes/decals/decal_bullethole.tscn")
 
 #signals
-signal UpdateHUDSignal(message)
-signal HideHUDInteract
+signal UpdateHUDSignal
 
 @export_group("Properties")
 ## Target Name - Default is "Player"
@@ -113,7 +115,7 @@ var crouching = false
 #decals
 @export_group("Decals")
 ## Maximum Amount of decals that can be placed in the room
-@export_range(0,100) var decalsMax : int = 15
+@export_range(0,100) var decalsMax : int = 20
 var decals : Array = []
 
 #ladder climbing
@@ -164,6 +166,7 @@ const WALKING = 3
 var state = DEFAULT
 var direction = 0
 
+#Load player data from mapping software
 func _func_godot_apply_properties(props : Dictionary):
 	spawndir = props.spawndir
 	targetname = props.targetname
@@ -193,33 +196,29 @@ func _ready():
 	#initiate head height
 	headPosY = head.position.y
 	SetHeadHeight(headPosY)
+	pass
 
 #STEP EVENT
 func _process(delta): 
 	if Engine.is_editor_hint(): return
-	#print_debug(spawndir)
 	#set camera position	
 	svp_camera_3d.set_global_transform(camera_3d.get_global_transform())
 	
-		#game updates
-	UpdateHUD()
-	Exit()
-	
+	#game updates
+	Exit() ## exit game function
 	if dead: return
 	
+	# Interact sound effect
 	if Input.is_action_just_pressed("Interact"): currentSFX.play()
 	
-	#print_debug(state)
+	# State specific functionality
 	match(state):
 		DEFAULT:
-			if crouching && is_on_floor(): SetSpeed(spdCrouch)
-			else: SetSpeed(spdDefault)
+			HandleSpeed()
 			Walk()
 			ApplyGravity(delta,grvty)
 			SetJumpHeight(jumpHeightDefault)
-			if is_on_floor:
-					if !reloading:
-						runVal = lerp(runVal,0.2,0.1)
+			StateDefault()
 			pass
 		
 		CLIMBING:
@@ -234,26 +233,17 @@ func _process(delta):
 			SetSpeed(spdSwim)
 			Walk()
 			ApplyGravity(delta,grvty)
-			
 			pass
 		
 		WALKING:
-			if crouching && is_on_floor(): SetSpeed(spdCrouch)
-			else: SetSpeed(spdDefault)
+			HandleSpeed()
 			SetJumpHeight(jumpHeightDefault)
 			Walk()
 			ApplyGravity(delta,grvty)
-			
-			if Input.is_action_just_released("run"):
-				state = DEFAULT
-			
-			if is_on_floor:
-				runVal = lerp(runVal,0.4,0.1)
-			else:
-				state = DEFAULT
-				
+			StateWalking()
 			pass
 	
+	# Functions allowed for all states
 	HandleReload()
 	HandleJump()
 	HandleFlashlight()
@@ -296,6 +286,27 @@ func push_rigid_bodies(lastVelocity, delta):
  
 			# push the RigidBody by combining the push_force and players (previous) velocity
 			body.apply_impulse(push_direction * push_velocity * push_force, push_position)
+	pass
+	
+func StateDefault():
+	if is_on_floor:
+		if !reloading:
+			runVal = lerp(runVal,0.2,0.1)
+	pass
+
+func StateWalking():
+	if Input.is_action_just_released("run"):
+		state = DEFAULT
+			
+	if is_on_floor:
+		runVal = lerp(runVal,0.4,0.1)
+	else:
+		state = DEFAULT
+	pass
+
+func HandleSpeed():
+	if crouching && is_on_floor(): SetSpeed(spdCrouch)
+	else: SetSpeed(spdDefault)
 	pass
 
 #SET SPEED
@@ -393,13 +404,35 @@ func HandleFlashlight():
 
 #UPDATE HUD
 func UpdateHUD():
-	hpGoto = lerpf(hpGoto,Game.hp.current,0.1)
-	#lblEnergy.text = str(Game.hp.current)
+	#hpGoto = lerpf(hpGoto,Game.hp.current,0.1)
+	lblHealth.text = str(Game.hp.current)
 	healthbar.value = hpGoto
 	hudKeycardRed.visible = Game.keycard.red
 	hudKeycardYellow.visible = Game.keycard.yellow
 	hudKeycardBlue.visible = Game.keycard.blue
+	var currentWeapon = Game.weapons[Game.currentWeapon]
+	var ammo = GetCurrentWeaponAmmoCount()
 	
+	lblAmmo.text = str(currentWeapon.clip, " | ", ammo)
+	pass
+
+func GetCurrentWeaponAmmoCount():
+	var currentWeapon = Game.weapons[Game.currentWeapon]
+	var ammoPoolType = ""
+	var ammoPool = null
+	# Get our current ammo for the weapon equipped
+	for w in Game.weaponList:
+		if w.index == currentWeapon.index:
+			ammoPoolType = w.ammoPool
+	
+	for a in Game.ammoPool:
+		if a.type == ammoPoolType:
+			ammoPool = a
+	
+	if ammoPool == null: return 0
+	else: return ammoPool.ammo
+	pass
+
 #ALLOW WEAPON CHANGE
 func AllowWeaponChange():
 	#Change to Weapon 1 [1]
@@ -476,47 +509,83 @@ func HandleCrouch(delta):
 
 #RELOAD
 func Reload():
+	# Check if in an animation, or already reloading
 	if canShoot == false: return
 	if reloading: return
 	
+	# Get our currents weapon and ammo data
 	var currentWeapon = Game.weapons[Game.currentWeapon]
 	var weaponIndex = currentWeapon.index
+	var ammo = GetCurrentWeaponAmmoCount()
 	
+	# Find our current weapon in our inventory
 	for w in Game.weapons:
 		if w.index == weaponIndex:
 			var weapon = Game.weaponList[weaponIndex]
+			
+			# Check if we already have a full clip, our ammo is depleated, or if its a melee weapon
 			if w.clip >= weapon.magSize || weapon.melee == true :
 				return
-			if w.ammo <= 0: return
+			if ammo <= 0: return
 	
+	# Reloading checks succeeded, start reloading
 	reloading = true
+	
+	# Play Reloading Sound Effect
 	$Audio/sfxShotgunReload.play()
-	reloadTimer.current = reloadTimer.maximum
+	
+	# Set all of our animation blend speeds to 0 to avoid wonky animations during reloading
 	runVal = 0.0
 	runSpd = 0.0
 	shootVal = 0.0
 	shootSpd = 0.0
+	
+	# Tell our player to stop shooting if doing so
 	ShootAnimDone()
+	
+	# Play the Reload Animation
 	anim_tree.set("parameters/Reload/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)	
 	
 #RELOAD AMMO
+#This function is called after Reloading animation finishes executing to ensure the ammo doesnt immedietly reload when you press the reload button
 func ReloadAmmo():
+	# Get current weapon and ammo information
 	var currentWeapon = Game.weapons[Game.currentWeapon]
 	var weaponIndex = currentWeapon.index
 	var _magSize = Game.weaponList[weaponIndex].magSize
+	var ammo = GetCurrentWeaponAmmoCount()
+	var ammoPoolType = null
 	
-	for w in Game.weapons:
+	# Find which ammo pool type our current gun uses
+	for w in Game.weaponList:
 		if w.index == weaponIndex:
-			var neededAmmo = _magSize - w.clip
-			if w.ammo >= neededAmmo:
-				w.ammo -= neededAmmo
-				w.clip = _magSize
-			else:
-				w.clip += w.ammo
-				w.ammo = 0
-			lblAmmo.text = str(w.clip, " | ", w.ammo)
-			Game.weapons[Game.currentWeapon].ammo = w.ammo
-			Game.weapons[Game.currentWeapon].clip = w.clip
+			ammoPoolType = w.ammoPool
+	
+	# Check through all ammo types
+	for a in Game.ammoPool:
+		
+		# Our ammo type matches a type found in the library
+		if a.type == ammoPoolType:
+			
+			# Check through our weapon inventory
+			for w in Game.weapons:
+				# Found our currently equipped weapon
+				if w.index == weaponIndex:
+					# Perform Ammo calculations on Ammo & Clip
+					var neededAmmo = _magSize - w.clip
+					if ammo >= neededAmmo:
+						a.ammo -= neededAmmo
+						w.clip = _magSize
+					else:
+						w.clip += a.ammo
+						a.ammo = 0
+					
+					UpdateHUD()
+					
+					#Reflect changes in the ammo pool
+					a.ammo = a.ammo
+					w.clip = w.clip
+			pass
 	
 #EXIT
 func Exit():
@@ -526,14 +595,13 @@ func Exit():
 #RESTART
 func Restart():
 	pass
-	#if Input.is_action_just_pressed("restart"):
-		#get_tree().reload_current_scene()
 
 #CHANGE WEAPON
 func ChangeWeapon(type):
+	# Check if we can shoot (prevents changing weapons during animations like reloading and grenades, etc.)
 	if canShoot == false: return
 	
-	#set all gun models invisible
+	#reset all gun models invisible initially
 	modelPistol.visible = false
 	modelCarbine.visible = false
 	modelPumpShotgun.visible = false
@@ -542,6 +610,7 @@ func ChangeWeapon(type):
 	modelSubMachineGun.visible = false
 	modelKnife.visible = false
 	
+	#Update data for other entities
 	canShoot = false
 	changingWeapon = true
 	
@@ -549,6 +618,8 @@ func ChangeWeapon(type):
 	anim_tree.set("parameters/Reload/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_ABORT)
 	
 	#set current weapon visible
+	#set current sound effect of weapon
+	#set current animationtree of the weapon (found in the weapon's scene)
 	match type:
 		#NO WEAPON
 		0:
@@ -556,59 +627,69 @@ func ChangeWeapon(type):
 			pass
 		#PISTOL
 		1:
+			weaponSFX = sfxShotgun
 			anim_tree = animPistol
 			modelPistol.visible = true
 			pass
-		#M4A1
+		#CARBINE
 		2:
+			weaponSFX = sfxShotgun
 			anim_tree = animCarbine
 			modelCarbine.visible = true
 			pass		
 		#PUMP SHOTGUN
 		3:
+			weaponSFX = sfxShotgun
 			anim_tree = animPumpShotgun
 			modelPumpShotgun.visible = true
 			pass		
 		#REVOLVER
 		4:
+			weaponSFX = sfxShotgun
 			anim_tree = animRevolver
 			modelRevolver.visible = true
 			pass		
 		#CROWBAR
 		5:
+			weaponSFX = sfxWhip1
 			anim_tree = animCrowbar
 			modelCrowbar.visible = true
 			pass	
 		#SUB MACHINE GUN
 		6:
+			weaponSFX = sfxShotgun
 			anim_tree = animSubMachineGun
 			modelSubMachineGun.visible = true
 			pass	
 		#KNIFE
 		7:
+			weaponSFX = sfxWhip1
 			anim_tree = animKnife
 			modelKnife.visible = true
 			pass
-
+	
+	# Get current weapon data
 	var _weapon = Game.weapons[Game.currentWeapon]
 	var weaponIndex = _weapon.index
-		
+	
+	#Find our equipped weapons data in the weapon library
 	for w in Game.weaponList:
 		if w.index == weaponIndex:
+			
+			#Check if our current weapon is a melee weapon
 			var isMelee = false
 			if w.melee : isMelee = true
 			
+			#Change Attack distance, and update hud elements correctly depending on weapon type			
 			if isMelee:
-				raycastRange = meleeDistance
+				ChangeAttackRange(meleeDistance)
 				sBullet.visible = false
 				lblAmmo.text = ""
 			else:
-				raycastRange = bulletDistance
+				ChangeAttackRange(bulletDistance)
 				sBullet.visible = true
-				lblAmmo.text = str(_weapon.clip, " | ", _weapon.ammo)
-			%RayCast3D.target_position.z = raycastRange
+				UpdateHUD()
 			
-	#shootTimerMax = Game.weaponList[type].cooldown
 	canShoot = true
 	reloading = false
 	pass
@@ -636,35 +717,48 @@ func _push_away_rigid_bodies():
 			# 5.0 is a magic number, adjust to your needs
 			var push_force = mass_ratio
 			c.get_collider().apply_impulse(push_dir * velocity_diff_in_push_dir * push_force, c.get_position() - c.get_collider().global_position)
-			
+
+#Changes the attack range of our weapon
+func ChangeAttackRange(newRange : int):
+	raycastRange = newRange
+	%RayCast3D.target_position.z = newRange
+	pass
+
+#Use 2 buttons to cycle through all the current weapon inventory
 func ChangeWeaponScroll(isUp):
+	
+	# Get the amount of weapons in our inventory
 	var weaponCount = Game.weapons.size()
 	
+	#Check which direction was inputed
 	if isUp:
+		#Cycle weapons upwards
 		Game.currentWeapon += 1
 		if Game.currentWeapon > weaponCount-1:
 			Game.currentWeapon = 0
 	else:
+		#Cycle weapons downwards
 		Game.currentWeapon -= 1
 		if Game.currentWeapon < 0:
 			Game.currentWeapon = weaponCount-1
-			
-	print_debug(Game.currentWeapon)
 	
+	#Get next weapon data, and switch current weapon to new one
 	var weaponIndex = Game.weapons[Game.currentWeapon].index
 	ChangeWeapon(weaponIndex)
 	
 #HURT
 func Hurt(dmg):
+	# Check if were already being hurt or in god mode
 	if isHurt || Game.godmode :
 		return
-	print_debug("Player Hurt")
+	
+	# Apply hurt, and damage calculations to player & Update HUD accordingly	
 	isHurt = true
 	Game.hp.current = Game.hp.current - dmg
 	Game.hp.current = clamp(Game.hp.current,0,Game.hp.maximum)
 	UpdateHUD()
 
-#INCREASE HEALTH
+#INCREASE HEALTH useful for healthkits
 func IncreaseHealth(amount):
 	Game.hp.current = Game.hp.current + amount
 	Game.hp.current = clamp(Game.hp.current,0,Game.hp.maximum)
@@ -681,9 +775,9 @@ func Kill():
 	if Input.is_action_just_pressed("restart"):
 		get_tree().reload_current_scene()
 
-#RUN
+#WALK
 func Walk():
-	
+	#Handles walking animation blends
 	if !reloading:
 		runSpd = lerp(runSpd,runVal,0.1)
 	
@@ -777,7 +871,6 @@ func CreateRayCast():
 #SHOOT
 func Shoot():
 	#Get global weapon properties 
-	
 	var currentWeapon = Game.weapons[Game.currentWeapon]
 	var weaponIndex = currentWeapon.index
 	var weaponData = null
@@ -808,7 +901,9 @@ func Shoot():
 	canShoot = false
 	
 	#Play Shoot audio for the correct weapon
-	$Audio/sfxShotgun.play()
+	weaponSFX.play()
+	if weaponSFX == sfxWhip1: weaponSFX = sfxWhip2
+	elif weaponSFX == sfxWhip2: weaponSFX = sfxWhip1
 	
 	#Create a raycast to the point we just shot to get collider
 	CreateRayCast()
@@ -833,12 +928,14 @@ func Shoot():
 			anim_tree.set("parameters/Shoot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 				
 			#Decrease the weapon clip, and update the HUD
+			var ammo = GetCurrentWeaponAmmoCount()
 			currentWeapon.clip -= 1
-			lblAmmo.text = str(weapon.clip, " | ", weapon.ammo)
+			lblAmmo.text = str(weapon.clip, " | ", ammo)
 			
 			#If we have no more ammo, reload the weapon instead of shooting
 			if currentWeapon.clip <= 0:
 				Reload()
+	UpdateHUDSignal.emit()
 
 #SHOOT ANIM DONE
 func ShootAnimDone():
@@ -852,12 +949,6 @@ func HeadBob(time) -> Vector3:
 	pos.x = cos(time * bobFreq / 2) * bobAmp
 	return pos
 	
-#UPDATE HUD
-func _on_update_hud_signal(message):
-	hudInteract.text = message
-	hudInteract.visible = true
-	pass
-
 #HIDE HUD INTERACT 
 func _on_hide_hud_interact():
 	hudInteract.visible = false

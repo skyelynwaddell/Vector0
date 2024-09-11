@@ -15,6 +15,7 @@ var weaponList = [
 		melee = true,
 		power = 0,
 		magSize = 0,
+		ammoPool = null,
 		spd = 0,
 	},
 	# 1 - PISTOL
@@ -24,6 +25,7 @@ var weaponList = [
 		melee = false,
 		power     = 10,
 		magSize = 15,
+		ammoPool = "9mm",
 		spd = 100
 	},
 	# 2 - Carbine
@@ -33,6 +35,7 @@ var weaponList = [
 		melee = false,
 		power     = 20,
 		magSize = 30,
+		ammoPool = "carbine",
 		spd = 200
 	},
 	# 3 - PUMP SHOTGUN
@@ -42,6 +45,7 @@ var weaponList = [
 		melee = false,
 		power     = 50,
 		magSize = 8,
+		ammoPool = "shotgun",
 		spd = 200
 	},	
 	# 4 - REVOLVER
@@ -51,6 +55,7 @@ var weaponList = [
 		melee = false,
 		power     = 100,
 		magSize = 6,
+		ammoPool = "365",
 		spd = 200
 	},	
 	  #5 - CROWBAR
@@ -60,6 +65,7 @@ var weaponList = [
 		melee = true,
 		power     = 100,
 		magSize = 6,
+		ammoPool = null,
 		spd = 200
 	},	
 	# 6 - SUB MACHINE GUN
@@ -69,6 +75,7 @@ var weaponList = [
 		melee = false,
 		power     = 20,
 		magSize = 30,
+		ammoPool = "9mm",
 		spd = 200
 	},	
 	# 7 - KNIFE
@@ -78,6 +85,7 @@ var weaponList = [
 		melee = true,
 		power     = 100,
 		magSize = 30,
+		ammoPool = null,
 		spd = 200
 	},
 ]
@@ -88,41 +96,62 @@ var weaponList = [
 	#ammo [int] - Current total ammo for the weapon the player currently has
 var weapons = [
 	{ index = 0,
-	  ammo = 0,
 	  clip = 0,
 	},
-	#{ index = 1,
-	  #ammo = 100,
-	  #clip = 15,
-	#},
-	#{ index = 2,
-	  #ammo = 100,
-	  #clip = 30
-	#},	
-	#{ index = 3,
-	  #ammo = 80,
-	  #clip = 8
-	#},	
-	#{ index = 4,
-	  #ammo = 80,
-	  #clip = 6
-	#},	
+	{ index = 1,
+	  clip = 15,
+	},
+	{ index = 2,
+	  clip = 30
+	},	
+	{ index = 3,
+	  clip = 8
+	},	
+	{ index = 4,
+	  clip = 6
+	},	
 	#{ index = 5,
 	  #ammo = 80,
 	  #clip = 6
 	#},	
-	#{ index = 6,
-	  #ammo = 80,
-	  #clip = 6
-	#},		
+	{ index = 6,
+	  clip = 6
+	},		
 	{ index = 7,
-	  ammo = 80,
 	  clip = 6
 	},	
 	]
 
 #Current weapon index, according to weaponList index order
 var currentWeapon = 0
+
+var ammoPool = [
+	{
+		type = "9mm",
+		ammo = 200
+	},
+	{
+		type = "carbine",
+		ammo = 100
+	},
+	{
+		type = "shotgun",
+		ammo = 100
+	},
+	{
+		type = "365",
+		ammo = 100
+	},
+	{
+		type = "grenades",
+		ammo = 10
+	},
+	{
+		type = "rockets",
+		ammo = 5
+	}
+	
+]
 
 func SaveGame():
 	var file: FileAccess = FileAccess.open(filename, FileAccess.WRITE)

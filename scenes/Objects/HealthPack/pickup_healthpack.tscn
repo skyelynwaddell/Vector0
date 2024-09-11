@@ -1,13 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://bob4gbko1tsn4"]
+[gd_scene load_steps=5 format=3 uid="uid://bob4gbko1tsn4"]
 
 [ext_resource type="PackedScene" uid="uid://dvgcsgg7oo2xp" path="res://scenes/Parents/pickup.tscn" id="1_nwavr"]
 [ext_resource type="Script" path="res://scripts/pickup_healthpack.gd" id="2_kd2iq"]
+[ext_resource type="PackedScene" uid="uid://d21mkacpedr0" path="res://scenes/Objects/HealthPack/root_healthpack.tscn" id="3_xd2rn"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_o1eva"]
+size = Vector3(0.334717, 1.37952, 1.14465)
 
 [node name="HealthPack" instance=ExtResource("1_nwavr")]
 script = ExtResource("2_kd2iq")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="." index="2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-light_color = Color(0.937935, 0.50619, 0.526195, 1)
-light_energy = 5.0
-light_indirect_energy = 1.218
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000366211, 0.189758, 0.00860596)
+shape = SubResource("BoxShape3D_o1eva")
+
+[node name="healthpack" parent="RigidBody3D" index="1" instance=ExtResource("3_xd2rn")]
+transform = Transform3D(-1.48619e-08, -0.34, 0, 0.34, -1.48619e-08, 0, 0, 0, 0.34, 0, 0.191837, 0)
+
+[editable path="RigidBody3D/healthpack"]

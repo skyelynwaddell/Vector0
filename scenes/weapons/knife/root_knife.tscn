@@ -72,8 +72,8 @@ node_connections = [&"Shoot", 0, &"AnimIdle", &"Shoot", 1, &"AnimShoot", &"Shoot
 [node name="Knife" instance=ExtResource("1_4tuer")]
 
 [node name="Skeleton3D" parent="RootNode/Armature" index="0"]
-bones/0/rotation = Quaternion(0.596372, 0.522028, 0.585762, 0.169443)
-bones/2/rotation = Quaternion(0.120908, 0.803967, 0.27239, 0.514609)
+bones/0/rotation = Quaternion(0.596833, 0.521044, 0.586555, 0.168097)
+bones/2/rotation = Quaternion(0.121858, 0.803414, 0.273914, 0.514439)
 bones/3/rotation = Quaternion(-0.0348364, -0.0600817, -0.341974, 0.937139)
 bones/3/scale = Vector3(1, 1, 1)
 bones/4/rotation = Quaternion(-0.0943722, -0.105351, -0.628178, 0.765106)
@@ -100,14 +100,14 @@ bones/20/rotation = Quaternion(0.316513, -0.638677, -0.475735, 0.515352)
 bones/21/rotation = Quaternion(0.196251, 0.098532, -0.496334, 0.839899)
 bones/23/scale = Vector3(1, 1, 1)
 bones/24/rotation = Quaternion(-0.695022, 0.0659965, 0.0637795, 0.713107)
-bones/26/rotation = Quaternion(-0.0867907, 0.855481, 0.389346, 0.330195)
+bones/26/rotation = Quaternion(-0.0862391, 0.85466, 0.39092, 0.330608)
 bones/26/scale = Vector3(1, 1, 1)
 bones/27/rotation = Quaternion(0.370433, -0.278041, -0.0996365, 0.88065)
 bones/27/scale = Vector3(1, 1, 1)
 bones/28/rotation = Quaternion(-0.0986249, -0.481045, 0.201591, 0.847485)
 bones/28/scale = Vector3(1, 1, 0.999999)
-bones/30/position = Vector3(-0.0257001, 0.0239233, -0.00245777)
-bones/30/rotation = Quaternion(-0.450533, 0.532247, 0.699031, -0.158394)
+bones/30/position = Vector3(-0.0257001, 0.0239292, -0.00228385)
+bones/30/rotation = Quaternion(-0.451051, 0.53066, 0.700036, -0.157808)
 bones/30/scale = Vector3(1, 1, 1)
 bones/31/rotation = Quaternion(-0.0192449, -0.0151125, 0.624064, 0.78099)
 bones/31/scale = Vector3(1, 1, 1)
@@ -137,11 +137,11 @@ bones/49/rotation = Quaternion(0.345106, 0.0067304, -0.189336, 0.919243)
 bones/49/scale = Vector3(1, 1, 1)
 bones/50/rotation = Quaternion(0.215587, -0.0505201, 0.0150058, 0.975062)
 bones/50/scale = Vector3(1, 1, 1)
-bones/52/rotation = Quaternion(-0.419646, 0.38971, 0.396225, 0.717655)
+bones/52/rotation = Quaternion(-0.418223, 0.388904, 0.396977, 0.718507)
 bones/53/rotation = Quaternion(0.293097, 0.854043, 0.0857143, 0.421139)
 
 [node name="Cube" parent="RootNode/Armature/Skeleton3D" index="0"]
-transform = Transform3D(-0.380288, 0.0413184, -0.558434, 0.306067, -0.549943, -0.249119, -0.468912, -0.392467, 0.290286, 0.0132543, 0.0132005, 0.0119531)
+transform = Transform3D(-0.38022, 0.041376, -0.558476, 0.307833, -0.548459, -0.250211, -0.467811, -0.394531, 0.289263, 0.0132536, 0.0131844, 0.0119929)
 
 [node name="Cube" parent="RootNode/Armature/Skeleton3D/Cube" index="0"]
 layers = 524288

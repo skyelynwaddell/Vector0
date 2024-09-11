@@ -5837,3 +5837,14 @@
 "origin" "344 -168 -2"
 "angle" "0"
 }
+// entity 97
+{
+"classname" "car_police"
+"origin" "440 -280 8"
+}
+// entity 98
+{
+"classname" "switch_valve"
+"origin" "336 -66 56"
+"angle" "270"
+}

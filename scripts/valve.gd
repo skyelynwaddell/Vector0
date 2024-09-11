@@ -27,7 +27,7 @@ func _process(delta):
 	if Engine.is_editor_hint(): return
 	
 	distToPlayer = transform.origin.distance_to(player.position)
-	print_debug(distToPlayer)
+	#print_debug(distToPlayer)
 	if distToPlayer > 2: return
 	
 	## Toggle Turning Direction when Interact key pressed
@@ -62,10 +62,10 @@ func rotateValve():
 		#print_debug("trigger")
 		if target and (rotated >= rotAmt || rotated <= -rotAmt):
 			for _target in get_tree().get_nodes_in_group(&"Trigger"):
-				print_debug(_target)
+				#print_debug(_target)
 				if "targetname" in _target:
 					if _target.targetname == target:
-						print_debug("found trigger " , _target.targetname)
+						#print_debug("found trigger " , _target.targetname)
 						_target.Trigger()
 						rotated = 0
 						break

@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bn4ornhy330o5"
-path.s3tc="res://.godot/imported/barrel-c1a197aea5baf31b222b67f06bfaaa1a_barrel_top.png-49c91947fccc21316771aad8997d9870.s3tc.ctex"
+path.s3tc="res://.godot/imported/barrel-c1a197aea5baf31b222b67f06bfaaa1a_barrel_top.png-4da917b0fec2a955da4d652502a354a8.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://models/objects/barrel/barrel-c1a197aea5baf31b222b67f06bfaaa1a_barrel_top.png"
-dest_files=["res://.godot/imported/barrel-c1a197aea5baf31b222b67f06bfaaa1a_barrel_top.png-49c91947fccc21316771aad8997d9870.s3tc.ctex"]
+source_file="res://models/objects/boxes/barrel/barrel-c1a197aea5baf31b222b67f06bfaaa1a_barrel_top.png"
+dest_files=["res://.godot/imported/barrel-c1a197aea5baf31b222b67f06bfaaa1a_barrel_top.png-4da917b0fec2a955da4d652502a354a8.s3tc.ctex"]
 
 [params]
 

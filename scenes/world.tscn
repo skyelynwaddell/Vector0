@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://c427puecfdmr0"]
+[gd_scene load_steps=5 format=3 uid="uid://c427puecfdmr0"]
 
 [ext_resource type="Script" path="res://scenes/world.gd" id="1_bareh"]
+[ext_resource type="PackedScene" uid="uid://cnqd0tuvxg2f5" path="res://scenes/pickups/ammo_357large.tscn" id="3_41loj"]
+[ext_resource type="PackedScene" uid="uid://dbwwrbpyspnmj" path="res://scenes/pickups/ammo_carbinelarge.tscn" id="4_gcwtj"]
 [ext_resource type="PackedScene" uid="uid://cvpk0of8h0jjo" path="res://scenes/levels/level1.tscn" id="28_og2bi"]
 
 [node name="World" type="Node3D"]
@@ -8,3 +10,9 @@ script = ExtResource("1_bareh")
 
 [node name="Node3D" parent="." instance=ExtResource("28_og2bi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 0, -28)
+
+[node name="Pickup2" parent="." instance=ExtResource("4_gcwtj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 0.499999, -17)
+
+[node name="Pickup" parent="." instance=ExtResource("3_41loj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 0.499999, -17)

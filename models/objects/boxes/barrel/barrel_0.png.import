@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://co8oqa5uub0j3"
-path.s3tc="res://.godot/imported/barrel-c1a197aea5baf31b222b67f06bfaaa1a_PXL_20240816_225445449.MP.jpg-724545bcc1e8f1f18771156046703f1d.s3tc.ctex"
+uid="uid://y6cibbx6fbq1"
+path.s3tc="res://.godot/imported/barrel_0.png-2d56783f629f6dc0d7a3fd8511f77923.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "dd30d440f604c8a1a05bc4d912944c9d"
+"md5": "c1162e9fe8318da393bde6725e70d130"
 }
 
 [deps]
 
-source_file="res://models/objects/barrel/barrel-c1a197aea5baf31b222b67f06bfaaa1a_PXL_20240816_225445449.MP.jpg"
-dest_files=["res://.godot/imported/barrel-c1a197aea5baf31b222b67f06bfaaa1a_PXL_20240816_225445449.MP.jpg-724545bcc1e8f1f18771156046703f1d.s3tc.ctex"]
+source_file="res://models/objects/boxes/barrel/barrel_0.png"
+dest_files=["res://.godot/imported/barrel_0.png-2d56783f629f6dc0d7a3fd8511f77923.s3tc.ctex"]
 
 [params]
 

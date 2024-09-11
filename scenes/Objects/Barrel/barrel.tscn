@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bckmld2g4vyuj"]
 
 [ext_resource type="PackedScene" uid="uid://ckvplc5c621p" path="res://scenes/Parents/breakable.tscn" id="1_324s2"]
-[ext_resource type="PackedScene" uid="uid://1wvstx8katp5" path="res://models/objects/barrel/barrel.fbx" id="1_h3uk3"]
+[ext_resource type="PackedScene" uid="uid://1wvstx8katp5" path="res://models/objects/boxes/barrel/barrel.fbx" id="1_h3uk3"]
 [ext_resource type="PackedScene" uid="uid://br3biywpqyl00" path="res://scenes/Parents/breakable_particles.tscn" id="3_wlduq"]
 
 [node name="Barrel" instance=ExtResource("1_324s2")]
