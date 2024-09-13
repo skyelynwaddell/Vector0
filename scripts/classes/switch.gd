@@ -2,11 +2,11 @@
 extends Node3D
 class_name Switch
 
-@onready var mesh = $RootNode/Cube
+@onready var mesh = null
 
-@export var matOn = preload("res://models/objects/panel/on.tres")
-@export var matOff = preload("res://models/objects/panel/off.tres")
-@export var matNoPower = preload("res://models/objects/panel/nopower.tres")
+@export var matOn = preload("res://models/objects/switch_metal/metalswitch_on.tres")
+@export var matOff = preload("res://models/objects/switch_metal/metalswitch_off.tres")
+@export var matNoPower = preload("res://models/objects/switch_metal/metalswitch_off.tres")
 
 var OFF = 1
 var ON = 2
@@ -41,6 +41,7 @@ func on_trigger():
 	pass
 	
 func SetMaterial():
+	if mesh == null: return
 	match(state):
 		ON:
 			mesh.set_surface_override_material(0,matOn)

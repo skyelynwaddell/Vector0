@@ -145,7 +145,7 @@ var currentMeleeAnim = 0
 var swimming = false
 
 #flashlight
-var flashlightModel = %Flashlight
+#var flashlightModel = %Flashlight
 var flashlight = false
 
 #amimation speeds

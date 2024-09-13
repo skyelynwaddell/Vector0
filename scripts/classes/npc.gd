@@ -5,7 +5,7 @@ class_name NPC
 signal findtarget
 
 @onready var player : CharacterBody3D = get_tree().get_first_node_in_group("Player")
-@onready var navAgent = $NavigationAgent3D
+#@onready var navAgent = $NavigationAgent3D
 ## The name of this entity
 @export var targetname = name
 ## The target of this entity
