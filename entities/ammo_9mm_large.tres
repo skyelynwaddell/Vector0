@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="FuncGodotFGDModelPointClass" load_steps=4 format=3 uid="uid://dgffstem03g5j"]
+
+[ext_resource type="PackedScene" uid="uid://dh2j61o8pbncb" path="res://scenes/pickups/ammo_9mmlarge.tscn" id="1_gfe44"]
+[ext_resource type="Script" path="res://addons/func_godot/src/fgd/func_godot_fgd_model_point_class.gd" id="1_mqphe"]
+[ext_resource type="Script" path="res://scripts/ammo.gd" id="3_wr3ob"]
+
+[resource]
+script = ExtResource("1_mqphe")
+target_map_editor = 1
+models_sub_folder = "glb/ammo/9mm_large"
+scale_expression = ""
+generate_size_property = false
+generate_gd_ignore_file = false
+scene_file = ExtResource("1_gfe44")
+script_class = ExtResource("3_wr3ob")
+apply_rotation_on_map_build = true
+classname = "ammo_9mm_large"
+description = ""
+func_godot_internal = false
+base_classes = Array[Resource]([])
+class_properties = {}
+class_property_descriptions = {}
+meta_properties = {
+"color": Color(0.8, 0.8, 0.8, 1),
+"size": AABB(-8, -8, -8, 8, 8, 8),
+"studio": "\"glb/ammo/9mm_large/ammo_9mm_large.glb\""
+}
+node_class = "Area3D"
+name_property = ""

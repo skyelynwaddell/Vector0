@@ -9,7 +9,7 @@ size = Vector3(0.404541, 0.404724, 0.813232)
 
 [node name="Pickup" instance=ExtResource("1_ls7bf")]
 script = ExtResource("2_5em42")
-ammoType = 4
+ammoType = 3
 
 [node name="RigidBody3D" parent="." index="1"]
 collision_layer = 3

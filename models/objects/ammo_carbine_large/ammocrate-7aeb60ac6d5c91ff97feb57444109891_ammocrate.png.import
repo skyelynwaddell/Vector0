@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b7byw1kwmbh5c"
-path.s3tc="res://.godot/imported/ammocrate-29bb25ef06eb8a37fbc6ed63c9909c75_ammocrate.png-9ce708954963ad6c589ffe405faddd2a.s3tc.ctex"
+uid="uid://ciu75knq0ix56"
+path.s3tc="res://.godot/imported/ammocrate-7aeb60ac6d5c91ff97feb57444109891_ammocrate.png-3d3711020f618b7564000c75d725fb7b.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://models/objects/ammocrate/ammocrate-29bb25ef06eb8a37fbc6ed63c9909c75_ammocrate.png"
-dest_files=["res://.godot/imported/ammocrate-29bb25ef06eb8a37fbc6ed63c9909c75_ammocrate.png-9ce708954963ad6c589ffe405faddd2a.s3tc.ctex"]
+source_file="res://models/objects/ammo_carbine_large/ammocrate-7aeb60ac6d5c91ff97feb57444109891_ammocrate.png"
+dest_files=["res://.godot/imported/ammocrate-7aeb60ac6d5c91ff97feb57444109891_ammocrate.png-3d3711020f618b7564000c75d725fb7b.s3tc.ctex"]
 
 [params]
 

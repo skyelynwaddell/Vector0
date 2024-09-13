@@ -16,6 +16,7 @@ extends CharacterBody3D
 @onready var animSubMachineGun = %SubMachineGun/AnimationTree
 @onready var animCrowbar = %Crowbar/AnimationTree
 @onready var animKnife = %Knife/AnimationTree
+@onready var animMP = %MP/AnimationTree
 @onready var anim_tree = animPistol
 
 #models
@@ -26,6 +27,7 @@ extends CharacterBody3D
 @onready var modelSubMachineGun = %SubMachineGun
 @onready var modelCrowbar = %Crowbar
 @onready var modelKnife = %Knife
+@onready var modelMP = %MP
 
 #HUD
 @onready var lblAmmo = %lblAmmo
@@ -252,6 +254,7 @@ func _process(delta):
 	AllowWeaponChange()
 	HandleWeaponChange(delta)
 	HandlePlayerDirection(delta)
+	ChangeCrosshair()
 	pass
 
 #PHYSICS PROCESS
@@ -320,8 +323,6 @@ func HandlePlayerDirection(delta):
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward").normalized()
 	direction = (head.transform.basis * Vector3(-input_dir.x, 0, -input_dir.y))
-	
-	ChangeCrosshair()
 	
 	# Check if the player is on the floor
 	if is_on_floor():
@@ -609,6 +610,7 @@ func ChangeWeapon(type):
 	modelCrowbar.visible = false
 	modelSubMachineGun.visible = false
 	modelKnife.visible = false
+	modelMP.visible = false
 	
 	#Update data for other entities
 	canShoot = false
@@ -666,6 +668,12 @@ func ChangeWeapon(type):
 			weaponSFX = sfxWhip1
 			anim_tree = animKnife
 			modelKnife.visible = true
+			pass
+		#MP
+		8:
+			weaponSFX = sfxShotgun
+			anim_tree = animMP
+			modelMP.visible = true
 			pass
 	
 	# Get current weapon data
@@ -801,7 +809,6 @@ func SetJumpHeight(_jumpHeight):
 
 #GRAVITY
 func ApplyGravity(delta, grvty):
-	
 	if not is_on_floor():
 		velocity.y -= grvty * delta
 		if state == SWIMMING:
@@ -816,11 +823,20 @@ func GetRayCastTarget(target, group, hasMethod):
 
 func ChangeCrosshair():
 	if ray_cast_3d.is_colliding():
+		var c_white = Color8(255,255,255)
+		var c_red = Color8(255,0,0)
 		var target = ray_cast_3d.get_collider()
+		
+		# Exit this function if we arent aiming at a viable target
+		if target == null: 
+			%Crosshair.color = c_white
+			return
+			
+		# If aiming at enemy turn crosshair red
 		if target.is_in_group("Enemy"):
-			%Crosshair.color = Color8(255,0,0)
+			%Crosshair.color = c_red
 		else:
-			%Crosshair.color = Color8(255,255,255)
+			%Crosshair.color = c_white
 	pass
 
 #Bullet collision
@@ -841,7 +857,8 @@ func CreateRayCast():
 			if w.index == _weapon.index:
 				weaponPower = w.power
 				isMelee = w.melee
-				
+		
+		# Create Bullet Hole / Scratch Decal on wall when shooting		
 		if target.is_in_group("Enemy") == false:
 			var decal = decalBulletHole.instantiate()
 					
@@ -858,7 +875,8 @@ func CreateRayCast():
 			target.add_child(decal)
 			decal.global_transform.origin = colPoint
 			decal.look_at(colPoint + normal, Vector3.UP)
-		print_debug(weaponPower)
+		
+		#Do stuff when specific entities are shot
 		#Enemies
 		if target.is_in_group("Enemy"): 
 			target.Hurt(weaponPower)

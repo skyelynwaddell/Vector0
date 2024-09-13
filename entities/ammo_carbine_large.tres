@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="FuncGodotFGDModelPointClass" load_steps=4 format=3 uid="uid://rfubqup5tgcd"]
+
+[ext_resource type="Script" path="res://addons/func_godot/src/fgd/func_godot_fgd_model_point_class.gd" id="1_ru6dk"]
+[ext_resource type="PackedScene" uid="uid://dbwwrbpyspnmj" path="res://scenes/pickups/ammo_carbinelarge.tscn" id="1_usy4q"]
+[ext_resource type="Script" path="res://scripts/ammo.gd" id="3_7b5hl"]
+
+[resource]
+script = ExtResource("1_ru6dk")
+target_map_editor = 1
+models_sub_folder = "glb/ammo/carbine_large"
+scale_expression = ""
+generate_size_property = false
+generate_gd_ignore_file = false
+scene_file = ExtResource("1_usy4q")
+script_class = ExtResource("3_7b5hl")
+apply_rotation_on_map_build = true
+classname = "ammo_carbine_large"
+description = ""
+func_godot_internal = false
+base_classes = Array[Resource]([])
+class_properties = {}
+class_property_descriptions = {}
+meta_properties = {
+"color": Color(0.8, 0.8, 0.8, 1),
+"size": AABB(-8, -8, -8, 8, 8, 8)
+}
+node_class = "Area3D"
+name_property = ""

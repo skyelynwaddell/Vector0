@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://rafa63jfynnk"
-path.s3tc="res://.godot/imported/ammocrate-e6d5560c4ba41a9efd073a8795214210_ammocrate.png-8b8c7a7c333ccda50d9192fd81151097.s3tc.ctex"
+uid="uid://bqneaf6cum6qi"
+path.s3tc="res://.godot/imported/mpmodel-752140ded8fac2989f6c4643b4b4db37_weapon_submachinegn4.png-e794d4c0d1cc3a1e5cafa26df8266128.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "a1d518671c0b21f815938eaa05c019bd"
+"md5": "9a3c6005c1ed0a050776740741735ff9"
 }
 
 [deps]
 
-source_file="res://models/objects/ammocrate/ammocrate-e6d5560c4ba41a9efd073a8795214210_ammocrate.png"
-dest_files=["res://.godot/imported/ammocrate-e6d5560c4ba41a9efd073a8795214210_ammocrate.png-8b8c7a7c333ccda50d9192fd81151097.s3tc.ctex"]
+source_file="res://models/weapons/submachinegun2/mpmodel-752140ded8fac2989f6c4643b4b4db37_weapon_submachinegn4.png"
+dest_files=["res://.godot/imported/mpmodel-752140ded8fac2989f6c4643b4b4db37_weapon_submachinegn4.png-e794d4c0d1cc3a1e5cafa26df8266128.s3tc.ctex"]
 
 [params]
 

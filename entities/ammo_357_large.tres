@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="FuncGodotFGDModelPointClass" load_steps=4 format=3 uid="uid://btmt5m6ygcswj"]
+
+[ext_resource type="PackedScene" uid="uid://cnqd0tuvxg2f5" path="res://scenes/pickups/ammo_357large.tscn" id="1_ynh5u"]
+[ext_resource type="Script" path="res://addons/func_godot/src/fgd/func_godot_fgd_model_point_class.gd" id="2_xry7x"]
+[ext_resource type="Script" path="res://scripts/ammo.gd" id="3_amh4r"]
+
+[resource]
+script = ExtResource("2_xry7x")
+target_map_editor = 1
+models_sub_folder = "glb/ammo/357_large"
+scale_expression = ""
+generate_size_property = false
+generate_gd_ignore_file = false
+scene_file = ExtResource("1_ynh5u")
+script_class = ExtResource("3_amh4r")
+apply_rotation_on_map_build = true
+classname = "ammo_357_large"
+description = ""
+func_godot_internal = false
+base_classes = Array[Resource]([])
+class_properties = {}
+class_property_descriptions = {}
+meta_properties = {
+"color": Color(0.8, 0.8, 0.8, 1),
+"model": "\"glb/ammo/357_large/.glb\"",
+"size": AABB(-8, -8, -8, 8, 8, 8)
+}
+node_class = "Area3D"
+name_property = ""

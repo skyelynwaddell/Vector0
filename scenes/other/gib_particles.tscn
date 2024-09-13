@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bkyxdm7t5qmw3"]
+[gd_scene load_steps=9 format=3 uid="uid://bkyxdm7t5qmw3"]
 
 [ext_resource type="Material" uid="uid://kmhwjsokm0b2" path="res://materials/gib.tres" id="1_ldkgw"]
 
@@ -9,11 +9,10 @@ angle_min = -267.0
 angle_max = 48.5
 direction = Vector3(0, 1, 0)
 spread = 21.065
-initial_velocity_min = 2.0
-initial_velocity_max = 4.0
+initial_velocity_min = 4.0
+initial_velocity_max = 10.0
 gravity = Vector3(0, -20, 0)
-scale_min = 0.01
-scale_max = 0.5
+scale_min = 0.2
 collision_mode = 1
 collision_friction = 0.1
 collision_bounce = 0.25
@@ -34,12 +33,36 @@ bind/0/name = &""
 bind/0/bone = -1
 bind/0/pose = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2nha4"]
+lifetime_randomness = 1.0
+angle_min = -180.0
+angle_max = 180.0
+spread = 180.0
+initial_velocity_min = -5.0
+initial_velocity_max = -5.0
+radial_velocity_min = 1.0
+radial_velocity_max = 5.0
+gravity = Vector3(0, -20, 0)
+scale_min = 0.05
+scale_max = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tq6in"]
+albedo_color = Color(0.712692, 2.93598e-06, 5.77569e-07, 1)
+billboard_mode = 2
+billboard_keep_scale = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_0mh1k"]
+material = SubResource("StandardMaterial3D_tq6in")
+size = Vector3(1, 1, 0.1)
+
+[sub_resource type="Skin" id="Skin_riwks"]
+
 [node name="GibParticles" type="Node3D"]
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.318567, 0)
 emitting = false
-amount = 10
+amount = 7
 lifetime = 3.0
 one_shot = true
 explosiveness = 1.0
@@ -50,5 +73,15 @@ draw_pass_1 = SubResource("CapsuleMesh_mp46m")
 draw_skin = SubResource("Skin_bl3bj")
 
 [node name="GPUParticlesCollisionBox3D" type="GPUParticlesCollisionBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.95449, -1.47397, -0.617454)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00904655, -1.47397, -0.617454)
 size = Vector3(35.1792, 2.14539, 20.6102)
+
+[node name="GPUParticles3D2" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.437703, 0)
+emitting = false
+amount = 50
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_2nha4")
+draw_pass_1 = SubResource("BoxMesh_0mh1k")
+draw_skin = SubResource("Skin_riwks")

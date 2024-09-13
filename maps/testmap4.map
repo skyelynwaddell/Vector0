@@ -5848,3 +5848,32 @@
 "origin" "336 -66 56"
 "angle" "270"
 }
+// entity 99
+{
+"classname" "ammo_9mm_large"
+"origin" "8 -120 16"
+"amount" "100"
+}
+// entity 100
+{
+"classname" "ammo_357_large"
+"origin" "8 -152 16"
+"amount" "100"
+}
+// entity 101
+{
+"classname" "ammo_carbine_large"
+"origin" "8 -184 16"
+"amount" "100"
+}
+// entity 102
+{
+"classname" "ammo_shotgun_large"
+"origin" "8 -216 16"
+"amount" "100"
+}
+// entity 103
+{
+"classname" "ammo_357_large"
+"origin" "-48 -216 8"
+}

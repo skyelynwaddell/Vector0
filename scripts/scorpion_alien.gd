@@ -13,6 +13,7 @@ var jumpDurationMax = 0.2
 var jumpBlend = 0.0
 @onready var animTree = $AnimationTree
 @onready var gibParticles = $GibParticles/GPUParticles3D
+@onready var bloodParticles = $GibParticles/GPUParticles3D2
 var canEmit = true
 
 # Called when the node enters the scene tree for the first time.
@@ -110,6 +111,7 @@ func _physics_process(delta):
 func EmitGibs():
 	#gibParticles.restart()
 	gibParticles.emitting = true
+	bloodParticles.emitting = true
 	pass
 
 func ChangeState(newState):

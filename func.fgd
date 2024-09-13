@@ -28,6 +28,11 @@
 //You can add 1 scale  value example: 32
 //or you can affect the X Y Z scale by providing 3 numbers : 32 64 128
 
+@BaseClass base(func_entity) = ammo
+[
+	amount(integer) : "Ammo Amount" : 100 : "The amount of bullets the player will pickup from this ammo item."
+]
+
 //Scale Class
 @BaseClass base(func_entity) = func_entity_scaled 
 [
@@ -349,6 +354,15 @@
 
 //Light #1
 @PointClass base(func_entity) color(204 204 204) model({"path":"glb/light1/light_light1.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = light_light1 : "Light 1" []
+
+//////////////////////////////
+///////**AMMO PICKUPS**///////
+//////////////////////////////
+@PointClass base(ammo) color(204 204 204) model({"path":"glb/ammo/9mm_large/ammo_9mm_large.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = ammo_9mm_large : "9mm Ammo" []
+@PointClass base(ammo) color(204 204 204) model({"path":"glb/ammo/357_large/ammo_357_large.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = ammo_357_large : "357 Ammo" []
+@PointClass base(ammo) color(204 204 204) model({"path":"glb/ammo/carbine_large/ammo_carbine_large.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = ammo_carbine_large : "Carbine Ammo" []
+@PointClass base(ammo) color(204 204 204) model({"path":"glb/ammo/shotgun_large/ammo_shotgun_large.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = ammo_shotgun_large : "Shotgun Ammo" []
+
 
 ///////////////
 ////**NPC**////

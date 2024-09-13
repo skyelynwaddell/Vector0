@@ -15,7 +15,7 @@ var weaponList = [
 		melee = true,
 		power = 0,
 		magSize = 0,
-		ammoPool = null,
+		ammoPool = "null",
 		spd = 0,
 	},
 	# 1 - PISTOL
@@ -55,7 +55,7 @@ var weaponList = [
 		melee = false,
 		power     = 100,
 		magSize = 6,
-		ammoPool = "365",
+		ammoPool = "357",
 		spd = 200
 	},	
 	  #5 - CROWBAR
@@ -65,7 +65,7 @@ var weaponList = [
 		melee = true,
 		power     = 100,
 		magSize = 6,
-		ammoPool = null,
+		ammoPool = "null",
 		spd = 200
 	},	
 	# 6 - SUB MACHINE GUN
@@ -85,7 +85,17 @@ var weaponList = [
 		melee = true,
 		power     = 100,
 		magSize = 30,
-		ammoPool = null,
+		ammoPool = "null",
+		spd = 200
+	},	
+	# 8 - MP
+	{
+		index = 8,
+		title     = "MP",
+		melee = false,
+		power     = 100,
+		magSize = 30,
+		ammoPool = "9mm",
 		spd = 200
 	},
 ]
@@ -114,7 +124,7 @@ var weapons = [
 	  #ammo = 80,
 	  #clip = 6
 	#},	
-	{ index = 6,
+	{ index = 8,
 	  clip = 6
 	},		
 	{ index = 7,
@@ -139,7 +149,7 @@ var ammoPool = [
 		ammo = 100
 	},
 	{
-		type = "365",
+		type = "357",
 		ammo = 100
 	},
 	{

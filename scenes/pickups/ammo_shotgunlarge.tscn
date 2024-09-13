@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://bcpj47iq3xduv"]
+
+[ext_resource type="PackedScene" uid="uid://dvgcsgg7oo2xp" path="res://scenes/Parents/pickup.tscn" id="1_l45iu"]
+[ext_resource type="Script" path="res://scripts/ammo.gd" id="2_vef0u"]
+[ext_resource type="PackedScene" uid="uid://cw5w7djkh7goa" path="res://models/objects/ammo_shotgun_large/ammo_shotgunlarge.fbx" id="3_b4qsl"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_h5ggu"]
+size = Vector3(0.336548, 0.489365, 0.627624)
+
+[node name="Pickup" instance=ExtResource("1_l45iu")]
+script = ExtResource("2_vef0u")
+ammoType = 2
+
+[node name="RigidBody3D" parent="." index="1"]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000793442, 0.230995, -0.0014343)
+shape = SubResource("BoxShape3D_h5ggu")
+
+[node name="AmmoShotgunShells" parent="RigidBody3D" index="1" instance=ExtResource("3_b4qsl")]
+transform = Transform3D(7.21289e-15, -0.8, -3.49691e-08, -3.49691e-08, -3.49691e-08, 0.8, -0.8, -8.52651e-15, -3.49691e-08, 0.169626, 0.231009, 0)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

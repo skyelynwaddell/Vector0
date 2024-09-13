@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cxj6mrtg5ebdc"
-path="res://.godot/imported/ammocrate.fbx-29bb25ef06eb8a37fbc6ed63c9909c75.scn"
+uid="uid://x6pg0kvub2gt"
+path="res://.godot/imported/ammo_shotgun_large.glb-5a2124e79d6ae311ffb2a43c68dfb408.scn"
 
 [deps]
 
-source_file="res://models/objects/ammocrate/ammocrate.fbx"
-dest_files=["res://.godot/imported/ammocrate.fbx-29bb25ef06eb8a37fbc6ed63c9909c75.scn"]
+source_file="res://glb/ammo/shotgun_large/ammo_shotgun_large.glb"
+dest_files=["res://.godot/imported/ammo_shotgun_large.glb-5a2124e79d6ae311ffb2a43c68dfb408.scn"]
 
 [params]
 

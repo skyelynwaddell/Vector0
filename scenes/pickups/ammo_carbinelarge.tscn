@@ -2,14 +2,13 @@
 
 [ext_resource type="PackedScene" uid="uid://dvgcsgg7oo2xp" path="res://scenes/Parents/pickup.tscn" id="1_st0xw"]
 [ext_resource type="Script" path="res://scripts/ammo.gd" id="2_202t0"]
-[ext_resource type="PackedScene" uid="uid://cxj6mrtg5ebdc" path="res://models/objects/ammocrate/ammocrate.fbx" id="3_as3ls"]
+[ext_resource type="PackedScene" uid="uid://cxj6mrtg5ebdc" path="res://models/objects/ammo_carbine_large/ammocrate.fbx" id="3_as3ls"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_h5ggu"]
 size = Vector3(0.380005, 0.489792, 0.484222)
 
 [node name="Pickup" instance=ExtResource("1_st0xw")]
 script = ExtResource("2_202t0")
-ammoType = 2
 
 [node name="Root Scene" parent="." index="1" instance=ExtResource("3_as3ls")]
 transform = Transform3D(0.24, 2.55795e-15, 0, -2.55795e-15, 0.24, 0, 0, 0, 0.24, 0.00277269, -0.494212, 0)
