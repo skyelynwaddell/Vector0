@@ -1,34 +1,3 @@
-[remap]
-
-importer="scene"
-importer_version=1
-type="PackedScene"
-uid="uid://bclo7c3gupgbf"
-path="res://.godot/imported/insideVent.fbx-556fc40bd11cfbb70b53a05c8dc0fb9b.scn"
-
-[deps]
-
-source_file="res://models/objects/vent/insideVent.fbx"
-dest_files=["res://.godot/imported/insideVent.fbx-556fc40bd11cfbb70b53a05c8dc0fb9b.scn"]
-
-[params]
-
-nodes/root_type=""
-nodes/root_name=""
-nodes/apply_root_scale=true
-nodes/root_scale=1.0
-meshes/ensure_tangents=true
-meshes/generate_lods=true
-meshes/create_shadow_meshes=true
-meshes/light_baking=1
-meshes/lightmap_texel_size=0.2
-meshes/force_disable_compression=false
-skins/use_named_skins=true
-animation/import=true
-animation/fps=30
-animation/trimming=false
-animation/remove_immutable_tracks=true
-import_script/path=""
-_subresources={}
-gltf/naming_version=1
-gltf/embedded_image_handling=1
+version https://git-lfs.github.com/spec/v1
+oid sha256:b984d5d7abb2b430a65ef016859afbe09023c4465594cf4b09e1fc7c9b40b512
+size 823

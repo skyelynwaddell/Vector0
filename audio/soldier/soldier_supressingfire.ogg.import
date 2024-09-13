@@ -1,19 +1,3 @@
-[remap]
-
-importer="oggvorbisstr"
-type="AudioStreamOggVorbis"
-uid="uid://cvp46si6rbxys"
-path="res://.godot/imported/soldier_supressingfire.ogg-88007db00ef1c4e96b97eb5a7570494e.oggvorbisstr"
-
-[deps]
-
-source_file="res://audio/soldier/soldier_supressingfire.ogg"
-dest_files=["res://.godot/imported/soldier_supressingfire.ogg-88007db00ef1c4e96b97eb5a7570494e.oggvorbisstr"]
-
-[params]
-
-loop=false
-loop_offset=0
-bpm=0
-beat_count=0
-bar_beats=4
+version https://git-lfs.github.com/spec/v1
+oid sha256:604d11566b03920ffd08c3ac953020630a5ed83142faab5ff761b34a3f9d6c11
+size 436

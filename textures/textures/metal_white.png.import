@@ -1,34 +1,3 @@
-[remap]
-
-importer="texture"
-type="CompressedTexture2D"
-uid="uid://c4xbhlfq1kcgx"
-path="res://.godot/imported/metal_white.png-3da5bdb4cb15c238c49901c220bfafab.ctex"
-metadata={
-"vram_texture": false
-}
-
-[deps]
-
-source_file="res://textures/textures/metal_white.png"
-dest_files=["res://.godot/imported/metal_white.png-3da5bdb4cb15c238c49901c220bfafab.ctex"]
-
-[params]
-
-compress/mode=0
-compress/high_quality=false
-compress/lossy_quality=0.7
-compress/hdr_compression=1
-compress/normal_map=0
-compress/channel_pack=0
-mipmaps/generate=false
-mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
-process/fix_alpha_border=true
-process/premult_alpha=false
-process/normal_map_invert_y=false
-process/hdr_as_srgb=false
-process/hdr_clamp_exposure=false
-process/size_limit=0
-detect_3d/compress_to=1
+version https://git-lfs.github.com/spec/v1
+oid sha256:3373965bb8a5952ad886678343cbdf6407203ad0c3bfe63bb8f7fad3cf3d0369
+size 785

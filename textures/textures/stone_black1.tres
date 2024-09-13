@@ -1,8 +1,3 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://c5mthbpwhgoc5"]
-
-[ext_resource type="Texture2D" uid="uid://c5k5gbsib6kry" path="res://textures/textures/stone_black1.jpg" id="1_lrd7e"]
-
-[resource]
-albedo_texture = ExtResource("1_lrd7e")
-metallic_specular = 0.0
-texture_filter = 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:f5ce9e58ed918ca3a0c549a8c021235a87ca47661fd77f812a380bf93f63085f
+size 303

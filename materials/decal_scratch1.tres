@@ -1,7 +1,3 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://c7nfvcblyphwn"]
-
-[ext_resource type="Texture2D" uid="uid://bkwgtfm5u3y24" path="res://textures/textures/chips_medium_7.png" id="1_pdwsl"]
-
-[resource]
-transparency = 1
-albedo_texture = ExtResource("1_pdwsl")
+version https://git-lfs.github.com/spec/v1
+oid sha256:bd736dafe03267286fda0fdb2b428e6b7342b4765e57f25367bc6ae10c0dba75
+size 279

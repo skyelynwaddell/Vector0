@@ -1,6 +1,3 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cs1vfj1qlgr6"]
-
-[ext_resource type="Texture2D" uid="uid://bufhj4jssvtor" path="res://textures/textures/+1_switch_brown.png" id="1_qv7h0"]
-
-[resource]
-albedo_texture = ExtResource("1_qv7h0")
+version https://git-lfs.github.com/spec/v1
+oid sha256:adfd6dbeb2e32154be29daec7a76c94901540f04fbf28f444f9924d77ab5cc42
+size 262

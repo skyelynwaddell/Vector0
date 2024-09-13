@@ -1,8 +1,3 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://16rxsah50l1y"]
-
-[ext_resource type="Texture2D" uid="uid://cdo5wsw5rth7e" path="res://textures/textures/door_metal4.png" id="1_2heh4"]
-
-[resource]
-albedo_texture = ExtResource("1_2heh4")
-metallic_specular = 0.0
-texture_filter = 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:b82862c0b401f184428d64864eac3a59f36c7d962ece79a209de19236fb32fa3
+size 301

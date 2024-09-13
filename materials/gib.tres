@@ -1,6 +1,3 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://kmhwjsokm0b2"]
-
-[ext_resource type="Texture2D" uid="uid://dmirhhn50ku4w" path="res://textures/textures/skin_bloody.png" id="1_28tuj"]
-
-[resource]
-albedo_texture = ExtResource("1_28tuj")
+version https://git-lfs.github.com/spec/v1
+oid sha256:a8ec2aa540c7fed2a1ad85214314e52fdc6e031eb1d935b2db6f66464987b3b0
+size 258

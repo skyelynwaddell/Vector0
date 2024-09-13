@@ -1,19 +1,3 @@
-[remap]
-
-importer="oggvorbisstr"
-type="AudioStreamOggVorbis"
-uid="uid://c8mdbg6ue0s4l"
-path="res://.godot/imported/pickup.ogg-368a7cb3696e015181320c8fd855399d.oggvorbisstr"
-
-[deps]
-
-source_file="res://audio/pickup.ogg"
-dest_files=["res://.godot/imported/pickup.ogg-368a7cb3696e015181320c8fd855399d.oggvorbisstr"]
-
-[params]
-
-loop=false
-loop_offset=0.0
-bpm=0.0
-beat_count=0
-bar_beats=4
+version https://git-lfs.github.com/spec/v1
+oid sha256:c08575f8d72de02bcb01b802e007253b198741c213264566c24612dead28fc1e
+size 384

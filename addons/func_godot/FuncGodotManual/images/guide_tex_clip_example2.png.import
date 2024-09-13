@@ -1,34 +1,3 @@
-[remap]
-
-importer="texture"
-type="CompressedTexture2D"
-uid="uid://8cxluoppu0tm"
-path="res://.godot/imported/guide_tex_clip_example2.png-36bfe22b1f0ea4cf8014b5f0ef1728e3.ctex"
-metadata={
-"vram_texture": false
-}
-
-[deps]
-
-source_file="res://addons/func_godot/FuncGodotManual/images/guide_tex_clip_example2.png"
-dest_files=["res://.godot/imported/guide_tex_clip_example2.png-36bfe22b1f0ea4cf8014b5f0ef1728e3.ctex"]
-
-[params]
-
-compress/mode=0
-compress/high_quality=false
-compress/lossy_quality=0.7
-compress/hdr_compression=1
-compress/normal_map=0
-compress/channel_pack=0
-mipmaps/generate=false
-mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
-process/fix_alpha_border=true
-process/premult_alpha=false
-process/normal_map_invert_y=false
-process/hdr_as_srgb=false
-process/hdr_clamp_exposure=false
-process/size_limit=0
-detect_3d/compress_to=1
+version https://git-lfs.github.com/spec/v1
+oid sha256:e07a180b908a7deb5bf376987050d587055218e2d83187aa692de67f3c3f390d
+size 843

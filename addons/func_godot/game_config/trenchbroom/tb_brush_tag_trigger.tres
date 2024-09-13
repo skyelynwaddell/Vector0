@@ -1,11 +1,3 @@
-[gd_resource type="Resource" script_class="TrenchBroomTag" load_steps=2 format=3 uid="uid://co2sb1ng7cw4i"]
-
-[ext_resource type="Script" path="res://addons/func_godot/src/trenchbroom/trenchbroom_tag.gd" id="1_msqpk"]
-
-[resource]
-script = ExtResource("1_msqpk")
-tag_name = "Trigger"
-tag_attributes = Array[String](["transparent"])
-tag_match_type = 1
-tag_pattern = "trigger*"
-texture_name = "special/trigger"
+version https://git-lfs.github.com/spec/v1
+oid sha256:30b5aad7238a3c3275b25fd1c7ce04dd6fe1b8b29c45ac2204830f44d8fe5c42
+size 407

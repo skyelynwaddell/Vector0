@@ -1,34 +1,3 @@
-[remap]
-
-importer="texture"
-type="CompressedTexture2D"
-uid="uid://c0iub4kw0gemk"
-path="res://.godot/imported/hair_brown.png-35b19bf8fbc0f34c0bdc6f3f04a3d894.ctex"
-metadata={
-"vram_texture": false
-}
-
-[deps]
-
-source_file="res://textures/v1py3/hair_brown.png"
-dest_files=["res://.godot/imported/hair_brown.png-35b19bf8fbc0f34c0bdc6f3f04a3d894.ctex"]
-
-[params]
-
-compress/mode=0
-compress/high_quality=false
-compress/lossy_quality=0.7
-compress/hdr_compression=1
-compress/normal_map=0
-compress/channel_pack=0
-mipmaps/generate=false
-mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
-process/fix_alpha_border=true
-process/premult_alpha=false
-process/normal_map_invert_y=false
-process/hdr_as_srgb=false
-process/hdr_clamp_exposure=false
-process/size_limit=0
-detect_3d/compress_to=1
+version https://git-lfs.github.com/spec/v1
+oid sha256:3da2736a2287b7b067c4539a6894552a9a54330f9b8c857f5fd3b507b9ffa62e
+size 779

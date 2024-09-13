@@ -1,8 +1,3 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://2y6xh3dcx864"]
-
-[ext_resource type="Texture2D" uid="uid://dai6jau87g1ht" path="res://textures/textures/wall2.png" id="1_h7hk6"]
-
-[resource]
-albedo_texture = ExtResource("1_h7hk6")
-metallic_specular = 0.0
-texture_filter = 2
+version https://git-lfs.github.com/spec/v1
+oid sha256:3b87fcc3ab74a8d7dfb17bd6c27155d87a8c4b8ae1a04023a9616674d2f85b4e
+size 295

@@ -1,30 +1,3 @@
-[gd_resource type="Resource" script_class="FuncGodotFGDModelPointClass" load_steps=4 format=3 uid="uid://bs87l7eo7dlrf"]
-
-[ext_resource type="PackedScene" uid="uid://bckmld2g4vyuj" path="res://scenes/Objects/Barrel/barrel.tscn" id="1_0ndlr"]
-[ext_resource type="Script" path="res://addons/func_godot/src/fgd/func_godot_fgd_model_point_class.gd" id="2_udi6o"]
-[ext_resource type="Script" path="res://scripts/classes/breakable.gd" id="3_7ht5i"]
-
-[resource]
-script = ExtResource("2_udi6o")
-target_map_editor = 1
-models_sub_folder = "glb/barrel"
-scale_expression = ""
-generate_size_property = false
-generate_gd_ignore_file = false
-scene_file = ExtResource("1_0ndlr")
-script_class = ExtResource("3_7ht5i")
-apply_rotation_on_map_build = true
-classname = "entity_barrel"
-description = "Barrel"
-func_godot_internal = false
-base_classes = Array[Resource]([])
-class_properties = {}
-class_property_descriptions = {}
-meta_properties = {
-"color": Color(0.8, 0.8, 0.8, 1),
-"model": "\"glb/barrel/entity_barrel.glb\"",
-"size": AABB(-8, -8, -8, 8, 8, 8),
-"studio": "\"models/objects/barrel/barrel.glb\""
-}
-node_class = ""
-name_property = ""
+version https://git-lfs.github.com/spec/v1
+oid sha256:3947e125a985d895f39e377cd0908b6f58858b28fa25ec240cda41240cb8c899
+size 1125

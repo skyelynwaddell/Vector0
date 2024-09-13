@@ -1,19 +1,3 @@
-[remap]
-
-importer="oggvorbisstr"
-type="AudioStreamOggVorbis"
-uid="uid://cbi71mqclv8p3"
-path="res://.godot/imported/soldier_openfire.ogg-722ebc75028f5867415a4b7e0d6ac9e3.oggvorbisstr"
-
-[deps]
-
-source_file="res://audio/soldier/soldier_openfire.ogg"
-dest_files=["res://.godot/imported/soldier_openfire.ogg-722ebc75028f5867415a4b7e0d6ac9e3.oggvorbisstr"]
-
-[params]
-
-loop=false
-loop_offset=0
-bpm=0
-beat_count=0
-bar_beats=4
+version https://git-lfs.github.com/spec/v1
+oid sha256:fb7c6992daef6f77009f2bfcab198e088ac8de1c9196d6eb7f8c0375406aa8ad
+size 418

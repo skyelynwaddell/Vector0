@@ -1,35 +1,3 @@
-[remap]
-
-importer="texture"
-type="CompressedTexture2D"
-uid="uid://cp46or2spn6oa"
-path.s3tc="res://.godot/imported/-1_switch_brown.png-fbe2a34a7e12fb172217ce520d993ea1.s3tc.ctex"
-metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
-}
-
-[deps]
-
-source_file="res://textures/textures/-1_switch_brown.png"
-dest_files=["res://.godot/imported/-1_switch_brown.png-fbe2a34a7e12fb172217ce520d993ea1.s3tc.ctex"]
-
-[params]
-
-compress/mode=2
-compress/high_quality=false
-compress/lossy_quality=0.7
-compress/hdr_compression=1
-compress/normal_map=0
-compress/channel_pack=0
-mipmaps/generate=true
-mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
-process/fix_alpha_border=true
-process/premult_alpha=false
-process/normal_map_invert_y=false
-process/hdr_as_srgb=false
-process/hdr_clamp_exposure=false
-process/size_limit=0
-detect_3d/compress_to=0
+version https://git-lfs.github.com/spec/v1
+oid sha256:689dfb8820e1c4e43b5f749d2725bcae7eb550584cb38e8f73534e8e41a640b9
+size 845

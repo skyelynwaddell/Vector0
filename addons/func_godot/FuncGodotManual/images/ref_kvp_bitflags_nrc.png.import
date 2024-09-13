@@ -1,34 +1,3 @@
-[remap]
-
-importer="texture"
-type="CompressedTexture2D"
-uid="uid://mg3s3msf72j"
-path="res://.godot/imported/ref_kvp_bitflags_nrc.png-af9bdaa54b73d32fb9ef5bbea30d14bd.ctex"
-metadata={
-"vram_texture": false
-}
-
-[deps]
-
-source_file="res://addons/func_godot/FuncGodotManual/images/ref_kvp_bitflags_nrc.png"
-dest_files=["res://.godot/imported/ref_kvp_bitflags_nrc.png-af9bdaa54b73d32fb9ef5bbea30d14bd.ctex"]
-
-[params]
-
-compress/mode=0
-compress/high_quality=false
-compress/lossy_quality=0.7
-compress/hdr_compression=1
-compress/normal_map=0
-compress/channel_pack=0
-mipmaps/generate=false
-mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
-process/fix_alpha_border=true
-process/premult_alpha=false
-process/normal_map_invert_y=false
-process/hdr_as_srgb=false
-process/hdr_clamp_exposure=false
-process/size_limit=0
-detect_3d/compress_to=1
+version https://git-lfs.github.com/spec/v1
+oid sha256:e99946c53de3fcbb7496105a41e8730126b45ec4b3d36bfdb2305723ec5addd3
+size 833

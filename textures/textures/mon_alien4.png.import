@@ -1,34 +1,3 @@
-[remap]
-
-importer="texture"
-type="CompressedTexture2D"
-uid="uid://b64c23ekpwv1a"
-path="res://.godot/imported/mon_alien4.png-8dd27647df1d4981366ac28744294b8f.ctex"
-metadata={
-"vram_texture": false
-}
-
-[deps]
-
-source_file="res://textures/textures/mon_alien4.png"
-dest_files=["res://.godot/imported/mon_alien4.png-8dd27647df1d4981366ac28744294b8f.ctex"]
-
-[params]
-
-compress/mode=0
-compress/high_quality=false
-compress/lossy_quality=0.7
-compress/hdr_compression=1
-compress/normal_map=0
-compress/channel_pack=0
-mipmaps/generate=false
-mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
-process/fix_alpha_border=true
-process/premult_alpha=false
-process/normal_map_invert_y=false
-process/hdr_as_srgb=false
-process/hdr_clamp_exposure=false
-process/size_limit=0
-detect_3d/compress_to=1
+version https://git-lfs.github.com/spec/v1
+oid sha256:afc10566663a863c19a20ed5b1f6f8a19cadf1e396e255b323409a083ec56d7b
+size 782

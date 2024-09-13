@@ -1,34 +1,3 @@
-[remap]
-
-importer="texture"
-type="CompressedTexture2D"
-uid="uid://bcwh8feo3pjdw"
-path="res://.godot/imported/metal_darkgrey.png-fa239aa0b8926d0f66c6fa7c1632023a.ctex"
-metadata={
-"vram_texture": false
-}
-
-[deps]
-
-source_file="res://textures/textures/metal_darkgrey.png"
-dest_files=["res://.godot/imported/metal_darkgrey.png-fa239aa0b8926d0f66c6fa7c1632023a.ctex"]
-
-[params]
-
-compress/mode=0
-compress/high_quality=false
-compress/lossy_quality=0.7
-compress/hdr_compression=1
-compress/normal_map=0
-compress/channel_pack=0
-mipmaps/generate=false
-mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
-process/fix_alpha_border=true
-process/premult_alpha=false
-process/normal_map_invert_y=false
-process/hdr_as_srgb=false
-process/hdr_clamp_exposure=false
-process/size_limit=0
-detect_3d/compress_to=1
+version https://git-lfs.github.com/spec/v1
+oid sha256:5619738071e1fa89f97fc00d7b9bdb62d636f479f77d93cbc9702850e1394714
+size 794

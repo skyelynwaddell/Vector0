@@ -1,5 +1,3 @@
-[gd_resource type="StandardMaterial3D" format=3 uid="uid://df3d2dmbja4k"]
-
-[resource]
-metallic_specular = 0.0
-texture_filter = 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:07124143031e8f3977a7d5b25d301660a8a573e83fdeb2dea78d62707f044792
+size 129

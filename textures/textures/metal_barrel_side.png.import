@@ -1,35 +1,3 @@
-[remap]
-
-importer="texture"
-type="CompressedTexture2D"
-uid="uid://fh8dwck2k8c8"
-path.s3tc="res://.godot/imported/metal_barrel_side.png-d14225d3afc3f60b9a4acac8d74087d8.s3tc.ctex"
-metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
-}
-
-[deps]
-
-source_file="res://textures/textures/metal_barrel_side.png"
-dest_files=["res://.godot/imported/metal_barrel_side.png-d14225d3afc3f60b9a4acac8d74087d8.s3tc.ctex"]
-
-[params]
-
-compress/mode=2
-compress/high_quality=false
-compress/lossy_quality=0.7
-compress/hdr_compression=1
-compress/normal_map=0
-compress/channel_pack=0
-mipmaps/generate=true
-mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
-process/fix_alpha_border=true
-process/premult_alpha=false
-process/normal_map_invert_y=false
-process/hdr_as_srgb=false
-process/hdr_clamp_exposure=false
-process/size_limit=0
-detect_3d/compress_to=0
+version https://git-lfs.github.com/spec/v1
+oid sha256:7a4d88d699a355f5282f009d95cf4b525a442cfe85d732b4a56377a38a826a7d
+size 850

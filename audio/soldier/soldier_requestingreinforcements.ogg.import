@@ -1,19 +1,3 @@
-[remap]
-
-importer="oggvorbisstr"
-type="AudioStreamOggVorbis"
-uid="uid://cgd0bcqyyi77o"
-path="res://.godot/imported/soldier_requestingreinforcements.ogg-09e5fee7e9dbea4bb081947afcd30c0d.oggvorbisstr"
-
-[deps]
-
-source_file="res://audio/soldier/soldier_requestingreinforcements.ogg"
-dest_files=["res://.godot/imported/soldier_requestingreinforcements.ogg-09e5fee7e9dbea4bb081947afcd30c0d.oggvorbisstr"]
-
-[params]
-
-loop=false
-loop_offset=0
-bpm=0
-beat_count=0
-bar_beats=4
+version https://git-lfs.github.com/spec/v1
+oid sha256:0674bee976c1aa3498442d403b2f5b41655eebb2f8ed763389eac5ab4b1e5124
+size 466

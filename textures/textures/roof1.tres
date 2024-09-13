@@ -1,8 +1,3 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://5d5gbr5smyx3"]
-
-[ext_resource type="Texture2D" uid="uid://c7kehpkbg4u5d" path="res://textures/textures/roof1.png" id="1_wgt5r"]
-
-[resource]
-albedo_texture = ExtResource("1_wgt5r")
-metallic_specular = 0.0
-texture_filter = 2
+version https://git-lfs.github.com/spec/v1
+oid sha256:ee51ad86d3831b6ab36205e3f3227532bf8c48e1f8eb1e01ba229a2b1488f9cb
+size 295

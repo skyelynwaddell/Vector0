@@ -1,8 +1,3 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://c6vi752udovbv"]
-
-[ext_resource type="Texture2D" uid="uid://b7j1keu0c4qgx" path="res://textures/textures/metalshipping-256.png" id="1_h5re1"]
-
-[resource]
-albedo_texture = ExtResource("1_h5re1")
-metallic_specular = 0.0
-texture_filter = 2
+version https://git-lfs.github.com/spec/v1
+oid sha256:03934d5349126f5d5f8aaa2fa3948e4cf9cbd7ec200c8f3182f5d74e5dab53fc
+size 308

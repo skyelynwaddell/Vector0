@@ -1,8 +1,3 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://bvrrv6oktxeie"]
-
-[ext_resource type="Texture2D" uid="uid://lau5v8ihaqdw" path="res://textures/textures/fridge_vendingmachine_blue.png" id="1_yqj1f"]
-
-[resource]
-albedo_texture = ExtResource("1_yqj1f")
-metallic_specular = 0.0
-texture_filter = 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:af12d0142fb96432bd88c8bf6685946636abf22e6d87c8b8e8de2d91f449dffb
+size 316

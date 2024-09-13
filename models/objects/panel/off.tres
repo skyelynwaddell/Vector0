@@ -1,6 +1,3 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://wdu5t7qb5873"]
-
-[ext_resource type="Texture2D" uid="uid://bpdi6pnkiktej" path="res://models/objects/panel/panel_on.png" id="1_swr1c"]
-
-[resource]
-albedo_texture = ExtResource("1_swr1c")
+version https://git-lfs.github.com/spec/v1
+oid sha256:82dcf15ca8d0f2ce2bce6ce8e76b0f62ccbec4c36ccc21bc1caa87c2d0729b86
+size 258

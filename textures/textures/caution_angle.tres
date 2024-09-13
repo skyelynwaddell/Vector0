@@ -1,8 +1,3 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dix8tqujuqwrv"]
-
-[ext_resource type="Texture2D" uid="uid://bwnj0fimdr82x" path="res://textures/textures/caution_angle.png" id="1_1afmk"]
-
-[resource]
-albedo_texture = ExtResource("1_1afmk")
-metallic_specular = 0.0
-texture_filter = 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:fef11a1495f88f813e951aca057be7da8f32c680b809bf0e60acd146a17488e0
+size 304

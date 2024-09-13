@@ -1,10 +1,3 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://ski62kukmh2n"]
-
-[ext_resource type="Texture2D" uid="uid://dvys2g3vjyi1a" path="res://models/weapons/carbine/arms_carbine_darkgunmetal.png" id="1_5a2s0"]
-
-[resource]
-resource_name = "Material.004"
-cull_mode = 2
-albedo_texture = ExtResource("1_5a2s0")
-metallic = 0.55
-metallic_specular = 0.0
+version https://git-lfs.github.com/spec/v1
+oid sha256:d3c29bad20b3a22b363ec169fa67e1326ea7577d0fa4ebed5cf6eb2378770f45
+size 362

@@ -1,29 +1,3 @@
-[gd_resource type="Resource" script_class="FuncGodotFGDModelPointClass" load_steps=4 format=3 uid="uid://dyyk5qb0g3vc1"]
-
-[ext_resource type="Script" path="res://addons/func_godot/src/fgd/func_godot_fgd_model_point_class.gd" id="1_fqvdw"]
-[ext_resource type="PackedScene" uid="uid://ib3h1g5maemc" path="res://scenes/Objects/boxes/small_box.tscn" id="1_shwql"]
-[ext_resource type="Script" path="res://scripts/classes/breakable.gd" id="3_bo70q"]
-
-[resource]
-script = ExtResource("1_fqvdw")
-target_map_editor = 1
-models_sub_folder = "glb/box_small1"
-scale_expression = ""
-generate_size_property = false
-generate_gd_ignore_file = false
-scene_file = ExtResource("1_shwql")
-script_class = ExtResource("3_bo70q")
-apply_rotation_on_map_build = true
-classname = "box_small1"
-description = "Small Box"
-func_godot_internal = false
-base_classes = Array[Resource]([])
-class_properties = {}
-class_property_descriptions = {}
-meta_properties = {
-"color": Color(0.8, 0.8, 0.8, 1),
-"model": "\"glb/box_small1/box_small1.glb\"",
-"size": AABB(-8, -8, -8, 8, 8, 8)
-}
-node_class = ""
-name_property = ""
+version https://git-lfs.github.com/spec/v1
+oid sha256:0b5c44450274d335aa22200b1602e5f05d9ed4e03070c6e426935b53dae40e99
+size 1081

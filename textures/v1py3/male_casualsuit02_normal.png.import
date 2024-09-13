@@ -1,34 +1,3 @@
-[remap]
-
-importer="texture"
-type="CompressedTexture2D"
-uid="uid://bdgmg6wuqk3n2"
-path="res://.godot/imported/male_casualsuit02_normal.png-6ae9f2aab5eba04113449bff12175137.ctex"
-metadata={
-"vram_texture": false
-}
-
-[deps]
-
-source_file="res://textures/v1py3/male_casualsuit02_normal.png"
-dest_files=["res://.godot/imported/male_casualsuit02_normal.png-6ae9f2aab5eba04113449bff12175137.ctex"]
-
-[params]
-
-compress/mode=0
-compress/high_quality=false
-compress/lossy_quality=0.7
-compress/hdr_compression=1
-compress/normal_map=0
-compress/channel_pack=0
-mipmaps/generate=false
-mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
-process/fix_alpha_border=true
-process/premult_alpha=false
-process/normal_map_invert_y=false
-process/hdr_as_srgb=false
-process/hdr_clamp_exposure=false
-process/size_limit=0
-detect_3d/compress_to=1
+version https://git-lfs.github.com/spec/v1
+oid sha256:00d4f525800a157ffc047a77b836f0ba0770471831d66bd51b5676d074931cff
+size 821

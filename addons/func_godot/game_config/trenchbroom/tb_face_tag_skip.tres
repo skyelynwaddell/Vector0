@@ -1,11 +1,3 @@
-[gd_resource type="Resource" script_class="TrenchBroomTag" load_steps=2 format=3 uid="uid://ca7377sfgj074"]
-
-[ext_resource type="Script" path="res://addons/func_godot/src/trenchbroom/trenchbroom_tag.gd" id="1_2teqe"]
-
-[resource]
-script = ExtResource("1_2teqe")
-tag_name = "Skip"
-tag_attributes = Array[String](["transparent"])
-tag_match_type = 0
-tag_pattern = "skip"
-texture_name = ""
+version https://git-lfs.github.com/spec/v1
+oid sha256:47880e808e58b70ec2efa2f0a37ebd3b8ec313070521c8bd12114e64a15f713a
+size 385

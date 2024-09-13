@@ -1,7 +1,3 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cqmaxb8qmqb5a"]
-
-[ext_resource type="Texture2D" uid="uid://j2tepp503q2f" path="res://textures/textures/decal_bulletholes_1.png" id="1_wteio"]
-
-[resource]
-transparency = 1
-albedo_texture = ExtResource("1_wteio")
+version https://git-lfs.github.com/spec/v1
+oid sha256:f6838f70830990b2100e06007532aa7ddb0f50c30e9340c685d2ded01bd583f4
+size 283

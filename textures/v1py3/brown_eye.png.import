@@ -1,34 +1,3 @@
-[remap]
-
-importer="texture"
-type="CompressedTexture2D"
-uid="uid://dfgf3jkkbrmii"
-path="res://.godot/imported/brown_eye.png-7a837557240baccdb34dc78c3582b2c1.ctex"
-metadata={
-"vram_texture": false
-}
-
-[deps]
-
-source_file="res://textures/v1py3/brown_eye.png"
-dest_files=["res://.godot/imported/brown_eye.png-7a837557240baccdb34dc78c3582b2c1.ctex"]
-
-[params]
-
-compress/mode=0
-compress/high_quality=false
-compress/lossy_quality=0.7
-compress/hdr_compression=1
-compress/normal_map=0
-compress/channel_pack=0
-mipmaps/generate=false
-mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
-process/fix_alpha_border=true
-process/premult_alpha=false
-process/normal_map_invert_y=false
-process/hdr_as_srgb=false
-process/hdr_clamp_exposure=false
-process/size_limit=0
-detect_3d/compress_to=1
+version https://git-lfs.github.com/spec/v1
+oid sha256:20f3ac7f359e722cce9797aa9a38d305ab5dda3e134fc7ddfe82ad3ac145b5f2
+size 776

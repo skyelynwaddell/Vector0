@@ -1,17 +1,3 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dhvk32dlyqs2a"]
-
-[ext_resource type="Shader" path="res://shaders/water.gdshader" id="1_eiklf"]
-
-[resource]
-render_priority = 1
-shader = ExtResource("1_eiklf")
-shader_parameter/uv_scale = null
-shader_parameter/uv_offset = null
-shader_parameter/warp_ScreenSpace = false
-shader_parameter/WATER_COL = Color(0.313726, 0.466667, 0.301961, 0.533333)
-shader_parameter/WATER2_COL = Color(0.341176, 0.411765, 0.141176, 0.470588)
-shader_parameter/FOAM_COL = Color(0.950336, 0.926712, 0.853734, 1)
-shader_parameter/water_transparency = 0.1
-shader_parameter/distortion_speed = 5.0
-shader_parameter/tile = Vector2(20, 20)
-shader_parameter/wave_speed = 1.0
+version https://git-lfs.github.com/spec/v1
+oid sha256:01f92d7ba1339800aceb81a7300333be19cb7149cf55b64b8eb659b75f93aa3c
+size 710

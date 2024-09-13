@@ -5716,17 +5716,12 @@
 }
 // entity 88
 {
-"classname" "soldier"
-"origin" "424 -152 8"
-}
-// entity 89
-{
 "classname" "monster_scorpion"
 "origin" "93.072 -1144 2.9283"
 "angle" "-2"
 "targetname" "enemy1"
 }
-// entity 90
+// entity 89
 {
 "classname" "trigger_caller"
 "countmax" "0"
@@ -5748,14 +5743,14 @@
 ( 576 -832 64 ) ( 576 -832 65 ) ( 576 -831 64 ) textures/debuglabel_trigger [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 0.25 0.25
 }
 }
-// entity 91
+// entity 90
 {
 "classname" "monster_scorpion"
 "origin" "-290.93 -1592 2.9283"
 "angle" "-2"
 "targetname" "enemy2"
 }
-// entity 92
+// entity 91
 {
 "classname" "trigger_caller"
 "chaintrigger" ""
@@ -5776,7 +5771,7 @@
 ( -256 -1408 64 ) ( -256 -1408 65 ) ( -256 -1407 64 ) textures/debuglabel_trigger [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
 }
 }
-// entity 93
+// entity 92
 {
 "classname" "func_switch"
 "power" "1"
@@ -5795,7 +5790,7 @@
 ( 288 0 64 ) ( 288 0 65 ) ( 288 1 64 ) textures/-1_switch_brown [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 0.125 0.125
 }
 }
-// entity 94
+// entity 93
 {
 "classname" "func_animated"
 "texture0" "+1_switch_brown"
@@ -5810,7 +5805,7 @@
 ( 288 128 32 ) ( 288 128 33 ) ( 288 129 32 ) textures/+1_switch_brown [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 0.125 0.125
 }
 }
-// entity 95
+// entity 94
 {
 "classname" "func_door_slide"
 "autoclose" "1"
@@ -5831,49 +5826,43 @@
 ( 212 -480 0 ) ( 212 -480 1 ) ( 212 -479 0 ) textures/door_metal3 [ -2.7878503070300192e-15 -0.9999999999999964 8.742278007067839e-08 0 ] [ -2.4350243203131412e-22 -8.742278007067839e-08 -0.9999999999999964 0 ] 180 0.25 0.25
 }
 }
-// entity 96
-{
-"classname" "item_healthpack"
-"origin" "344 -168 -2"
-"angle" "0"
-}
-// entity 97
+// entity 95
 {
 "classname" "car_police"
 "origin" "440 -280 8"
 }
-// entity 98
+// entity 96
 {
 "classname" "switch_valve"
 "origin" "336 -66 56"
 "angle" "270"
 }
-// entity 99
+// entity 97
 {
 "classname" "ammo_9mm_large"
 "origin" "8 -120 16"
 "amount" "100"
 }
-// entity 100
+// entity 98
 {
 "classname" "ammo_357_large"
 "origin" "8 -152 16"
 "amount" "100"
 }
-// entity 101
+// entity 99
 {
 "classname" "ammo_carbine_large"
 "origin" "8 -184 16"
 "amount" "100"
 }
-// entity 102
+// entity 100
 {
 "classname" "ammo_shotgun_large"
 "origin" "8 -216 16"
 "amount" "100"
 }
-// entity 103
+// entity 101
 {
 "classname" "ammo_357_large"
-"origin" "-48 -216 8"
+"origin" "-48 -184 8"
 }

@@ -1,34 +1,3 @@
-[remap]
-
-importer="texture"
-type="CompressedTexture2D"
-uid="uid://d2ghmltq0mps4"
-path="res://.godot/imported/metal_shippingcrate_right.png-57f6242401345e1e75e6c60d7074bf22.ctex"
-metadata={
-"vram_texture": false
-}
-
-[deps]
-
-source_file="res://textures/textures/metal_shippingcrate_right.png"
-dest_files=["res://.godot/imported/metal_shippingcrate_right.png-57f6242401345e1e75e6c60d7074bf22.ctex"]
-
-[params]
-
-compress/mode=0
-compress/high_quality=false
-compress/lossy_quality=0.7
-compress/hdr_compression=1
-compress/normal_map=0
-compress/channel_pack=0
-mipmaps/generate=false
-mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
-process/fix_alpha_border=true
-process/premult_alpha=false
-process/normal_map_invert_y=false
-process/hdr_as_srgb=false
-process/hdr_clamp_exposure=false
-process/size_limit=0
-detect_3d/compress_to=1
+version https://git-lfs.github.com/spec/v1
+oid sha256:1b3d1dbeb70d158f35e383ca5c6d2f05ad3fee57585192ab3a4c458b06335ac2
+size 827

@@ -1,8 +1,3 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://bvgnehx1o06s"]
-
-[ext_resource type="Texture2D" uid="uid://bikebu7pua2lw" path="res://textures/textures/door_sliding.png" id="1_n6op5"]
-
-[resource]
-albedo_texture = ExtResource("1_n6op5")
-metallic_specular = 0.0
-texture_filter = 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:9cd4b9f9a0f43281f806173f9c5959c878f866ecd36ef38797ebd9ed096c3768
+size 302

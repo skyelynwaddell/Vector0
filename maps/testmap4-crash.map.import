@@ -1,14 +1,3 @@
-[remap]
-
-importer="func_godot.map"
-type="Resource"
-uid="uid://86q8rryek1ub"
-path="res://.godot/imported/testmap4-crash.map-fd560aebb78aaf4d92335effc3a919d5.tres"
-
-[deps]
-
-source_file="res://maps/testmap4-crash.map"
-dest_files=["res://.godot/imported/testmap4-crash.map-fd560aebb78aaf4d92335effc3a919d5.tres"]
-
-[params]
-
+version https://git-lfs.github.com/spec/v1
+oid sha256:e9fb50e5b8c3d492be8d0580c124330f031b9b1cfbba8a8ab4fb35baf9bfe2ac
+size 320

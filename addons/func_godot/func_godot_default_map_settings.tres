@@ -1,31 +1,3 @@
-[gd_resource type="Resource" script_class="FuncGodotMapSettings" load_steps=4 format=3 uid="uid://bkhxcqsquw1yg"]
-
-[ext_resource type="Material" uid="uid://cvex6toty8yn7" path="res://addons/func_godot/textures/default_material.tres" id="1_8l5wm"]
-[ext_resource type="Script" path="res://addons/func_godot/src/map/func_godot_map_settings.gd" id="1_dlf23"]
-[ext_resource type="Resource" uid="uid://dvmaoy567g875" path="res://my_fgd.tres" id="2_3g70m"]
-
-[resource]
-script = ExtResource("1_dlf23")
-inverse_scale_factor = 32.0
-entity_fgd = ExtResource("2_3g70m")
-entity_name_property = ""
-base_texture_dir = "res://textures"
-texture_file_extensions = Array[String](["png", "jpg", "jpeg", "bmp", "tga", "webp"])
-clip_texture = "textures/clip"
-skip_texture = "textures/skip"
-texture_wads = Array[Resource]([])
-material_file_extension = "tres"
-default_material = ExtResource("1_8l5wm")
-default_material_albedo_uniform = ""
-albedo_map_pattern = "%s_albedo.%s"
-normal_map_pattern = "%s_normal.%s"
-metallic_map_pattern = "%s_metallic.%s"
-roughness_map_pattern = "%s_roughness.%s"
-emission_map_pattern = "%s_emission.%s"
-ao_map_pattern = "%s_ao.%s"
-height_map_pattern = "%s_height.%s"
-unshaded = false
-nearest_filtering = false
-save_generated_materials = true
-uv_unwrap_texel_size = 1.0
-use_trenchbroom_groups_hierarchy = false
+version https://git-lfs.github.com/spec/v1
+oid sha256:469567458bb4b0756bb3a6d5cf7a153f0a09f44ae442937fb3187c76cde8162b
+size 1316

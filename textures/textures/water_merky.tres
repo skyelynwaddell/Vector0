@@ -1,8 +1,3 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://vyncvam0tx1l"]
-
-[ext_resource type="Texture2D" uid="uid://7yhcj36uaocv" path="res://textures/textures/water_merky.png" id="1_x0xqc"]
-
-[resource]
-albedo_texture = ExtResource("1_x0xqc")
-metallic_specular = 0.0
-texture_filter = 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:a923b39e92a8c28b56a0eb48886ce69aac2d314e871627470e78b1ea527e1b1a
+size 300

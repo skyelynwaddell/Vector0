@@ -1,34 +1,3 @@
-[remap]
-
-importer="texture"
-type="CompressedTexture2D"
-uid="uid://dfu6ngl5v7wb8"
-path="res://.godot/imported/door_elevator.png-a5bc4a3b094c9086f729f640931a4f37.ctex"
-metadata={
-"vram_texture": false
-}
-
-[deps]
-
-source_file="res://textures/textures/door_elevator.png"
-dest_files=["res://.godot/imported/door_elevator.png-a5bc4a3b094c9086f729f640931a4f37.ctex"]
-
-[params]
-
-compress/mode=0
-compress/high_quality=false
-compress/lossy_quality=0.7
-compress/hdr_compression=1
-compress/normal_map=0
-compress/channel_pack=0
-mipmaps/generate=false
-mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
-process/fix_alpha_border=true
-process/premult_alpha=false
-process/normal_map_invert_y=false
-process/hdr_as_srgb=false
-process/hdr_clamp_exposure=false
-process/size_limit=0
-detect_3d/compress_to=1
+version https://git-lfs.github.com/spec/v1
+oid sha256:2dd29af78103f93b42e15322fd133f8f6a598898d0ffb037b22e2e2d7505a0e6
+size 791

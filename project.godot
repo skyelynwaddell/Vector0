@@ -35,6 +35,7 @@ shader_language/warnings/enable=false
 [display]
 
 window/dpi/allow_hidpi=false
+window/vsync/vsync_mode=2
 
 [dotnet]
 

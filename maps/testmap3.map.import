@@ -1,14 +1,3 @@
-[remap]
-
-importer="func_godot.map"
-type="Resource"
-uid="uid://b1jy8sds1e6ka"
-path="res://.godot/imported/testmap3.map-7614e011c1f4a1a5cd26e33d4d93d7fa.tres"
-
-[deps]
-
-source_file="res://maps/testmap3.map"
-dest_files=["res://.godot/imported/testmap3.map-7614e011c1f4a1a5cd26e33d4d93d7fa.tres"]
-
-[params]
-
+version https://git-lfs.github.com/spec/v1
+oid sha256:160c1977b79ad174f1f61afca8f79635f7e577a35489fae37f1935ae31e56f24
+size 303

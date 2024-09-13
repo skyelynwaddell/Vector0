@@ -1,8 +1,3 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://nnh02sft5n8h"]
-
-[ext_resource type="Texture2D" uid="uid://ynvribkn5maf" path="res://textures/textures/metal_grate1.png" id="1_m6054"]
-
-[resource]
-albedo_texture = ExtResource("1_m6054")
-metallic_specular = 0.0
-texture_filter = 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:28043b5f9fbc6662e935750e206efdbbe50def65089c2ea3a3dab278305067f0
+size 301

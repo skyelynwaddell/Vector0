@@ -1,24 +1,3 @@
-[remap]
-
-importer="wav"
-type="AudioStreamWAV"
-uid="uid://0trtdgid5vg6"
-path="res://.godot/imported/laserShoot.wav-cbe9d9ba0a39a93a756ee0eb4ab65522.sample"
-
-[deps]
-
-source_file="res://audio/laserShoot.wav"
-dest_files=["res://.godot/imported/laserShoot.wav-cbe9d9ba0a39a93a756ee0eb4ab65522.sample"]
-
-[params]
-
-force/8_bit=false
-force/mono=false
-force/max_rate=false
-force/max_rate_hz=44100
-edit/trim=false
-edit/normalize=false
-edit/loop_mode=0
-edit/loop_begin=0
-edit/loop_end=-1
-compress/mode=0
+version https://git-lfs.github.com/spec/v1
+oid sha256:ff83c6fa2066ecee88b67a51e0f03fda619648aee54a1c9dc83ae796c81084b1
+size 493

@@ -1,19 +1,3 @@
-[remap]
-
-importer="oggvorbisstr"
-type="AudioStreamOggVorbis"
-uid="uid://6e1kq8crginc"
-path="res://.godot/imported/soldier_hurt3.ogg-101c27ec454ef7d542db0240092f8dfa.oggvorbisstr"
-
-[deps]
-
-source_file="res://audio/soldier/soldier_hurt3.ogg"
-dest_files=["res://.godot/imported/soldier_hurt3.ogg-101c27ec454ef7d542db0240092f8dfa.oggvorbisstr"]
-
-[params]
-
-loop=false
-loop_offset=0
-bpm=0
-beat_count=0
-bar_beats=4
+version https://git-lfs.github.com/spec/v1
+oid sha256:28b3fd3ed5a8d7d285546c846ec895b06e685b010f3f5d13ca8f5514901a19fc
+size 408

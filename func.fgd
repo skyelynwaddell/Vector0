@@ -1,4 +1,4 @@
-//FPS | Forge Game Data - Skye Waddell
+//Vector0 | FGD Forge Game Data - Skye Waddell
 
 //////////////////////
 ///**BASE CLASSES**///
@@ -132,57 +132,7 @@
 
 ]
 
-//Func Door
-@SolidClass color(204 204 204) base(func_entity) = func_door : "Sliding Door & Rotating Door" 
-[
-	type(choices): "Type of Door" : 0 =
-	[
-		0 : "Sliding Door"
-		1 : "Rotating Door"
-	]
-
-	direction(choices): "Direction of Movement, or Rotation Direction (depending on the door type)." : 0 =
-	[
-		0 : "Up"
-		1 : "Down"
-		2 : "Left"
-		3 : "Right"
-		4 : "Backwards"
-		5 : "Forwards"
-	]
-
-	rotatedir(choices): "Rotation direction for Rotating Doors (ignore for sliding doors)" : 0 =
-	[
-		0 : "0 Degree"
-		1 : "90 Degree"
-
-	]
-
-	autoclose(choices): "Should this door Automatically close if Player is too far from door?" : 1 =
-	[
-		0 : "FALSE"
-		1 : "TRUE"
-	]
-
-	open(choices): "Open Status at Level Start" : 0 =
-	[
-		0 : "Initially Closed"
-		1 : "Initially Open"
-	]
-
-	opensize(float) : "Door Open Size" : 2 : "How far should the door open (in Godot Units)"
-
-	speed(float) : "Door Speed" : 2.0 : "Control how fast the door opens."
-
-	locked(choices): "Determine the lock status of this door" : 0 =
-	[
-		0 : "Unlocked"
-		1 : "Locked and can only open WHEN triggered"
-		2 : "Locked and can only open on Interact AFTER triggered"
-	]
-
-]
-
+//Func Door Slide
 @SolidClass color(204 204 204) base(func_detail) = func_door_slide : "Sliding door, will open/close when triggered"
 [
 	speed(float) : "Door Speed (float)" : 6.0 : "Control how fast the door opens. Use negative values to move the door the other way."
@@ -317,28 +267,13 @@
 	]
 ]
 
-///////////////////////////
-////**SWITCH / BUTTON**////
-///////////////////////////
-
-//Stores all the Buttons & Switches, or Entities that -Switch- their texture on trigger
-//Button Switch Panel
-@PointClass base(func_entity) color(204 204 204) model({"path":"glb/switch_panel/switch_panel.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = switch_panel : "Switch Panel" []
-
-//Metal Switch Panel
-@PointClass base(func_entity) color(204 204 204) model({"path":"glb/switch_metal/switch_metal.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = switch_metal : "Switch Metal" []
-
-//Valve
-@PointClass base(func_entity) color(204 204 204) model({"path":"glb/valve/switch_valve.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = switch_valve : "Switch Valve" []
-
-//Soldier
-@PointClass base(func_entity) color(204 204 204) model({"path":"glb/soldier/soldier.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = soldier : "Soldier" []
-
 //////////////////////////
 ///////**ENTITIES**///////
 //////////////////////////
-
 //Some predefined entities that can be used quickly to assist in the mapping/brushing process
+
+//Valve
+@PointClass base(func_entity) color(204 204 204) model({"path":"glb/valve/switch_valve.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = switch_valve : "Switch Valve" []
 
 //Car Police
 @PointClass base(func_entity) color(204 204 204) model({"path":"glb/car_police/car_police.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = car_police : "Car Police" []
@@ -355,6 +290,14 @@
 //Light #1
 @PointClass base(func_entity) color(204 204 204) model({"path":"glb/light1/light_light1.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = light_light1 : "Light 1" []
 
+///////////////
+///**ITEMS**///
+///////////////
+//Pickup Items that the Player can get
+
+//Health Pack
+@PointClass base(func_entity) color(204 204 204) model({"path":"glb/healthpack/item_healthpack.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = item_healthpack : "Health Pack" []
+
 //////////////////////////////
 ///////**AMMO PICKUPS**///////
 //////////////////////////////
@@ -363,11 +306,9 @@
 @PointClass base(ammo) color(204 204 204) model({"path":"glb/ammo/carbine_large/ammo_carbine_large.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = ammo_carbine_large : "Carbine Ammo" []
 @PointClass base(ammo) color(204 204 204) model({"path":"glb/ammo/shotgun_large/ammo_shotgun_large.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = ammo_shotgun_large : "Shotgun Ammo" []
 
-
 ///////////////
 ////**NPC**////
 ///////////////
-
 //Stores all the NPC's in the game
 
 //Doctor #1
@@ -376,18 +317,17 @@
 ///////////////////
 ////**MONSTER**////
 ///////////////////
-
 //Stores all the Enemy's / Monsters in the game
 
 //Scorpion Alien
-@PointClass base(func_entity) color(204 204 204) model({"path":"glb/alien_scorpion/monster_scorpion.glb", "scale":"1"}) size(-8 -8 -8, 8 8 8) = monster_scorpion : "Scorpion Alien Monster"
-[
-]
+@PointClass base(func_entity) color(204 204 204) model({"path":"glb/alien_scorpion/monster_scorpion.glb", "scale":"1"}) size(-8 -8 -8, 8 8 8) = monster_scorpion : "Scorpion Alien Monster" []
+
+//Soldier
+@PointClass base(func_entity) color(204 204 204) model({"path":"glb/soldier/soldier.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = monster_soldier : "Soldier" []
 
 ////////////////
 ////**PATH**////
 ////////////////
-
 //These define path points and positions for entities
 
 //Walk Point
@@ -398,17 +338,3 @@
 
 //Point
 @PointClass base(func_entity_scaled) color(204 204 204) model({"path":"glb/diamond/path_walkpoint.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = path_point : "This is an empty invisible node that gets spawned. Useful to get Location in world space for a teleport." []
-
-///////////////
-///**ITEMS**///
-///////////////
-
-//Pickup Items that the Player can get
-
-//Health Pack
-@PointClass base(func_entity) color(204 204 204) model({"path":"glb/healthpack/item_healthpack.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = item_healthpack : "Health Pack" []
-
-/////////////////
-///**TRIGGER**///
-/////////////////
-

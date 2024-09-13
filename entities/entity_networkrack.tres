@@ -1,27 +1,3 @@
-[gd_resource type="Resource" script_class="FuncGodotFGDModelPointClass" load_steps=3 format=3 uid="uid://b2g5whw178ph3"]
-
-[ext_resource type="PackedScene" uid="uid://7rwmy0yrj2j1" path="res://scenes/Objects/network_rack.tscn" id="1_0iatw"]
-[ext_resource type="Script" path="res://addons/func_godot/src/fgd/func_godot_fgd_model_point_class.gd" id="2_tgs4c"]
-
-[resource]
-script = ExtResource("2_tgs4c")
-target_map_editor = 1
-models_sub_folder = "glb/network_rack"
-scale_expression = ""
-generate_size_property = false
-generate_gd_ignore_file = false
-scene_file = ExtResource("1_0iatw")
-apply_rotation_on_map_build = true
-classname = "entity_networkrack"
-description = "Network Rack"
-func_godot_internal = false
-base_classes = Array[Resource]([])
-class_properties = {}
-class_property_descriptions = {}
-meta_properties = {
-"color": Color(0.8, 0.8, 0.8, 1),
-"model": "\"glb/network_rack/entity_networkrack.glb\"",
-"size": AABB(-8, -8, -8, 8, 8, 8)
-}
-node_class = ""
-name_property = ""
+version https://git-lfs.github.com/spec/v1
+oid sha256:390bf0d5c648a47902084372f8d9db914ebb3438881f40d51c3828f75b7eb2db
+size 979

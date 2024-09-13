@@ -1,8 +1,3 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://b7igh27xbabbh"]
-
-[ext_resource type="Texture2D" uid="uid://c22xjvqdx32ha" path="res://textures/textures/water_toxic.png" id="1_v2bgf"]
-
-[resource]
-albedo_texture = ExtResource("1_v2bgf")
-metallic_specular = 0.0
-texture_filter = 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:f54d6b0bb5c3e0a1a337b194ca883e24d63094acefb0b5da2b27eecbedd89f15
+size 302

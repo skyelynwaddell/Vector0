@@ -1,8 +1,3 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://boux22gj88qrt"]
-
-[ext_resource type="Texture2D" uid="uid://dunoikn47uwu1" path="res://textures/textures/door_elevator2.png" id="1_178l3"]
-
-[resource]
-albedo_texture = ExtResource("1_178l3")
-metallic_specular = 0.0
-texture_filter = 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:4776fa6a8feed58fc5b2e951b083f10f4c92192ece7af18197c17d93b3b0021f
+size 305

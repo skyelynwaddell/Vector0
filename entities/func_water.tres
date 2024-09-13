@@ -1,33 +1,3 @@
-[gd_resource type="Resource" script_class="FuncGodotFGDSolidClass" load_steps=3 format=3 uid="uid://cgnisrxhx4tsp"]
-
-[ext_resource type="Script" path="res://addons/func_godot/src/fgd/func_godot_fgd_solid_class.gd" id="1_37kuy"]
-[ext_resource type="Script" path="res://scripts/func/func_water.gd" id="2_4cytg"]
-
-[resource]
-script = ExtResource("1_37kuy")
-spawn_type = 2
-origin_type = 0
-build_visuals = true
-use_in_baked_light = false
-shadow_casting_setting = 2
-build_occlusion = false
-render_layers = 1
-collision_shape_type = 1
-collision_layer = 3
-collision_mask = 3
-collision_priority = 1.0
-collision_shape_margin = 0.04
-script_class = ExtResource("2_4cytg")
-classname = "func_water"
-description = "Turn any brush into Water.
-"
-func_godot_internal = false
-base_classes = Array[Resource]([])
-class_properties = {}
-class_property_descriptions = {}
-meta_properties = {
-"color": Color(0.8, 0.8, 0.8, 1),
-"size": AABB(-8, -8, -8, 8, 8, 8)
-}
-node_class = "Area3D"
-name_property = "func_door"
+version https://git-lfs.github.com/spec/v1
+oid sha256:ea936735f4483039f1843cb75a38e2a5e80f60d1b83fbd68808259e7ed5d964e
+size 986

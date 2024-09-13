@@ -1,8 +1,3 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dee6sxey8rair"]
-
-[ext_resource type="Texture2D" uid="uid://dy1s1235yva0c" path="res://textures/textures/door_spawn.png" id="1_pljvt"]
-
-[resource]
-albedo_texture = ExtResource("1_pljvt")
-metallic_specular = 0.0
-texture_filter = 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:35dfa4d7ce1b0ad0b3f5a0b90d7d8fd76084d34864ef05124551bf7bbe98fc81
+size 301
