@@ -1,6 +1,6 @@
 [gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cs1vfj1qlgr6"]
 
-[ext_resource type="Texture2D" uid="uid://lmolqwjtlgou" path="res://textures/panels/metalswitch_on.png" id="1_bpsg8"]
+[ext_resource type="Texture2D" uid="uid://bufhj4jssvtor" path="res://textures/textures/+1_switch_brown.png" id="1_qv7h0"]
 
 [resource]
-albedo_texture = ExtResource("1_bpsg8")
+albedo_texture = ExtResource("1_qv7h0")
