@@ -1,7 +1,0 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cnxebso3yo1nh"]
-
-[ext_resource type="Texture2D" uid="uid://cmouby8dfcbfl" path="res://textures/objects/network_rack.png" id="1_yi1hy"]
-
-[resource]
-albedo_texture = ExtResource("1_yi1hy")
-metallic_specular = 0.0

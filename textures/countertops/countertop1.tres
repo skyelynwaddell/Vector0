@@ -1,7 +1,0 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://bsoofhccxempn"]
-
-[ext_resource type="Texture2D" uid="uid://bdoysu7o4clxh" path="res://textures/countertops/countertop1.png" id="1_pe6vr"]
-
-[resource]
-albedo_texture = ExtResource("1_pe6vr")
-metallic_specular = 0.0

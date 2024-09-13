@@ -1,0 +1,164 @@
+/* Constants */
+:root {
+    --header_height: 70px;
+    --sidenav_width: 380px;
+}
+
+/* Base Styles Start */
+body {
+    color: #dbc3bb;
+    font-family: verdana, sans-serif;
+}
+
+p {
+    line-height: 25px;
+}
+
+a {
+    color: #cf632b;
+    text-decoration: none;
+}
+  
+a:hover {
+    color: #e7ab5f;
+}
+  
+a:active {
+    color: #e7ab5f;
+}
+
+pre {
+    background-color: #0f0b07;
+    padding: 10px;
+}
+
+code {
+    font-size: 16px;
+    color: #abe7ff;
+}
+
+code.highlight {
+    background-color: #0f0b07;
+}
+
+blockquote {
+    background-color: #0f0b07;
+    padding: 10px;
+}
+
+table {
+    border-collapse: collapse;
+    background-color: #1f1f1f;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table.props {
+    margin-left: 0;
+}
+
+tr {
+    background-color: #0f0b07;
+}
+
+tr.header {
+    background-color: #070700;
+}
+
+td {
+    border-style: solid;
+    border-width: 2px;
+    padding: 10px;
+}
+
+b.code {
+    font-style: italic;
+    padding: 2px;
+}
+
+b.faq {
+    color:#b7876b;
+    font-weight: 600;
+    font-style: italic;
+}
+
+/* Base Styles End */
+
+/* Header Start */
+iframe.header {
+    height: var(--header_height);
+    width: 100%;
+    top: 0;
+    left: 0;
+    padding-left: 10px;
+    background-color: #070700;
+    position: fixed;
+    border: none;
+}
+
+div.head {
+    background-color: #070700;
+}
+/* Header End */
+
+/* Sidebar Navigation Start */
+iframe.sidenav {
+    top: var(--header_height);
+    left: 0;
+    bottom: 0;
+    width: var(--sidenav_width);
+    height: calc(100% - var(--header_height));
+    position: fixed;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border: none;
+    background-color: #0f0b07;
+    padding-left: 10px;
+    padding-bottom: 10px;
+}
+
+div.sidenav {
+    background-color: #0f0b07;
+}
+
+h3.sidenav {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+p.sidenav {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+p.sidenav2 {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 30px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+/* Sidebar Navigation End */
+
+/* Main Body Start */
+iframe.main {
+    top: var(--header_height);
+    left: var(--sidenav_width);
+    bottom: 0;
+    right: 0;
+    width: calc(100% - var(--sidenav_width) - 20px);
+    height: calc(100% - var(--header_height));
+    position: fixed;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #1f1f1f;
+    border: none;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+/* Main Body End */
