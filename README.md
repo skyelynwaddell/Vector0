@@ -4,6 +4,8 @@ First Person Shooter Developed in **Godot 4**, **Func Godot,** & **Trenchbroom**
 
 I figured I would open the code to this FPS I have been developing in Godot 4. I found a very nifty open-source plugin for Godot 4 called FuncGodot allowing you to create maps and brush work in Trenchbroo similar to how retro fps games like Quake, and Half Life developed maps & levels.
 
+Discord: https://discord.gg/ZwwYMr6BDn
+
 # Engine Properties
 
 **Texture Format**: PNG\
