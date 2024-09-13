@@ -2,9 +2,14 @@
 .godot/
 *.tmp
 *.mp3
+*.pck
 *.exe
 *.wav
 /addons
 /godot/FuncGodotManual
 /maps/autosave
 *.log
+
+textures/*
+!textures/textures/
+!textures/textures/**
