@@ -2,6 +2,7 @@
 .godot/
 *.tmp
 *.mp3
+*.exe
 *.wav
 /addons
 /godot/FuncGodotManual
