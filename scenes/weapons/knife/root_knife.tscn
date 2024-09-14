@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://d0fqpfu5kxg1e"]
 
 [ext_resource type="PackedScene" uid="uid://dgyoomw8g7e1x" path="res://models/weapons/knife/arms_knife.fbx" id="1_4tuer"]
-[ext_resource type="Material" uid="uid://cqli1crd7exa5" path="res://materials/metalic.tres" id="2_clilv"]
+[ext_resource type="Material" uid="uid://cqli1crd7exa5" path="res://materials/metal_1.tres" id="2_clilv"]
 [ext_resource type="Texture2D" uid="uid://cuq00bqbl6srf" path="res://models/weapons/knife/arms_knife-0a3ff96ffb7ba093f69a1bb388556b72_metal_odd.png" id="3_5pr4y"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kk242"]

@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://dm3kfplm8nadq" path="res://scenes/weapons/submachine_gun/sub_machine_gun.tscn" id="8_yslq1"]
 [ext_resource type="Texture2D" uid="uid://c8bsvfo40vm7s" path="res://textures/hud/Colt_M4A1_silhouette.svg.png" id="10_6u5wv"]
 [ext_resource type="Theme" uid="uid://d2f0bmoftf5uf" path="res://godot/theme.tres" id="10_hycdn"]
-[ext_resource type="Material" uid="uid://cqli1crd7exa5" path="res://materials/metalic.tres" id="10_jihk3"]
+[ext_resource type="Material" uid="uid://cqli1crd7exa5" path="res://materials/metal_1.tres" id="10_jihk3"]
 [ext_resource type="PackedScene" uid="uid://d0fqpfu5kxg1e" path="res://scenes/weapons/knife/root_knife.tscn" id="10_le2m0"]
 [ext_resource type="Texture2D" uid="uid://cuq00bqbl6srf" path="res://models/weapons/knife/arms_knife-0a3ff96ffb7ba093f69a1bb388556b72_metal_odd.png" id="11_bsfca"]
 [ext_resource type="FontFile" uid="uid://b37kky5j3f8pv" path="res://fonts/AldotheApache.ttf" id="11_wie7w"]

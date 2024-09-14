@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://bkyxdm7t5qmw3"]
 
-[ext_resource type="Material" uid="uid://kmhwjsokm0b2" path="res://materials/gib.tres" id="1_ldkgw"]
+[ext_resource type="Material" uid="uid://kmhwjsokm0b2" path="res://materials/skin_blood.tres" id="1_ldkgw"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_q27qm"]
 emission_shape = 1

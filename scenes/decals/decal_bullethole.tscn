@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://davpkyqgpx2fh"]
 
 [ext_resource type="Script" path="res://scripts/decals.gd" id="1_es575"]
-[ext_resource type="Material" uid="uid://cqmaxb8qmqb5a" path="res://materials/decal_bullethole1.tres" id="2_vb1jp"]
+[ext_resource type="Material" uid="uid://cqmaxb8qmqb5a" path="res://materials/decbul1.tres" id="2_vb1jp"]
 [ext_resource type="Material" uid="uid://c7nfvcblyphwn" path="res://materials/decal_scratch1.tres" id="3_xxn0f"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_66ymm"]
