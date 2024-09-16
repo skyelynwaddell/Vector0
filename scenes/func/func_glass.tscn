@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://bkhmyyikeu651"]
+
+[ext_resource type="Script" path="res://scripts/func/func_glass.gd" id="1_3350b"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_usxm6"]
+
+[node name="FuncGlass" type="StaticBody3D"]
+script = ExtResource("1_3350b")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_usxm6")
+disabled = true

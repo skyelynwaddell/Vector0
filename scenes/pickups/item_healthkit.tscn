@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dbt7ercxj32mm"]
+
+[ext_resource type="Script" path="res://scripts/pickup_healthpack.gd" id="1_eud51"]
+[ext_resource type="PackedScene" uid="uid://d0t4a2ehk3s0i" path="res://models/healthpack/health_pack.glb" id="1_m26ye"]
+
+[node name="ItemHealthkit" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
+script = ExtResource("1_eud51")
+
+[node name="HealthPack" parent="." instance=ExtResource("1_m26ye")]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -1.2, 0.176811, -1)
+
+[node name="CollisionShape3D" parent="HealthPack" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000885025, 0.194276, 0.00384521)
+
+[editable path="HealthPack"]

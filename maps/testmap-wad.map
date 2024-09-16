@@ -7,6 +7,7 @@
 "classname" "worldspawn"
 "property 1" ""
 "_tb_textures" "textures\textures.wad"
+"_tb_def" "external:C:/Users/skye waddell/Documents/github/fps/func.fgd"
 // brush 0
 {
 ( -32 -96 -16 ) ( -32 -95 -16 ) ( -32 -96 -15 ) __TB_empty [ 0 -1 0 -32 ] [ 0 0 -1 0 ] 0 1 1
@@ -43,4 +44,9 @@
 ( -16 160 16 ) ( -15 160 16 ) ( -16 160 17 ) 9mmbullets [ -1 0 0 -16 ] [ 0 0 -1 0 ] 0 1 1
 ( -16 160 16 ) ( -16 160 17 ) ( -16 161 16 ) 9mmbullets [ 0 1 0 -32 ] [ 0 0 -1 0 ] 0 1 1
 }
+}
+// entity 1
+{
+"classname" "ammo_357_large"
+"origin" "8 -24 24"
 }

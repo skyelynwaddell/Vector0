@@ -54,6 +54,27 @@ C:/Users/user_name/Documents/github/Vector0
 
 Once in Trenchbroom make sure to go into Entity, click Settings and select the custom FGD file located in this repo to get correct Entities.
 
+You will need to download Ericwtools, this contains qbsp.exe that we can use with trenchbroom to compile our maps to .BSP
+
+Click Run > Compile Map...
+Create a new Profile
+Name it Godot or whatever
+Make sure it's working directory is: 
+```
+${MAP_DIR_PATH}
+```
+
+Next add a new Run Tool
+in the Tool Path, select the qbsp.exe in your ericwtools folder
+Add this code to your Parameters field:
+```
+-nolog -nocolor -nosubdivide ${MAP_BASE_NAME}
+```
+
+Make sure Parameters, and Stop on Nonzero Error Code are checked.
+When you press compile it will make a bsp of the map now.
+
 You may also need to go in to the Texture Browser, and make sure the textures folder is on the right hand side under Enabled.
 
+// old
 When done creating a map, create a new Godot Scene with a FuncGodotMap Node, and then attach your .map file to the node, and click **"Build".**

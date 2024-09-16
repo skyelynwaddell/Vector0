@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://c1hss55qv5ufe"]
+
+[ext_resource type="Script" path="res://scripts/func/func_water.gd" id="1_vajcn"]
+[ext_resource type="Shader" path="res://shaders/water.gdshader" id="2_d0cga"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_psvp4"]
+render_priority = 1
+shader = ExtResource("2_d0cga")
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/warp_ScreenSpace = false
+shader_parameter/WATER_COL = Color(0.67, 0.73, 0.46, 1)
+shader_parameter/WATER2_COL = Color(0.4, 0.44, 0.28, 1)
+shader_parameter/FOAM_COL = Color(0.950336, 0.926712, 0.853734, 1)
+shader_parameter/water_transparency = 0.6
+shader_parameter/distortion_speed = 5.0
+shader_parameter/tile = Vector2(20, 20)
+shader_parameter/wave_speed = 1.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ncgfp"]
+
+[node name="FuncWater" type="Area3D"]
+script = ExtResource("1_vajcn")
+duplicateMaterial = SubResource("ShaderMaterial_psvp4")
+texture = Object(GDScriptNativeClass,"script":null)
+
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_ncgfp")
+disabled = true

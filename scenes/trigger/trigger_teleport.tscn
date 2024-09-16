@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cwe3drh63dvbx"]
+
+[ext_resource type="Script" path="res://scripts/func/trigger_teleport.gd" id="1_bqpy8"]
+
+[node name="TriggerTeleport" type="Node3D"]
+script = ExtResource("1_bqpy8")
