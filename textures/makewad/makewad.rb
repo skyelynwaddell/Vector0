@@ -40,6 +40,7 @@ module MakeWad
         next unless idx % 500 == 0
 
         bar.current = idx
+	STDOUT.flush
       end
       bar.finish
       @textures << texture
@@ -272,7 +273,7 @@ module MakeWad
       puts "Usage: #{$PROGRAM_NAME}: <in folder> <in palette> <out wad>"
     end
 
-    def process_args
+    def process_args 
       @in_directory = ARGV[0]
       @in_palette = ARGV[1]
       @out_wad = ARGV[2]

@@ -4,9 +4,9 @@ class_name Switch
 
 @onready var mesh = null
 
-@export var matOn = preload("res://models/objects/switch_metal/metalswitch_on.tres")
-@export var matOff = preload("res://models/objects/switch_metal/metalswitch_off.tres")
-@export var matNoPower = preload("res://models/objects/switch_metal/metalswitch_off.tres")
+@export var matOn = preload("res://materials/+1_switch_metal.tres")
+@export var matOff = preload("res://materials/-1_switch_metal.tres")
+@export var matNoPower = preload("res://materials/-1_switch_metal.tres")
 
 var OFF = 1
 var ON = 2

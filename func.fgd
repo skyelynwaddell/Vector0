@@ -338,3 +338,28 @@
 
 //Point
 @PointClass base(func_entity_scaled) color(204 204 204) model({"path":"glb/diamond/path_walkpoint.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = path_point : "This is an empty invisible node that gets spawned. Useful to get Location in world space for a teleport." []
+
+@baseclass = Light [
+	light(integer) : "Brightness" : 200
+	style(Choices) : "Appearance" : 0 =
+	[
+		0 : "Normal"
+		10: "Fluorescent flicker"
+		2 : "Slow, strong pulse"
+		11: "Slow pulse, noblack"
+		5 : "Gentle pulse"
+		1 : "Flicker A"
+		6 : "Flicker B"
+		3 : "Candle A"
+		7 : "Candle B"
+		8 : "Candle C"
+		4 : "Fast strobe"
+		9 : "Slow strobe"
+	]
+]
+
+@PointClass size(-8 -8 -8, 8 8 8) base(Light, Target, Targetname) = 
+	light : "Invisible lightsource"
+	[
+		spawnflags(Flags) = [ 1 : "Initially dark" : 0 ]
+	]
