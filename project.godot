@@ -71,15 +71,16 @@ bsp={
 "func_detail_illusionary": "res:scenes/func/func_detail_illusionary.tscn",
 "func_detail_noclip": "res:scenes/func/func_detail_noclip.tscn",
 "func_door_rotate": "res:scenes/func/func_door_rotate.tscn",
-"func_door_slide": "res:scenes/func/func_door_slide.tscn",
+"func_door_slide": "res://scenes/func/func_door_slide.tscn",
 "func_glass": "res:scenes/func/func_glass.tscn",
 "func_ladder": "res:scenes/func/func_ladder.tscn",
 "func_physics": "res:scenes/func/func_physics.tscn",
 "func_physics_breakable": "res:scenes/func/func_physics_breakable.tscn",
 "func_switch": "res:scenes/func/func_switch.tscn",
 "func_water": "res:scenes/func/func_water.tscn",
+"info_player_start": "res://scenes/player.tscn",
 "item_healthpack": "res://scenes/pickups/item_healthkit.tscn",
-"light": "res://scenes/Objects/walkpoint.tscn",
+"light": "res://scenes/Objects/light.tscn",
 "light_light1": "res://scenes/Objects/lights/light1.tscn",
 "monster_scorpion": "res://scenes/enemys/alien1/root_alien1_tscn",
 "monster_soldier": "res://scenes/enemys/soldier/soldier.tscn",
@@ -267,7 +268,6 @@ num0={
 
 [rendering]
 
-occlusion_culling/bvh_build_quality=0
 gl_compatibility/driver.windows="opengl3_angle"
 reflections/sky_reflections/texture_array_reflections=false
 global_illumination/gi/use_half_resolution=true

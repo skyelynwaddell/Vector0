@@ -20,7 +20,7 @@
 [ext_resource type="Material" uid="uid://dx6a3a1ukr5oc" path="res://textures/textures/metal_wall5.tres" id="16_xsxiw"]
 [ext_resource type="Material" uid="uid://cjt30jhlg22ec" path="res://textures/textures/metal_wall4.tres" id="17_jaanm"]
 [ext_resource type="Material" uid="uid://xgjqsbsbjwe2" path="res://textures/textures/floor1.tres" id="17_y02ka"]
-[ext_resource type="Material" path="res://textures/textures/metal_bumps2.tres" id="18_7kp8v"]
+[ext_resource type="Material" uid="uid://c7v4pfm1b8gap" path="res://textures/textures/metal_bumps2.tres" id="18_7kp8v"]
 [ext_resource type="Material" uid="uid://dryjcm3al2jm" path="res://textures/textures/con_4-2.tres" id="18_qcurd"]
 [ext_resource type="Material" uid="uid://cqdldtui1unwn" path="res://textures/textures/box2.tres" id="18_rfw63"]
 [ext_resource type="Material" uid="uid://16rxsah50l1y" path="res://textures/textures/door_metal4.tres" id="21_06wrl"]

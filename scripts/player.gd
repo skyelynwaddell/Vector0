@@ -322,7 +322,7 @@ func HandlePlayerDirection(delta):
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward").normalized()
-	direction = (head.transform.basis * Vector3(-input_dir.x, 0, -input_dir.y))
+	direction = (head.transform.basis * Vector3(input_dir.x, 0, input_dir.y))
 	
 	# Check if the player is on the floor
 	if is_on_floor():
