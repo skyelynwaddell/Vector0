@@ -1,4 +1,4 @@
-[gd_scene load_steps=649 format=3 uid="uid://cvpk0of8h0jjo"]
+[gd_scene load_steps=650 format=3 uid="uid://cvpk0of8h0jjo"]
 
 [ext_resource type="Script" path="res://addons/func_godot/src/map/func_godot_map.gd" id="1_8mof2"]
 [ext_resource type="Resource" uid="uid://bkhxcqsquw1yg" path="res://addons/func_godot/func_godot_default_map_settings.tres" id="2_voifd"]
@@ -67,6 +67,7 @@
 [ext_resource type="PackedScene" uid="uid://d37a7g3ralqju" path="res://scenes/pickups/weapon_shotgun.tscn" id="65_vc7hy"]
 [ext_resource type="PackedScene" uid="uid://bpweqreocqkw8" path="res://scenes/pickups/weapon_pistol.tscn" id="66_ahqx4"]
 [ext_resource type="PackedScene" uid="uid://bdc14kijcygpd" path="res://scenes/pickups/weapon_revolver.tscn" id="67_eyumu"]
+[ext_resource type="PackedScene" uid="uid://lsfq1hjdpv1s" path="res://scenes/enemys/soldier/soldier.tscn" id="68_ssngs"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tkbio"]
 albedo_texture = ExtResource("50_lx8q1")
@@ -4815,3 +4816,6 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -2.75,
 [node name="LightmapGI" type="LightmapGI" parent="."]
 camera_attributes = SubResource("CameraAttributesPhysical_v8mcb")
 light_data = SubResource("LightmapGIData_ofule")
+
+[node name="Soldier2" parent="." instance=ExtResource("68_ssngs")]
+transform = Transform3D(-0.75169, 0, 0.659516, 0, 1, 0, -0.659516, 0, -0.75169, -20, 0, 16)
