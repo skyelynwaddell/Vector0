@@ -1836,7 +1836,7 @@
 {
 "classname" "info_player_start"
 "origin" "176 280 64"
-"angle" "0"
+"angle" "180"
 "spawndir" "2"
 "_tb_textures" "textures\textures;textures\textures.wad"
 }
@@ -5950,4 +5950,34 @@
 "classname" "ammo_357_large"
 "origin" "-32 -184 8"
 "_tb_textures" "textures\textures;textures\textures.wad"
+}
+// entity 102
+{
+"classname" "weapon_carbine"
+"origin" "168 -40 8"
+}
+// entity 103
+{
+"classname" "weapon_knife"
+"origin" "104 -8 8"
+}
+// entity 104
+{
+"classname" "weapon_mp"
+"origin" "168 -120 8"
+}
+// entity 105
+{
+"classname" "weapon_pistol"
+"origin" "72 -88 8"
+}
+// entity 106
+{
+"classname" "weapon_revolver"
+"origin" "280 -200 8"
+}
+// entity 107
+{
+"classname" "weapon_shotgun"
+"origin" "296 -88 8"
 }

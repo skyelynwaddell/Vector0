@@ -101,6 +101,14 @@
 // entity 8
 {
 "classname" "func_door_slide"
+"autoclose" "1"
+"direction" "0"
+"lockstatus" "0"
+"open" "0"
+"opensize" "2.1"
+"speed" "6"
+"target" "test"
+"targetname" "yeyuh"
 // brush 0
 {
 ( 288 128 0 ) ( 288 129 0 ) ( 288 128 1 ) door_metal3 [ 0 -1 0 0 ] [ 0 0 -1 0 ] 0 0.25 0.25

@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://cuhk7yv4uesw7"]
+
+[ext_resource type="Script" path="res://scripts/pickup_weapon.gd" id="1_6eo7f"]
+[ext_resource type="PackedScene" uid="uid://sjdovmh6cru2" path="res://models/weapons/carbine/weapon_carbine.fbx" id="3_vgmoy"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7le5x"]
+size = Vector3(0.945766, 3.40183, 2.08475)
+
+[node name="Carbine" type="Area3D"]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_6eo7f")
+weaponType = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.60206, 1.50092, 0.0736597)
+shape = SubResource("BoxShape3D_7le5x")
+
+[node name="Model" parent="." instance=ExtResource("3_vgmoy")]
+transform = Transform3D(-0.000755549, 0.233884, -0.00731118, 0.232931, 0.00144954, 0.0222995, 0.0223339, -0.00720575, -0.23282, 0.323067, -0.528124, -0.963877)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

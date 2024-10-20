@@ -108,28 +108,28 @@ var weapons = [
 	{ index = 0,
 	  clip = 0,
 	},
-	{ index = 1,
-	  clip = 15,
-	},
-	{ index = 2,
-	  clip = 30
-	},	
-	{ index = 3,
-	  clip = 8
-	},	
-	{ index = 4,
-	  clip = 6
-	},	
-	#{ index = 5,
-	  #ammo = 80,
+	#{ index = 1,
+	  #clip = 15,
+	#},
+	#{ index = 2,
+	  #clip = 30
+	#},	
+	#{ index = 3,
+	  #clip = 8
+	#},	
+	#{ index = 4,
 	  #clip = 6
 	#},	
-	{ index = 8,
-	  clip = 6
-	},		
-	{ index = 7,
-	  clip = 6
-	},	
+	##{ index = 5,
+	  ##ammo = 80,
+	  ##clip = 6
+	##},	
+	#{ index = 8,
+	  #clip = 6
+	#},		
+	#{ index = 7,
+	  #clip = 6
+	#},	
 	]
 
 #Current weapon index, according to weaponList index order
@@ -138,27 +138,27 @@ var currentWeapon = 0
 var ammoPool = [
 	{
 		type = "9mm",
-		ammo = 200
+		ammo = 0
 	},
 	{
 		type = "carbine",
-		ammo = 100
+		ammo = 0
 	},
 	{
 		type = "shotgun",
-		ammo = 100
+		ammo = 0
 	},
 	{
 		type = "357",
-		ammo = 100
+		ammo = 0
 	},
 	{
 		type = "grenades",
-		ammo = 10
+		ammo = 0
 	},
 	{
 		type = "rockets",
-		ammo = 5
+		ammo = 0
 	}
 	
 ]

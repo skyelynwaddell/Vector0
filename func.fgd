@@ -301,10 +301,22 @@
 //////////////////////////////
 ///////**AMMO PICKUPS**///////
 //////////////////////////////
-@PointClass base(ammo) color(204 204 204) model({"path":"glb/ammo/9mm_large/ammo_9mm_large.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = ammo_9mm_large : "9mm Ammo" []
-@PointClass base(ammo) color(204 204 204) model({"path":"glb/ammo/357_large/ammo_357_large.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = ammo_357_large : "357 Ammo" []
+@PointClass base(ammo) color(204 204 204) model({"path":"glb/ammo/9mm_large/ammo_9mm_large.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8)         = ammo_9mm_large     : "9mm Ammo" []
+@PointClass base(ammo) color(204 204 204) model({"path":"glb/ammo/357_large/ammo_357_large.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8)         = ammo_357_large     : "357 Ammo" []
 @PointClass base(ammo) color(204 204 204) model({"path":"glb/ammo/carbine_large/ammo_carbine_large.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = ammo_carbine_large : "Carbine Ammo" []
 @PointClass base(ammo) color(204 204 204) model({"path":"glb/ammo/shotgun_large/ammo_shotgun_large.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = ammo_shotgun_large : "Shotgun Ammo" []
+
+//////////////////////////////
+///////**WEAPON PICKUPS**///////
+//////////////////////////////
+@PointClass base(ammo) color(204 204 204) model({"path":"glb/weapons/pistol/weapon_pistol.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = weapon_pistol        : "9mm Pistol"      [ weapontype(integer) : "Weapon Type" : 1 : "" ]
+@PointClass base(ammo) color(204 204 204) model({"path":"glb/weapons/carbine/weapon_carbine.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = weapon_carbine       : "Carbine"         [ weapontype(integer) : "Weapon Type" : 2 : "" ]
+@PointClass base(ammo) color(204 204 204) model({"path":"glb/weapons/shotgun/weapon_shotgun.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = weapon_shotgun       : "Shotgun"         [ weapontype(integer) : "Weapon Type" : 3 : "" ]
+@PointClass base(ammo) color(204 204 204) model({"path":"glb/weapons/revolver/weapon_revolver.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = weapon_revolver      : "Revolver"        [ weapontype(integer) : "Weapon Type" : 4 : "" ]
+//@PointClass base(ammo) color(204 204 204) model({"path":"glb/ammo/9mm_large/ammo_9mm_large.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = weapon_crowbar       : "Crowbar"         [ weapontype(integer) : "Weapon Type" : 5 : "" ]
+//@PointClass base(ammo) color(204 204 204) model({"path":"glb/ammo/9mm_large/ammo_9mm_large.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = weapon_submachinegun : "Sub Machine Gun" [ weapontype(integer) : "Weapon Type" : 6 : "" ]
+@PointClass base(ammo) color(204 204 204) model({"path":"glb/weapons/knife/weapon_knife.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = weapon_knife         : "Knife"           [ weapontype(integer) : "Weapon Type" : 7 : "" ]
+@PointClass base(ammo) color(204 204 204) model({"path":"glb/weapons/mp/weapon_mp.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = weapon_mp            : "MP"              [ weapontype(integer) : "Weapon Type" : 8 : "" ]
 
 ///////////////
 ////**NPC**////

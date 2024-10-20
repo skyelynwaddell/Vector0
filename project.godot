@@ -41,6 +41,10 @@ window/vsync/vsync_mode=2
 
 project/assembly_name="fps"
 
+[editor]
+
+movie_writer/disable_vsync=true
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/bsp_importer/plugin.cfg", "res://addons/console/plugin.cfg", "res://addons/func_godot/plugin.cfg")
@@ -65,19 +69,19 @@ bsp={
 "car_police": "res://scenes/Objects/police_car.tscn",
 "entity_computer": "res://scenes/Objects/computer/computer.tscn",
 "entity_shippingcrate": "res://scenes/Objects/shipping_crate.tscn",
-"func_animated": "res:scenes/func/func_animated.tscn",
-"func_breakable": "res:scenes/func/func_breakable.tscn",
-"func_detail": "res:scenes/func/func_detail.tscn",
-"func_detail_illusionary": "res:scenes/func/func_detail_illusionary.tscn",
-"func_detail_noclip": "res:scenes/func/func_detail_noclip.tscn",
-"func_door_rotate": "res:scenes/func/func_door_rotate.tscn",
+"func_animated": "res://scenes/func/func_animated.tscn",
+"func_breakable": "res://scenes/func/func_breakable.tscn",
+"func_detail": "res://scenes/func/func_detail.tscn",
+"func_detail_illusionary": "res://scenes/func/func_detail_illusionary.tscn",
+"func_detail_noclip": "res://scenes/func/func_detail_noclip.tscn",
+"func_door_rotate": "res://scenes/func/func_door_rotate.tscn",
 "func_door_slide": "res://scenes/func/func_door_slide.tscn",
-"func_glass": "res:scenes/func/func_glass.tscn",
-"func_ladder": "res:scenes/func/func_ladder.tscn",
-"func_physics": "res:scenes/func/func_physics.tscn",
-"func_physics_breakable": "res:scenes/func/func_physics_breakable.tscn",
-"func_switch": "res:scenes/func/func_switch.tscn",
-"func_water": "res:scenes/func/func_water.tscn",
+"func_glass": "res://scenes/func/func_glass.tscn",
+"func_ladder": "res://scenes/func/func_ladder.tscn",
+"func_physics": "res://scenes/func/func_physics.tscn",
+"func_physics_breakable": "res://scenes/func/func_physics_breakable.tscn",
+"func_switch": "res://scenes/func/func_switch.tscn",
+"func_water": "res://scenes/func/func_water.tscn",
 "info_player_start": "res://scenes/player.tscn",
 "item_healthpack": "res://scenes/pickups/item_healthkit.tscn",
 "light": "res://scenes/Objects/light.tscn",
@@ -88,16 +92,16 @@ bsp={
 "path_point": "res://scenes/Objects/walkpoint.tscn",
 "path_walkpoint": "res://scenes/Objects/walkpoint.tscn",
 "switch_valve": "res://scenes/Objects/root_valve.tscn",
-"trigger_autosave": "res:scenes/trigger/trigger_autosave.tscn",
-"trigger_caller": "res:scenes/trigger/trigger_caller.tscn",
-"trigger_changelevel": "res:scenes/trigger/trigger_changelevel.tscn",
-"trigger_changetarget": "res:scenes/trigger/trigger_changetarget.tscn",
-"trigger_endsection": "res:scenes/trigger/trigger_endsection.tscn",
+"trigger_autosave": "res://scenes/trigger/trigger_autosave.tscn",
+"trigger_caller": "res://scenes/trigger/trigger_caller.tscn",
+"trigger_changelevel": "res://scenes/trigger/trigger_changelevel.tscn",
+"trigger_changetarget": "res://scenes/trigger/trigger_changetarget.tscn",
+"trigger_endsection": "res://scenes/trigger/trigger_endsection.tscn",
 "trigger_example": "res://triggers/trigger_example.tres",
-"trigger_gravity": "res:scenes/trigger/trigger_gravity.tscn",
-"trigger_hurt": "res:scenes/trigger/trigger_hurt.tscn",
-"trigger_sound": "res:scenes/trigger/trigger_sound.tscn",
-"trigger_teleport": "res:scenes/trigger/trigger_teleport.tscn"
+"trigger_gravity": "res://scenes/trigger/trigger_gravity.tscn",
+"trigger_hurt": "res://scenes/trigger/trigger_hurt.tscn",
+"trigger_sound": "res://scenes/trigger/trigger_sound.tscn",
+"trigger_teleport": "res://scenes/trigger/trigger_teleport.tscn"
 },
 "generate_occlusion_culling": true,
 "import_lights": true,
@@ -111,7 +115,7 @@ bsp={
 "texture_material_rename": {
 "texture_name1": "res://material/texture_name1_material.tres"
 },
-"water_scene_template": "res://addons/bsp_importer/water_example_template.tscn"
+"water_scene_template": "res://scenes/func/func_water.tscn"
 }
 
 [input]

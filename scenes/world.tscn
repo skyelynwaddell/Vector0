@@ -1,10 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://c427puecfdmr0"]
 
 [ext_resource type="Script" path="res://scenes/world.gd" id="1_bareh"]
-[ext_resource type="PackedScene" uid="uid://b77rnhtleyq0p" path="res://maps/bsptest.bsp" id="2_do60n"]
+[ext_resource type="PackedScene" uid="uid://cvpk0of8h0jjo" path="res://scenes/levels/level1.tscn" id="2_rw75q"]
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_bareh")
 
-[node name="bsptest" parent="." instance=ExtResource("2_do60n")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+[node name="Level1" parent="." instance=ExtResource("2_rw75q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -1)

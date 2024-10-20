@@ -52,6 +52,17 @@ func _func_godot_apply_properties(props:Dictionary):
 	if "autoclose" in props: autoclose = props.autoclose as int
 	pass
 
+func set_import_value(key:String, value:String) -> bool:
+	if (key == "targetname"): targetname = value
+	if (key == "target"): target = value
+	if (key == "open"): open = value.to_int();
+	if (key == "opensize"): opensize = value.to_float();
+	if (key == "speed"): speed = value.to_int();
+	if (key == "direction"): direction = value.to_int();
+	if (key == "lockstatus"): lockstatus = value.to_int();
+	if (key == "autoclose"): autoclose = value.to_int();
+	return true;
+	
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if Engine.is_editor_hint(): return

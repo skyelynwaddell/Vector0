@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://bdc14kijcygpd"]
+
+[ext_resource type="Script" path="res://scripts/pickup_weapon.gd" id="1_ws12r"]
+[ext_resource type="PackedScene" uid="uid://c3onys8rh5rg3" path="res://models/weapons/revolver/weapon_magnum.fbx" id="2_ewcwf"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7le5x"]
+size = Vector3(0.704651, 2.7283, 1.36826)
+
+[node name="Revolver" type="Area3D"]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_ws12r")
+weaponType = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.128571, 1.01122, 0.0841312)
+shape = SubResource("BoxShape3D_7le5x")
+
+[node name="Model" parent="." instance=ExtResource("2_ewcwf")]
+transform = Transform3D(-3.93403e-09, 0.09, 3.55271e-15, 3.93403e-09, 3.55271e-15, -0.09, -0.09, -3.93403e-09, -3.93403e-09, 0.00670582, -0.215988, 0.0364556)
+
+[node name="44_004" parent="Model/RootNode/Armature/Skeleton3D" index="0"]
+transform = Transform3D(0.32244, -6.98348e-08, 0.521989, -5.8993e-08, 0.613548, 7.09211e-08, -0.52199, -8.3627e-08, 0.32244, 0.0325343, -0.0170358, -0.0388019)
+visible = false
+
+[node name="44" parent="Model/RootNode/Armature/Skeleton3D" index="1"]
+transform = Transform3D(0.32244, -1.20141e-07, 0.521989, 1.73226e-07, 0.613547, 5.7742e-08, -0.52199, 1.30385e-07, 0.32244, -0.00404619, -5.16593e-09, 0.0191007)
+
+[node name="44_001" parent="Model/RootNode/Armature/Skeleton3D" index="2"]
+transform = Transform3D(0.32244, -6.50182e-08, 0.521989, 1.60902e-07, 0.613547, 8.1989e-09, -0.52199, 1.22483e-07, 0.32244, -0.00495718, 0.00061422, 0.0219798)
+
+[node name="44_002" parent="Model/RootNode/Armature/Skeleton3D" index="3"]
+transform = Transform3D(0.32244, -6.61782e-08, 0.521989, 1.63195e-07, 0.613547, 8.14633e-09, -0.52199, 1.24461e-07, 0.32244, -0.00315757, 9.37012e-06, 0.0185002)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+
+[editable path="Model"]
