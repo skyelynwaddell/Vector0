@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=3 uid="uid://dp7rvopk1dptk"]
+
+[ext_resource type="PackedScene" uid="uid://ckkfaih41jhwi" path="res://scenes/NPC/root_doctor.tscn" id="1_0tvx3"]
+
+[node name="Doctor" instance=ExtResource("1_0tvx3")]
+
+[node name="CollisionShape3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -0.0603716)
+
+[node name="Doctor1" parent="." index="2"]
+transform = Transform3D(0.72, 0, 0, 0, 0.72, 0, 0, 0, 0.72, 0, -0.311087, -0.278665)
+
+[node name="Skeleton3D" parent="Doctor1/RootNode/Root" index="0"]
+bones/2/rotation = Quaternion(0.0365978, 0.0167757, 0.0170599, 0.999044)
+bones/4/rotation = Quaternion(-0.383549, -0.0480969, 0.0467062, 0.921084)
+bones/10/rotation = Quaternion(0.305477, -0.194008, 0.803192, 0.47321)
+bones/11/rotation = Quaternion(-0.222397, 0.914796, 0.263155, -0.210801)
+bones/30/rotation = Quaternion(0.695719, 0.440583, -0.340226, 0.453991)
+bones/31/rotation = Quaternion(0.365463, 0.264518, 0.28057, 0.8472)
+
+[node name="Alien" parent="." index="4"]
+transform = Transform3D(0.96405, -0.119412, -0.237381, 0.17971, 0.951048, 0.251421, 0.195738, -0.285042, 0.938316, 0.0450125, 0.534116, -0.111985)
+
+[node name="Skeleton3D" parent="Alien/RootNode/Armature" index="0"]
+bones/3/rotation = Quaternion(0.12125, -0.0115291, -0.228434, 0.965911)
+bones/4/rotation = Quaternion(0.537362, 0.111863, 0.207408, 0.809759)
+bones/7/rotation = Quaternion(-0.379655, 0.00789381, -0.214108, 0.899977)
+bones/8/rotation = Quaternion(-0.568245, -0.267653, 0.149687, 0.763579)
+bones/10/rotation = Quaternion(-0.39805, 0.112025, 0.238901, 0.878597)
+bones/13/rotation = Quaternion(0.520266, 0.537155, 0.169571, -0.641899)
+bones/17/rotation = Quaternion(0.45456, 0.582001, 0.224717, -0.63573)
+bones/21/rotation = Quaternion(0.340766, 0.589738, 0.354115, -0.640851)
+bones/25/rotation = Quaternion(0.510817, -0.546148, -0.158349, -0.644759)
+bones/29/rotation = Quaternion(0.444338, -0.589841, -0.213594, -0.639553)
+bones/33/rotation = Quaternion(0.340442, -0.601243, -0.333778, -0.641247)
+
+[editable path="Doctor1"]
+[editable path="Alien"]

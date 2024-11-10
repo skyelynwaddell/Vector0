@@ -59,7 +59,7 @@ size = Vector3(1, 1, 0.1)
 
 [node name="GibParticles" type="Node3D"]
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+[node name="GibParticles" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.318567, 0)
 emitting = false
 amount = 7
@@ -72,16 +72,16 @@ process_material = SubResource("ParticleProcessMaterial_q27qm")
 draw_pass_1 = SubResource("CapsuleMesh_mp46m")
 draw_skin = SubResource("Skin_bl3bj")
 
-[node name="GPUParticlesCollisionBox3D" type="GPUParticlesCollisionBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00904655, -1.47397, -0.617454)
-size = Vector3(35.1792, 2.14539, 20.6102)
-
-[node name="GPUParticles3D2" type="GPUParticles3D" parent="."]
+[node name="BloodParticles" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.437703, 0)
 emitting = false
-amount = 50
+amount = 30
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_2nha4")
 draw_pass_1 = SubResource("BoxMesh_0mh1k")
 draw_skin = SubResource("Skin_riwks")
+
+[node name="ParticleFloor" type="GPUParticlesCollisionBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00904655, -1.47397, -0.617454)
+size = Vector3(35.1792, 2.14539, 20.6102)

@@ -1,25 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://cnqd0tuvxg2f5"]
+[gd_scene load_steps=4 format=3 uid="uid://cnqd0tuvxg2f5"]
 
 [ext_resource type="PackedScene" uid="uid://dvgcsgg7oo2xp" path="res://scenes/Parents/pickup.tscn" id="1_ls7bf"]
 [ext_resource type="Script" path="res://scripts/ammo.gd" id="2_5em42"]
-[ext_resource type="PackedScene" uid="uid://bpi0iafgt7olq" path="res://scenes/items/ammo_357_large.tscn" id="2_ikcfa"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_h5ggu"]
-size = Vector3(0.404541, 0.404724, 0.813232)
+[ext_resource type="PackedScene" uid="uid://difodgajn03g7" path="res://scenes/items/ammo_357_large.tscn" id="2_ikcfa"]
 
 [node name="Pickup" instance=ExtResource("1_ls7bf")]
 script = ExtResource("2_5em42")
 ammoType = 3
 
-[node name="RigidBody3D" parent="." index="1"]
-collision_layer = 3
-collision_mask = 3
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03479, 0.218841, -0.00402832)
-shape = SubResource("BoxShape3D_h5ggu")
-
-[node name="Ammo357Large" parent="RigidBody3D" index="1" instance=ExtResource("2_ikcfa")]
-transform = Transform3D(-1.74846e-08, -0.4, 0, 0.4, -1.74846e-08, 0, 0, 0, 0.4, 0.169626, 0.415069, 0)
+[node name="RigidBody3D#Ammo357Large" parent="." index="0" instance=ExtResource("2_ikcfa")]
+transform = Transform3D(0.4, -4.61853e-14, 0, 4.61853e-14, 0.4, 0, 0, 0, 0.4, 0.169626, -0.496289, 0)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

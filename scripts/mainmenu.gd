@@ -6,7 +6,12 @@ var menus = {
 	"Pause" : ["Resume", "Options", "Save Game", "Load Game", "Return to Main Menu"],
 	"Audio" : ["Save Settings", "Default Settings", "Back"],
 	"Graphics" : ["Save Settings", "Low Quality Mode", "Default Settings", "Back"],
-	"Display" : ["Save Settings", "Default Settings", "Back"]
+	"Display" : ["Save Settings", "Default Settings", "Back"],
+	"Controls" : ["Save Settings", "Default Settings", "Back"],
+	"New Game" : ["Start Game", "Back"],
+	"Load Game" : ["Back"],
+	"Tutorial" : ["Start Tutorial", "Back"],
+	"Mods": ["Browse", "My Mods", "Create", "Back"]
 }
 
 var currentMenu = "Main Menu"
@@ -53,8 +58,29 @@ func UpdateMenu():
 		"Display":
 			CreateSlider("Resolution","OnResolutionChanged",0,4,4,"Resolution: 1920x1080")
 			CreateSlider("FPS","OnFPSChanged",0,6,2,"FPS: 60")
+			CreateSlider("Brightness","OnBrightnessChanged",0,100,50)
 			CreateCheckbox("Fullscreen", "ToggleQuality", true)
+			pass		
 			
+		"Controls":
+			#Custom keys start from index #76 with move_left as 76
+			
+			for i in range(76, InputMap.get_actions().size()):
+				var btnup = CreateButton("Up","OnControlPressed_UP")
+				pass
+				
+		
+		
+		"New Game":
+			pass
+			
+		"Load Game":
+			pass
+		
+		"Mods":
+			pass
+		
+		"Tutorial":
 			pass
 
 	for option in menus[currentMenu]: CreateButton(option)
@@ -100,6 +126,14 @@ func OnFOVChanged(slider,label,text):
 	label.text = str(text, " : ", slider)
 	pass
 	
+func OnBrightnessChanged(slider,label,text):
+	label.text = str(text, " : ", slider)
+
+#Buttons
+func OnControlPressed_UP():
+	
+	pass
+	
 func OnResolutionChanged(slider,label,text):
 	print_debug(slider)
 	var _txt = ""
@@ -135,6 +169,11 @@ func OnOptionPressed(option):
 		"Audio" : currentMenu = "Audio"; UpdateMenu();
 		"Graphics" : currentMenu = "Graphics"; UpdateMenu();
 		"Display" : currentMenu = "Display"; UpdateMenu();
+		"Controls" : currentMenu = "Controls"; UpdateMenu();
+		"Mods" : currentMenu = "Mods"; UpdateMenu();
+		"Tutorial" : currentMenu = "Tutorial"; UpdateMenu();
+		"Save Game" : currentMenu = "Save Game"; UpdateMenu();
+		"Load Game" : currentMenu = "Load Game"; UpdateMenu();
 		"Exit" : get_tree().quit();
 		
 		#Handle what the back button does on each page
@@ -144,6 +183,10 @@ func OnOptionPressed(option):
 			"Graphics" : currentMenu = "Options"; UpdateMenu();
 			"Controls" : currentMenu = "Options"; UpdateMenu();
 			"Display" : currentMenu = "Options"; UpdateMenu();
+			"New Game" : currentMenu = "Main Menu"; UpdateMenu();
+			"Load Game" : currentMenu = "Main Menu"; UpdateMenu();
+			"Mods" : currentMenu = "Main Menu"; UpdateMenu();
+			"Tutorial" : currentMenu = "Main Menu"; UpdateMenu();
 	pass
 	
 func CreateSlider(text, functionToCall, min_value=0, max_value=100, default_value=50, fullyCustomText=""):
@@ -167,6 +210,8 @@ func CreateSlider(text, functionToCall, min_value=0, max_value=100, default_valu
 	
 	%menuItems.add_child(label);
 	%menuItems.add_child(slider);
+	
+	return slider
 	pass
 
 func CreateButton(text, functionToCall="OnOptionPressed"):
@@ -174,6 +219,8 @@ func CreateButton(text, functionToCall="OnOptionPressed"):
 	button.text = text
 	button.pressed.connect(Callable(self,functionToCall).bind(text))
 	%menuItems.add_child(button)
+	
+	return button
 	pass
 	
 func CreateCheckbox(text, functionToCall, initiallyChecked=false):
@@ -182,4 +229,6 @@ func CreateCheckbox(text, functionToCall, initiallyChecked=false):
 	checkbox.button_pressed = initiallyChecked;
 	checkbox.toggled.connect(Callable(self,functionToCall).bind(checkbox));
 	%menuItems.add_child(checkbox)
+	
+	return checkbox
 	pass

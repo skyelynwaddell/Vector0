@@ -1,7 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://bgwea2tmis38m"]
+[gd_scene load_steps=17 format=3 uid="uid://bgwea2tmis38m"]
 
 [ext_resource type="Script" path="res://scripts/scorpion_alien.gd" id="1_e8v8h"]
 [ext_resource type="PackedScene" uid="uid://csxvsb013p015" path="res://models/enemys/alien_lasereye/alien3.fbx" id="2_ci4ex"]
+[ext_resource type="PackedScene" uid="uid://bkyxdm7t5qmw3" path="res://scenes/other/gib_particles.tscn" id="3_daogs"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kd7oq"]
 animation = &"root|Attack"
@@ -32,7 +33,6 @@ animation = &"root|Walk"
 [sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_o3pog"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_b0hth"]
-graph_offset = Vector2(-200.863, -14.4466)
 nodes/AnimAttack/node = SubResource("AnimationNodeAnimation_kd7oq")
 nodes/AnimAttack/position = Vector2(60, 340)
 nodes/AnimDeath/node = SubResource("AnimationNodeAnimation_fqv46")
@@ -67,34 +67,14 @@ collision_mask = 11
 script = ExtResource("1_e8v8h")
 targetname = &""
 
-[node name="AnimationTree" type="AnimationTree" parent="."]
-root_node = NodePath("../Root Scene")
-tree_root = SubResource("AnimationNodeBlendTree_b0hth")
-anim_player = NodePath("../Root Scene/AnimationPlayer")
-parameters/Attack/blend_amount = 0.0
-parameters/Death/blend_amount = 0
-parameters/JumpOnHead/blend_amount = 0.0
-parameters/SuckOnHead/blend_amount = 0.0
-parameters/Walk/blend_amount = 0.0
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(2.2191, 0, 0, 0, 2.2191, 0, 0, 0, 2.2191, 0.0892759, 1.24359, 0.616081)
-shape = SubResource("BoxShape3D_642ki")
-
-[node name="Area3D" type="Area3D" parent="."]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(1.00236, 0, 0, 0, 1.00236, 0, 0, 0, 1.00236, -0.0175279, 1.42696, 0.481826)
-shape = SubResource("BoxShape3D_642ki")
-
-[node name="Root Scene" parent="." instance=ExtResource("2_ci4ex")]
+[node name="Model" parent="." instance=ExtResource("2_ci4ex")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
 
-[node name="Skeleton3D" parent="Root Scene/RootNode/root" index="0"]
+[node name="Skeleton3D" parent="Model/RootNode/root" index="0"]
 bones/0/position = Vector3(0, 0, 0)
 bones/0/rotation = Quaternion(0.5, -0.5, -0.5, 0.5)
 bones/2/position = Vector3(-1.10702e-10, 0.00146629, 0.0126564)
-bones/2/rotation = Quaternion(-0.568118, 0.362679, 0.625881, -0.392401)
+bones/2/rotation = Quaternion(-0.570276, 0.336525, 0.651232, -0.37072)
 bones/2/scale = Vector3(1, 1, 1)
 bones/3/rotation = Quaternion(-0.0706363, -0.0160739, -0.229108, 0.970702)
 bones/4/rotation = Quaternion(-0.00166099, -0.0275207, -0.0641035, 0.997562)
@@ -137,4 +117,29 @@ bones/31/rotation = Quaternion(0.0767229, 0.0269841, -0.160911, 0.983612)
 bones/32/rotation = Quaternion(0.00208197, -0.00862188, 0.763458, 0.645796)
 bones/32/scale = Vector3(1, 1, 1)
 
-[editable path="Root Scene"]
+[node name="AnimationTree" type="AnimationTree" parent="."]
+root_node = NodePath("../Model")
+tree_root = SubResource("AnimationNodeBlendTree_b0hth")
+anim_player = NodePath("../Model/AnimationPlayer")
+parameters/Attack/blend_amount = 0.0
+parameters/Death/blend_amount = 0
+parameters/JumpOnHead/blend_amount = 0.0
+parameters/SuckOnHead/blend_amount = 0.0
+parameters/Walk/blend_amount = 0.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(2.2191, 0, 0, 0, 2.2191, 0, 0, 0, 2.2191, 0.0892759, 1.24359, 0.616081)
+shape = SubResource("BoxShape3D_642ki")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1.00236, 0, 0, 0, 1.00236, 0, 0, 0, 1.00236, -0.0175279, 1.42696, 0.481826)
+shape = SubResource("BoxShape3D_642ki")
+
+[node name="GibParticles" parent="." instance=ExtResource("3_daogs")]
+
+[node name="BloodTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+
+[editable path="Model"]

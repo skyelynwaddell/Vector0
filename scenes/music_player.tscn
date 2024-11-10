@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bd0hkauib0b26"]
+
+[ext_resource type="Script" path="res://scripts/music_player.gd" id="1_l0td0"]
+[ext_resource type="AudioStream" uid="uid://wf4af110bvbs" path="res://audio/music/557810__zhr__horror-background.mp3" id="1_wclws"]
+
+[node name="MusicPlayer" type="Node2D"]
+script = ExtResource("1_l0td0")
+
+[node name="AudioPlayer" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("1_wclws")
+autoplay = true
+bus = &"Music"

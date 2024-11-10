@@ -68,7 +68,6 @@ radius = 0.2
 collision_layer = 15
 collision_mask = 15
 script = ExtResource("1_jqck8")
-kia = null
 targetname = &""
 
 [node name="Model" parent="." instance=ExtResource("2_53le2")]
@@ -96,5 +95,8 @@ shape = SubResource("BoxShape3D_642ki")
 
 [node name="GibParticles" parent="." instance=ExtResource("3_mvjng")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0157295, 0.314417, -0.299007)
+
+[node name="BloodTimer" type="Timer" parent="GibParticles"]
+unique_name_in_owner = true
 
 [editable path="GibParticles"]

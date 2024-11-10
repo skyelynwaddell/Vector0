@@ -1,25 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://dbwwrbpyspnmj"]
+[gd_scene load_steps=4 format=3 uid="uid://dbwwrbpyspnmj"]
 
 [ext_resource type="PackedScene" uid="uid://dvgcsgg7oo2xp" path="res://scenes/Parents/pickup.tscn" id="1_st0xw"]
 [ext_resource type="Script" path="res://scripts/ammo.gd" id="2_202t0"]
 [ext_resource type="PackedScene" uid="uid://cxj6mrtg5ebdc" path="res://models/objects/ammo_carbine_large/ammocrate.fbx" id="3_as3ls"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_h5ggu"]
-size = Vector3(0.380005, 0.489792, 0.484222)
 
 [node name="Pickup" instance=ExtResource("1_st0xw")]
 script = ExtResource("2_202t0")
 
 [node name="Root Scene" parent="." index="1" instance=ExtResource("3_as3ls")]
 transform = Transform3D(0.24, 2.55795e-15, 0, -2.55795e-15, 0.24, 0, 0, 0, 0.24, 0.00277269, -0.494212, 0)
-
-[node name="RigidBody3D" parent="." index="2"]
-transform = Transform3D(1, 1.06581e-14, 0, -1.06581e-14, 1, 0, 0, 0, 1, -0.0379376, -0.549654, 0)
-collision_layer = 3
-collision_mask = 3
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0380249, 0.299018, -0.000503659)
-shape = SubResource("BoxShape3D_h5ggu")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

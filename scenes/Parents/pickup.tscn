@@ -11,6 +11,3 @@ collision_mask = 3
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00853729, 0.406526, -0.0559003)
 shape = SubResource("BoxShape3D_1n5pd")
-
-[node name="RigidBody3D" type="RigidBody3D" parent="."]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -0.231009, -0.330374, 0)

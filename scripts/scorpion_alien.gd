@@ -12,8 +12,8 @@ var jumpDuration = 0
 var jumpDurationMax = 0.2
 var jumpBlend = 0.0
 @onready var animTree = $AnimationTree
-@onready var gibParticles = $GibParticles/GPUParticles3D
-@onready var bloodParticles = $GibParticles/GPUParticles3D2
+@onready var bloodParticles = $GibParticles/BloodParticles
+@onready var gibParticles = $GibParticles/GibParticles
 var canEmit = true
 
 # Called when the node enters the scene tree for the first time.
@@ -21,6 +21,7 @@ func _ready():
 	if Engine.is_editor_hint(): return
 	state = IDLE
 	grvty = 12.0
+	%BloodTimer.timeout.connect(BloodTimerDone)  # Connect the timer signal
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -107,11 +108,30 @@ func _physics_process(delta):
 			pass
 			
 	pass
+	
+func Hurt(dmg):
+	super.Hurt(dmg);
+	EmitBlood();
+	pass
 
 func EmitGibs():
 	#gibParticles.restart()
+	bloodParticles.one_shot = true
 	gibParticles.emitting = true
 	bloodParticles.emitting = true
+	pass
+
+func BloodTimerDone():
+	bloodParticles.emitting = false
+	bloodParticles.one_shot = true	
+	pass
+
+func EmitBlood():
+	bloodParticles.one_shot = true
+	bloodParticles.emitting = true
+	%BloodTimer.stop()
+	%BloodTimer.start(bloodParticles.lifetime)	
+	bloodParticles.one_shot = false
 	pass
 
 func ChangeState(newState):

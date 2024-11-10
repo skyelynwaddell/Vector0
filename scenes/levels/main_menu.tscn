@@ -9,6 +9,7 @@ anchors_preset = 0
 script = ExtResource("1_w3qql")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
 offset_right = 1150.0
 offset_bottom = 642.0
 color = Color(0, 0, 0, 1)
@@ -16,6 +17,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="lblTitle" type="Label" parent="."]
 texture_filter = 3
+layout_mode = 0
 offset_left = 782.0
 offset_top = 502.0
 offset_right = 1623.0
@@ -27,6 +29,7 @@ text = "vector0"
 
 [node name="lblBetaMode" type="Label" parent="."]
 texture_filter = 3
+layout_mode = 0
 offset_left = 814.0
 offset_top = 36.0
 offset_right = 1907.0
@@ -39,6 +42,7 @@ text = "[DEV BUILD]"
 [node name="lblMenuName" type="Label" parent="."]
 unique_name_in_owner = true
 texture_filter = 3
+layout_mode = 0
 offset_left = 37.0
 offset_top = 24.0
 offset_right = 1094.0
@@ -51,6 +55,7 @@ text = "MAIN MENU"
 [node name="lblVersion" type="Label" parent="."]
 texture_filter = 3
 layout_direction = 3
+layout_mode = 0
 offset_left = -1851.0
 offset_top = 589.0
 offset_right = -1010.0

@@ -334,6 +334,9 @@
 //Scorpion Alien
 @PointClass base(func_entity) color(204 204 204) model({"path":"glb/alien_scorpion/monster_scorpion.glb", "scale":"1"}) size(-8 -8 -8, 8 8 8) = monster_scorpion : "Scorpion Alien Monster" []
 
+//Laser Eye Alien
+@PointClass base(func_entity) color(204 204 204) model({"path":"glb/monster_lasereye/lasereye.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = monster_lasereye : "Laser Eye Alien" []
+
 //Soldier
 @PointClass base(func_entity) color(204 204 204) model({"path":"glb/soldier/soldier.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = monster_soldier : "Soldier" []
 

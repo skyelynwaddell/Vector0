@@ -41,14 +41,13 @@ extends CharacterBody3D
 @onready var hudAnimPlayer = %AnimationPlayer
 
 #SFX
-@onready var sfxShotgun = %sfxShotgun
-@onready var sfxReload = %sfxShotgunReload
 @onready var sfxInteractNowork = %sfxInteractNowork
 @onready var sfxInteractSwitch = %sfxInteractSwitch
 @onready var sfxWhip1 = %sfxWhip1
 @onready var sfxWhip2 = %sfxWhip2
+@onready var sfxReload = %sfxShotgunReload
 @onready var currentSFX = sfxInteractNowork
-@onready var weaponSFX = sfxShotgun
+@onready var weaponSFX = %sfxShotgun
 
 #Decals
 @onready var decalBulletHole = preload("res://scenes/decals/decal_bullethole.tscn")
@@ -533,7 +532,7 @@ func Reload():
 	reloading = true
 	
 	# Play Reloading Sound Effect
-	$Audio/sfxShotgunReload.play()
+	sfxReload.play()
 	
 	# Set all of our animation blend speeds to 0 to avoid wonky animations during reloading
 	runVal = 0.0
@@ -629,49 +628,55 @@ func ChangeWeapon(type):
 			pass
 		#PISTOL
 		1:
-			weaponSFX = sfxShotgun
+			weaponSFX = %sfxPistol
+			sfxReload = %sfxPistolReload
 			anim_tree = animPistol
 			modelPistol.visible = true
 			pass
 		#CARBINE
 		2:
-			weaponSFX = sfxShotgun
+			weaponSFX = %sfxMachineGun
+			sfxReload = %sfxMachineGunReload
 			anim_tree = animCarbine
 			modelCarbine.visible = true
 			pass		
 		#PUMP SHOTGUN
 		3:
-			weaponSFX = sfxShotgun
+			weaponSFX = %sfxShotgun
+			sfxReload = %sfxShotgunReload
 			anim_tree = animPumpShotgun
 			modelPumpShotgun.visible = true
 			pass		
 		#REVOLVER
 		4:
-			weaponSFX = sfxShotgun
+			weaponSFX = %sfxRevolver
+			sfxReload = %sfxRevolverReload
 			anim_tree = animRevolver
 			modelRevolver.visible = true
 			pass		
 		#CROWBAR
 		5:
-			weaponSFX = sfxWhip1
+			weaponSFX = %sfxWhip1
 			anim_tree = animCrowbar
 			modelCrowbar.visible = true
 			pass	
 		#SUB MACHINE GUN
 		6:
-			weaponSFX = sfxShotgun
+			weaponSFX = %sfxMP
+			sfxReload = %sfxMPReload
 			anim_tree = animSubMachineGun
 			modelSubMachineGun.visible = true
 			pass	
 		#KNIFE
 		7:
-			weaponSFX = sfxWhip1
+			weaponSFX = %sfxWhip1
 			anim_tree = animKnife
 			modelKnife.visible = true
 			pass
 		#MP
 		8:
-			weaponSFX = sfxShotgun
+			weaponSFX = %sfxMP
+			sfxReload = % sfxMPReload			
 			anim_tree = animMP
 			modelMP.visible = true
 			pass

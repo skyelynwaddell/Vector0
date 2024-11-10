@@ -36,7 +36,7 @@ var weaponList = [
 		power     = 20,
 		magSize = 30,
 		ammoPool = "carbine",
-		spd = 200
+		spd = 300
 	},
 	# 3 - PUMP SHOTGUN
 	{
@@ -46,7 +46,7 @@ var weaponList = [
 		power     = 50,
 		magSize = 8,
 		ammoPool = "shotgun",
-		spd = 200
+		spd = 500
 	},	
 	# 4 - REVOLVER
 	{
@@ -76,7 +76,7 @@ var weaponList = [
 		power     = 20,
 		magSize = 30,
 		ammoPool = "9mm",
-		spd = 200
+		spd = 400
 	},	
 	# 7 - KNIFE
 	{
@@ -96,7 +96,7 @@ var weaponList = [
 		power     = 100,
 		magSize = 30,
 		ammoPool = "9mm",
-		spd = 200
+		spd = 400
 	},
 ]
 
