@@ -54,6 +54,7 @@ extends CharacterBody3D
 
 #signals
 signal UpdateHUDSignal
+signal PlayerShootSignal
 
 @export_group("Properties")
 ## Target Name - Default is "Player"
@@ -676,7 +677,7 @@ func ChangeWeapon(type):
 		#MP
 		8:
 			weaponSFX = %sfxMP
-			sfxReload = % sfxMPReload			
+			sfxReload = %sfxMPReload			
 			anim_tree = animMP
 			modelMP.visible = true
 			pass
@@ -893,6 +894,8 @@ func CreateRayCast():
 
 #SHOOT
 func Shoot():
+	
+	
 	#Get global weapon properties 
 	var currentWeapon = Game.weapons[Game.currentWeapon]
 	var weaponIndex = currentWeapon.index
@@ -916,9 +919,16 @@ func Shoot():
 				Reload()
 				return
 	
-	#Check if we can shoot, and aren't doing the following actions
-	if canShoot == false || reloading || changingWeapon :
+	#Check if we arent reloading/changing weapons
+	if reloading || changingWeapon :
 		return
+	
+	#Displays muzzle flash
+	#%arms_carbine.get_node("MuzzleFlash").Start()	
+	#%arms_pistol.get_node("MuzzleFlash").Start()	
+	
+	#If already shooting dont do the below stuff
+	if canShoot == false: return
 	
 	#Shooting checks succeeded, perform the shot
 	canShoot = false
@@ -927,6 +937,9 @@ func Shoot():
 	weaponSFX.play()
 	if weaponSFX == sfxWhip1: weaponSFX = sfxWhip2
 	elif weaponSFX == sfxWhip2: weaponSFX = sfxWhip1
+	
+	#Display muzzle flash	
+	
 	
 	#Create a raycast to the point we just shot to get collider
 	CreateRayCast()
@@ -1045,3 +1058,4 @@ func onAreaExited(area):
 		state = DEFAULT
 		currentLadder = null
 	pass 
+

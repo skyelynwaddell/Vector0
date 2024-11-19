@@ -81,8 +81,28 @@
 //Func Glass
 @SolidClass color(204 204 204) base(func_entity) = func_glass : "Transparent Glass Mesh" []
 
+//Func Glass
+@SolidClass color(204 204 204) base(func_entity) = func_breakable : "Make any object breakable!" 
+[
+	particleType(choices) : "Particle Type" : 0 =
+	[
+		0 : "Smoke"
+		1 : "Wood"
+		2 : "Metal"
+	]
+	
+	explosive(choices) : "Select if this object explodes when it is broken as well." : 0 =
+	[
+		0 : "False"
+		1 : "True"
+	]
+]
+
 //Func Physics
 @SolidClass color(204 204 204) base(func_entity) = func_physics : "Builds RigidBody3D Brush." []
+
+//Func Physics Breakable
+@SolidClass color(204 204 204) base(func_breakable) = func_physics_breakable : "Make any physics object also breakable." []
 
 //Func Water
 @SolidClass color(204 204 204) base(func_entity) = func_water : "Turns brush into Water in-game." 

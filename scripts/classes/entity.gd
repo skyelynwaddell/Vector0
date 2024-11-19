@@ -16,3 +16,14 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+	
+func AddToGroup(groupname : String):
+	add_to_group(groupname, true)
+	pass
+
+func InstanceCreate(scene : PackedScene):
+	var newScene = scene.instantiate()
+	self.add_child(newScene)
+	newScene.set_owner(get_tree().get_edited_scene_root())
+	return newScene
+	pass

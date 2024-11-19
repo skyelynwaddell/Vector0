@@ -105,7 +105,9 @@ func SetSFX(sfx):
 func _process(delta):
 	
 	if Input.is_action_just_pressed("Interact"):
-		state = ALERT
+		#state = ALERT
+		var skele = %Soldier.get_node("RootNode/Root/Skeleton3D")
+		skele.RagdollActivate()
 	
 	match(state):
 		IDLE:

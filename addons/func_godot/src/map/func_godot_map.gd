@@ -368,6 +368,10 @@ func build_entity_nodes() -> Array:
 		
 		var should_add_child: bool = should_add_children
 		
+		if 'node_group' in properties:
+			print_debug("is in a group")
+			pass
+		
 		if 'classname' in properties:
 			var classname: String = properties['classname']
 			node_name += "_" + classname
@@ -426,6 +430,8 @@ func build_entity_nodes() -> Array:
 					node.set_script(entity_definition.script_class)
 		
 		node.name = node_name
+		
+	
 		
 		if 'origin' in properties and entity_dict.brush_count < 1:
 			var origin_vec: Vector3 = Vector3.ZERO

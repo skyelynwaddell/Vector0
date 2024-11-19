@@ -41,6 +41,9 @@ var prefix: String = ""
 ## Nodes will be named `"entity_" + name_property`. An entity's name should be unique, otherwise you may run into unexpected behavior.
 @export var name_property := ""
 
+## Add the node to a group when instantiated
+@export var node_group := "Object"
+
 func build_def_text(model_key_supported: bool = true) -> String:
 	# Class prefix
 	var res : String = prefix

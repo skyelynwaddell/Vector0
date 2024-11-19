@@ -1,53 +1,54 @@
+@tool
 extends Entity
-
 class_name DestroyObject
-# If the Entity inherits from this class:
-	# Must add a Node3D named Model
-	# Must add GPUParticles3D called Smoke
 
-@onready var particleSmoke = $"BreakableParticles/Smoke"
-@onready var particleWood = $"BreakableParticles/Wood"
-@onready var particlePaper = $"BreakableParticles/Paper"
-@onready var particleMetal = $"BreakableParticles/Metal"
+@onready var model = self
+@onready var ps = preload("res://scenes/Parents/breakable_particles.tscn")
+@onready var breakableParticles = self.get_node("BreakableParticles") if true else self
+@onready var particle = breakableParticles.get_node(particleType) if true else self
 
-@export var particleType = "Smoke"
-@onready var model = $Model
+# Contains the properties for the breakable object
+@export_group("Breakable Object Properties")
+@export_enum("Smoke", "Metal", "Wood") var particleType : String = "Smoke"
+@export var explosive : bool = false
 
 var destroy = false
-var particle = null
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	print_debug(name, " ", particleType)
-	match(particleType):
-		# Smoke
-		"Smoke": 
-			particle = particleSmoke
-		# Wood
-		"Wood": 
-			particle = particleWood
-		# Paper
-		"Paper": 
-			particle = particlePaper
-		# Metal
-		"Metal": 
-			particle = particleMetal
-		
-	pass # Replace with function body.
+## Called on level Build
+func _func_godot_apply_properties(props : Dictionary):
+	
+	## Set props from map editor
+	match(props.particleType):
+		"0" : particleType = "Smoke"
+		"1" : particleType = "Wood"
+		"2" : particleType = "Metal"
+	
+	match(props.explosive):
+		"0" : explosive = false
+		"1" : explosive = true
+	
+	# Instantiate the particle system, particle type, and node group
+	AddToGroup("Breakable")
+	var new_ps = InstanceCreate(ps)
+	particle = new_ps.get_node(particleType)
+	
+	# Remove un-used particle systems
+	for node in new_ps.get_children():
+		if node.name != particleType:
+			node.queue_free()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
-#Called when this object is destroyed
+## Called when this object is destroyed
 func Destroy():
 	if destroy: return
-	
 	destroy = true
-	model.visible = false
+	
+	# Remove the Model & Collision when it blows up
+	for node in self.get_children():
+		if node is MeshInstance3D or node is CollisionShape3D:
+			node.queue_free()
+	
 	particle.emitting = true
 
-#Called when partiles are finished emitting
+## Called when particles are finished emitting
 func _on_smoke_finished():
 	queue_free()
-	pass # Replace with function body.

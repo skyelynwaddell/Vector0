@@ -1,7 +1,7 @@
 extends Resource
 class_name SaveData
 
-@export var SAVEFILE = Game.SAVEFILE
+@export var SAVEFILE = Game.filename
 @export var godmode = Game.godmode
 @export var keycard = Game.keycard
 @export var weapons = Game.weapons

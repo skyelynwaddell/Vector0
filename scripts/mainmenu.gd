@@ -29,6 +29,9 @@ func _process(delta):
 func UpdateMenu():
 	# Clear previous menu's items
 	for child in %menuItems.get_children():
+		child.queue_free()	
+		
+	for child in %saveButtons.get_children():
 		child.queue_free()
 
 	%lblMenuName.text = currentMenu.to_upper();
@@ -65,11 +68,29 @@ func UpdateMenu():
 		"Controls":
 			#Custom keys start from index #76 with move_left as 76
 			
-			for i in range(76, InputMap.get_actions().size()):
-				var btnup = CreateButton("Up","OnControlPressed_UP")
-				pass
-				
-		
+			var btnup = CreateButton("Move Forwards [W]",true,"OnControlPressed_UP")
+			var btndown = CreateButton("Move Backwards [S]",true,"OnControlPressed_UP")
+			var btnleft = CreateButton("Move Left [A]",true,"OnControlPressed_UP")
+			var btnright = CreateButton("Move Right [D]",true,"OnControlPressed_UP")
+			
+			var btnjump = CreateButton("Jump [Space]",true,"OnControlPressed_UP")
+			
+			var btnshoot = CreateButton("Shoot [LEFT MB]",true,"OnControlPressed_UP")
+			var btnreload = CreateButton("Reload [R]",true,"OnControlPressed_UP")
+			
+			
+			var btnchangeweapon_up  = CreateButton("Change Weapon Up [Scroll Wheel Up]",true,"OnControlPressed_UP")
+			var btnchangeweapon_down  = CreateButton("Change Weapon Down []",true,"OnControlPressed_UP")
+			
+			var btninteract = CreateButton("Interact [E]",true,"OnControlPressed_UP")
+			var btnflashlight = CreateButton("Flashlight [F]",true,"OnControlPressed_UP")
+			
+			
+			var btncrouch = CreateButton("Crouch [Ctrl]",true,"OnControlPressed_UP")
+			var btnwalk = CreateButton("Walk [Shift]",true,"OnControlPressed_UP")
+			
+			var btnconsole = CreateButton("Debug Console [`]",true,"OnControlPressed_UP")
+			var btnpause = CreateButton("Pause [Esc]",true,"OnControlPressed_UP")
 		
 		"New Game":
 			pass
@@ -83,7 +104,18 @@ func UpdateMenu():
 		"Tutorial":
 			pass
 
-	for option in menus[currentMenu]: CreateButton(option)
+	for option in menus[currentMenu]: 
+		
+		## Detect which buttons should be in the scroll menu, vs the bottom no scroll menu
+		var scroll = true
+		if (option == "Save Settings"): scroll = false
+		if (option == "Low Quality Mode"): scroll = false
+		if (option == "Default Settings"): scroll = false
+		if (option == "Back"): scroll = false
+		
+		if (currentMenu == "Options"): scroll = true
+		
+		CreateButton(option,scroll)
 	pass
 
 #Audio
@@ -130,6 +162,8 @@ func OnBrightnessChanged(slider,label,text):
 	label.text = str(text, " : ", slider)
 
 #Buttons
+
+## Function that is called when a user clicks a button to change the controlss
 func OnControlPressed_UP():
 	
 	pass
@@ -162,6 +196,7 @@ func OnFPSChanged(slider,label,text):
 	label.text = str("FPS: ", _txt)
 	pass
 		
+## Manages what each button does in the menuss
 func OnOptionPressed(option):
 	match(option):
 		"New Game": get_tree().change_scene_to_file("res://scenes/levels/level1.tscn");
@@ -214,11 +249,15 @@ func CreateSlider(text, functionToCall, min_value=0, max_value=100, default_valu
 	return slider
 	pass
 
-func CreateButton(text, functionToCall="OnOptionPressed"):
+func CreateButton(text, scroll=true, functionToCall="OnOptionPressed"):
 	var button = Button.new()
 	button.text = text
 	button.pressed.connect(Callable(self,functionToCall).bind(text))
-	%menuItems.add_child(button)
+	
+	if (scroll == true):
+		%menuItems.add_child(button)
+	else:
+		%saveButtons.add_child(button)
 	
 	return button
 	pass
