@@ -1,7 +1,7 @@
 @tool
 extends Area3D
 
-@onready var waterMaterial = preload("res://materials/water_merky.tres")
+@onready var waterMaterial = preload("res://materials/water.tres")
 @onready var fog = preload("res://scenes/WaterMaker3D/FogVolume.tscn")
 
 @export var color = Vector4.ZERO

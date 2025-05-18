@@ -1,4 +1,11 @@
-[gd_scene format=3 uid="uid://bilyp4b6egrkj"]
+[gd_scene load_steps=2 format=3 uid="uid://bilyp4b6egrkj"]
+
+[ext_resource type="Script" path="res://scripts/func/func_water.gd" id="1_swq31"]
 
 [node name="FuncWater" type="Area3D"]
 process_priority = 999
+script = ExtResource("1_swq31")
+duplicateMaterial = Object(GDScriptNativeClass,"script":null)
+
+texture = Object(GDScriptNativeClass,"script":null)
+

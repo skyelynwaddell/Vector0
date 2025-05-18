@@ -1,0 +1,106 @@
+[gd_scene load_steps=10 format=3 uid="uid://dp26obojttj01"]
+
+[ext_resource type="PackedScene" uid="uid://d4j0aydfpifh0" path="res://models/Weapons/pump2/arms_betterpump.fbx" id="1_iu72t"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_7qbib"]
+animation = &"Armature|Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_yxgpe"]
+animation = &"Armature|Reload"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_32j0b"]
+animation = &"Armature|Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6ydb7"]
+animation = &"Armature|Shoot"
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_mdyb0"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_ps3db"]
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_sjsi4"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_h54ep"]
+graph_offset = Vector2(-434.4, 44.0347)
+nodes/AnimIdle/node = SubResource("AnimationNodeAnimation_7qbib")
+nodes/AnimIdle/position = Vector2(-400, 100)
+nodes/AnimReload/node = SubResource("AnimationNodeAnimation_yxgpe")
+nodes/AnimReload/position = Vector2(-420, 280)
+nodes/AnimRun/node = SubResource("AnimationNodeAnimation_32j0b")
+nodes/AnimRun/position = Vector2(-40, 300)
+nodes/AnimShoot/node = SubResource("AnimationNodeAnimation_6ydb7")
+nodes/AnimShoot/position = Vector2(300, 320)
+nodes/Reload/node = SubResource("AnimationNodeOneShot_mdyb0")
+nodes/Reload/position = Vector2(-200, 140)
+nodes/RunBlend/node = SubResource("AnimationNodeBlend2_ps3db")
+nodes/RunBlend/position = Vector2(140, 160)
+nodes/Shoot/node = SubResource("AnimationNodeOneShot_sjsi4")
+nodes/Shoot/position = Vector2(620.047, 185.209)
+nodes/output/position = Vector2(900, 180)
+node_connections = [&"Reload", 0, &"AnimIdle", &"Reload", 1, &"AnimReload", &"RunBlend", 0, &"Reload", &"RunBlend", 1, &"AnimRun", &"Shoot", 0, &"RunBlend", &"Shoot", 1, &"AnimShoot", &"output", 0, &"Shoot"]
+
+[node name="NewPump" type="Node3D"]
+
+[node name="Model" parent="." instance=ExtResource("1_iu72t")]
+
+[node name="Armature" parent="Model/RootNode" index="0"]
+transform = Transform3D(100, 0, 0, 0, -4.37114e-06, 100, 0, -100, -4.37114e-06, 0, 0, 0)
+
+[node name="Skeleton3D" parent="Model/RootNode/Armature" index="0"]
+bones/0/position = Vector3(0.0198193, 0.0299982, 0.00724737)
+bones/0/rotation = Quaternion(0.740832, 0.501656, -0.127351, 0.428124)
+bones/2/position = Vector3(0.0216518, 0.0298239, 0.00830046)
+bones/2/rotation = Quaternion(0.0401714, 0.990453, 0.0289267, -0.128655)
+bones/3/position = Vector3(0.000373245, 0.0101569, -0.00353868)
+bones/3/rotation = Quaternion(-0.0803802, -0.274441, -0.488101, 0.824608)
+bones/5/rotation = Quaternion(-0.266379, 0.149174, -0.624224, 0.71912)
+bones/7/position = Vector3(-4.99099e-05, 0.0122618, -0.000276536)
+bones/7/rotation = Quaternion(0.0643963, 0.0644408, -0.303314, 0.948526)
+bones/8/rotation = Quaternion(0.0895532, 0.0127361, -0.675054, 0.732202)
+bones/11/rotation = Quaternion(0.0385335, 0.0393038, -0.240273, 0.969144)
+bones/12/rotation = Quaternion(0.139265, -0.00108444, -0.731075, 0.667933)
+bones/15/position = Vector3(-5.25424e-05, 0.00805585, 0.00364651)
+bones/15/rotation = Quaternion(0.0260904, 0.0653325, -0.12594, 0.98954)
+bones/16/rotation = Quaternion(0.161062, 0.0343809, -0.59892, 0.783691)
+bones/17/rotation = Quaternion(0.231457, 0.182888, -0.602844, 0.741323)
+bones/19/position = Vector3(0.00650471, 0.00742643, -0.0029114)
+bones/19/rotation = Quaternion(-0.218202, 0.0785755, -0.141486, 0.96239)
+bones/23/position = Vector3(0.034005, -0.0254923, 0.0211435)
+bones/23/rotation = Quaternion(-0.232401, 0.111919, -0.0168047, 0.966013)
+bones/24/rotation = Quaternion(-0.140913, 0.988614, 0.0105195, 0.0517313)
+bones/25/rotation = Quaternion(-0.211981, 0.00121704, -0.0576549, 0.975571)
+bones/27/position = Vector3(0.00615242, 0.0550112, 0.00904411)
+bones/27/rotation = Quaternion(0.449135, -0.35675, 0.0370854, 0.818311)
+bones/28/position = Vector3(-0.00142976, -0.000574047, 0.000836465)
+bones/28/rotation = Quaternion(-0.119111, 0.756381, -0.584419, 0.268616)
+bones/39/rotation = Quaternion(0.041045, 0.144376, 0.555718, 0.817709)
+bones/45/rotation = Quaternion(-0.252074, -0.356386, 0.511388, 0.740223)
+bones/46/rotation = Quaternion(0.241676, -0.00809309, -0.201046, 0.949267)
+bones/49/position = Vector3(0.0187955, 0.00720928, 0.000884267)
+bones/49/rotation = Quaternion(0.220162, -0.620431, 0.316229, 0.683076)
+bones/50/rotation = Quaternion(0.0802401, 0.890306, -0.0766475, -0.441635)
+bones/51/rotation = Quaternion(0.484803, -0.728087, 0.271074, 0.401715)
+bones/53/position = Vector3(0.0191077, 0.0302021, 0.0166774)
+bones/53/rotation = Quaternion(-0.00260932, -0.0126188, 0.168443, 0.985627)
+bones/54/rotation = Quaternion(0.0125157, -0.00306568, 0.991092, 0.132556)
+bones/55/position = Vector3(0.00376143, 0.0207658, -0.00267402)
+
+[node name="PumpShotgun_001" parent="Model/RootNode/Armature/Skeleton3D" index="0"]
+transform = Transform3D(-0.39265, 0.0947992, 9.31323e-09, -0.0285618, -1.30324, -4.03961e-08, 6.51926e-09, -8.42847e-08, 0.633925, 0.0172696, 0.0310137, 0.0181752)
+
+[node name="PumpShotgunHandle_001" parent="Model/RootNode/Armature/Skeleton3D" index="1"]
+transform = Transform3D(-1.07545, 0.160523, 8.9407e-08, -0.0782292, -2.20677, -4.09782e-08, 0, -4.4005e-08, 1.57841, 0.0167934, 0.0365473, 0.0187094)
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+root_node = NodePath("../Model")
+tree_root = SubResource("AnimationNodeBlendTree_h54ep")
+anim_player = NodePath("../Model/AnimationPlayer")
+parameters/Reload/active = false
+parameters/Reload/internal_active = false
+parameters/Reload/request = 0
+parameters/RunBlend/blend_amount = 0.0
+parameters/Shoot/active = false
+parameters/Shoot/internal_active = false
+parameters/Shoot/request = 0
+
+[editable path="Model"]

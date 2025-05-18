@@ -148,4 +148,3 @@ func on_trigger():
 	if hpcurrent <= 0: return
 	ChangeState(CHASEPLAYER)
 	print_debug("Trigger Success!")
-

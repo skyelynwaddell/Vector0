@@ -17,6 +17,7 @@ extends CharacterBody3D
 @onready var animCrowbar = %Crowbar/AnimationTree
 @onready var animKnife = %Knife/AnimationTree
 @onready var animMP = %MP/AnimationTree
+@onready var animPump2 = %NewPump/AnimationTree
 @onready var anim_tree = animPistol
 
 #models
@@ -28,6 +29,7 @@ extends CharacterBody3D
 @onready var modelCrowbar = %Crowbar
 @onready var modelKnife = %Knife
 @onready var modelMP = %MP
+@onready var modelPump2 = %NewPump
 
 #HUD
 @onready var lblAmmo = %lblAmmo
@@ -611,6 +613,7 @@ func ChangeWeapon(type):
 	modelSubMachineGun.visible = false
 	modelKnife.visible = false
 	modelMP.visible = false
+	modelPump2.visible = false
 	
 	#Update data for other entities
 	canShoot = false
@@ -681,6 +684,14 @@ func ChangeWeapon(type):
 			anim_tree = animMP
 			modelMP.visible = true
 			pass
+		#Pump 2
+		9:
+			weaponSFX = %sfxShotgun
+			sfxReload = %sfxShotgunReload
+			anim_tree = animPump2
+			modelPump2.visible = true
+			pass
+			
 	
 	# Get current weapon data
 	var _weapon = Game.weapons[Game.currentWeapon]
@@ -1058,4 +1069,3 @@ func onAreaExited(area):
 		state = DEFAULT
 		currentLadder = null
 	pass 
-

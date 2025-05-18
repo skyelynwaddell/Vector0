@@ -97,6 +97,16 @@ var weaponList = [
 		magSize = 30,
 		ammoPool = "9mm",
 		spd = 400
+	},	
+	# 9 - Pump 2
+	{
+		index = 9,
+		title     = "Pump Shotgun",
+		melee = false,
+		power     = 100,
+		magSize = 30,
+		ammoPool = "shotgun",
+		spd = 400
 	},
 ]
 
@@ -105,9 +115,15 @@ var weaponList = [
 	#index [int] - Weapon index relative to weaponList array index order
 	#ammo [int] - Current total ammo for the weapon the player currently has
 var weapons = [
-	{ index = 0,
+	{ index = 0, ## Give the player hands 
 	  clip = 0,
 	},
+	
+	{
+		index = 9,
+		clip = 100,
+	},
+	
 	#{ index = 1,
 	  #clip = 15,
 	#},

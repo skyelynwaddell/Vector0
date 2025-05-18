@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bpweqreocqkw8"]
+[gd_scene load_steps=5 format=3 uid="uid://bpweqreocqkw8"]
 
 [ext_resource type="Script" path="res://scripts/pickup_weapon.gd" id="1_ork32"]
-[ext_resource type="PackedScene" uid="uid://nqv5tod20eug" path="res://models/weapons/pistol/weapon_pistol.fbx" id="3_iw273"]
+[ext_resource type="PackedScene" uid="uid://y8nu8g3ue3j0" path="res://models/Weapons/Pistol/9mm.fbx" id="2_ylfr7"]
+[ext_resource type="PackedScene" uid="uid://nqv5tod20eug" path="res://models/Weapons/Pistol/weapon_pistol.fbx" id="3_iw273"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7le5x"]
 size = Vector3(0.630615, 2.846, 0.8)
@@ -15,7 +16,11 @@ script = ExtResource("1_ork32")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.111694, 0.977002, 1.19209e-07)
 shape = SubResource("BoxShape3D_7le5x")
 
+[node name="Root Scene" parent="." instance=ExtResource("2_ylfr7")]
+transform = Transform3D(3.08653e-16, 0.161541, -7.06117e-09, 7.06117e-09, -7.06117e-09, -0.161541, -0.161541, 0, -7.06117e-09, 0.127322, -0.235174, 0)
+
 [node name="Model" parent="." instance=ExtResource("3_iw273")]
 transform = Transform3D(0.0849922, 0.996195, -0.0192988, 0.971466, -0.0871557, -0.220586, -0.221429, -9.67898e-09, -0.975177, -0.36463, -0.773679, -1.32149)
+visible = false
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
