@@ -14,6 +14,7 @@ func AddCommands():
 	add_command("godmode", godmode, 0)
 	add_command("save", savegame, 0)
 	add_command("load", loadgame, 0)
+	add_command("texturemode", texturemode, 1)
 
 var helpLabel = "	Built in commands:
 		[color=light_green]calc[/color]: Calculates a given expresion
@@ -42,7 +43,6 @@ var was_paused_already := false
 signal console_opened
 signal console_closed
 signal console_unknown_command
-
 
 class ConsoleCommand:
 	var function : Callable
@@ -74,6 +74,7 @@ func _ready() -> void:
 	canvas_layer.add_child(control)
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color("000000d7")
+	setfont()
 	rich_label.selection_enabled = true
 	rich_label.context_menu_enabled = true
 	rich_label.bbcode_enabled = true
@@ -81,8 +82,12 @@ func _ready() -> void:
 	rich_label.anchor_right = 1.0
 	rich_label.anchor_bottom = 0.5
 	rich_label.add_theme_stylebox_override("normal", style)
+	setfont()
 	control.add_child(rich_label)
-	rich_label.append_text("CONSOLE\n")
+	rich_label.append_text("[rainbow freq=1.0 sat=0.8 val=0.8 speed=1.0]### vector0 - game console ###[/rainbow]\n")
+	var empty_style = StyleBoxEmpty.new()
+	line_edit.add_theme_stylebox_override("focus", empty_style)
+
 	line_edit.anchor_top = 0.5
 	line_edit.anchor_right = 1.0
 	line_edit.anchor_bottom = 0.5
@@ -93,6 +98,10 @@ func _ready() -> void:
 	control.visible = false
 	process_mode = PROCESS_MODE_ALWAYS
 	AddCommands()
+	
+	setfont()
+	line_edit.add_theme_font_override("font", Game.gamefont)
+	control.add_theme_font_override("font", Game.gamefont)
 
 func restart():
 	get_tree().reload_current_scene()
@@ -114,6 +123,15 @@ func godmode():
 		_txt = "God Mode Disabled"
 		
 	print_line(_txt,false)
+	
+func texturemode(_tm : Defs.TEXTURE_MODE):
+	
+	if _tm == Defs.TEXTURE_MODE.LINEAR:
+		get_viewport().canvas_item_default_texture_filter = Viewport.DEFAULT_CANVAS_ITEM_TEXTURE_FILTER_LINEAR
+	elif _tm == Defs.TEXTURE_MODE.NEAREST:
+		get_viewport().canvas_item_default_texture_filter = Viewport.DEFAULT_CANVAS_ITEM_TEXTURE_FILTER_NEAREST
+	
+	pass
 
 func _input(event : InputEvent) -> void:
 	if (event is InputEventKey):
@@ -217,18 +235,31 @@ func toggle_size() -> void:
 
 
 func disable():
+	if not Game.in_game: return
+	if Game.IsPaused(): return
 	enabled = false
 	toggle_console() # Ensure hidden if opened
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED ## Hide the mouse	
 
 
 func enable():
+	if Game.IsPaused(): return
+	if not Game.in_game: return
 	enabled = true
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE ## Show the mouse
 
 func toggle_console() -> void:
+	if Game.IsPaused(): return
+	if not Game.in_game: return
 	if (enabled):
 		control.visible = !control.visible
+		if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
+			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		else:
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	else:
 		control.visible = false
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 	if (control.visible):
 		was_paused_already = get_tree().paused
@@ -254,23 +285,32 @@ func scroll_to_bottom() -> void:
 
 
 func print_line(text : String, print_godot := false) -> void:
+	setfont()
 	if (!rich_label): # Tried to print something before the console was loaded.
 		call_deferred("print_line", text)
+		call_deferred("setfont")
 	else:
 		rich_label.append_text(text)
 		rich_label.append_text("\n")
 		if (print_godot):
 			print(text)
+			
+	setfont()
+			
+func setfont():
+	rich_label.push_font(Game.gamefont,0)
 
 
 func on_text_entered(new_text : String) -> void:
+	rich_label.push_font(Game.gamefont,0)
 	scroll_to_bottom()
 	reset_autocomplete()
 	line_edit.clear()
 	
 	if not new_text.strip_edges().is_empty():
+		setfont()
 		add_input_history(new_text)
-		print_line("[i]> " + new_text + "[/i]")
+		print_line("> " + new_text + "")
 		var new_text_stripped := new_text.strip_edges()
 		
 		var text_split := new_text_stripped.split(" ")
@@ -300,6 +340,8 @@ func on_text_entered(new_text : String) -> void:
 		else:
 			emit_signal("console_unknown_command")
 			print_line("[color=light_coral]	ERROR:[/color] Command not found.")
+			
+	rich_label.push_font(Game.gamefont,0)
 
 
 func on_line_edit_text_changed(new_text : String) -> void:
@@ -341,6 +383,7 @@ func delete_history() -> void:
 
 
 func help() -> void:
+	rich_label.push_font(Game.gamefont,0)
 	rich_label.append_text(helpLabel)
 
 
@@ -358,6 +401,7 @@ func calculate(command : String) -> void:
 
 
 func commands() -> void:
+	rich_label.push_font(Game.gamefont,0)
 	var commands := []
 	for command in console_commands:
 		commands.append(str(command))
@@ -385,6 +429,7 @@ func commands_list() -> void:
 
 
 func add_input_history(text : String) -> void:
+	
 	if (!console_history.size() || text != console_history.back()): # Don't add consecutive duplicates
 		console_history.append(text)
 	console_history_index = console_history.size()

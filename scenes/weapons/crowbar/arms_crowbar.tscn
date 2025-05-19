@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://c0pbdw60qjrfn"]
+[gd_scene load_steps=11 format=3 uid="uid://c0pbdw60qjrfn"]
 
-[ext_resource type="PackedScene" uid="uid://ci1t46v3wo4ln" path="res://models/weapons/crowbar/arms_crowbar.fbx" id="1_m0a2g"]
+[ext_resource type="PackedScene" uid="uid://ci1t46v3wo4ln" path="res://models/Weapons/crowbar/arms_crowbar.fbx" id="1_m0a2g"]
+[ext_resource type="Material" uid="uid://yudpimp1f6wk" path="res://materials/crowbar.tres" id="2_oui4p"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_a60c3"]
 animation = &"Armature|Idle"
@@ -45,10 +46,10 @@ node_connections = [&"Reload", 0, &"AnimIdle", &"Reload", 1, &"AnimReload", &"Ru
 transform = Transform3D(100, 0, 0, 0, -4.37114e-06, 100, 0, -100, -4.37114e-06, 0, 0, 0)
 
 [node name="Skeleton3D" parent="RootNode/Armature" index="0"]
-bones/0/position = Vector3(0.0200651, 0.0249698, 0.0118084)
+bones/0/position = Vector3(0.0200651, 0.0249698, 0.0109432)
 bones/0/rotation = Quaternion(0.769645, 0.636689, -0.0159307, -0.0449497)
 bones/0/scale = Vector3(1, 1, 1)
-bones/2/position = Vector3(0.0198432, 0.0250118, 0.0118287)
+bones/2/position = Vector3(0.0198432, 0.0250118, 0.0109635)
 bones/2/scale = Vector3(1, 1, 1)
 bones/3/rotation = Quaternion(-0.0489394, -0.036227, -0.179232, 0.981921)
 bones/3/scale = Vector3(1, 1, 1)
@@ -74,13 +75,13 @@ bones/23/rotation = Quaternion(-0.701835, -0.0268099, 0.124876, 0.700796)
 bones/23/scale = Vector3(1, 1, 1)
 bones/24/rotation = Quaternion(0.294621, 0.632574, 0.703029, -0.13711)
 bones/24/scale = Vector3(1, 1, 1)
-bones/26/position = Vector3(0.00440288, -0.0140519, 0.0265863)
+bones/26/position = Vector3(0.00440288, -0.0140519, 0.0257211)
 bones/26/rotation = Quaternion(-0.662409, 0.0648105, 0.00853725, 0.746285)
 bones/26/scale = Vector3(1, 1, 1)
 bones/27/rotation = Quaternion(0.594101, 0.712644, 0.225416, 0.297271)
 bones/28/rotation = Quaternion(-0.434494, 0.00786385, 0.119427, 0.892687)
 bones/28/scale = Vector3(1, 1, 1)
-bones/30/position = Vector3(-0.0362906, -0.00208816, 0.00440137)
+bones/30/position = Vector3(-0.0362906, -0.00208816, 0.00353611)
 bones/30/rotation = Quaternion(0.603717, -0.379333, 0.542818, 0.443825)
 bones/31/rotation = Quaternion(-0.0192449, -0.0151125, 0.624064, 0.78099)
 bones/31/scale = Vector3(1, 1, 1)
@@ -97,19 +98,20 @@ bones/44/rotation = Quaternion(0.0406106, -0.00109902, 0.110997, 0.99299)
 bones/48/rotation = Quaternion(-0.408766, -0.0515508, 0.317544, 0.85406)
 bones/49/rotation = Quaternion(0.264706, 0.0173563, -0.141579, 0.953722)
 bones/50/rotation = Quaternion(0.0946109, 0.00119059, 0.0484752, 0.994333)
-bones/52/position = Vector3(0.000399693, -1.02438e-06, 0.0402552)
+bones/52/position = Vector3(0.000399693, -1.02438e-06, 0.03939)
 bones/52/rotation = Quaternion(-0.484576, 0.213515, 0.512795, 0.67575)
-bones/52/scale = Vector3(1, 1, 1)
 bones/53/rotation = Quaternion(-0.003548, 0.923011, -0.355998, -0.145956)
 bones/53/scale = Vector3(1, 1, 1)
 bones/54/rotation = Quaternion(-0.51595, 0.055387, 0.285772, 0.805644)
 bones/54/scale = Vector3(1, 1, 0.999999)
 
 [node name="crowbar" parent="RootNode/Armature/Skeleton3D" index="0"]
-transform = Transform3D(1, 2.08616e-07, -1.20141e-07, 2.98023e-08, 1, 7.63685e-08, 3.63216e-08, -2.70084e-07, 1, 5.58794e-09, 3.72529e-09, -4.34984e-05)
+transform = Transform3D(1, 2.38419e-07, 4.44241e-07, -4.17233e-07, 1, 1.82539e-07, -6.38887e-07, -3.50177e-07, 1, -9.31323e-09, 1.11759e-08, -0.000908742)
 
 [node name="crowbar" parent="RootNode/Armature/Skeleton3D/crowbar" index="0"]
 layers = 524288
+surface_material_override/0 = ExtResource("2_oui4p")
+surface_material_override/1 = ExtResource("2_oui4p")
 
 [node name="Arms" parent="RootNode/Armature/Skeleton3D" index="1"]
 layers = 524288
@@ -124,3 +126,6 @@ parameters/RunBlend/blend_amount = 0.0
 parameters/Shoot/active = false
 parameters/Shoot/internal_active = false
 parameters/Shoot/request = 0
+
+[node name="WepBarrel" type="Node3D" parent="." index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.788189, -3.1378, 4.08549)

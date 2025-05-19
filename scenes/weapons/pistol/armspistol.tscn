@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://lpj8fmbfpa50"]
 
-[ext_resource type="PackedScene" uid="uid://ckgxudjlusy1x" path="res://models/weapons/pistol/pistolarms.glb" id="1_uajlp"]
-[ext_resource type="PackedScene" uid="uid://batlfs3yf2ew8" path="res://models/weapons/pistol/pistolarms.fbx" id="2_im5ts"]
+[ext_resource type="PackedScene" uid="uid://ckgxudjlusy1x" path="res://models/Weapons/Pistol/pistolarms.glb" id="1_uajlp"]
+[ext_resource type="PackedScene" uid="uid://batlfs3yf2ew8" path="res://models/Weapons/Pistol/pistolarms.fbx" id="2_im5ts"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_a60c3"]
 animation = &"Armature|Idle"
@@ -115,13 +115,13 @@ bones/42/scale = Vector3(1, 1, 1)
 bones/43/rotation = Quaternion(0.419404, 0.844575, 0.155257, 0.294429)
 
 [node name="USP" parent="Armature/Skeleton3D" index="0"]
-transform = Transform3D(0.99083, 0.0561104, -0.122915, -0.0567931, 0.998384, -0.00205502, 0.122601, 0.00901683, 0.992415, 0.11879, 0.243111, -0.194438)
+transform = Transform3D(0.99083, 0.0561103, -0.122915, -0.0567932, 0.998384, -0.00205584, 0.122601, 0.00901768, 0.992415, 0.11879, 0.24311, -0.194438)
 
 [node name="USP" parent="Armature/Skeleton3D/USP" index="0"]
 layers = 524288
 
 [node name="Cube" parent="Armature/Skeleton3D" index="1"]
-transform = Transform3D(0.0363267, -4.74975e-08, -6.70552e-08, 2.79397e-09, 0.120188, -1.14087e-08, 1.86265e-08, 4.19095e-08, 0.0484408, -0.327822, -0.284966, 0.583198)
+transform = Transform3D(0.0363267, -1.39698e-07, -7.82311e-08, 3.25963e-08, 0.120188, -5.40167e-08, 3.1665e-08, 1.43889e-07, 0.0484408, -0.327821, -0.284968, 0.583198)
 
 [node name="Arms" parent="Armature/Skeleton3D" index="2"]
 layers = 524288

@@ -6,7 +6,7 @@
 [node name="MusicPlayer" type="Node2D"]
 script = ExtResource("1_l0td0")
 
-[node name="AudioPlayer" type="AudioStreamPlayer" parent="."]
+[node name="music" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("1_wclws")
 autoplay = true

@@ -42,6 +42,14 @@ func Destroy():
 	if destroy: return
 	destroy = true
 	
+	## Damage the player if they are in the radius
+	## and this is a Explosive breakable
+	match(particleType):
+		"Smoke":
+			var player : Player = get_tree().get_first_node_in_group("Player")
+			player.Hurt(50)
+			pass
+	
 	# Remove the Model & Collision when it blows up
 	for node in self.get_children():
 		if node is MeshInstance3D or node is CollisionShape3D:

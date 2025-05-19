@@ -1,16 +1,27 @@
-[gd_scene load_steps=3 format=3 uid="uid://dbt7ercxj32mm"]
+[gd_scene load_steps=4 format=3 uid="uid://dbt7ercxj32mm"]
 
 [ext_resource type="Script" path="res://scripts/pickup_healthpack.gd" id="1_eud51"]
 [ext_resource type="PackedScene" uid="uid://d0t4a2ehk3s0i" path="res://models/healthpack/health_pack.glb" id="1_m26ye"]
 
-[node name="ItemHealthkit" type="Node3D"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_6fwby"]
+
+[node name="ItemHealthkit" type="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
 script = ExtResource("1_eud51")
 
 [node name="HealthPack" parent="." instance=ExtResource("1_m26ye")]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -1.2, 0.176811, -1)
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -1.2, -0.138263, -1)
 
 [node name="CollisionShape3D" parent="HealthPack" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000885025, 0.194276, 0.00384521)
+
+[node name="OmniLight3D" parent="HealthPack" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.98023e-08, 0.117535, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(2.51305, 0, 0, 0, 2.51305, 0, 0, 0, 2.51305, -0.996027, 1.23808, -0.995008)
+shape = SubResource("BoxShape3D_6fwby")
+
+[connection signal="area_entered" from="." to="." method="_on_body_entered"]
 
 [editable path="HealthPack"]

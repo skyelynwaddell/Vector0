@@ -80,8 +80,10 @@ node_connections = [&"Reload", 0, &"AnimIdle", &"Reload", 1, &"AnimReload", &"Ru
 [node name="PumpShotgun" instance=ExtResource("1_iiv82")]
 
 [node name="Skeleton3D" parent="RootNode/Armature" index="0"]
-bones/0/rotation = Quaternion(0.726663, 0.46243, -0.154702, 0.483929)
-bones/2/rotation = Quaternion(0.07321, 0.991073, -0.0669721, -0.0890451)
+bones/0/position = Vector3(0.0215151, 0.0174208, 0.00428611)
+bones/0/rotation = Quaternion(0.806277, 0.429488, -0.145087, 0.38001)
+bones/2/position = Vector3(0.0223903, 0.0235945, 0.00540696)
+bones/2/rotation = Quaternion(0.132922, 0.985793, 0.0195955, -0.100793)
 bones/2/scale = Vector3(1, 1, 1)
 bones/3/rotation = Quaternion(0.0405383, 0.00266167, -0.149142, 0.987981)
 bones/4/rotation = Quaternion(-3.26001e-08, -1.01526e-07, 0.0151787, 0.999885)
@@ -106,10 +108,13 @@ bones/20/rotation = Quaternion(0.284739, -0.0345199, 0.103524, 0.952373)
 bones/20/scale = Vector3(1, 1, 1)
 bones/21/rotation = Quaternion(0.0269326, 0.116445, 0.0609214, 0.990961)
 bones/21/scale = Vector3(1, 1, 1)
-bones/24/rotation = Quaternion(-0.15888, 0.985006, 0.0228468, 0.0632352)
+bones/23/position = Vector3(0.0434421, -0.0335898, 0.018803)
+bones/23/rotation = Quaternion(-0.291227, 0.139374, 0.0110194, 0.946383)
+bones/24/rotation = Quaternion(-0.174387, 0.98154, 0.0133391, 0.0773968)
 bones/24/scale = Vector3(1, 1, 1)
-bones/25/rotation = Quaternion(-0.234414, -0.0137836, -0.0695581, 0.969547)
-bones/27/rotation = Quaternion(0.352095, -0.386094, 0.0671191, 0.849974)
+bones/25/rotation = Quaternion(-0.274117, -0.0230785, -0.0909036, 0.957112)
+bones/27/position = Vector3(0.00819836, 0.0589272, 0.0085105)
+bones/27/rotation = Quaternion(0.389217, -0.407274, -0.0257176, 0.825819)
 bones/27/scale = Vector3(1, 1, 1)
 bones/28/rotation = Quaternion(-0.119111, 0.756381, -0.584419, 0.268616)
 bones/28/scale = Vector3(1, 1, 1)
@@ -133,26 +138,30 @@ bones/45/rotation = Quaternion(-0.252074, -0.356386, 0.511388, 0.740223)
 bones/46/rotation = Quaternion(0.241676, -0.00809307, -0.201046, 0.949267)
 bones/46/scale = Vector3(1, 1, 1)
 bones/47/scale = Vector3(1, 1, 1)
-bones/49/rotation = Quaternion(-0.120341, -0.686117, -0.342737, 0.630311)
+bones/49/position = Vector3(-0.0328255, 0.0211721, -0.0102268)
+bones/49/rotation = Quaternion(-0.14585, -0.693988, -0.282379, 0.646042)
 bones/49/scale = Vector3(1, 1, 1)
-bones/50/rotation = Quaternion(0.24177, 0.946022, -0.201683, -0.0769042)
+bones/50/rotation = Quaternion(0.224221, 0.929624, -0.197846, -0.215361)
 bones/50/scale = Vector3(1, 1, 1)
-bones/51/rotation = Quaternion(-0.124562, 0.0689543, -0.498187, 0.855301)
+bones/51/rotation = Quaternion(-0.074049, 0.158304, -0.27962, 0.944071)
 bones/51/scale = Vector3(1, 1, 0.999999)
-bones/53/rotation = Quaternion(-0.110463, -0.0239903, 0.147281, 0.982614)
+bones/53/position = Vector3(0.0208383, 0.0363813, 0.0137623)
+bones/53/rotation = Quaternion(-0.0349792, -0.0202028, 0.0796278, 0.996006)
 bones/53/scale = Vector3(1, 1, 1)
+bones/56/position = Vector3(0.0187851, 0.0649792, 0.00628325)
+bones/56/rotation = Quaternion(-0.0364069, 0.0181405, 0.0689652, 0.99679)
 bones/56/scale = Vector3(1, 1, 1)
 bones/57/scale = Vector3(1, 1, 1)
 
 [node name="Cube_003" parent="RootNode/Armature/Skeleton3D" index="0"]
-transform = Transform3D(0.97176, -0.234581, -0.0255826, 0.235715, 0.959925, 0.151598, -0.0110048, -0.153347, 0.988111, 0.0069057, 0.00510697, 0.00543967)
+transform = Transform3D(0.994576, -0.104014, -1.49012e-08, 0.104014, 0.994576, 1.71363e-07, -7.45058e-09, -1.63913e-07, 1, 0.00261197, 0.00695286, 0.000943698)
 
 [node name="Cube_003" parent="RootNode/Armature/Skeleton3D/Cube_003" index="0"]
 layers = 524288
 mesh = SubResource("ArrayMesh_8kn4u")
 
 [node name="Cube_001" parent="RootNode/Armature/Skeleton3D" index="1"]
-transform = Transform3D(-0.971289, 0.236497, -0.0258188, -0.237635, -0.959326, 0.15239, 0.011271, 0.15415, 0.987983, 0.0151395, 0.0687045, 0.00874718)
+transform = Transform3D(-0.994202, 0.107528, 4.47035e-08, -0.107528, -0.994202, -1.63913e-07, 2.6077e-08, -1.71363e-07, 1, 0.0189093, 0.0694256, 0.0129072)
 
 [node name="Cube_001" parent="RootNode/Armature/Skeleton3D/Cube_001" index="0"]
 layers = 524288
@@ -171,3 +180,6 @@ parameters/RunBlend/blend_amount = 0
 parameters/Shoot/active = false
 parameters/Shoot/internal_active = false
 parameters/Shoot/request = 0
+
+[node name="WepBarrel" type="Node3D" parent="." index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.67614, 1.67179, -9.20054)

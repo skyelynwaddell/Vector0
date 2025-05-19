@@ -1,11 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://c43exulqlrtq8"]
+[gd_scene load_steps=4 format=3 uid="uid://c43exulqlrtq8"]
 
 [ext_resource type="Script" path="res://scripts/classes/breakable.gd" id="1_xdw8g"]
 [ext_resource type="PackedScene" uid="uid://br3biywpqyl00" path="res://scenes/Parents/breakable_particles.tscn" id="2_wy1x3"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hcc04"]
+size = Vector3(3, 3, 3)
 
 [node name="Breakable" type="Node3D"]
 script = ExtResource("1_xdw8g")
 
 [node name="BreakableParticles" parent="." instance=ExtResource("2_wy1x3")]
+
+[node name="ExplosionRadius" type="Area3D" parent="."]
+
+[node name="DamageHitbox" type="CollisionShape3D" parent="ExplosionRadius"]
+shape = SubResource("BoxShape3D_hcc04")
 
 [editable path="BreakableParticles"]

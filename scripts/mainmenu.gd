@@ -1,29 +1,95 @@
-extends Control
+extends CanvasLayer
 
-var menus = {
-	"Main Menu": ["New Game", "Load Game", "Tutorial", "Mods", "Options", "Quit"],
-	"Options" : ["Audio", "Graphics", "Display", "Controls", "Back"],
-	"Pause" : ["Resume", "Options", "Save Game", "Load Game", "Return to Main Menu"],
-	"Audio" : ["Save Settings", "Default Settings", "Back"],
-	"Graphics" : ["Save Settings", "Low Quality Mode", "Default Settings", "Back"],
-	"Display" : ["Save Settings", "Default Settings", "Back"],
-	"Controls" : ["Save Settings", "Default Settings", "Back"],
-	"New Game" : ["Start Game", "Back"],
-	"Load Game" : ["Back"],
-	"Tutorial" : ["Start Tutorial", "Back"],
-	"Mods": ["Browse", "My Mods", "Create", "Back"]
-}
-
+var menus = {}
 var currentMenu = "Main Menu"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	## Default Main Menu
+	if not Game.in_game:
+		menus = {
+		"Main Menu": ["New Game", "Load Game", "Help", "Mods", "Options", "Quit"],
+		"Options" : ["Audio", "Graphics", "Display", "Controls", "Back"],
+		"Pause" : ["Resume", "Options", "Save Game", "Load Game", "Return to Main Menu"],
+		"Audio" : ["Save Settings", "Default Settings", "Back"],
+		"Graphics" : ["Save Settings", "Low Quality Mode", "Default Settings", "Back"],
+		"Display" : ["Save Settings", "Default Settings", "Back"],
+		"Controls" : ["Save Settings", "Default Settings", "Back"],
+		"New Game" : ["Start Game", "Back"],
+		"Load Game" : ["Back"],
+		"Help" : ["Help", "Back"],
+		"Quit Level" : [],
+		"Mods": ["Browse", "My Mods", "Create", "Back"]
+		}
+	## Menu while in game
+	else:
+		menus = {
+		"Main Menu": ["Resume", "Load Game", "Help", "Options", "Quit Level"],
+		"Options" : ["Audio", "Graphics", "Display", "Controls", "Back"],
+		"Pause" : ["Resume", "Options", "Save Game", "Load Game", "Return to Main Menu"],
+		"Audio" : ["Save Settings", "Default Settings", "Back"],
+		"Graphics" : ["Save Settings", "Low Quality Mode", "Default Settings", "Back"],
+		"Display" : ["Save Settings", "Default Settings", "Back"],
+		"Controls" : ["Save Settings", "Default Settings", "Back"],
+		"New Game" : ["Start Game", "Back"],
+		"Load Game" : ["Back"],
+		"Help" : ["Help", "Back"],
+		"Quit Level" : [],
+		"Mods": ["Browse", "My Mods", "Create", "Back"]
+		}
 	UpdateMenu();
+	
+	if Game.in_game: 
+		SetToPauseMenu()
 	pass # Replace with function body.
+
+func SetToPauseMenu():
+	$lblMenuName.text = "PAUSE MENU"
+	hide()
+
+func return_to_mainmenu(text:String):
+	currentMenu = "Main Menu"
+	UpdateMenu()
+	
+func quit_level(text:String):
+	Game.in_game = false
+	Game.paused = false
+	Game.RoomGoto("res://scenes/levels/main_menu.tscn")
+	
+
+func enable_window(): 
+	if not Game.in_game: return
+	if Console.is_visible(): return
+	
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE ## show the mouse	
+	Game.paused = true
+	show()
+	
+func disable_window(): 
+	if not Game.in_game: return
+	if Console.is_visible(): return
+	
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED ## Hide the mouse	
+	Game.paused = false
+	hide()
+
+func toggle_window():
+	if not Game.in_game: return
+	if Console.is_visible(): return
+	
+	if not visible: 
+		enable_window()
+	else: 
+		disable_window()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	
+	if Input.is_action_just_pressed("exit"):
+		##get_tree().quit()
+		toggle_window()
+	
 	pass
 	
 func UpdateMenu():
@@ -37,6 +103,11 @@ func UpdateMenu():
 	%lblMenuName.text = currentMenu.to_upper();
 
 	match(currentMenu):
+		"Quit Level":
+			CreateButton("Quit Level", true, "quit_level")
+			CreateButton("Cancel", true, "return_to_mainmenu")
+			pass
+		
 		"Audio":
 			CreateSlider("Master Volume","OnVolumeChanged")
 			CreateSlider("Music Volume","OnVolumeChanged")
@@ -199,7 +270,11 @@ func OnFPSChanged(slider,label,text):
 ## Manages what each button does in the menuss
 func OnOptionPressed(option):
 	match(option):
-		"New Game": get_tree().change_scene_to_file("res://scenes/levels/level1.tscn");
+		"New Game": 
+			Game.in_game = true; 
+			Game.paused = false;
+			print("Going to level1")
+			Game.RoomGoto("res://scenes/world.tscn")
 		"Options" : currentMenu = "Options"; UpdateMenu();
 		"Audio" : currentMenu = "Audio"; UpdateMenu();
 		"Graphics" : currentMenu = "Graphics"; UpdateMenu();
@@ -209,6 +284,9 @@ func OnOptionPressed(option):
 		"Tutorial" : currentMenu = "Tutorial"; UpdateMenu();
 		"Save Game" : currentMenu = "Save Game"; UpdateMenu();
 		"Load Game" : currentMenu = "Load Game"; UpdateMenu();
+		"Resume" : disable_window();
+		"Quit Level": currentMenu = "Quit Level"; UpdateMenu();
+		
 		"Exit" : get_tree().quit();
 		
 		#Handle what the back button does on each page

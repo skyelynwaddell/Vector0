@@ -109,6 +109,16 @@
 [
 	color(color255) : "Water Color" : "255 255 255"
 	alpha(float) : "Water Alpha" : 0.6 : "Control how see-through the liquid is. Default=0.6"
+	is_dangerous(choices) : "Does this body of liquid hurt the player? Maybe its LAVA :OOO" : 0 =
+	[
+		0 : "False"
+		1 : "True"
+	]
+	glows(choices) : "Does this body of liquid glow/emit light??" : 0 =
+	[
+		0 : "False"
+		1 : "True"
+	]
 ]
 
 //Func Ladder

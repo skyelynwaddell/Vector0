@@ -6,7 +6,7 @@
 [node name="HealthPack" instance=ExtResource("1_il03m")]
 script = ExtResource("2_lyw0h")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="." index="2"]
+[node name="OmniLight3D" type="OmniLight3D" parent="." index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 light_color = Color(0.937935, 0.50619, 0.526195, 1)
 light_energy = 3.0

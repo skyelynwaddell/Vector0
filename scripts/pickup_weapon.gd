@@ -111,7 +111,7 @@ func _on_body_entered(body):
 				pass
 		
 		# Update HUD & Remove self from scene
-		if isMelee == false: body.UpdateHUDSignal.emit()
+		if isMelee == false: Signals.UpdateHUD.emit()
 		#queue_free()
 		pass
 

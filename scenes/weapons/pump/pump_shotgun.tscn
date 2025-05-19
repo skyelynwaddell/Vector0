@@ -5,27 +5,16 @@
 [node name="PumpShotgun2" instance=ExtResource("1_n6mnb")]
 
 [node name="Skeleton3D" parent="RootNode/Armature" index="0"]
-bones/0/position = Vector3(0.0215151, 0.0174208, 0.00395255)
-bones/0/rotation = Quaternion(0.806277, 0.429488, -0.145087, 0.38001)
-bones/2/position = Vector3(0.0223903, 0.0235945, 0.0050734)
-bones/2/rotation = Quaternion(0.132922, 0.985793, 0.0195955, -0.100793)
-bones/23/position = Vector3(0.0434421, -0.0335898, 0.0184695)
-bones/23/rotation = Quaternion(-0.291227, 0.139374, 0.0110194, 0.946383)
-bones/24/rotation = Quaternion(-0.174387, 0.98154, 0.0133391, 0.0773968)
-bones/25/rotation = Quaternion(-0.274117, -0.0230785, -0.0909036, 0.957112)
-bones/27/position = Vector3(0.00819836, 0.0589272, 0.00817694)
-bones/27/rotation = Quaternion(0.389217, -0.407274, -0.0257176, 0.825819)
-bones/49/position = Vector3(-0.0328255, 0.0211721, -0.0105603)
-bones/49/rotation = Quaternion(-0.14585, -0.693988, -0.282379, 0.646042)
-bones/50/rotation = Quaternion(0.224221, 0.929624, -0.197846, -0.215361)
-bones/51/rotation = Quaternion(-0.074049, 0.158304, -0.27962, 0.944071)
-bones/53/position = Vector3(0.0208383, 0.0363813, 0.0134287)
-bones/53/rotation = Quaternion(-0.0349792, -0.0202028, 0.0796278, 0.996006)
-bones/56/position = Vector3(0.0187851, 0.0649792, 0.00594969)
-bones/56/rotation = Quaternion(-0.0364069, 0.0181405, 0.0689652, 0.99679)
+bones/0/position = Vector3(0.0215151, 0.0174208, 0.00386926)
+bones/2/position = Vector3(0.0223903, 0.0235945, 0.00499011)
+bones/23/position = Vector3(0.0434421, -0.0335898, 0.0183862)
+bones/27/position = Vector3(0.00819836, 0.0589272, 0.00809364)
+bones/49/position = Vector3(-0.0328255, 0.0211721, -0.0106436)
+bones/53/position = Vector3(0.0208383, 0.0363813, 0.0133455)
+bones/56/position = Vector3(0.0187851, 0.0649792, 0.0058664)
 
 [node name="Cube_003" parent="RootNode/Armature/Skeleton3D" index="0"]
-transform = Transform3D(0.994576, -0.104014, -1.49012e-08, 0.104014, 0.994576, 1.71363e-07, -7.45058e-09, -1.63913e-07, 1, 0.00261197, 0.00695286, 0.000610137)
+transform = Transform3D(0.994576, -0.104014, -1.49012e-08, 0.104014, 0.994576, 1.71363e-07, -7.45058e-09, -1.63913e-07, 1, 0.00261197, 0.00695286, 0.000526846)
 
 [node name="Cube_001" parent="RootNode/Armature/Skeleton3D" index="1"]
-transform = Transform3D(-0.994202, 0.107528, 4.47035e-08, -0.107528, -0.994202, -1.63913e-07, 2.6077e-08, -1.71363e-07, 1, 0.0189093, 0.0694256, 0.0125737)
+transform = Transform3D(-0.994202, 0.107528, 4.47035e-08, -0.107528, -0.994202, -1.63913e-07, 2.6077e-08, -1.71363e-07, 1, 0.0189093, 0.0694256, 0.0124904)

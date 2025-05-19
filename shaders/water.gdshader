@@ -1,8 +1,11 @@
 shader_type spatial;
 render_mode shadows_disabled;
 render_mode unshaded;
-render_mode cull_disabled;
+//render_mode cull_disabled;
+//render_mode depth_draw_opaque;
+render_mode blend_mix;
 
+uniform bool is_opaque = false;
 uniform sampler2D tex;
 
 uniform vec2 uv_scale;
@@ -17,7 +20,7 @@ uniform vec4 WATER2_COL : source_color =  vec4(0.40, 0.44, 0.28, 1.0);
 
 uniform vec4 FOAM_COL : source_color = vec4(0.8125, 0.9609, 0.9648, 1.0);
 
-uniform float water_transparency : hint_range(0.0, 1.0) = 0.5;
+uniform float water_transparency : hint_range(0.0, 1.0) = 1.0;
 
 uniform float distortion_speed = 2.0;
 
@@ -281,7 +284,14 @@ void fragment() {
 	uv.y += cos(uv.x * wave_speed * PI + TIME) * -sin(uv.y * wave_speed * PI + TIME) * 0.1; 
 
 	vec4 color = texture(tex, uv);
-
+	
+	if (is_opaque){
+		color.a = 1.0;
+		ALPHA = water_transparency;
+		
+	} else {
+		ALPHA = water_transparency * color.a;
+	}
+	
 	ALBEDO = color.xyz;
-	ALPHA = water_transparency * color.a;
 }

@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://b6wpq15t2a0nu"]
+
+[ext_resource type="Shader" path="res://shaders/itemcircle.gdshader" id="1_yjy72"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o5dxl"]
+render_priority = 0
+shader = ExtResource("1_yjy72")
+shader_parameter/circle_color = Color(0.758876, 0.689679, 0.0761808, 0.0823529)
+shader_parameter/softness = 1.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_0csma"]
+material = SubResource("ShaderMaterial_o5dxl")
+
+[node name="ItemCircle" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.188325, 0, 0, 0, 1, 0, 0.186714, 0)
+mesh = SubResource("CylinderMesh_0csma")

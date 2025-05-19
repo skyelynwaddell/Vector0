@@ -1,13 +1,17 @@
 @tool
 extends Area3D
 
+## I Actually love this water a lot. <3
+
 @onready var waterMaterial = preload("res://materials/water.tres")
 @onready var fog = preload("res://scenes/WaterMaker3D/FogVolume.tscn")
 
 @export var color = Vector4.ZERO
 @export var color2 = Vector4.ZERO
 @export var colorString = ""
-@export var alpha = 0.6
+@export var alpha := 0.6
+@export var is_dangerous := "0"
+@export var glows := "0"
 @export var duplicateMaterial = Resource
 @export var texture = Resource
 
@@ -15,7 +19,10 @@ var mySize = Vector3.ZERO
 
 func _func_godot_apply_properties(props:Dictionary):
 	if "color" in props: colorString = props.color
-	if "alpha" in props: alpha = props.alpha
+	if "alpha" in props: alpha = float(props.alpha)
+	if "is_dangerous" in props: is_dangerous = props.is_dangerous
+	if "glows" in props: glows = props.glows
+	
 	var colors = colorString.split(" ")
 	var colorLimit = 255.0
 	var r = colors[0].to_float() / colorLimit
@@ -25,6 +32,12 @@ func _func_godot_apply_properties(props:Dictionary):
 	color = Vector4(r,g,b,1.0)
 	color2 = Vector4(r*factor,g*factor,b*factor,1.0)
 	SetMaterial()
+	
+	if glows == "1":
+		var light = OmniLight3D.new()
+		add_child(light)
+		light.global_position = global_position
+
 	pass
 
 func SetMaterial():
@@ -44,10 +57,17 @@ func SetMaterial():
 				setmesh = mesh
 			break
 			
-	duplicateMaterial = waterMaterial.duplicate()	
+	duplicateMaterial = waterMaterial.duplicate(true)	
+	duplicateMaterial.set_shader_parameter("water_transparency", float(alpha))
+	
+	print("alpha: " , float(alpha))
+	if float(alpha) == 1.0: 
+		duplicateMaterial.set_shader_parameter("is_opaque", true)
+	else:
+		duplicateMaterial.set_shader_parameter("is_opaque", false)
+	
 	duplicateMaterial.set_shader_parameter("WATER_COL", color)
 	duplicateMaterial.set_shader_parameter("WATER2_COL", color2)
-	duplicateMaterial.set_shader_parameter("water_transparency", alpha)
 	duplicateMaterial.set_shader_parameter("tex", texture)
 	duplicateMaterial.set_shader_parameter("uv_scale", uvscale)
 	duplicateMaterial.set_shader_parameter("uv_offset", uvoffset)
@@ -55,8 +75,6 @@ func SetMaterial():
 	if setmesh != null:
 		setmesh.material_override = duplicateMaterial
 		pass
-	
-	
 	pass
 	
 # Called when the node enters the scene tree for the first time.

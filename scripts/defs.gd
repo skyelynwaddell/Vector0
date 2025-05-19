@@ -1,0 +1,4 @@
+extends Node
+
+enum TEXTURE_MODE { LINEAR, NEAREST }
+enum AUDIO_CHANNEL { MUSIC, SFX, VOICE }

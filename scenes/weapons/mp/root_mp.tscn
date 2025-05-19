@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://cf1mfnpyktfc4"]
 
-[ext_resource type="PackedScene" uid="uid://da23ygbfl4sn3" path="res://models/weapons/submachinegun2/arms_mp.fbx" id="1_56aw5"]
+[ext_resource type="PackedScene" uid="uid://da23ygbfl4sn3" path="res://models/Weapons/submachinegun2/arms_mp.fbx" id="1_56aw5"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ymj0k"]
 animation = &"Armature|Shoot"
@@ -37,10 +37,10 @@ bones/0/position = Vector3(0.0163181, 0.0259835, 0.0116871)
 bones/0/rotation = Quaternion(0.660848, 0.750372, -0.00684175, -0.0132015)
 bones/0/scale = Vector3(1, 1, 1)
 bones/2/position = Vector3(-0.0080012, -0.00730348, 0.035167)
-bones/2/rotation = Quaternion(-0.690513, -0.00033433, -0.185843, 0.699038)
-bones/3/rotation = Quaternion(0.415059, 0.838409, 0.290572, 0.200908)
+bones/2/rotation = Quaternion(-0.691304, -0.000412322, -0.186501, 0.698081)
+bones/3/rotation = Quaternion(0.412536, 0.838928, 0.294175, 0.198684)
 bones/3/scale = Vector3(1, 1, 1)
-bones/4/rotation = Quaternion(-0.476882, -0.0656811, -0.0253271, 0.876144)
+bones/4/rotation = Quaternion(-0.475339, -0.0662137, -0.026639, 0.876903)
 bones/4/scale = Vector3(1, 1, 1)
 bones/5/rotation = Quaternion(-0.0883969, 0.647028, -0.0491238, 0.75573)
 bones/5/scale = Vector3(1, 1, 1)
@@ -65,8 +65,8 @@ bones/20/scale = Vector3(1, 1, 1)
 bones/22/rotation = Quaternion(-0.337765, -0.0983255, -0.435963, 0.828362)
 bones/23/scale = Vector3(1, 1, 1)
 bones/24/scale = Vector3(1, 1, 1)
-bones/26/position = Vector3(0.00528637, 0.0521876, 0.00891054)
-bones/26/rotation = Quaternion(-0.135417, 0.667624, -0.58398, 0.441483)
+bones/26/position = Vector3(0.00524666, 0.0522407, 0.00912406)
+bones/26/rotation = Quaternion(-0.134949, 0.670585, -0.579848, 0.442585)
 bones/27/rotation = Quaternion(0.0236966, 0.0865619, 0.635638, 0.766753)
 bones/27/scale = Vector3(1, 1, 1)
 bones/28/rotation = Quaternion(0.156828, 0.147298, 0.166787, 0.962232)
@@ -90,26 +90,26 @@ bones/45/scale = Vector3(1, 1, 1)
 bones/46/rotation = Quaternion(0.419127, 0.0463824, -0.0376044, 0.905962)
 bones/46/scale = Vector3(1, 1, 1)
 bones/48/position = Vector3(-0.0320676, 0.0299875, 0.0143657)
-bones/48/rotation = Quaternion(-0.784541, -0.0958791, 0.0359484, 0.611564)
+bones/48/rotation = Quaternion(-0.781467, -0.0963874, 0.0369529, 0.615348)
 bones/49/rotation = Quaternion(0.673104, 0.695865, 0.250162, 0.0110387)
 bones/49/scale = Vector3(1, 1, 1)
-bones/52/position = Vector3(0.0110466, 0.0444044, 0.042175)
-bones/52/rotation = Quaternion(-0.0932219, 0.482822, 0.0114452, 0.870667)
+bones/52/position = Vector3(0.0110513, 0.0442668, 0.0423725)
+bones/52/rotation = Quaternion(-0.0893983, 0.483313, 0.0150123, 0.870742)
 bones/53/rotation = Quaternion(0.0887903, -0.483598, -0.0155887, 0.870635)
-bones/55/position = Vector3(0.0101043, 0.0484061, 0.0057786)
-bones/55/rotation = Quaternion(0.672945, 0.0607326, 0.0305264, 0.736562)
+bones/55/position = Vector3(0.0100673, 0.0484822, 0.00596459)
+bones/55/rotation = Quaternion(0.676413, 0.0620545, 0.031064, 0.733246)
 bones/55/scale = Vector3(1, 1, 1)
 bones/56/rotation = Quaternion(-0.677186, -0.0623134, -0.0311581, 0.732506)
 bones/56/scale = Vector3(1, 1, 1)
 
 [node name="submachinegun" parent="RootNode/Armature/Skeleton3D" index="0"]
-transform = Transform3D(0.999993, 0.00280507, -0.00223985, -0.00277869, 0.999928, 0.0116972, 0.00227237, -0.0116909, 0.999929, -0.0428245, 0.0180614, -0.0093821)
+transform = Transform3D(1, 0.000368819, -0.000720352, -0.000367701, 0.999999, 0.00158846, 0.000720829, -0.00158821, 0.999999, -0.0428358, 0.018315, -0.00936606)
 
 [node name="submachinegun" parent="RootNode/Armature/Skeleton3D/submachinegun" index="0"]
 layers = 524288
 
 [node name="submachinegun_001" parent="RootNode/Armature/Skeleton3D" index="1"]
-transform = Transform3D(0.999994, 0.00280364, -0.00221378, -0.00277756, 0.999928, 0.0116897, 0.00224638, -0.0116834, 0.999929, -0.0428501, 0.0181923, 0.000700329)
+transform = Transform3D(1, 0.00043869, -0.000391697, -0.000437841, 0.999998, 0.00213068, 0.000392626, -0.00213052, 0.999998, -0.0428254, 0.0181933, 0.000694525)
 
 [node name="submachinegun_001" parent="RootNode/Armature/Skeleton3D/submachinegun_001" index="0"]
 layers = 524288
@@ -126,3 +126,6 @@ parameters/Reload/request = 0
 parameters/Shoot/active = false
 parameters/Shoot/internal_active = false
 parameters/Shoot/request = 0
+
+[node name="WepBarrel" type="Node3D" parent="." index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.895188, 2.31576, -7.23374)

@@ -10,6 +10,7 @@
 transform = Transform3D(0.7, 0, 0, 0, 0.56525, 0, 0, 0, 0.7, 0, 1.02807, 0)
 
 [node name="BreakableParticles" parent="." index="2" instance=ExtResource("3_wlduq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.989886, 0)
 
 [connection signal="finished" from="BreakableParticles/Smoke" to="." method="_on_smoke_finished"]
 [connection signal="finished" from="BreakableParticles/Wood" to="." method="_on_smoke_finished"]

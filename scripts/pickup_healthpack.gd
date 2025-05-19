@@ -12,6 +12,7 @@ func _on_body_entered(body):
 	if body.is_in_group("Player"):
 		if Game.hp.current > 99:
 			return
-		body.IncreaseHealth(50)
-		body.UpdateHUD()
+		body.get_parent().IncreaseHealth(100)
+		
+		Signals.UpdateHUD.emit()
 		queue_free()

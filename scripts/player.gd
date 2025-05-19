@@ -1,5 +1,6 @@
 @tool
 extends CharacterBody3D
+class_name Player
 #NODE REFS
 @onready var ray_cast_3d = %RayCast3D
 @onready var camera_3d = %Camera3D
@@ -122,6 +123,9 @@ var crouching = false
 @export_range(0,100) var decalsMax : int = 20
 var decals : Array = []
 
+var lava_hurt_timer := 0
+var lava_hurt_time := 60
+
 #ladder climbing
 var climbing = false
 var currentLadder = null
@@ -192,20 +196,44 @@ func _ready():
 	if Engine.is_editor_hint(): return
 		
 	#initiate game settings
-	InputMap.load_from_project_settings()	#IMPORTANT DONT REMOVE OR HELL WILL BREAK LOOSE NOT JOKING THE MOUSE WILL DISAPPEAR AND 100000 ERRORS WILL SPIT OUT IDEK WTF ITS A GODOT ERROR APPARENTLY WITH USING @TOOL
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	### DONT FUCKING TOUCH
+	InputMap.load_from_project_settings()	#IMPORTANT DONT REMOVE OR HELL WILL BREAK LOOSE! NOT JOKING THE MOUSE WILL DISAPPEAR AND 100000 ERRORS WILL SPIT OUT AND THE PROJECT WONT BE ABLE TO OPEN ANYMORE. IDEK WTF ITS A GODOT ERROR APPARENTLY WITH USING @TOOL
+	### DONT FUCKING TOUCH
+	
 	UpdateHUD()
 	ChangeWeapon(Game.currentWeapon)
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED ## Hide the mouse
 	
 	#initiate head height
 	headPosY = head.position.y
 	SetHeadHeight(headPosY)
+	
+	Signals.UpdateHUD.connect(UpdateHUD)
+	pass
+
+func CheckIfImInLavaSoItCanBurnMe():
+	if in_lava:
+		lava_hurt_timer += 1
+		if lava_hurt_timer >= lava_hurt_time:
+			lava_hurt_timer = 0
+			Hurt(30)
+			
+	else:
+		if lava_hurt_timer != 0: lava_hurt_timer = 0
+		
 	pass
 
 #STEP EVENT
 func _process(delta): 
 	if Engine.is_editor_hint(): return
-	#set camera position	
+	
+	CheckIfImInLavaSoItCanBurnMe()
+	
+	#set camera position if we are not in the console
+	if Console.is_visible(): return
+	if Game.IsPaused(): return
+	
+	# If you want to see your arms or anything to make sense in 3d space basically
 	svp_camera_3d.set_global_transform(camera_3d.get_global_transform())
 	
 	#game updates
@@ -255,17 +283,19 @@ func _process(delta):
 	DamageEffect()
 	AllowWeaponChange()
 	HandleWeaponChange(delta)
-	HandlePlayerDirection(delta)
+	MovePlayer(delta)
+	#HandlePlayerDirection(delta)
 	ChangeCrosshair()
 	pass
 
 #PHYSICS PROCESS
 func _physics_process(delta):
 	if Engine.is_editor_hint(): return
-	var lastVelocity = velocity
-
-	push_rigid_bodies(lastVelocity,delta)
+	if Console.is_visible(): return
+	if Game.IsPaused(): return
 	
+	var lastVelocity = velocity
+	push_rigid_bodies(lastVelocity,delta)
 	HandleCrouch(delta)
 	move_and_slide()
 	pass
@@ -319,36 +349,115 @@ func SetSpeed(_spd):
 	self.spd = _spd
 	pass
 
-#HANDLE PLAYER DIRECTION
-func HandlePlayerDirection(delta):
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward").normalized()
-	direction = (head.transform.basis * Vector3(input_dir.x, 0, input_dir.y))
-	
+var latest_x: String = ""
+var latest_y: String = ""
+
+func _find_other_x() -> String:
+	if Game.IsPaused(): return ""
+	if Console.is_visible(): return ""
+	if Input.is_key_pressed(KEY_A):
+		return "left"
+	elif Input.is_key_pressed(KEY_D):
+		return "right"
+	return ""
+
+func _find_other_y() -> String:
+	if Game.IsPaused(): return ""
+	if Console.is_visible(): return ""
+	if Input.is_key_pressed(KEY_W):
+		return "forward"
+	elif Input.is_key_pressed(KEY_S):
+		return "backward"
+	return ""
+
+func HandlePlayerDirection(delta) -> Vector3:
+	var input_dir = Vector2.ZERO
+
+	match latest_x:
+		"left": input_dir.x = -1
+		"right": input_dir.x = 1
+
+	match latest_y:
+		"forward": input_dir.y = -1
+		"backward": input_dir.y = 1
+
+	return (head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+
+
+func ApplyVelocity(delta, dir):
+	var strafe_boost = 0
+
+	if (latest_x == "right" and last_mouse_dir < 0) or (latest_x == "left" and last_mouse_dir > 0):
+		strafe_boost = 3.0
+		
 	# Check if the player is on the floor
-	if is_on_floor():
-		# Ground movement: accelerate towards the desired direction
-		if direction != Vector3.ZERO:
-			# Apply movement direction
-			velocity.x = lerp(velocity.x, direction.x * spd, delta * frictAccel)
-			velocity.z = lerp(velocity.z, direction.z * spd, delta * frictAccel)
-		else:
+	# Ground movement: accelerate towards the desired direction
+	if dir != Vector3.ZERO:
+		# Apply movement direction
+		velocity.x = lerp(velocity.x, dir.x * (spd + strafe_boost), delta * frictAccel)
+		velocity.z = lerp(velocity.z, dir.z * (spd + strafe_boost), delta * frictAccel)
+	
+	else:
+		if is_on_floor():
 			# Apply friction when not moving
 			velocity.x = lerp(velocity.x, 0.0, delta * frictDefault)
 			velocity.z = lerp(velocity.z, 0.0, delta * frictDefault)
-	else:
-		if direction != Vector3.ZERO:
-			# Apply reduced air control movement (slower speed in the air)
-			var air_control_spd = spd 
-			var air_friction = 5.0
-			velocity.x = lerp(velocity.x, direction.x * air_control_spd, delta * air_friction)
-			velocity.z = lerp(velocity.z, direction.z * air_control_spd, delta * air_friction)
+		
+			#velocity.x += velocity.x * dir.x * (air_control_spd * (1.0 + strafe_boost)) * (delta * air_friction) ##lerp(velocity.x, dir.x * air_control_spd * (1.0 + strafe_boost), delta * air_friction)
+			#velocity.z += velocity.z * dir.z * (air_control_spd * (1.0 + strafe_boost)) * (delta * air_friction)#velocity.z = ##lerp(velocity.z, dir.z * air_control_spd * (1.0 + strafe_boost), delta * air_friction)
+#
+#func ApplyVelocity(delta, dir):
+	## Check if the player is on the floor
+	#if is_on_floor():
+		## Ground movement: accelerate towards the desired direction
+		#if dir != Vector3.ZERO:
+			#
+			## Apply movement direction
+			#velocity.x = lerp(velocity.x, dir.x * spd, delta * frictAccel)
+			#velocity.z = lerp(velocity.z, dir.z * spd, delta * frictAccel)
+		#else:
+			## Apply friction when not moving
+			#velocity.x = lerp(velocity.x, 0.0, delta * frictDefault)
+			#velocity.z = lerp(velocity.z, 0.0, delta * frictDefault)
+	#else:
+		#if dir != Vector3.ZERO:
+			## Apply reduced air control movemen
+			#var air_control_spd = spd
+			#var air_friction = 5.0
+			#var strafe_boost = 0.0
+			#
+			#if (latest_x == "left" and last_mouse_dir < 0) or (latest_x == "right" and last_mouse_dir > 0):
+				#strafe_boost = 0.25
+			#
+			## 🔁 Rotate input direction by view direction (e.g., head or camera yaw)
+			#var rotated_dir = head.global_transform.basis * dir
+			##rotated_dir.y = 0  # Ignore vertical component
+			#var wish_dir = rotated_dir.normalized()
+#
+			#var current_speed = velocity.dot(wish_dir)
+			#var max_air_speed = 20.0
+			#var accel = air_control_spd * strafe_boost
+			#var add_speed = max_air_speed - current_speed
+#
+			#if add_speed > 0:
+				#var accel_speed = min(accel * delta * air_friction, add_speed)
+				#velocity += wish_dir * accel_speed
+				#
+			##velocity.x += velocity.x * dir.x * (air_control_spd * (1.0 + strafe_boost)) * (delta * air_friction) ##lerp(velocity.x, dir.x * air_control_spd * (1.0 + strafe_boost), delta * air_friction)
+			##velocity.z += velocity.z * dir.z * (air_control_spd * (1.0 + strafe_boost)) * (delta * air_friction)#velocity.z = ##lerp(velocity.z, dir.z * air_control_spd * (1.0 + strafe_boost), delta * air_friction)
 
 
 	# Head Bobbing
 	tBob += delta * velocity.length() * float(is_on_floor())
 	camera_3d.transform.origin = HeadBob(tBob)
+
+func MovePlayer(delta):
+	if Console.is_visible() or Game.IsPaused(): 
+		direction = Vector3.ZERO
+		velocity = Vector3.ZERO
+		return
+	direction = HandlePlayerDirection(delta)
+	ApplyVelocity(delta, direction)
 
 #HANDLE CLIMBING
 func HandleClimbing():
@@ -454,10 +563,33 @@ func AllowWeaponChange():
 	if Input.is_action_just_released("ChangeWeaponDown"):
 		ChangeWeaponScroll(false)	
 
+var last_mouse_dir = 0
 #INPUT
 func _input(event):
 	if dead:
 		return
+		
+	if Console.is_visible() or Game.IsPaused():
+		latest_x = ""
+		latest_y = ""
+		return
+	
+	if event is InputEventKey and not event.echo:
+		var pressed = event.pressed
+		match event.keycode:
+			KEY_W:
+				if pressed: latest_y = "forward"
+				elif latest_y == "forward": latest_y = _find_other_y()
+			KEY_S:
+				if pressed: latest_y = "backward"
+				elif latest_y == "backward": latest_y = _find_other_y()
+			KEY_A:
+				if pressed: latest_x = "left"
+				elif latest_x == "left": latest_x = _find_other_x()
+			KEY_D:
+				if pressed: latest_x = "right"
+				elif latest_x == "right": latest_x = _find_other_x()
+	
 	if event is InputEventMouseMotion:
 		var _event = -event.relative
 		var yRotationLimit = 90
@@ -466,6 +598,7 @@ func _input(event):
 		camera_3d.rotation_degrees.x += _event.y * mouseSens
 		camera_3d.rotation_degrees.x = clamp(camera_3d.rotation_degrees.x, -yRotationLimit, yRotationLimit)
 		
+		last_mouse_dir = sign(_event.x)
 		#camera_3d.rotate_x(-event.relative.y * mouseSens)
 		#camera_3d.rotation.x = clamp(camera_3d.rotation.x, deg_to_rad(-90), deg_to_rad(90))
 
@@ -547,7 +680,8 @@ func Reload():
 	ShootAnimDone()
 	
 	# Play the Reload Animation
-	anim_tree.set("parameters/Reload/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)	
+	anim_tree.set("parameters/Reload/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+	
 	
 #RELOAD AMMO
 #This function is called after Reloading animation finishes executing to ensure the ammo doesnt immedietly reload when you press the reload button
@@ -592,8 +726,7 @@ func ReloadAmmo():
 	
 #EXIT
 func Exit():
-	if Input.is_action_just_pressed("exit"):
-		get_tree().quit()
+	pass
 		
 #RESTART
 func Restart():
@@ -629,6 +762,7 @@ func ChangeWeapon(type):
 		#NO WEAPON
 		0:
 			anim_tree = animPistol
+			%MuzzleParticles.global_position = %Knife.get_node("WepBarrel").global_position
 			pass
 		#PISTOL
 		1:
@@ -636,6 +770,7 @@ func ChangeWeapon(type):
 			sfxReload = %sfxPistolReload
 			anim_tree = animPistol
 			modelPistol.visible = true
+			%MuzzleParticles.global_position = %arms_pistol.get_node("WepBarrel").global_position
 			pass
 		#CARBINE
 		2:
@@ -643,6 +778,7 @@ func ChangeWeapon(type):
 			sfxReload = %sfxMachineGunReload
 			anim_tree = animCarbine
 			modelCarbine.visible = true
+			%MuzzleParticles.global_position = %arms_carbine.get_node("WepBarrel").global_position
 			pass		
 		#PUMP SHOTGUN
 		3:
@@ -650,6 +786,7 @@ func ChangeWeapon(type):
 			sfxReload = %sfxShotgunReload
 			anim_tree = animPumpShotgun
 			modelPumpShotgun.visible = true
+			%MuzzleParticles.global_position = %PumpShotgun.get_node("WepBarrel").global_position
 			pass		
 		#REVOLVER
 		4:
@@ -657,12 +794,14 @@ func ChangeWeapon(type):
 			sfxReload = %sfxRevolverReload
 			anim_tree = animRevolver
 			modelRevolver.visible = true
+			%MuzzleParticles.global_position = %Revolver.get_node("WepBarrel").global_position
 			pass		
 		#CROWBAR
 		5:
 			weaponSFX = %sfxWhip1
 			anim_tree = animCrowbar
 			modelCrowbar.visible = true
+			%MuzzleParticles.global_position = %Knife.get_node("WepBarrel").global_position
 			pass	
 		#SUB MACHINE GUN
 		6:
@@ -670,12 +809,14 @@ func ChangeWeapon(type):
 			sfxReload = %sfxMPReload
 			anim_tree = animSubMachineGun
 			modelSubMachineGun.visible = true
+			%MuzzleParticles.global_position = %Knife.get_node("WepBarrel").global_position
 			pass	
 		#KNIFE
 		7:
 			weaponSFX = %sfxWhip1
 			anim_tree = animKnife
 			modelKnife.visible = true
+			%MuzzleParticles.global_position = %Knife.get_node("WepBarrel").global_position
 			pass
 		#MP
 		8:
@@ -683,6 +824,7 @@ func ChangeWeapon(type):
 			sfxReload = %sfxMPReload			
 			anim_tree = animMP
 			modelMP.visible = true
+			%MuzzleParticles.global_position = %MP.get_node("WepBarrel").global_position
 			pass
 		#Pump 2
 		9:
@@ -690,6 +832,7 @@ func ChangeWeapon(type):
 			sfxReload = %sfxShotgunReload
 			anim_tree = animPump2
 			modelPump2.visible = true
+			%MuzzleParticles.global_position = %NewPump.get_node("WepBarrel").global_position
 			pass
 			
 	
@@ -773,6 +916,9 @@ func ChangeWeaponScroll(isUp):
 	
 #HURT
 func Hurt(dmg):
+	
+	if Game.hp.current <= 0: return;
+	
 	# Check if were already being hurt or in god mode
 	if isHurt || Game.godmode :
 		return
@@ -817,6 +963,8 @@ func Jump():
 	if is_on_floor() || state == SWIMMING || state == CLIMBING:
 		if state == CLIMBING:
 			state = DEFAULT
+		
+		MusicPlayer.Sound("res://audio/player/player_jump.ogg", Defs.AUDIO_CHANNEL.VOICE, 0.5)
 		velocity.y = jumpHeight
 
 #SET JUMP HEIGHT
@@ -870,28 +1018,44 @@ func CreateRayCast():
 		var weaponPower = 0
 		var _weapon = Game.weapons[Game.currentWeapon]
 		var isMelee = false
+		var isShotgun = false
 		for w in Game.weaponList:
 			if w.index == _weapon.index:
 				weaponPower = w.power
 				isMelee = w.melee
+				if w.ammoPool == "shotgun":
+					isShotgun = true
+					print("IS A SHOTTY BRO")
+				break
 		
 		# Create Bullet Hole / Scratch Decal on wall when shooting		
 		if target.is_in_group("Enemy") == false:
-			var decal = decalBulletHole.instantiate()
-					
-			if isMelee: decal.type = 2
-			else: decal.type = 1
-			
-			#Limit amount of decals that can be in the room for performance
-			if decals.size() >= decalsMax:
-				var old_decal = decals.pop_front()
-				old_decal.queue_free()
-			
-			# Add the decal to the scene and attach it to the wall we just shot
-			decals.append(decal)
-			target.add_child(decal)
-			decal.global_transform.origin = colPoint
-			decal.look_at(colPoint + normal, Vector3.UP)
+			if isShotgun:
+				for i in range(6):
+					var offset_range = 0.5  # Spread radius
+
+					# Generate random offset in a circle
+					var angle = randf() * TAU
+					var radius = randf() * offset_range
+					var x = cos(angle) * radius
+					var y = sin(angle) * radius
+
+					# Generate surface-aligned tangent vectors
+					var tangent1 = normal.cross(Vector3.UP).normalized()
+					if tangent1.length() < 0.1:
+						tangent1 = normal.cross(Vector3.FORWARD).normalized()  # handle vertical walls
+					var tangent2 = normal.cross(tangent1).normalized()
+
+					# Offset in surface plane
+					var offset = tangent1 * x + tangent2 * y
+					var offset_col_point = colPoint + offset
+
+					CreateBulletHole(isMelee, target, offset_col_point, normal)
+
+
+
+			else:
+				CreateBulletHole(isMelee,target,colPoint,normal)
 		
 		#Do stuff when specific entities are shot
 		#Enemies
@@ -902,6 +1066,23 @@ func CreateRayCast():
 		if target.is_in_group("Breakable"): target.Destroy()
 		
 		return target
+
+func CreateBulletHole(isMelee,target,colPoint,normal):
+	var decal = decalBulletHole.instantiate()
+					
+	if isMelee: decal.type = 2
+	else: decal.type = 1
+	
+	#Limit amount of decals that can be in the room for performance
+	if decals.size() >= decalsMax:
+		var old_decal = decals.pop_front()
+		old_decal.queue_free()
+	
+	# Add the decal to the scene and attach it to the wall we just shot
+	decals.append(decal)
+	target.add_child(decal)
+	decal.global_transform.origin = colPoint
+	decal.look_at(colPoint + normal, Vector3.UP)
 
 #SHOOT
 func Shoot():
@@ -950,7 +1131,7 @@ func Shoot():
 	elif weaponSFX == sfxWhip2: weaponSFX = sfxWhip1
 	
 	#Display muzzle flash	
-	
+	%MuzzleParticles.restart()
 	
 	#Create a raycast to the point we just shot to get collider
 	CreateRayCast()
@@ -1033,6 +1214,8 @@ func _on_animation_player_animation_finished(anim_name):
 	
 	pass
 
+var in_lava := false
+
 #ON COLLISION ENTERED CHECKS
 func onAreaEntered(area):
 	
@@ -1042,6 +1225,11 @@ func onAreaEntered(area):
 	
 	#WATER
 	if area.is_in_group("Water"):
+		
+		if area.is_dangerous == "1":
+			lava_hurt_timer = lava_hurt_time
+			in_lava = true
+		
 		grvty = grvtyWater
 		state = SWIMMING
 	
@@ -1061,6 +1249,11 @@ func onAreaExited(area):
 	
 	#WATER
 	if area.is_in_group("Water"):
+		
+		if area.is_dangerous == "1":
+			lava_hurt_timer = 0
+			in_lava = false
+		
 		state = DEFAULT
 		grvty = grvtyDefault
 	

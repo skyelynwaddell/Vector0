@@ -5,6 +5,17 @@ var filename = "user://savefile.sav"
 var godmode = false
 var keycard = { red=false, yellow=false, blue=false }
 var hp = { current=100, maximum=100 } 
+var in_game := false
+var paused := false
+var texture_mode := Defs.TEXTURE_MODE.LINEAR
+@onready var gamefont = preload("res://fonts/hunter.ttf")
+
+signal UpdateHUD
+
+func IsPaused(): return paused
+
+func RoomGoto(scene_path:String):
+	get_tree().change_scene_to_file(scene_path);
 
 #List of all weapons in game
 var weaponList = [
@@ -104,7 +115,7 @@ var weaponList = [
 		title     = "Pump Shotgun",
 		melee = false,
 		power     = 100,
-		magSize = 30,
+		magSize = 6,
 		ammoPool = "shotgun",
 		spd = 400
 	},
@@ -121,7 +132,7 @@ var weapons = [
 	
 	{
 		index = 9,
-		clip = 100,
+		clip = 6,
 	},
 	
 	#{ index = 1,
