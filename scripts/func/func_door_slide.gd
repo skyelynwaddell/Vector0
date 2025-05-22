@@ -33,13 +33,6 @@ var mesh : MeshInstance3D = null
 ## Area3D of the door 
 var area3d : Area3D = null
 
-var sfxplayer: AudioStreamPlayer3D
-
-@onready var sfxopen = preload("res://audio/door_metal.ogg")
-@onready var sfxlocked = preload("res://audio/door_locked.ogg")
-
-@onready var currentSFX = sfxopen
-
 func _func_godot_apply_properties(props:Dictionary):
 	# Set props from trenchbroom
 	if "targetname" in props: targetname = props.targetname as String
@@ -70,9 +63,6 @@ func _ready():
 	area3d = Area3D.new()
 	area3d.name = "area3d"
 	
-	# Create sound effect player
-	sfxplayer = AudioStreamPlayer3D.new()
-	
 	# Create Area3D collision area
 	var coll = CollisionShape3D.new()
 	var boxshape = BoxShape3D.new()
@@ -93,14 +83,9 @@ func _ready():
 		## Z Direction
 		2: targetPos = initPos + (global_transform.basis.z * opensize)
 	
-		
-	SetSFX(sfxopen)
-	
 	# Add Area3D and CollisionShape3D to the scene
 	area3d.add_child(coll) 
 	self.add_child(area3d)
-	self.add_child(sfxplayer)
-
 
 	# Connect the area entered & exited signals
 	area3d.connect("area_entered", _on_area_entered)
@@ -115,25 +100,14 @@ func _ready():
 	self.add_to_group("Entity")
 	
 
-func SetSFX(sfx):
-	sfxplayer.set_stream(sfx)
-	sfxplayer.set_volume_db(-20.0)
-	sfxplayer.set_attenuation_filter_db(-5)
-	sfxplayer.set_pitch_scale(1.2)
-	sfxplayer.set_max_distance(200.0)
-	pass
-
 func _process(delta):
 	if Engine.is_editor_hint(): return
 	# Check if the player is within the area and can interact
-	if canOpen and Input.is_action_just_pressed("Interact"):  # Replace with your interact action
-		
+	if canOpen and Input.is_action_just_pressed("Interact"):
 		if locked == false:
-			SetSFX(sfxopen)
 			on_trigger()
 		else:
-			SetSFX(sfxlocked)
-			sfxplayer.play()
+			MusicPlayer.Sound(MusicPlayer.SFX.DOOR_LOCKED, MusicPlayer.AUDIO_CHANNEL.SFX, 0.5)
 		
 	
 	
@@ -162,8 +136,7 @@ func slide_door(targetPosition: Vector3, delta: float):
 func on_trigger():
 	# Toggle the door's open/closed state
 	open = not open
-	
-	sfxplayer.play()
+	MusicPlayer.Sound(MusicPlayer.SFX.DOOR_METAL, MusicPlayer.AUDIO_CHANNEL.SFX, 0.5)
 	
 	# Check if this door unlocks after being triggered
 	if lockstatus == 2: locked = false

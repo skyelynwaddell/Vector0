@@ -44,13 +44,13 @@ class_name Player
 @onready var hudAnimPlayer = %AnimationPlayer
 
 #SFX
-@onready var sfxInteractNowork = %sfxInteractNowork
-@onready var sfxInteractSwitch = %sfxInteractSwitch
-@onready var sfxWhip1 = %sfxWhip1
-@onready var sfxWhip2 = %sfxWhip2
-@onready var sfxReload = %sfxShotgunReload
-@onready var currentSFX = sfxInteractNowork
-@onready var weaponSFX = %sfxShotgun
+#@onready var sfxInteractNowork = %sfxInteractNowork
+#@onready var sfxInteractSwitch = %sfxInteractSwitch
+#@onready var sfxWhip1 = %sfxWhip1
+#@onready var sfxWhip2 = %sfxWhip2
+var sfxReload : AudioStream
+var currentSFX : AudioStream
+var weaponSFX : AudioStream
 
 #Decals
 @onready var decalBulletHole = preload("res://scenes/decals/decal_bullethole.tscn")
@@ -106,7 +106,7 @@ var grvty = 20.0
 ## Jumping Friction
 @export_range(0,50) var frictJump : float = 0.0
 ## Acceleration Friction
-@export_range(0,50) var frictAccel : float = 6.0
+@export_range(0,50) var frictAccel : float = 0.0
 
 #crouching
 @export_group("Crouch")
@@ -241,7 +241,9 @@ func _process(delta):
 	if dead: return
 	
 	# Interact sound effect
-	if Input.is_action_just_pressed("Interact"): currentSFX.play()
+	if Input.is_action_just_pressed("Interact"): 
+		MusicPlayer.Sound(currentSFX, MusicPlayer.AUDIO_CHANNEL.SFX, 1.0)
+		#currentSFX.play()
 	
 	# State specific functionality
 	match(state):
@@ -384,11 +386,24 @@ func HandlePlayerDirection(delta) -> Vector3:
 	return (head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 
 
+var strafe_boost = 0.0;
 func ApplyVelocity(delta, dir):
-	var strafe_boost = 0
+	#var strafe_boost = 0
+	
+	var boost_spd = 0.1
+	var y_strafe = 0.0
 
-	if (latest_x == "right" and last_mouse_dir < 0) or (latest_x == "left" and last_mouse_dir > 0):
-		strafe_boost = 3.0
+	if not is_on_floor():
+		if (latest_x == "left" and last_mouse_dir < 0) or (latest_x == "right" and last_mouse_dir > 0):
+			strafe_boost += boost_spd
+	else:
+		strafe_boost -= boost_spd * 2
+		if (latest_x == "left" and last_mouse_dir < 0) or (latest_x == "right" and last_mouse_dir > 0):
+			if Input.is_action_just_pressed("jump"):
+				y_strafe = 0.5
+		
+	
+	strafe_boost = clamp(strafe_boost, 0.0, 8.0)
 		
 	# Check if the player is on the floor
 	# Ground movement: accelerate towards the desired direction
@@ -396,6 +411,7 @@ func ApplyVelocity(delta, dir):
 		# Apply movement direction
 		velocity.x = lerp(velocity.x, dir.x * (spd + strafe_boost), delta * frictAccel)
 		velocity.z = lerp(velocity.z, dir.z * (spd + strafe_boost), delta * frictAccel)
+		velocity.y += y_strafe;
 	
 	else:
 		if is_on_floor():
@@ -452,10 +468,13 @@ func ApplyVelocity(delta, dir):
 	camera_3d.transform.origin = HeadBob(tBob)
 
 func MovePlayer(delta):
+	## Stop moving player if paused or something 
 	if Console.is_visible() or Game.IsPaused(): 
 		direction = Vector3.ZERO
 		velocity = Vector3.ZERO
 		return
+		
+		
 	direction = HandlePlayerDirection(delta)
 	ApplyVelocity(delta, direction)
 
@@ -481,9 +500,8 @@ func HandleClimbing():
 
 #HANDLE JUMP
 func HandleJump():
-		# Jump
-		if Input.is_action_just_pressed("jump"):
-			Jump()
+	# Jump
+	if Input.is_action_just_pressed("jump"): Jump()
 
 #HANDLE WEAPON CHANGE
 func HandleWeaponChange(delta):
@@ -668,7 +686,7 @@ func Reload():
 	reloading = true
 	
 	# Play Reloading Sound Effect
-	sfxReload.play()
+	MusicPlayer.Sound(sfxReload, MusicPlayer.AUDIO_CHANNEL.SFX, 1.0)
 	
 	# Set all of our animation blend speeds to 0 to avoid wonky animations during reloading
 	runVal = 0.0
@@ -766,70 +784,70 @@ func ChangeWeapon(type):
 			pass
 		#PISTOL
 		1:
-			weaponSFX = %sfxPistol
-			sfxReload = %sfxPistolReload
+			weaponSFX = MusicPlayer.SFX.PISTOL_SHOT
+			sfxReload = MusicPlayer.SFX.PISTOL_RELOAD
 			anim_tree = animPistol
 			modelPistol.visible = true
 			%MuzzleParticles.global_position = %arms_pistol.get_node("WepBarrel").global_position
 			pass
 		#CARBINE
 		2:
-			weaponSFX = %sfxMachineGun
-			sfxReload = %sfxMachineGunReload
+			weaponSFX = MusicPlayer.SFX.MACHINE_GUN_SHOT
+			sfxReload = MusicPlayer.SFX.MACHINE_GUN_RELOAD
 			anim_tree = animCarbine
 			modelCarbine.visible = true
 			%MuzzleParticles.global_position = %arms_carbine.get_node("WepBarrel").global_position
 			pass		
 		#PUMP SHOTGUN
 		3:
-			weaponSFX = %sfxShotgun
-			sfxReload = %sfxShotgunReload
+			weaponSFX = MusicPlayer.SFX.SHOTGUN_SHOT
+			sfxReload = MusicPlayer.SFX.SHOTGUN_RELOAD
 			anim_tree = animPumpShotgun
 			modelPumpShotgun.visible = true
 			%MuzzleParticles.global_position = %PumpShotgun.get_node("WepBarrel").global_position
 			pass		
 		#REVOLVER
 		4:
-			weaponSFX = %sfxRevolver
-			sfxReload = %sfxRevolverReload
+			weaponSFX = MusicPlayer.SFX.REVOLVER_SHOT
+			sfxReload = MusicPlayer.SFX.REVOLVER_RELOAD
 			anim_tree = animRevolver
 			modelRevolver.visible = true
 			%MuzzleParticles.global_position = %Revolver.get_node("WepBarrel").global_position
 			pass		
 		#CROWBAR
 		5:
-			weaponSFX = %sfxWhip1
+			weaponSFX = MusicPlayer.SFX.WHIP_1
 			anim_tree = animCrowbar
 			modelCrowbar.visible = true
 			%MuzzleParticles.global_position = %Knife.get_node("WepBarrel").global_position
 			pass	
 		#SUB MACHINE GUN
 		6:
-			weaponSFX = %sfxMP
-			sfxReload = %sfxMPReload
+			weaponSFX = MusicPlayer.SFX.MP_SHOT
+			sfxReload = MusicPlayer.SFX.MP_RELOAD
 			anim_tree = animSubMachineGun
 			modelSubMachineGun.visible = true
 			%MuzzleParticles.global_position = %Knife.get_node("WepBarrel").global_position
 			pass	
 		#KNIFE
 		7:
-			weaponSFX = %sfxWhip1
+			weaponSFX = MusicPlayer.SFX.WHIP_1
 			anim_tree = animKnife
 			modelKnife.visible = true
 			%MuzzleParticles.global_position = %Knife.get_node("WepBarrel").global_position
 			pass
 		#MP
 		8:
-			weaponSFX = %sfxMP
-			sfxReload = %sfxMPReload			
+			weaponSFX = MusicPlayer.SFX.MP_SHOT
+			sfxReload = MusicPlayer.SFX.MP_RELOAD
 			anim_tree = animMP
 			modelMP.visible = true
 			%MuzzleParticles.global_position = %MP.get_node("WepBarrel").global_position
 			pass
 		#Pump 2
 		9:
-			weaponSFX = %sfxShotgun
-			sfxReload = %sfxShotgunReload
+			weaponSFX = MusicPlayer.SFX.SHOTGUN_SHOT
+			sfxReload = MusicPlayer.SFX.SHOTGUN_RELOAD
 			anim_tree = animPump2
 			modelPump2.visible = true
 			%MuzzleParticles.global_position = %NewPump.get_node("WepBarrel").global_position
@@ -963,8 +981,9 @@ func Jump():
 	if is_on_floor() || state == SWIMMING || state == CLIMBING:
 		if state == CLIMBING:
 			state = DEFAULT
+			
 		
-		MusicPlayer.Sound("res://audio/player/player_jump.ogg", Defs.AUDIO_CHANNEL.VOICE, 0.5)
+		MusicPlayer.Sound(MusicPlayer.SFX.PLAYER_JUMP, MusicPlayer.AUDIO_CHANNEL.VOICE, 1.0)
 		velocity.y = jumpHeight
 
 #SET JUMP HEIGHT
@@ -1126,9 +1145,11 @@ func Shoot():
 	canShoot = false
 	
 	#Play Shoot audio for the correct weapon
-	weaponSFX.play()
-	if weaponSFX == sfxWhip1: weaponSFX = sfxWhip2
-	elif weaponSFX == sfxWhip2: weaponSFX = sfxWhip1
+	if weaponSFX == MusicPlayer.SFX.WHIP_1: weaponSFX = MusicPlayer.SFX.WHIP_2
+	elif weaponSFX == MusicPlayer.SFX.WHIP_2: weaponSFX = MusicPlayer.SFX.WHIP_1
+	
+	MusicPlayer.Sound(weaponSFX, MusicPlayer.AUDIO_CHANNEL.SFX, 1.0)
+	
 	
 	#Display muzzle flash	
 	%MuzzleParticles.restart()
@@ -1221,7 +1242,7 @@ func onAreaEntered(area):
 	
 	# Set sfx to the switch effect if the area is an interactable entity
 	if area.is_in_group("Interact"):
-		currentSFX = sfxInteractSwitch
+		currentSFX = MusicPlayer.SFX.SWITCH_DIGITAL
 	
 	#WATER
 	if area.is_in_group("Water"):
@@ -1245,7 +1266,7 @@ func onAreaExited(area):
 	
 	# Reset sfx to the no work effect
 	if area.is_in_group("Interact"):
-		currentSFX = sfxInteractNowork
+		currentSFX = MusicPlayer.SFX.INTERACT_NO_WORK
 	
 	#WATER
 	if area.is_in_group("Water"):

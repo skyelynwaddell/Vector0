@@ -15,8 +15,9 @@ func AddCommands():
 	add_command("save", savegame, 0)
 	add_command("load", loadgame, 0)
 	add_command("texturemode", texturemode, 1)
+	add_command("sound", MusicPlayer.Sound, 3)
 
-var helpLabel = "	Built in commands:
+var helpLabel = "	[color=medium_orchid]Built in commands[/color]:
 		[color=light_green]calc[/color]: Calculates a given expresion
 		[color=light_green]clear[/color]: Clears the registry view
 		[color=light_green]commands[/color]: Shows a reduced list of all the currently registered commands
@@ -24,16 +25,19 @@ var helpLabel = "	Built in commands:
 		[color=light_green]delete_hystory[/color]: Deletes the commands history
 		[color=light_green]restart[/color]: Restarts the current level
 		[color=light_green]quit[/color]: Quits the game
-		[color=light_green]save[/color]: Save Game
-		[color=light_green]load[/color]: Load Game
-	Cheats:
+		[color=light_green]save[/color]: Creates a new save file
+		[color=light_green]load[/color]: Loads the most recent save file
+		[color=light_green]sound[/color]: Plays a sound from string filepath ie. \"res://audio/player/player_jump.ogg\"
+		
+	[color=medium_orchid]Cheats[/color]:
 		[color=orange]godmode[/color]: Infinite health
-	Controls:
-		[color=light_blue]Up[/color] and [color=light_blue]Down[/color] arrow keys to navigate commands history
-		[color=light_blue]PageUp[/color] and [color=light_blue]PageDown[/color] to scroll registry
-		[[color=light_blue]Ctr[/color] + [color=light_blue]~[/color]] to change console size between half screen and full screen
-		[color=light_blue]~[/color] or [color=light_blue]Esc[/color] key to close the console
-		[color=light_blue]Tab[/color] key to autocomplete, [color=light_blue]Tab[/color] again to cycle between matching suggestions\n\n"
+		
+	[color=medium_orchid]Controls[/color]:
+		[color=dodger_blue]Up[/color] and [color=dodger_blue]Down[/color] arrow keys to navigate commands history
+		[color=dodger_blue]PageUp[/color] and [color=dodger_blue]PageDown[/color] to scroll registry
+		[[color=dodger_blue]Ctr[/color] + [color=dodger_blue]~[/color]] to change console size between half screen and full screen
+		[color=dodger_blue]~[/color] or [color=dodger_blue]Esc[/color] key to close the console
+		[color=dodger_blue]Tab[/color] key to autocomplete, [color=dodger_blue]Tab[/color] again to cycle between matching suggestions\n\n"
 
 var enabled := true
 var enable_on_release_build := false : set = set_enable_on_release_build
@@ -103,17 +107,23 @@ func _ready() -> void:
 	line_edit.add_theme_font_override("font", Game.gamefont)
 	control.add_theme_font_override("font", Game.gamefont)
 
+#region Custom Commands
+
+## restart - restarts current level
 func restart():
 	get_tree().reload_current_scene()
 
+## savegame - saves the current game
 func savegame():
 	Game.SaveGame()
 	print_line("Game Saved!",false)
 
+## loadgame - load the most recent save file
 func loadgame():
 	Game.LoadGame()
 	print_line("Game Loaded!",false)
 
+## godmode - infinite health
 func godmode():
 	Game.godmode = !Game.godmode
 	var _txt = ""
@@ -123,7 +133,10 @@ func godmode():
 		_txt = "God Mode Disabled"
 		
 	print_line(_txt,false)
-	
+
+
+## texturemode - sets linear/nearest texture filtering
+## _tm [Defs.TEXTURE_MODE [int]] - filtering mode. 0=LINEAR 1=NEAREST
 func texturemode(_tm : Defs.TEXTURE_MODE):
 	
 	if _tm == Defs.TEXTURE_MODE.LINEAR:
@@ -132,6 +145,8 @@ func texturemode(_tm : Defs.TEXTURE_MODE):
 		get_viewport().canvas_item_default_texture_filter = Viewport.DEFAULT_CANVAS_ITEM_TEXTURE_FILTER_NEAREST
 	
 	pass
+
+#endregion
 
 func _input(event : InputEvent) -> void:
 	if (event is InputEventKey):

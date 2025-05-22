@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://652aqkn1e26i"]
+
+[ext_resource type="Material" uid="uid://p6q7g63134s2" path="res://shaders/skybox.tres" id="1_7fm1m"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_b7rn0"]
+material = ExtResource("1_7fm1m")
+flip_faces = true
+
+[node name="Node3D" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(4.07776, 0, 0, 0, 4.07776, 0, 0, 0, 4.07776, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_b7rn0")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.191993, 0.706914)
+current = true

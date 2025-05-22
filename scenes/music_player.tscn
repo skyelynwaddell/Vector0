@@ -1,13 +1,12 @@
 [gd_scene load_steps=3 format=3 uid="uid://bd0hkauib0b26"]
 
 [ext_resource type="Script" path="res://scripts/music_player.gd" id="1_l0td0"]
-[ext_resource type="AudioStream" uid="uid://b2n22xqwkubnr" path="res://audio/switch_digital.ogg" id="1_wclws"]
+[ext_resource type="AudioStream" uid="uid://b7o7iubt8l8y5" path="res://audio/door_metal.ogg" id="2_fk0md"]
 
 [node name="MusicPlayer" type="Node2D"]
 script = ExtResource("1_l0td0")
 
 [node name="music" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
-stream = ExtResource("1_wclws")
-autoplay = true
+stream = ExtResource("2_fk0md")
 bus = &"Music"

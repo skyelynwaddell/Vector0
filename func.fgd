@@ -78,10 +78,16 @@
 //Func Detail Illusionary
 @SolidClass color(204 204 204) base(func_entity) = func_detail_illusionary : "Static geometry with no collision and uses Alpha for Decals/Fencing. Builds a Node3D with a MeshInstance3D. Does not occlude other VisualInstance3D nodes." []
 
+//Func Sky -- TODO ?
+@SolidClass color(204 204 204) base(func_entity) = func_sky : "TODO. Turn any brush into a skybox effect."
+[
+
+]
+
 //Func Glass
 @SolidClass color(204 204 204) base(func_entity) = func_glass : "Transparent Glass Mesh" []
 
-//Func Glass
+//Func Breakable
 @SolidClass color(204 204 204) base(func_entity) = func_breakable : "Make any object breakable!" 
 [
 	particleType(choices) : "Particle Type" : 0 =
@@ -165,30 +171,30 @@
 //Func Door Slide
 @SolidClass color(204 204 204) base(func_detail) = func_door_slide : "Sliding door, will open/close when triggered"
 [
-	speed(float) : "Door Speed (float)" : 6.0 : "Control how fast the door opens. Use negative values to move the door the other way."
+	speed(float) : "Door Speed (float)" : 6.0 : "Control how fast the door opens. Use negative values to move the door the other way. DEFAULT=6.0"
 
-	opensize(float) : "Open Size (float)" : 2.1 : "Determines how far the door should open."
+	opensize(float) : "Open Size (float)" : 2.1 : "Determines how far the door should open. DEFAULT=2.1"
 
-	open(choices): "Controls if door is open by default" : 0 =
+	open(choices): "Controls if door is open by default. DEFAULT=0" : 0 =
 	[
 		0 : "Initially Closed"
 		1 : "Initially Open"
 	]
 
-	direction(choices): "Controls which direction the door opens" : 0 =
+	direction(choices): "Controls which direction the door opens. DEFAULT=0" : 0 =
 	[
 		0 : "X"
 		1 : "Y"
 		2 : "Z"
 	]
 
-	autoclose(choices): "Controls if door closes automatically when the player walks away" : 1 =
+	autoclose(choices): "Controls if door closes automatically when the player walks away. DEFAULT=1" : 1 =
 	[
 		0 : "FALSE"
 		1 : "TRUE"
 	]
 
-	lockstatus(choices): "Determine the lock status of this door" : 0 =
+	lockstatus(choices): "Determine the lock status of this door. DEFAULT=0" : 0 =
 	[
 		0 : "Unlocked"
 		1 : "Locked and can only open WHEN triggered"

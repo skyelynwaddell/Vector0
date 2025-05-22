@@ -11,10 +11,10 @@ func _ready():
 		"Main Menu": ["New Game", "Load Game", "Help", "Mods", "Options", "Quit"],
 		"Options" : ["Audio", "Graphics", "Display", "Controls", "Back"],
 		"Pause" : ["Resume", "Options", "Save Game", "Load Game", "Return to Main Menu"],
-		"Audio" : ["Save Settings", "Default Settings", "Back"],
-		"Graphics" : ["Save Settings", "Low Quality Mode", "Default Settings", "Back"],
-		"Display" : ["Save Settings", "Default Settings", "Back"],
-		"Controls" : ["Save Settings", "Default Settings", "Back"],
+		"Audio" : ["Default Settings", "Back"],
+		"Graphics" : ["Low Quality Mode", "Default Settings", "Back"],
+		"Display" : [ "Default Settings", "Back"],
+		"Controls" : ["Default Settings", "Back"],
 		"New Game" : ["Start Game", "Back"],
 		"Load Game" : ["Back"],
 		"Help" : ["Help", "Back"],
@@ -27,10 +27,10 @@ func _ready():
 		"Main Menu": ["Resume", "Load Game", "Help", "Options", "Quit Level"],
 		"Options" : ["Audio", "Graphics", "Display", "Controls", "Back"],
 		"Pause" : ["Resume", "Options", "Save Game", "Load Game", "Return to Main Menu"],
-		"Audio" : ["Save Settings", "Default Settings", "Back"],
-		"Graphics" : ["Save Settings", "Low Quality Mode", "Default Settings", "Back"],
-		"Display" : ["Save Settings", "Default Settings", "Back"],
-		"Controls" : ["Save Settings", "Default Settings", "Back"],
+		"Audio" : ["Default Settings", "Back"],
+		"Graphics" : ["Low Quality Mode", "Default Settings", "Back"],
+		"Display" : ["Default Settings", "Back"],
+		"Controls" : ["Default Settings", "Back"],
 		"New Game" : ["Start Game", "Back"],
 		"Load Game" : ["Back"],
 		"Help" : ["Help", "Back"],
@@ -109,10 +109,10 @@ func UpdateMenu():
 			pass
 		
 		"Audio":
-			CreateSlider("Master Volume","OnVolumeChanged")
-			CreateSlider("Music Volume","OnVolumeChanged")
-			CreateSlider("SFX Volume","OnSFXVolumeChanged")
-			CreateSlider("In-Game Character Voice Volume","OnVoiceVolumeChanged")
+			CreateSlider("Master Volume","OnMasterVolumeChanged", 0, 100, int(MusicPlayer.volume_master*100))
+			CreateSlider("Music Volume","OnMusicVolumeChanged", 0, 100, int(MusicPlayer.volume_music*100))
+			CreateSlider("SFX Volume","OnSFXVolumeChanged", 0, 100, int(MusicPlayer.volume_sfx*100))
+			CreateSlider("Voice Volume","OnVoiceVolumeChanged", 0, 100, int(MusicPlayer.volume_voice*100))
 			pass
 		
 		"Graphics":
@@ -190,20 +190,28 @@ func UpdateMenu():
 	pass
 
 #Audio
-func OnVolumeChanged(slider,label,text):
+
+## slider = slider value
+## label = label node that displays text
+## text = the sliders name ie. Master Volume, Voice Volume etc.
+func OnMusicVolumeChanged(slider:int,label:Label,text:String):
 	label.text = str(text, " : ", slider)
+	MusicPlayer.volume_music = float(slider) / 100.0;
 	pass
 
 func OnSFXVolumeChanged(slider,label,text):
 	label.text = str(text, " : ", slider)
+	MusicPlayer.volume_sfx = float(slider) / 100.0;
 	pass
 	
 func OnVoiceVolumeChanged(slider,label,text):
 	label.text = str(text, " : ", slider)
+	MusicPlayer.volume_voice = float(slider) / 100.0;
 	pass
 			
 func OnMasterVolumeChanged(slider,label,text):
 	label.text = str(text, " : ", slider)
+	MusicPlayer.volume_master = float(slider) / 100.0;
 	pass	
 	
 #Graphics
@@ -289,6 +297,16 @@ func OnOptionPressed(option):
 		
 		"Exit" : get_tree().quit();
 		
+		## Handle what default settings button does on each page
+		"Default Settings" : match(currentMenu):
+			"Audio":
+				MusicPlayer.ResetSettings()
+				
+				for slider in %menuItems.get_children():
+					if slider is Slider:
+						slider.value = 100;
+				
+		
 		#Handle what the back button does on each page
 		"Back" : match(currentMenu):
 			"Options" : currentMenu = "Main Menu"; UpdateMenu();
@@ -302,7 +320,7 @@ func OnOptionPressed(option):
 			"Tutorial" : currentMenu = "Main Menu"; UpdateMenu();
 	pass
 	
-func CreateSlider(text, functionToCall, min_value=0, max_value=100, default_value=50, fullyCustomText=""):
+func CreateSlider(text, functionToCall, min_value=0, max_value=100, default_value=100, fullyCustomText=""):
 	var label = Label.new()
 	var slider = HSlider.new()
 
@@ -316,10 +334,6 @@ func CreateSlider(text, functionToCall, min_value=0, max_value=100, default_valu
 	slider.max_value = max_value;
 	slider.value = default_value;
 	slider.value_changed.connect(Callable(self,functionToCall).bind(label , text))
-	
-	%menuItems.add_child(label);
-	%menuItems.add_child(slider);
-	pass
 	
 	%menuItems.add_child(label);
 	%menuItems.add_child(slider);

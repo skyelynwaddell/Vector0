@@ -13,22 +13,7 @@ class_name Ammo
 	"357",
 ) var ammoType : int = 1
 
-@onready var sfxplayer
-@onready var soundeffect : AudioStreamOggVorbis = preload("res://audio/pickup.ogg")
-
 var shouldDestroy = false
-
-func _ready():
-	sfxplayer = AudioStreamPlayer2D.new()
-	self.add_child(sfxplayer)
-	SetSFX(soundeffect)
-	pass
-	
-func SetSFX(sfx):
-	sfxplayer.set_stream(sfx)
-	sfxplayer.set_volume_db(-10)
-	sfxplayer
-	pass
 
 func _func_godot_apply_properties(props:Dictionary):
 	if "amount" in props: AmmoAmount = props.amount as int
@@ -43,9 +28,7 @@ func _on_body_entered(body):
 		self.visible = false
 		
 		print_debug("Picking up ammo!!")
-		if sfxplayer.playing == false:
-			shouldDestroy = true
-			sfxplayer.play()
+		shouldDestroy = true
 		
 		var isMelee : bool = false
 		var ammoPoolType = null
@@ -83,6 +66,8 @@ func _on_body_entered(body):
 				i.ammo += AmmoAmount
 				i.ammo = clamp(i.ammo,0,maxAmmo)
 				print_debug(i.ammo)
+				MusicPlayer.Sound(MusicPlayer.SFX.PICKUP, MusicPlayer.AUDIO_CHANNEL.SFX, 1.0);
+				
 				pass
 		
 		# Update HUD & Remove self from scene
@@ -92,5 +77,5 @@ func _on_body_entered(body):
 
 func _process(delta):
 	if Engine.is_editor_hint() : return
-	if shouldDestroy && sfxplayer.playing == false: queue_free()
+	if shouldDestroy: queue_free()
 	pass

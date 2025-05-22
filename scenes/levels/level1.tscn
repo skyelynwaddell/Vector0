@@ -2611,7 +2611,7 @@ _surfaces = [{
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_kvvnm"]
 points = PackedVector3Array(-1, 1.5, -0.25, -1, -1.5, -0.25, 1, -1.5, -0.25, 1, 1.5, -0.25, -1, 1.5, 0.25, -1, -1.5, 0.25, 1, -1.5, 0.25, 1, 1.5, 0.25)
 
-[sub_resource type="Shader" id="Shader_3k2jb"]
+[sub_resource type="Shader" id="Shader_d3vnc"]
 code = "shader_type spatial;
 render_mode shadows_disabled;
 render_mode unshaded;
@@ -2910,9 +2910,9 @@ void fragment() {
 	ALBEDO = color.xyz;
 }"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_kplnp"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nryvj"]
 render_priority = 1
-shader = SubResource("Shader_3k2jb")
+shader = SubResource("Shader_d3vnc")
 shader_parameter/is_opaque = true
 shader_parameter/uv_scale = Vector2(1, 1)
 shader_parameter/uv_offset = Vector2(0, 0)
@@ -3354,7 +3354,7 @@ _surfaces = [{
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_0i4ne"]
 points = PackedVector3Array(-0.125001, 0.75, -0.5, -0.125001, -0.75, -0.5, 0.125, -0.75, -0.5, 0.125, 0.75, -0.5, -0.374999, 0.75, -0.375, -0.374999, -0.75, -0.375, 0.375001, -0.75, -0.375, 0.375001, 0.75, -0.375, -0.5, 0.75, -0.124999, -0.5, -0.75, -0.124999, 0.5, -0.75, -0.124999, 0.5, 0.75, -0.124999, -0.5, 0.75, 0.125001, -0.5, -0.75, 0.125001, -0.375, -0.75, 0.375, -0.125, -0.75, 0.5, 0.125, -0.75, 0.5, 0.374999, -0.75, 0.375, 0.5, -0.75, 0.124998, 0.5, 0.75, 0.124998, 0.374999, 0.75, 0.375, 0.125, 0.75, 0.5, -0.125, 0.75, 0.5, -0.375, 0.75, 0.375)
 
-[sub_resource type="Shader" id="Shader_ibhjc"]
+[sub_resource type="Shader" id="Shader_l1mhr"]
 code = "shader_type spatial;
 render_mode shadows_disabled;
 render_mode unshaded;
@@ -3653,9 +3653,9 @@ void fragment() {
 	ALBEDO = color.xyz;
 }"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4hpx7"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rgpuw"]
 render_priority = 1
-shader = SubResource("Shader_ibhjc")
+shader = SubResource("Shader_l1mhr")
 shader_parameter/is_opaque = false
 shader_parameter/uv_scale = Vector2(1, 1)
 shader_parameter/uv_offset = Vector2(0, 0)
@@ -4002,7 +4002,7 @@ _surfaces = [{
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_70nrj"]
 points = PackedVector3Array(-0.75, 0.75, -0.75, -0.75, -0.75, -0.75, 0.75, -0.75, -0.75, 0.75, 0.75, -0.75, -0.75, 0.75, 0.75, -0.75, -0.75, 0.75, 0.75, -0.75, 0.75, 0.75, 0.75, 0.75)
 
-[sub_resource type="Shader" id="Shader_ywsvj"]
+[sub_resource type="Shader" id="Shader_2ywsi"]
 code = "shader_type spatial;
 render_mode shadows_disabled;
 render_mode unshaded;
@@ -4301,9 +4301,9 @@ void fragment() {
 	ALBEDO = color.xyz;
 }"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_bijxf"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nvtx0"]
 render_priority = 1
-shader = SubResource("Shader_ywsvj")
+shader = SubResource("Shader_2ywsi")
 shader_parameter/is_opaque = false
 shader_parameter/uv_scale = Vector2(1, 1)
 shader_parameter/uv_offset = Vector2(0, 0)
@@ -6183,6 +6183,7 @@ shape = SubResource("ConvexPolygonShape3D_5wfjm")
 [node name="entity_1_info_player_start" parent="FuncGodotMap" instance=ExtResource("23_6yjac")]
 transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 8.75, 2, 5.5)
 spawndir = "2"
+frictAccel = 6.0
 
 [node name="entity_2_light_light1" parent="FuncGodotMap" instance=ExtResource("16_iu4d4")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 6.75, 6.75, 2.25)
@@ -6684,7 +6685,7 @@ colorString = "7 86 255"
 alpha = 1.0
 is_dangerous = "1"
 glows = "1"
-duplicateMaterial = SubResource("ShaderMaterial_kplnp")
+duplicateMaterial = SubResource("ShaderMaterial_nryvj")
 texture = ExtResource("69_5g3bd")
 
 [node name="entity_82_mesh_instance" type="MeshInstance3D" parent="FuncGodotMap/entity_82_func_water"]
@@ -6749,7 +6750,7 @@ script = ExtResource("69_38neu")
 color = Vector4(0.027451, 0.337255, 1, 1)
 color2 = Vector4(0.0219608, 0.269804, 0.8, 1)
 colorString = "7 86 255"
-duplicateMaterial = SubResource("ShaderMaterial_4hpx7")
+duplicateMaterial = SubResource("ShaderMaterial_rgpuw")
 texture = ExtResource("73_t515b")
 
 [node name="entity_86_mesh_instance" type="MeshInstance3D" parent="FuncGodotMap/entity_86_func_water"]
@@ -6769,7 +6770,7 @@ script = ExtResource("69_38neu")
 color = Vector4(0.027451, 0.337255, 1, 1)
 color2 = Vector4(0.0219608, 0.269804, 0.8, 1)
 colorString = "7 86 255"
-duplicateMaterial = SubResource("ShaderMaterial_bijxf")
+duplicateMaterial = SubResource("ShaderMaterial_nvtx0")
 texture = ExtResource("70_xndsq")
 
 [node name="entity_87_mesh_instance" type="MeshInstance3D" parent="FuncGodotMap/entity_87_func_water"]

@@ -19,21 +19,12 @@ class_name PickupWeapon
 	"MP"
 ) var weaponType : int = 1
 
-@onready var sfxplayer
-@onready var soundeffect : AudioStreamOggVorbis = preload("res://audio/pickup.ogg")
-
 var shouldDestroy = false
 
 func _ready():
-	sfxplayer = AudioStreamPlayer2D.new()
-	self.add_child(sfxplayer)
-	SetSFX(soundeffect)
 	pass
 	
 func SetSFX(sfx):
-	sfxplayer.set_stream(sfx)
-	sfxplayer.set_volume_db(-10)
-	sfxplayer
 	pass
 
 func _func_godot_apply_properties(props:Dictionary):
@@ -49,9 +40,7 @@ func _on_body_entered(body):
 		self.visible = false
 		
 		print_debug("Picking up weapon!!")
-		if sfxplayer.playing == false:
-			shouldDestroy = true
-			sfxplayer.play()
+		shouldDestroy = true
 		
 		var isMelee : bool = false
 		var ammoPoolType = null
@@ -81,6 +70,8 @@ func _on_body_entered(body):
 			}
 			Game.weapons.append(newweapon)
 			print_debug("Player got: " + Game.weaponList[weaponType].title)
+		
+		MusicPlayer.Sound(MusicPlayer.SFX.PICKUP, MusicPlayer.AUDIO_CHANNEL.SFX, 1.0)
 		
 		#we dont need ammo if it was a melee weapon so return here
 		if ammoPoolType == null: return
@@ -112,10 +103,11 @@ func _on_body_entered(body):
 		
 		# Update HUD & Remove self from scene
 		if isMelee == false: Signals.UpdateHUD.emit()
+		
 		#queue_free()
 		pass
 
 func _process(delta):
 	if Engine.is_editor_hint() : return
-	if shouldDestroy && sfxplayer.playing == false: queue_free()
+	if shouldDestroy: queue_free()
 	pass

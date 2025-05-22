@@ -118,15 +118,18 @@ bones/56/rotation = Quaternion(-0.125809, 0.00397675, 0.991648, 0.0281072)
 transform = Transform3D(-0.391295, -0.141409, -0.0127335, 0.042903, -1.29777, -0.0262993, -0.00608643, -0.0567408, 0.633251, 0.0119942, 0.0298116, 0.0106274)
 
 [node name="PumpShotgun_001" parent="Model/RootNode/Armature/Skeleton3D/PumpShotgun_001" index="0"]
+layers = 524288
 surface_material_override/0 = ExtResource("2_lta1a")
 
 [node name="PumpShotgunHandle_001" parent="Model/RootNode/Armature/Skeleton3D" index="1"]
 transform = Transform3D(-1.07174, -0.239448, -0.0317052, 0.117509, -2.19751, -0.065483, -0.0166704, -0.0960789, 1.57674, 0.0125114, 0.0353132, 0.011401)
 
 [node name="PumpShotgunHandle_001" parent="Model/RootNode/Armature/Skeleton3D/PumpShotgunHandle_001" index="0"]
+layers = 524288
 surface_material_override/0 = ExtResource("2_lta1a")
 
 [node name="Arms" parent="Model/RootNode/Armature/Skeleton3D" index="2"]
+layers = 524288
 surface_material_override/0 = ExtResource("3_xhejv")
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
