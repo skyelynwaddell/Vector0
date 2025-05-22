@@ -14,3 +14,4 @@
 *.res filter=lfs diff=lfs merge=lfs -text
 *.tres filter=lfs diff=lfs merge=lfs -text
 *.import filter=lfs diff=lfs merge=lfs -text
+*.hdr filter=lfs diff=lfs merge=lfs -text
