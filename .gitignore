@@ -8,6 +8,9 @@
 /maps/autosave
 *.log
 
+/textures
+/audio
+/blender
 /textures/boxes
 /textures/countertops
 /textures/debug
