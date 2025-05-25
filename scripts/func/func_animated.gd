@@ -43,4 +43,3 @@ func SetTextures():
 		return
 	SetTexture(textures[frame])
 	pass
-

@@ -17,6 +17,13 @@ func IsPaused(): return paused
 func RoomGoto(scene_path:String):
 	get_tree().change_scene_to_file(scene_path);
 
+func GetDirectionToPlayer(other) -> Vector3:
+	var player = get_tree().get_first_node_in_group("Player")
+	var playerpos = player.global_transform.origin
+	var currentpos = other.global_transform.origin
+	var dir = (Vector3(playerpos.x, currentpos.y, playerpos.z) - currentpos).normalized()
+	return dir
+
 #List of all weapons in game
 var weaponList = [
 	# 0 - NO WEAPON
@@ -114,7 +121,7 @@ var weaponList = [
 		index = 9,
 		title     = "Pump Shotgun",
 		melee = false,
-		power     = 100,
+		power     = 50,
 		magSize = 6,
 		ammoPool = "shotgun",
 		spd = 400
@@ -210,7 +217,7 @@ func LoadGame():
 		var data = JSON.parse_string(file.get_as_text())
 		file.close()
 		print_debug(data)
-		Game.hp = data.hp
+		Game.hp = data.hp if "hp" in data else 100
 		Game.godmode = data.godmode
 		Game.keycard = data.keycard
 		Game.weapons = data.weapons

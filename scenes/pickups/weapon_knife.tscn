@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://4ds8i3g6srif"]
+[gd_scene load_steps=6 format=3 uid="uid://4ds8i3g6srif"]
 
 [ext_resource type="Script" path="res://scripts/pickup_weapon.gd" id="1_ex4v8"]
-[ext_resource type="PackedScene" uid="uid://ca0v68grp61e7" path="res://models/weapons/knife/weapon_knife.fbx" id="4_7hwqr"]
+[ext_resource type="Material" uid="uid://bnxwkb3euin5u" path="res://materials/knife_metal.tres" id="3_pdjph"]
+[ext_resource type="PackedScene" uid="uid://ca0v68grp61e7" path="res://models/Weapons/knife/weapon_knife.fbx" id="4_7hwqr"]
+[ext_resource type="Material" uid="uid://b0o3sm8ypadoj" path="res://materials/knife_handle.tres" id="4_feiex"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7le5x"]
 size = Vector3(0.405701, 1.48932, 1.01648)
@@ -19,4 +21,10 @@ shape = SubResource("BoxShape3D_7le5x")
 [node name="Model" parent="." instance=ExtResource("4_7hwqr")]
 transform = Transform3D(-3.10862e-15, -6.73155e-09, -0.154, -0.154, -6.73155e-09, 4.44089e-15, -6.73155e-09, 0.154, -6.73155e-09, -0.1, -0.238292, 0)
 
+[node name="Cube" parent="Model/RootNode" index="0"]
+surface_material_override/0 = ExtResource("3_pdjph")
+surface_material_override/1 = ExtResource("4_feiex")
+
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+
+[editable path="Model"]

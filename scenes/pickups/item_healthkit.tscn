@@ -1,16 +1,27 @@
-[gd_scene load_steps=4 format=3 uid="uid://dbt7ercxj32mm"]
+[gd_scene load_steps=8 format=3 uid="uid://dbt7ercxj32mm"]
 
 [ext_resource type="Script" path="res://scripts/pickup_healthpack.gd" id="1_eud51"]
 [ext_resource type="PackedScene" uid="uid://d0t4a2ehk3s0i" path="res://models/healthpack/health_pack.glb" id="1_m26ye"]
+[ext_resource type="PackedScene" uid="uid://b6wpq15t2a0nu" path="res://scenes/other/item_circle.tscn" id="3_46hys"]
+[ext_resource type="Shader" path="res://shaders/itemcircle.gdshader" id="4_shmpj"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6fwby"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f74xq"]
+render_priority = 0
+shader = ExtResource("4_shmpj")
+shader_parameter/circle_color = Color(0.760784, 0, 0.0745098, 0.0823529)
+shader_parameter/softness = 1.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_j41wt"]
+material = SubResource("ShaderMaterial_f74xq")
 
 [node name="ItemHealthkit" type="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
 script = ExtResource("1_eud51")
 
 [node name="HealthPack" parent="." instance=ExtResource("1_m26ye")]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -1.2, -0.138263, -1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.725309, 0)
 
 [node name="CollisionShape3D" parent="HealthPack" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000885025, 0.194276, 0.00384521)
@@ -19,9 +30,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000885025, 0.194276, 0.003
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.98023e-08, 0.117535, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(2.51305, 0, 0, 0, 2.51305, 0, 0, 0, 2.51305, -0.996027, 1.23808, -0.995008)
+transform = Transform3D(2.51305, 0, 0, 0, 2.51305, 0, 0, 0, 2.51305, 0.00397301, 1.23808, 0.00499201)
 shape = SubResource("BoxShape3D_6fwby")
+
+[node name="ItemCircle" parent="." instance=ExtResource("3_46hys")]
+transform = Transform3D(1.45188, 0, 0, 0, 1.17525, 0, 0, 0, 1.45188, 0, 0, 0)
+
+[node name="MeshInstance3D" parent="ItemCircle" index="0"]
+mesh = SubResource("CylinderMesh_j41wt")
 
 [connection signal="area_entered" from="." to="." method="_on_body_entered"]
 
 [editable path="HealthPack"]
+[editable path="ItemCircle"]

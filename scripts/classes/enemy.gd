@@ -35,10 +35,28 @@ func Kill():
 	state = DEATH
 	dead = true
 	self.remove_from_group("Enemy")
+	if %Area3D: %Area3D.queue_free()
 	#sndDeath.play()
-	self.set_collision_layer_value(2,false)
+	
+	self.set_collision_layer_value(1, false)
+	self.set_collision_layer_value(2, false)
+	self.set_collision_layer_value(3, false)
+	self.set_collision_layer_value(4, false)
 	self.set_collision_mask_value(2,false)
-	self.set_collision_layer_value(1,false)
+	self.set_collision_mask_value(3,false)
+	self.set_collision_mask_value(4,false)
+	
+	for node in self.get_children():
+		if node is Area3D:
+			node.set_collision_layer_value(2, false)
+			node.set_collision_layer_value(3, false)
+			node.set_collision_layer_value(4, false)
+			node.set_collision_mask_value(1,false)
+			node.set_collision_mask_value(2,false)
+			node.set_collision_mask_value(3,false)
+			node.set_collision_mask_value(4,false)
+	
+	#w
 	pass
 	
 func AttemptToKillPlayer():

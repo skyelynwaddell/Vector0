@@ -62,6 +62,8 @@ import/fbx/enabled.web=true
 Camera=""
 Player=""
 Entity=""
+Enemy=""
+Breakable=""
 
 [importer_defaults]
 

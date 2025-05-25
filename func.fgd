@@ -78,12 +78,6 @@
 //Func Detail Illusionary
 @SolidClass color(204 204 204) base(func_entity) = func_detail_illusionary : "Static geometry with no collision and uses Alpha for Decals/Fencing. Builds a Node3D with a MeshInstance3D. Does not occlude other VisualInstance3D nodes." []
 
-//Func Sky -- TODO ?
-@SolidClass color(204 204 204) base(func_entity) = func_sky : "TODO. Turn any brush into a skybox effect."
-[
-
-]
-
 //Func Glass
 @SolidClass color(204 204 204) base(func_entity) = func_glass : "Transparent Glass Mesh" []
 
@@ -321,7 +315,7 @@
 @PointClass base(func_entity) color(204 204 204) model({"path":"glb/shippingcrate/entity_shippingcrate.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = entity_shippingcrate : "Shipping Container" []
 
 //Light Default (no model)
-@PointClass base(func_entity) color(204 204 204) size(-8 -8 -8, 8 8 8) = light_default : "Light Default" []
+@PointClass base(Light) color(204 204 204) size(-8 -8 -8, 8 8 8) = light_default : "Light Default" []
 
 //Light #1
 @PointClass base(func_entity) color(204 204 204) model({"path":"glb/light1/light_light1.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = light_light1 : "Light 1" []
@@ -370,6 +364,9 @@
 //Scorpion Alien
 @PointClass base(func_entity) color(204 204 204) model({"path":"glb/alien_scorpion/monster_scorpion.glb", "scale":"1"}) size(-8 -8 -8, 8 8 8) = monster_scorpion : "Scorpion Alien Monster" []
 
+//Spitting Alien - GarbleJarble the Mecha Leech from Outerspace!
+@PointClass base(func_entity) color(204 204 204) model({"path":"glb/monster_garblejarble/monster_garblejarble.glb", "scale":"10"}) size(-8 -8 -8, 8 8 8) = monster_garblejarble : "Garble Jarble Spitter Alien" []
+
 //Laser Eye Alien
 @PointClass base(func_entity) color(204 204 204) model({"path":"glb/monster_lasereye/lasereye.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = monster_lasereye : "Laser Eye Alien" []
 
@@ -391,26 +388,29 @@
 @PointClass base(func_entity_scaled) color(204 204 204) model({"path":"glb/diamond/path_walkpoint.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = path_point : "This is an empty invisible node that gets spawned. Useful to get Location in world space for a teleport." []
 
 @baseclass = Light [
-	light(integer) : "Brightness" : 200
-	style(Choices) : "Appearance" : 0 =
+
+	brightness(integer) : "Brightness" : 2
+
+	color(color255) : "Light Color" : "255 255 255"
+
+	is_on(choices) : "Initially On" : 1 = 
+	[
+		0 : "FALSE"
+		1 : "TRUE"
+	]
+	
+	style(choices) : "Appearance" : 0 =
 	[
 		0 : "Normal"
-		10: "Fluorescent flicker"
-		2 : "Slow, strong pulse"
-		11: "Slow pulse, noblack"
-		5 : "Gentle pulse"
-		1 : "Flicker A"
-		6 : "Flicker B"
-		3 : "Candle A"
-		7 : "Candle B"
-		8 : "Candle C"
-		4 : "Fast strobe"
-		9 : "Slow strobe"
+		1 : "Slow, strong pulse"
+		2 : "Pulse No Black"
+		3 : "Gentle pulse"
+		4 : "Flicker A"
+		5 : "Flicker B"
+		6 : "Fast strobe"
+		7 : "Slow strobe"
 	]
 ]
 
 @PointClass size(-8 -8 -8, 8 8 8) base(Light, Target, Targetname) = 
-	light : "Invisible lightsource"
-	[
-		spawnflags(Flags) = [ 1 : "Initially dark" : 0 ]
-	]
+	light : "Invisible lightsource" []

@@ -1,7 +1,13 @@
-[gd_scene format=3 uid="uid://bstl5km2orpxp"]
+[gd_scene load_steps=2 format=3 uid="uid://bstl5km2orpxp"]
+
+[ext_resource type="Script" path="res://scripts/light.gd" id="1_lgx63"]
 
 [node name="Light" type="OmniLight3D"]
 light_energy = 2.0
 light_size = 1.0
 light_bake_mode = 1
 omni_range = 8.0
+script = ExtResource("1_lgx63")
+brightness = 2
+is_on = true
+color = null

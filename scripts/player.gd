@@ -913,6 +913,8 @@ func ChangeAttackRange(newRange : int):
 #Use 2 buttons to cycle through all the current weapon inventory
 func ChangeWeaponScroll(isUp):
 	
+	if reloading: return
+	
 	# Get the amount of weapons in our inventory
 	var weaponCount = Game.weapons.size()
 	
@@ -1049,6 +1051,13 @@ func CreateRayCast():
 		
 		# Create Bullet Hole / Scratch Decal on wall when shooting		
 		if target.is_in_group("Enemy") == false:
+			
+			#if (target.collision_layer & (1 << 3)) != 0:
+				#print("Collision mask layer 4 is enabled!")
+				#return
+			#else:
+				#print("Layer 4 is disabled.")
+			
 			if isShotgun:
 				for i in range(6):
 					var offset_range = 0.5  # Spread radius
