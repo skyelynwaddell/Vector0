@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" path="res://scripts/func/func_door_slide.gd" id="1_trmys"]
 
-[node name="FuncDoorSlide" type="StaticBody3D"]
+[node name="FuncDoorSlide" type="StaticBody3D" groups=["Door", "Entity"]]
 script = ExtResource("1_trmys")

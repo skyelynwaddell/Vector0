@@ -1,3 +1,9 @@
 extends Node
 
 enum TEXTURE_MODE { LINEAR, NEAREST }
+
+enum PROJECTILE_TYPE {
+	ELECTRIC_BALL,
+	BULLET,
+	SLIME
+}

@@ -1,0 +1,152 @@
+[gd_scene load_steps=20 format=3 uid="uid://b1j5lukoxtiqi"]
+
+[ext_resource type="Script" path="res://scripts/monster_eye.gd" id="1_mais5"]
+[ext_resource type="PackedScene" uid="uid://bkyxdm7t5qmw3" path="res://scenes/other/gib_particles.tscn" id="2_28yjg"]
+[ext_resource type="AudioStream" uid="uid://c7b24oid6et0o" path="res://audio/monster/zombie1.ogg" id="3_lsjo0"]
+[ext_resource type="AudioStream" uid="uid://8smdeenuypm" path="res://audio/monster/zombie_breath.ogg" id="4_reujg"]
+[ext_resource type="PackedScene" uid="uid://bx5nmnm87flvr" path="res://blender/monster_eyeball/monster_eyeball.fbx" id="5_3dp1p"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kd7oq"]
+animation = &"Armature|ATTACK"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fqv46"]
+animation = &"Armature|DEATH_1"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_cu7ih"]
+animation = &"Armature|IDLE"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3t4pd"]
+animation = &"Armature|ATTACK"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1q3aw"]
+animation = &"Armature|IDLE"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_x2wp8"]
+animation = &"Armature|IDLE"
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_nu4kh"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_8q3fa"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_y46pj"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_doltx"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_o3pog"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_b0hth"]
+nodes/AnimAttack/node = SubResource("AnimationNodeAnimation_kd7oq")
+nodes/AnimAttack/position = Vector2(60, 340)
+nodes/AnimDeath/node = SubResource("AnimationNodeAnimation_fqv46")
+nodes/AnimDeath/position = Vector2(980, 320)
+nodes/AnimIdle/node = SubResource("AnimationNodeAnimation_cu7ih")
+nodes/AnimIdle/position = Vector2(-180, 140)
+nodes/AnimJumpOnHead/node = SubResource("AnimationNodeAnimation_3t4pd")
+nodes/AnimJumpOnHead/position = Vector2(360, 300)
+nodes/AnimSuckOnHead/node = SubResource("AnimationNodeAnimation_1q3aw")
+nodes/AnimSuckOnHead/position = Vector2(620, 300)
+nodes/AnimWalk/node = SubResource("AnimationNodeAnimation_x2wp8")
+nodes/AnimWalk/position = Vector2(-160, 320)
+nodes/Attack/node = SubResource("AnimationNodeBlend2_nu4kh")
+nodes/Attack/position = Vector2(300, 80)
+nodes/Death/node = SubResource("AnimationNodeBlend2_8q3fa")
+nodes/Death/position = Vector2(1160, 120)
+nodes/JumpOnHead/node = SubResource("AnimationNodeBlend2_y46pj")
+nodes/JumpOnHead/position = Vector2(540, 100)
+nodes/SuckOnHead/node = SubResource("AnimationNodeBlend2_doltx")
+nodes/SuckOnHead/position = Vector2(860, 100)
+nodes/Walk/node = SubResource("AnimationNodeBlend2_o3pog")
+nodes/Walk/position = Vector2(20, 100)
+nodes/output/position = Vector2(1320, 140)
+node_connections = [&"Attack", 0, &"Walk", &"Attack", 1, &"AnimAttack", &"Death", 0, &"SuckOnHead", &"Death", 1, &"AnimDeath", &"JumpOnHead", 0, &"Attack", &"JumpOnHead", 1, &"AnimJumpOnHead", &"SuckOnHead", 0, &"JumpOnHead", &"SuckOnHead", 1, &"AnimSuckOnHead", &"Walk", 0, &"AnimIdle", &"Walk", 1, &"AnimWalk", &"output", 0, &"Death"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fi1kn"]
+size = Vector3(3.93, 1.616, 3.992)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_642ki"]
+size = Vector3(3.68, 3.666, 1.577)
+
+[node name="Eye" type="CharacterBody3D" groups=["Enemy", "Entity", "Zombie"]]
+collision_layer = 14
+collision_mask = 15
+axis_lock_linear_y = true
+platform_on_leave = 2
+script = ExtResource("1_mais5")
+targetname = &"Eye"
+grvty = 0
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+unique_name_in_owner = true
+root_node = NodePath("%AnimationTree/../monster_eyeball")
+tree_root = SubResource("AnimationNodeBlendTree_b0hth")
+anim_player = NodePath("../monster_eyeball/AnimationPlayer")
+parameters/Attack/blend_amount = 0.0
+parameters/Death/blend_amount = 0.0
+parameters/JumpOnHead/blend_amount = 0.0
+parameters/SuckOnHead/blend_amount = 0.0
+parameters/Walk/blend_amount = 0.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, -1, 4.37114e-08, 0, -4.37114e-08, -1, 1, -4.37114e-08, 1.91069e-15, -0.271961, 2.00023, -0.834183)
+shape = SubResource("BoxShape3D_fi1kn")
+
+[node name="Area3D" type="Area3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.178859, 0.888448, 0.156668)
+collision_layer = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.00577, 1.24479, 0.128942)
+shape = SubResource("BoxShape3D_642ki")
+
+[node name="GibParticles" parent="." instance=ExtResource("2_28yjg")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.120148, 0.692912, 0.140938)
+
+[node name="GibParticles" parent="GibParticles" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.54031, 0.416646)
+
+[node name="BloodParticles" parent="GibParticles" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65944, 0.416646)
+
+[node name="BloodTimer" type="Timer" parent="GibParticles"]
+unique_name_in_owner = true
+
+[node name="Growl" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.178859, 0.378492, 0.156668)
+stream = ExtResource("3_lsjo0")
+volume_db = -5.0
+max_db = -5.0
+bus = &"Voices"
+
+[node name="Breath" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.178859, 0.378492, 0.156668)
+stream = ExtResource("4_reujg")
+volume_db = -12.333
+max_db = 5.0
+autoplay = true
+max_distance = 20.0
+bus = &"Voices"
+
+[node name="monster_eyeball" parent="." instance=ExtResource("5_3dp1p")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.31819, -0.788569, 0.156668)
+
+[node name="Skeleton3D" parent="monster_eyeball/Armature" index="0"]
+bones/0/position = Vector3(-0.000652294, 0, 0.01)
+bones/0/rotation = Quaternion(0.667079, -0.233357, 0.23287, 0.668073)
+bones/1/rotation = Quaternion(-0.000348275, 0.000232855, 0.561204, 0.827677)
+bones/2/rotation = Quaternion(0.000141376, 0.000393918, -0.180579, 0.98356)
+bones/3/rotation = Quaternion(-0.000174564, 0.000430683, -0.528942, 0.848658)
+bones/4/rotation = Quaternion(-0.000204484, 0.000102578, -0.199958, 0.979804)
+bones/6/rotation = Quaternion(0.943714, -0.330762, -1.34086e-05, -0.00096172)
+
+[node name="Eyeball" parent="monster_eyeball/Armature/Skeleton3D" index="0"]
+transform = Transform3D(-0.00130114, 0.000256803, 0.563285, 0.000399144, 0.563287, -0.000255866, -0.563285, 0.000398541, -0.00130132, -0.000578263, 3.28219e-06, 0.00531329)
+bone_idx = 7
+
+[connection signal="finished" from="GibParticles/GibParticles" to="." method="_on_gib_particles_finished"]
+
+[editable path="GibParticles"]
+[editable path="monster_eyeball"]

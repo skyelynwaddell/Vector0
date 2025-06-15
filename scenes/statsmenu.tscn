@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://disopq4f4xl1o"]
+
+[ext_resource type="Script" path="res://scripts/f_3_statsmenu.gd" id="1_ooke6"]
+[ext_resource type="Theme" uid="uid://d2f0bmoftf5uf" path="res://godot/theme.tres" id="2_qffxr"]
+
+[node name="f3statsmenu" type="CanvasLayer"]
+script = ExtResource("1_ooke6")
+
+[node name="stats" type="RichTextLabel" parent="."]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 1136.0
+offset_bottom = 632.0
+theme = ExtResource("2_qffxr")
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+bbcode_enabled = true
+text = "Game Stats"

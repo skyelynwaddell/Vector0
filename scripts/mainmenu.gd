@@ -3,8 +3,37 @@ extends CanvasLayer
 var menus = {}
 var currentMenu = "Main Menu"
 
+var msaa_2d_list = [
+	MenuButtonItem("Disabled (Fastest)", true, false, false, "OnMSAA2DChanged", 0),
+	MenuButtonItem("2x (Average)", false, false, false, "OnMSAA2DChanged", 1),
+	MenuButtonItem("4x (Slow)", false, false, false, "OnMSAA2DChanged", 2),
+	MenuButtonItem("8x (Slowest)", false, false, false, "OnMSAA2DChanged", 3),
+]
+
+var msaa_3d_list = [
+	MenuButtonItem("Disabled (Fastest)", true, false, false, "OnMSAA3DChanged", 0),
+	MenuButtonItem("2x (Average)", false, false, false, "OnMSAA3DChanged", 1),
+	MenuButtonItem("4x (Slow)", false, false, false, "OnMSAA3DChanged", 2),
+	MenuButtonItem("8x (Slowest)", false, false, false, "OnMSAA3DChanged", 3),
+]
+
+var scaling_3d_mode_list = [
+	MenuButtonItem("Billinear (Fastest)", true, false, false, "OnScaling3DModeChanged", 0),
+	MenuButtonItem("FSR 1.0 (Fast)", false, false, false, "OnScaling3DModeChanged", 1),
+	MenuButtonItem("FSR 2.2 (Slow)", false, false, false, "OnScaling3DModeChanged", 2),
+]
+
+func OnMSAA2DChanged(setting:int):pass
+func OnMSAA3DChanged(setting:int):pass
+func OnScaling3DModeChanged(setting:int):pass
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
+	Signals.HUDHide.connect(HUDHide)
+	Signals.HUDShow.connect(HUDShow)
+	
 	## Default Main Menu
 	if not Game.in_game:
 		menus = {
@@ -24,7 +53,7 @@ func _ready():
 	## Menu while in game
 	else:
 		menus = {
-		"Main Menu": ["Resume", "Load Game", "Help", "Options", "Quit Level"],
+		"Main Menu": ["Resume", "Quicksave", "Save Game", "Load Game", "Help", "Options", "Quit Level"],
 		"Options" : ["Audio", "Graphics", "Display", "Controls", "Back"],
 		"Pause" : ["Resume", "Options", "Save Game", "Load Game", "Return to Main Menu"],
 		"Audio" : ["Default Settings", "Back"],
@@ -32,6 +61,9 @@ func _ready():
 		"Display" : ["Default Settings", "Back"],
 		"Controls" : ["Default Settings", "Back"],
 		"New Game" : ["Start Game", "Back"],
+		"Quicksave":[],
+		"Save Game": ["Back"],
+		"Save Game Confirm" : ["Back"],
 		"Load Game" : ["Back"],
 		"Help" : ["Help", "Back"],
 		"Quit Level" : [],
@@ -63,6 +95,8 @@ func enable_window():
 	
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE ## show the mouse	
 	Game.paused = true
+	Signals.MainMenuShown.emit()
+	
 	show()
 	
 func disable_window(): 
@@ -71,6 +105,8 @@ func disable_window():
 	
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED ## Hide the mouse	
 	Game.paused = false
+	Signals.MainMenuHidden.emit()
+	
 	hide()
 
 func toggle_window():
@@ -85,7 +121,6 @@ func toggle_window():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	
 	if Input.is_action_just_pressed("exit"):
 		##get_tree().quit()
 		toggle_window()
@@ -101,6 +136,7 @@ func UpdateMenu():
 		child.queue_free()
 
 	%lblMenuName.text = currentMenu.to_upper();
+	
 
 	match(currentMenu):
 		"Quit Level":
@@ -116,22 +152,32 @@ func UpdateMenu():
 			pass
 		
 		"Graphics":
-			CreateCheckbox("Low Texture Quality", "ToggleQuality")
-			CreateCheckbox("Low Shadow Quality", "ToggleQuality")
-			CreateCheckbox("Low Lighting Quality", "ToggleQuality")
-			CreateCheckbox("Low Draw Distance", "ToggleQuality")
-			CreateCheckbox("Enable Bloom", "ToggleQuality")
-			CreateCheckbox("Enable Fog", "ToggleFog", true)
+			CreateCheckbox("FXAA", "ToggleFXAA")
+			CreateCheckbox("TAA", "ToggleFXAA")
+			CreateCheckbox("Debanding", "ToggleFXAA")
+			CreateCheckbox("Occlusion Culling", "ToggleFXAA")
+			CreateCheckbox("HDR 2D", "ToggleFXAA")
+			CreateSlider("3D Scaling","On3DScalingChanged",0.25,2,1,"3D Scaling: 1",0.05)
+			
+			CreateMenuButton("3D Scaling Mode", scaling_3d_mode_list)
+			CreateMenuButton("MSAA 2D", msaa_2d_list)
+			CreateMenuButton("MSAA 3D", msaa_3d_list)
+			
+			CreateSlider("Mesh LOD Threshold","OnMeshLODThresholdChanged",1,1024,1,"Mesh LOD Threshold: 1",1)
+			CreateSlider("Texture Mipmap Bias","OnTextureMipmapBiasChanged",-2,2,0,"Texture Mipmap Bias: 0",0.1)
+			
+			CreateCheckbox("Disable Lights", "ToggleQuality")
+			CreateCheckbox("Enable Glow", "ToggleQuality")
 			CreateCheckbox("Enable Motion Blur", "ToggleMotionBlur")
-			CreateCheckbox("Enable V-Sync", "ToggleVsync")
+			CreateCheckbox("Enable V-Sync", "ToggleVsync", true)
 			CreateCheckbox("Enable HUD", "ToggleHud", true)
-			CreateCheckbox("Nearest Filtering", "ToggleNearestFiltering")
 			CreateSlider("Field Of View (FOV)","OnFOVChanged",30,120,90)
 			pass
 		
 		"Display":
 			CreateSlider("Resolution","OnResolutionChanged",0,4,4,"Resolution: 1920x1080")
 			CreateSlider("FPS","OnFPSChanged",0,6,2,"FPS: 60")
+			CreateLabel("FPS is capped at monitor refresh rate,\nif v-sync is enabled.\n\n")
 			CreateSlider("Brightness","OnBrightnessChanged",0,100,50)
 			CreateCheckbox("Fullscreen", "ToggleQuality", true)
 			pass		
@@ -167,7 +213,32 @@ func UpdateMenu():
 			pass
 			
 		"Load Game":
+			var data = Game.GetSaveData()
+			
+			for save in data.saves:
+				#print("SAVE: " + str(save))
+				if save.has("save_name") == false: continue
+				CreateButton(str(save.save_name),true,"LoadGame",true)
 			pass
+			
+		"Quicksave":
+			pass
+			
+		"Save Game":
+			var data = Game.GetSaveData()
+			
+			CreateButton("New Save",true,"NewSave")
+			
+			for save in data.saves:
+				#print("SAVE: " + str(save))
+				if save.has("save_name") == false: continue
+				CreateButton(str(save.save_name),true,"SaveGameConfirm", true)
+			pass
+			
+		"Save Game Confirm":
+			CreateLabel("Overwrite save file?")
+			CreateButton("Save",true,"SaveGame")
+			
 		
 		"Mods":
 			pass
@@ -189,7 +260,43 @@ func UpdateMenu():
 		CreateButton(option,scroll)
 	pass
 
-#Audio
+
+
+var save_game_confirm_name = "" ## stores the game save name we selected after we are prompted if we 
+								## are sure we want to overwrite the save
+								
+func NewSave(na:String): 
+	currentMenu = "Main Menu"
+	hide()
+	UpdateMenu()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	Game.SaveGame()
+	show()
+
+func SaveGameConfirm(save_name:String):
+	save_game_confirm_name = save_name
+	currentMenu = "Save Game Confirm";
+	UpdateMenu();
+	
+func SaveGame(na:String=""):
+	currentMenu = "Main Menu"
+	hide()
+	UpdateMenu()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	Game.SaveGame(save_game_confirm_name)
+	disable_window()
+
+func LoadGame(save_name:String):
+	disable_window()
+	Game.LoadGame(save_name)
+	queue_free()
+	
+
+func On3DScalingChanged(slider:float,label:Label,text:String):
+	label.text = str("3D Scaling: " + str(slider))
+	
 
 ## slider = slider value
 ## label = label node that displays text
@@ -197,21 +304,25 @@ func UpdateMenu():
 func OnMusicVolumeChanged(slider:int,label:Label,text:String):
 	label.text = str(text, " : ", slider)
 	MusicPlayer.volume_music = float(slider) / 100.0;
+	MusicPlayer.VolumeSetMusic(MusicPlayer.volume_music)
 	pass
 
 func OnSFXVolumeChanged(slider,label,text):
 	label.text = str(text, " : ", slider)
 	MusicPlayer.volume_sfx = float(slider) / 100.0;
+	MusicPlayer.VolumeSetSFX(MusicPlayer.volume_sfx)
 	pass
 	
 func OnVoiceVolumeChanged(slider,label,text):
 	label.text = str(text, " : ", slider)
 	MusicPlayer.volume_voice = float(slider) / 100.0;
+	MusicPlayer.VolumeSetVoice(MusicPlayer.volume_voice)
 	pass
 			
 func OnMasterVolumeChanged(slider,label,text):
 	label.text = str(text, " : ", slider)
 	MusicPlayer.volume_master = float(slider) / 100.0;
+	MusicPlayer.VolumeSetMaster(MusicPlayer.volume_master)
 	pass	
 	
 #Graphics
@@ -229,6 +340,11 @@ func ToggleNearestFiltering():
 	
 func ToggleHud():
 	pass	
+	
+func HUDHide(): 
+	hide()
+	
+func HUDShow(): show()
 	
 func ToggleVsync():
 	pass
@@ -279,10 +395,9 @@ func OnFPSChanged(slider,label,text):
 func OnOptionPressed(option):
 	match(option):
 		"New Game": 
-			Game.in_game = true; 
-			Game.paused = false;
-			print("Going to level1")
-			Game.RoomGoto("res://scenes/world.tscn")
+			Game.RestartLevel()
+			disable_window()
+			
 		"Options" : currentMenu = "Options"; UpdateMenu();
 		"Audio" : currentMenu = "Audio"; UpdateMenu();
 		"Graphics" : currentMenu = "Graphics"; UpdateMenu();
@@ -294,6 +409,10 @@ func OnOptionPressed(option):
 		"Load Game" : currentMenu = "Load Game"; UpdateMenu();
 		"Resume" : disable_window();
 		"Quit Level": currentMenu = "Quit Level"; UpdateMenu();
+		"Save Game Confirm": currentMenu = "Save Game Confirm"; UpdateMenu();
+		
+		"Quicksave": SaveGame()
+			
 		
 		"Exit" : get_tree().quit();
 		
@@ -317,12 +436,16 @@ func OnOptionPressed(option):
 			"New Game" : currentMenu = "Main Menu"; UpdateMenu();
 			"Load Game" : currentMenu = "Main Menu"; UpdateMenu();
 			"Mods" : currentMenu = "Main Menu"; UpdateMenu();
+			"Save Game" : currentMenu = "Main Menu"; UpdateMenu();
 			"Tutorial" : currentMenu = "Main Menu"; UpdateMenu();
+			"Save Game Confirm" : currentMenu = "Save Game"; UpdateMenu();
 	pass
 	
-func CreateSlider(text, functionToCall, min_value=0, max_value=100, default_value=100, fullyCustomText=""):
+func CreateSlider(text, functionToCall, min_value=0, max_value=100, default_value=100, fullyCustomText="", step:float=1.0):
 	var label = Label.new()
 	var slider = HSlider.new()
+	
+	slider.step = step
 
 	label.text = str(text, " : ", default_value)
 	
@@ -341,10 +464,14 @@ func CreateSlider(text, functionToCall, min_value=0, max_value=100, default_valu
 	return slider
 	pass
 
-func CreateButton(text, scroll=true, functionToCall="OnOptionPressed"):
+func CreateButton(text:String, scroll=true, functionToCall="OnOptionPressed",showScreenshotOnHover=false):
 	var button = Button.new()
 	button.text = text
 	button.pressed.connect(Callable(self,functionToCall).bind(text))
+	
+	if showScreenshotOnHover:
+		button.mouse_entered.connect(Callable(self,"ShowScreenshot").bind(text))
+		button.mouse_exited.connect(Callable(self,"HideScreenshot"))
 	
 	if (scroll == true):
 		%menuItems.add_child(button)
@@ -354,7 +481,26 @@ func CreateButton(text, scroll=true, functionToCall="OnOptionPressed"):
 	return button
 	pass
 	
-func CreateCheckbox(text, functionToCall, initiallyChecked=false):
+func ShowScreenshot(buttonName:String):
+	var screenshot_path = "user://saves/" + str(buttonName) + "-sc.png"
+	var image := Image.new()
+	var err := image.load(screenshot_path)
+	if err != OK:
+		print("Failed to load image: ", screenshot_path)
+		return null
+		
+	var texture := ImageTexture.create_from_image(image)
+	%Screenshot.show()
+	%Screenshot.texture = texture
+	
+	
+func HideScreenshot(): 
+	var sc = get_node_or_null("Screenshot")
+	if sc == null: return
+	sc.hide()
+
+	
+func CreateCheckbox(text:String, functionToCall, initiallyChecked=false):
 	var checkbox = CheckBox.new();
 	checkbox.text = text;
 	checkbox.button_pressed = initiallyChecked;
@@ -363,3 +509,63 @@ func CreateCheckbox(text, functionToCall, initiallyChecked=false):
 	
 	return checkbox
 	pass
+	
+func CreateLabel(text:String):
+	var lbl = Label.new()
+	lbl.text = text
+	%menuItems.add_child(lbl)
+	
+	return lbl
+
+
+func MenuButtonItem(text:String, checked:bool, disabled:bool, seperator:bool, functionToCall, params):
+	return {
+		"text":text,
+		"checked":checked,
+		"disabled":disabled,
+		"seperator":seperator,
+		"function_to_call": functionToCall,
+		"params":params,
+	}
+func CreateMenuButton(label:String, items:Array):
+	var mb = MenuButton.new()
+	mb.text = label
+	var popup = mb.get_popup()
+	
+	for i in range(items.size()):
+		var item = items[i]
+		
+		if item.seperator:
+			popup.add_separator()
+		else:
+			popup.add_item(item.text,i) # Item id is i
+			popup.set_item_as_checkable(i, true)
+			popup.set_item_checked(i, item.checked)
+			
+			if item.disabled:
+				popup.set_item(i, true)
+			if item.checked:
+				popup.set_item_checked(i, true)
+				
+		popup.id_pressed.connect(
+				func(id):if id == i: Callable(self, item.function_to_call).call(item.params)
+			)
+		
+		%menuItems.add_child(mb)
+
+
+func CreateScreenshotTexture(screenshot_path: String):
+	var image := Image.new()
+	var err := image.load(screenshot_path)
+	if err != OK:
+		print("Failed to load image: ", screenshot_path)
+		return null
+
+	var texture := ImageTexture.create_from_image(image)
+	var tex := TextureRect.new()
+	tex.texture = texture
+	%menuItems.add_child(tex)
+
+	return tex
+
+	

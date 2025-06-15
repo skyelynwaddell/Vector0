@@ -21,7 +21,10 @@ var ATTACK = -10
 
 var state = IDLE
 
+var emitted_once = false
+
 func _ready():
+	Signals.UpdateEnemyStats.connect(UpdateEnemyStats)
 	if kia: state = DEATH
 
 func Hurt(dmg):
@@ -30,12 +33,60 @@ func Hurt(dmg):
 	hpcurrent -= dmg
 	if hpcurrent <= 0:
 		Kill()
+		
+		
+		
+func UpdateEnemyStats():
+	if targetname == "": return
+	
+	var data = GetEnemyData()
+	
+	for i in range(Game.enemies_in_map.size()):
+		var e = Game.enemies_in_map[i]
+		
+		if str(e.targetname) == str(name):
+			#print("updating " + str(name) + "'s stats to " + str(data))
+			Game.enemies_in_map[i] = data.duplicate(true)
+			return
+			
+	Game.enemies_in_map.push_back(data)
+	
+func LoadEnemy():
+	for e in Game.enemies_in_map:
+		if str(e.targetname) == str(name):
+		
+			global_position = Vector3(e.position.x, e.position.y, e.position.z)
+			state = int(e.state)
+			hpcurrent = int(e.hp)
+			hp = int(e.hp_max)
+			speed = float(e.speed)
+			global_rotation = Vector3(e.rot.x, e.rot.y, e.rot.z)
+			
+			if state == DEATH: Kill()
+			
+			return
+	
+	var data = GetEnemyData()
+	Game.enemies_in_map.push_back(data)
 
+func GetEnemyData():
+	var data = {
+		"targetname" : name,
+		"state" : state,
+		"position" : { "x" : global_position.x, "y" : global_position.y, "z" : global_position.z, },
+		"rot" : { "x": global_rotation.x, "y": global_rotation.y, "z": global_rotation.z, },
+		"hp" : hpcurrent,
+		"hp_max" : hp,
+		"speed": speed,
+	}
+	return data
+
+@onready var area = %Area3D
 func Kill():
 	state = DEATH
 	dead = true
 	self.remove_from_group("Enemy")
-	if %Area3D: %Area3D.queue_free()
+	if area != null and area is not bool: area.queue_free()
 	#sndDeath.play()
 	
 	self.set_collision_layer_value(1, false)
@@ -58,7 +109,8 @@ func Kill():
 	
 	#w
 	pass
-	
+
+var should_attack = false
 func AttemptToKillPlayer():
 	if distToPlayer > collisionRange:
 		return
@@ -69,3 +121,4 @@ func AttemptToKillPlayer():
 	if result.is_empty():
 		#state = ATTACK
 		player.Hurt(power)
+		should_attack = true

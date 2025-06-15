@@ -1,0 +1,226 @@
+[gd_scene load_steps=20 format=3 uid="uid://tj388jm4c3wx"]
+
+[ext_resource type="Script" path="res://scripts/monster_zombie.gd" id="1_dh305"]
+[ext_resource type="AudioStream" uid="uid://c7b24oid6et0o" path="res://audio/monster/zombie1.ogg" id="3_hdirq"]
+[ext_resource type="PackedScene" uid="uid://bkyxdm7t5qmw3" path="res://scenes/other/gib_particles.tscn" id="3_uarsu"]
+[ext_resource type="AudioStream" uid="uid://8smdeenuypm" path="res://audio/monster/zombie_breath.ogg" id="4_5k37q"]
+[ext_resource type="PackedScene" uid="uid://b3ln5g2wskg1d" path="res://blender/monster_zombie/monster_zombie.blend" id="4_5v7an"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kd7oq"]
+animation = &"ATTACK"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fqv46"]
+animation = &"DEATH"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_cu7ih"]
+animation = &"IDLE"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3t4pd"]
+animation = &"IDLE"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1q3aw"]
+animation = &"IDLE"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_x2wp8"]
+animation = &"WALK"
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_nu4kh"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_8q3fa"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_y46pj"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_doltx"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_o3pog"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_b0hth"]
+nodes/AnimAttack/node = SubResource("AnimationNodeAnimation_kd7oq")
+nodes/AnimAttack/position = Vector2(60, 340)
+nodes/AnimDeath/node = SubResource("AnimationNodeAnimation_fqv46")
+nodes/AnimDeath/position = Vector2(980, 320)
+nodes/AnimIdle/node = SubResource("AnimationNodeAnimation_cu7ih")
+nodes/AnimIdle/position = Vector2(-180, 140)
+nodes/AnimJumpOnHead/node = SubResource("AnimationNodeAnimation_3t4pd")
+nodes/AnimJumpOnHead/position = Vector2(360, 300)
+nodes/AnimSuckOnHead/node = SubResource("AnimationNodeAnimation_1q3aw")
+nodes/AnimSuckOnHead/position = Vector2(620, 300)
+nodes/AnimWalk/node = SubResource("AnimationNodeAnimation_x2wp8")
+nodes/AnimWalk/position = Vector2(-160, 320)
+nodes/Attack/node = SubResource("AnimationNodeBlend2_nu4kh")
+nodes/Attack/position = Vector2(300, 80)
+nodes/Death/node = SubResource("AnimationNodeBlend2_8q3fa")
+nodes/Death/position = Vector2(1160, 120)
+nodes/JumpOnHead/node = SubResource("AnimationNodeBlend2_y46pj")
+nodes/JumpOnHead/position = Vector2(540, 100)
+nodes/SuckOnHead/node = SubResource("AnimationNodeBlend2_doltx")
+nodes/SuckOnHead/position = Vector2(860, 100)
+nodes/Walk/node = SubResource("AnimationNodeBlend2_o3pog")
+nodes/Walk/position = Vector2(20, 100)
+nodes/output/position = Vector2(1320, 140)
+node_connections = [&"Attack", 0, &"Walk", &"Attack", 1, &"AnimAttack", &"Death", 0, &"SuckOnHead", &"Death", 1, &"AnimDeath", &"JumpOnHead", 0, &"Attack", &"JumpOnHead", 1, &"AnimJumpOnHead", &"SuckOnHead", 0, &"JumpOnHead", &"SuckOnHead", 1, &"AnimSuckOnHead", &"Walk", 0, &"AnimIdle", &"Walk", 1, &"AnimWalk", &"output", 0, &"Death"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fi1kn"]
+size = Vector3(1.50879, 1.13064, 2.89186)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_642ki"]
+size = Vector3(1, 2.9585, 1.26692)
+
+[node name="Zombie" type="CharacterBody3D" groups=["Enemy", "Entity", "Zombie"]]
+collision_layer = 14
+collision_mask = 15
+script = ExtResource("1_dh305")
+targetname = &"Zombie"
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+unique_name_in_owner = true
+root_node = NodePath("%AnimationTree/../monster_zombie")
+tree_root = SubResource("AnimationNodeBlendTree_b0hth")
+anim_player = NodePath("../monster_zombie/AnimationPlayer")
+parameters/Attack/blend_amount = 0.0
+parameters/Death/blend_amount = 0.0
+parameters/JumpOnHead/blend_amount = 0.0
+parameters/SuckOnHead/blend_amount = 0.0
+parameters/Walk/blend_amount = 0.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.00481004, -0.0845333, 0.0931018)
+shape = SubResource("BoxShape3D_fi1kn")
+
+[node name="Area3D" type="Area3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.952104, 0)
+collision_layer = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.979249, 0.128942)
+shape = SubResource("BoxShape3D_642ki")
+
+[node name="GibParticles" parent="." instance=ExtResource("3_uarsu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0157295, -1.14764, -0.299007)
+
+[node name="GibParticles" parent="GibParticles" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.54031, 0.416646)
+
+[node name="BloodParticles" parent="GibParticles" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65944, 0.416646)
+
+[node name="BloodTimer" type="Timer" parent="GibParticles"]
+unique_name_in_owner = true
+
+[node name="Growl" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.46206, 0)
+stream = ExtResource("3_hdirq")
+volume_db = -5.0
+max_db = -5.0
+bus = &"Voices"
+
+[node name="Breath" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.46206, 0)
+stream = ExtResource("4_5k37q")
+volume_db = -12.333
+max_db = 5.0
+autoplay = true
+max_distance = 20.0
+bus = &"Voices"
+
+[node name="monster_zombie" parent="." instance=ExtResource("4_5v7an")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0.0974567, 0)
+
+[node name="Skeleton3D" parent="monster_zombie/Male" index="0"]
+bones/0/position = Vector3(-0.0653191, -0.211954, 0.420913)
+bones/0/rotation = Quaternion(-0.014475, 1.07442e-07, -1.55539e-09, 0.999895)
+bones/0/scale = Vector3(1, 1, 1)
+bones/1/rotation = Quaternion(-0.0481829, 0.00290317, -0.0155049, 0.998714)
+bones/2/rotation = Quaternion(0.36514, -0.0418962, -0.137992, 0.919715)
+bones/3/rotation = Quaternion(-0.0533218, -0.0165288, -0.0264639, 0.99809)
+bones/3/scale = Vector3(1, 1, 1)
+bones/4/rotation = Quaternion(0.00513135, 0.0446456, 0.0977864, 0.994192)
+bones/4/scale = Vector3(1, 1, 1)
+bones/5/rotation = Quaternion(0.739103, 9.43447e-08, 1.15127e-07, 0.673593)
+bones/6/scale = Vector3(1, 1, 1)
+bones/7/rotation = Quaternion(-0.0131719, 0.018896, -0.795155, 0.605968)
+bones/7/scale = Vector3(1, 1, 1)
+bones/8/rotation = Quaternion(0.221644, -0.0915962, -0.39912, 0.884979)
+bones/9/rotation = Quaternion(0.060943, 0.00683581, -0.0305227, 0.997651)
+bones/9/scale = Vector3(1, 1, 1)
+bones/10/rotation = Quaternion(0.0178612, 0.0225979, 0.0334276, 0.999026)
+bones/10/scale = Vector3(1, 1, 1)
+bones/11/rotation = Quaternion(0.00343898, -0.0376105, 0.995135, 0.0909925)
+bones/11/scale = Vector3(1, 1, 1)
+bones/12/rotation = Quaternion(-0.00098946, 0.0244037, 0.998881, 0.0404971)
+bones/12/scale = Vector3(1, 1, 1)
+bones/14/rotation = Quaternion(-0.0290521, 0.0522852, 0.799635, 0.5975)
+bones/14/scale = Vector3(1, 1, 1)
+bones/15/rotation = Quaternion(0.187013, 0.0865603, 0.570493, 0.795029)
+bones/16/rotation = Quaternion(0.0964173, 0.0261904, 0.0940511, 0.990541)
+bones/16/scale = Vector3(1, 1, 1)
+bones/17/rotation = Quaternion(-0.0620826, 0.000676103, -0.0506374, 0.996785)
+bones/17/scale = Vector3(1, 1, 1)
+bones/18/rotation = Quaternion(-0.00343897, -0.0376105, 0.995135, -0.0909925)
+bones/19/rotation = Quaternion(0.000989462, 0.0244037, 0.998881, -0.0404971)
+bones/19/scale = Vector3(1, 1, 1)
+bones/20/rotation = Quaternion(0.0013539, 0.00921595, 0.989338, -0.145338)
+bones/21/position = Vector3(0.549442, -0.0381043, -0.0123214)
+bones/21/rotation = Quaternion(0.00220694, -0.0564791, 0.998255, -0.0170949)
+bones/21/scale = Vector3(1, 1, 1)
+bones/22/rotation = Quaternion(-0.206254, -2.59839e-08, -9.64872e-08, 0.978498)
+bones/23/rotation = Quaternion(0.0161211, 0.57174, 0.820254, 0.00609754)
+bones/24/rotation = Quaternion(4.45563e-08, -0.0503548, 0.998731, 1.56195e-08)
+bones/24/scale = Vector3(1, 1, 1)
+bones/25/scale = Vector3(1, 1, 1)
+bones/26/position = Vector3(-0.6202, -0.026764, 0.0371937)
+bones/26/rotation = Quaternion(0.0306915, 0.264536, 0.96377, -0.0150097)
+bones/26/scale = Vector3(1, 1, 1)
+bones/27/rotation = Quaternion(-0.344987, 6.59339e-08, 2.72512e-07, 0.938608)
+bones/28/rotation = Quaternion(0.0245173, 0.708988, 0.704392, -0.0237941)
+bones/29/rotation = Quaternion(-9.6008e-08, -0.0503548, 0.998731, 6.39641e-09)
+bones/29/scale = Vector3(1, 1, 1)
+bones/30/rotation = Quaternion(-2.14886e-08, 0.0305177, 0.999534, -6.1263e-08)
+bones/30/scale = Vector3(1, 1, 1)
+bones/31/rotation = Quaternion(2.51215e-15, 0.707107, 0.707107, 2.51215e-15)
+bones/32/position = Vector3(0.6361, -4.83923, -1.1667)
+bones/32/rotation = Quaternion(-0.707107, 2.51215e-15, -2.51215e-15, 0.707107)
+bones/33/rotation = Quaternion(2.51215e-15, 0.707107, 0.707107, 2.51215e-15)
+bones/34/position = Vector3(-0.590546, -4.85189, 1.12874)
+bones/34/rotation = Quaternion(-0.707107, 2.51215e-15, -2.51215e-15, 0.707107)
+
+[node name="mHand_L_002" parent="monster_zombie/Male/Skeleton3D" index="0"]
+transform = Transform3D(0.940881, 0.132069, -0.311932, -0.108771, 0.989891, 0.0910234, 0.3208, -0.0517129, 0.945734, -0.239197, -0.529077, 0.0533162)
+
+[node name="mForearm_L" parent="monster_zombie/Male/Skeleton3D" index="1"]
+transform = Transform3D(0.96336, 0.0549565, -0.26252, -0.074999, 0.994934, -0.0669389, 0.257512, 0.0841752, 0.962602, -0.297646, -0.621536, 0.220995)
+
+[node name="mBicep_L" parent="monster_zombie/Male/Skeleton3D" index="2"]
+transform = Transform3D(0.95413, 0.17703, -0.241447, -0.218525, 0.963047, -0.157441, 0.204653, 0.202981, 0.957557, -0.428406, -0.37768, 0.156781)
+
+[node name="mHand_L" parent="monster_zombie/Male/Skeleton3D" index="3"]
+transform = Transform3D(0.997643, 0.0517663, 0.0450381, -0.0527379, 0.998395, 0.0206571, -0.0438966, -0.0229837, 0.998771, 0.108869, -0.0742888, 0.770921)
+
+[node name="mForearm_L_001" parent="monster_zombie/Male/Skeleton3D" index="4"]
+transform = Transform3D(0.997643, 0.0517661, 0.0450381, -0.0527378, 0.998394, 0.0206569, -0.0438966, -0.0229835, 0.998772, 0.108869, -0.0742888, 0.770921)
+
+[node name="mBicep_L_001" parent="monster_zombie/Male/Skeleton3D" index="5"]
+transform = Transform3D(0.997825, 0.0400994, 0.052314, -0.0319604, 0.988461, -0.148066, -0.0576478, 0.146072, 0.987593, 0.125924, -0.0786347, 0.533957)
+
+[node name="mShin_L" parent="monster_zombie/Male/Skeleton3D" index="6"]
+transform = Transform3D(0.999406, -0.0302544, 0.0165144, 0.0342931, 0.921, -0.388051, -0.00346956, 0.388386, 0.92149, -0.0605623, -0.345188, 0.937041)
+
+[node name="mThigh_L" parent="monster_zombie/Male/Skeleton3D" index="7"]
+transform = Transform3D(0.999406, -0.0334309, 0.00839251, 0.0342932, 0.988914, -0.144476, -0.0034695, 0.144678, 0.989473, -0.066184, -0.232842, 0.428263)
+
+[node name="mShin_L_001" parent="monster_zombie/Male/Skeleton3D" index="8"]
+transform = Transform3D(0.997666, -0.00811048, 0.0678076, 0.0107468, 0.999197, -0.0386051, -0.06744, 0.0392437, 0.996951, -0.0159392, 0.120596, 1.46593)
+
+[node name="mThigh_L_001" parent="monster_zombie/Male/Skeleton3D" index="9"]
+transform = Transform3D(0.997666, -0.0419613, 0.0538783, 0.0107463, 0.87559, 0.482935, -0.06744, -0.481229, 0.873997, -0.0839874, -0.192062, 0.409435)
+
+[connection signal="finished" from="GibParticles/GibParticles" to="." method="_on_gib_particles_finished"]
+[connection signal="animation_changed" from="monster_zombie/AnimationPlayer" to="." method="_on_animation_player_animation_changed"]
+[connection signal="animation_finished" from="monster_zombie/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+
+[editable path="GibParticles"]
+[editable path="monster_zombie"]

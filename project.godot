@@ -14,8 +14,8 @@ config/name="Vec0"
 config/version="1.0"
 run/main_scene="res://scenes/levels/main_menu.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
+run/max_fps=144
 run/low_processor_mode=true
-run/delta_smoothing=false
 boot_splash/show_image=false
 
 [audio]
@@ -37,7 +37,8 @@ shader_language/warnings/enable=false
 
 [display]
 
-window/dpi/allow_hidpi=false
+window/size/mode=2
+window/stretch/mode="canvas_items"
 window/vsync/vsync_mode=2
 
 [dotnet]
@@ -46,7 +47,7 @@ project/assembly_name="fps"
 
 [editor]
 
-movie_writer/disable_vsync=true
+movie_writer/fps=144
 
 [editor_plugins]
 
@@ -64,6 +65,15 @@ Player=""
 Entity=""
 Enemy=""
 Breakable=""
+Keycard_Red=""
+Keycard_Yellow=""
+Keycard_Blue=""
+keycard_Red=""
+Switch=""
+Zombie=""
+Light=""
+Map=""
+Door=""
 
 [importer_defaults]
 
@@ -267,6 +277,12 @@ num0={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194438,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
 }
+F3={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":92,"key_label":0,"unicode":92,"location":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194334,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
 
 [layer_names]
 
@@ -280,10 +296,16 @@ num0={
 [physics]
 
 2d/run_on_separate_thread=true
-3d/run_on_separate_thread=true
+3d/solver/solver_iterations=8
 
 [rendering]
 
+occlusion_culling/bvh_build_quality=0
+rendering_device/driver.windows="d3d12"
+lights_and_shadows/directional_shadow/size=2048
+lights_and_shadows/directional_shadow/soft_shadow_filter_quality=0
+lights_and_shadows/positional_shadow/soft_shadow_filter_quality=0
+reflections/sky_reflections/roughness_layers=4
 reflections/sky_reflections/texture_array_reflections=false
 global_illumination/gi/use_half_resolution=true
 shading/overrides/force_vertex_shading=true
@@ -296,6 +318,15 @@ environment/ssil/quality=0
 environment/glow/upscale_mode=0
 environment/screen_space_reflection/roughness_quality=0
 environment/subsurface_scattering/subsurface_scattering_quality=0
+global_illumination/sdfgi/probe_ray_count=0
 global_illumination/sdfgi/frames_to_converge=0
+global_illumination/sdfgi/frames_to_update_lights=4
 environment/volumetric_fog/use_filter=0
+limits/opengl/max_renderable_lights=256
+limits/opengl/max_lights_per_object=256
+lightmapping/bake_quality/low_quality_ray_count=16
+lightmapping/bake_quality/medium_quality_ray_count=64
+lightmapping/bake_quality/high_quality_ray_count=256
+lightmapping/bake_quality/ultra_quality_ray_count=1024
 occlusion_culling/use_occlusion_culling=true
+lights_and_shadows/positional_shadow/atlas_size=2048

@@ -2,4 +2,4 @@
 
 [ext_resource type="PackedScene" uid="uid://dxve5objyw2rs" path="res://models/objects/lights/light1/light1.fbx" id="1_l28aj"]
 
-[node name="Light" instance=ExtResource("1_l28aj")]
+[node name="Light" groups=["Light"] instance=ExtResource("1_l28aj")]

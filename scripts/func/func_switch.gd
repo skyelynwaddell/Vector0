@@ -27,6 +27,11 @@ class_name func_switch
 ## Controls if this switch intially has power to be turned on.
 @export var power : int = 0
 
+@export var toggles := 1
+@export var toggle_triggers := 0
+@export var toggle_time := 0.1
+var toggle_timer := 0.0
+
 ## Internal properties
 var ext : String = "png"
 var currentTexture : Texture2D = null
@@ -34,6 +39,13 @@ var mesh : MeshInstance3D = null
 var material : StandardMaterial3D = null
 var area3d : Area3D = null
 var inArea : bool = false
+
+var static_body := StaticBody3D.new()
+var static_shape := CollisionShape3D.new()
+var static_box := BoxShape3D.new()
+
+var start_toggle_timer := false
+@export var shoot_can_toggle := 0 ## whether or not the switch can be toggled by shooting it
 
 # Apply properties from mapping software
 func _func_godot_apply_properties(props:Dictionary):
@@ -45,19 +57,37 @@ func _func_godot_apply_properties(props:Dictionary):
 	if "on" in props: on = props.on as int
 	if "power" in props: power = props.power as int
 	
+	if "toggles" in props: toggles = props.toggles as int
+	if "toggle_time" in props: toggle_time = props.toggle_time as float
+	if "toggle_triggers" in props: toggle_triggers = props.toggle_triggers as int
+	
+	if "shoot_can_toggle" in props: shoot_can_toggle = props.shoot_can_toggle as int
+	
 	MatchExtension()
 	LoadMesh()
-	SetTextures()
-	pass
-	
+	SetInitialTexture()
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if Engine.is_editor_hint(): return
-	SetTextures()
+	SetInitialTexture()
+	
+	if shoot_can_toggle == 1:
+		static_box.size = Vector3(1,1,1)
+		static_shape.shape = static_box
+		static_body.add_child(static_shape)
+		add_child(static_body)
+		static_body.collision_layer = 4
+		static_body.collision_mask = 2
+		static_body.name = "SwitchCollision"
+		#static_body.add_to_group("Enemy", true)
+		static_body.add_to_group("Entity", true)
+		static_body.add_to_group("Switch", true)
 	
 	# Create Area3D
 	area3d = Area3D.new()
-	area3d.name = "area3d"
+	area3d.name = "area3d_" + str(name)
 	
 	# Create Area3D collision area
 	var coll = CollisionShape3D.new()
@@ -77,13 +107,26 @@ func _ready():
 	area3d.connect("area_exited", _on_area_exited)
 	
 	if power == 1: area3d.add_to_group("Interact")
-	pass # Replace with function body.
+
 
 # Process
 func _process(delta):
-	if inArea and Input.is_action_just_pressed("Interact"):
-		on_trigger()
-	pass
+	if self.inArea == true and Input.is_action_just_pressed("Interact"):
+		self.on_trigger()
+		
+	if start_toggle_timer == true and toggles == 0:
+		toggle_timer += delta
+		
+		if toggle_timer >= toggle_time:
+			toggle_timer = 0.0
+			start_toggle_timer = false
+			
+			if toggle_triggers == 1:
+				retrigger()
+				
+			SetTexture(texture_off)
+			
+
 
 # Match Extension
 func MatchExtension():
@@ -97,7 +140,7 @@ func MatchExtension():
 		7: SetExtension("tif")
 		8: SetExtension("tiff") 
 		9: SetExtension("dds")
-	pass
+
 
 # Load Mesh
 func LoadMesh():
@@ -105,27 +148,27 @@ func LoadMesh():
 	for i in self.get_children():
 		if i is MeshInstance3D:
 			mesh = i
-			material = mesh.get_active_material(0)
-			pass
-		pass
-	pass
+			var _mat = mesh.get_active_material(0)
+			material = _mat.duplicate() ## Duplicate this or else it will change ALL the switches in the map 
+			break
+
 
 # On Area 3d Entered
 func _on_area_entered(area):
 	if area.is_in_group("Player"): 
-		inArea = true
-		#print_debug("in area")
-	pass
+		self.inArea = true
+
 
 # On Area 3d Exited
 func _on_area_exited(area):
-	if area.is_in_group("Player"): inArea = false
-	pass
+	if area.is_in_group("Player"): 
+		self.inArea = false
+
 
 # Set Extension Type
 func SetExtension(type : String):
 	ext = type
-	pass
+
 
 # Get Texture
 func GetTexture(texture : String):
@@ -136,7 +179,7 @@ func GetTexture(texture : String):
 	else:
 		print_debug("Error! Failed to load func_switch texture at path: " + texture_path)
 		return null
-	pass
+
 
 # Set Texture
 func SetTexture(texture : String):
@@ -145,22 +188,53 @@ func SetTexture(texture : String):
 	LoadMesh()
 	
 	if _texture != null and mesh != null:
-		var mat = mesh.get_active_material(0)
+		var mat = self.mesh.get_active_material(0)
+		
+		if mat == null:
+			printerr("switch matrial was null")
+			return
+		
+		mat = mat.duplicate() ## Duplicate this or else it will change ALL the switches in the map 
 		mat.set_texture(BaseMaterial3D.TEXTURE_ALBEDO,_texture)
-		mesh.set_surface_override_material(0,mat)
+		self.mesh.set_surface_override_material(0,mat)
 		#print_debug("texture set : " , _texture )
 	else:
 		print_debug("Error! Texture was null!")
-	pass
+
 
 #Set Textures
 func SetTextures():
+	if toggles == 0:
+		print("switch doesnt toggle")
+		#Console.print_line("switch doesnt toggle")
+		SetTexture(texture_on)
+		start_toggle_timer = true
+	else:
+		print("switch toggles")
+		start_toggle_timer = false
+		if on: SetTexture(texture_on)
+		else: SetTexture(texture_off)
+
+
+func SetInitialTexture():
+	start_toggle_timer = false
 	if on: SetTexture(texture_on)
 	else: SetTexture(texture_off)
-	pass
+
+func retrigger():
+	print(str(name))
+	on = not on
+	
+	if target != "":
+		for i in get_tree().get_nodes_in_group("Entity"):
+			if "targetname" in i:
+				if i.targetname == target:
+					if i.has_method("on_trigger"): 
+						i.on_trigger()
 
 # On Trigger
 func on_trigger():
+	print(str(name))
 	on = not on
 	SetTextures()
 	
@@ -170,6 +244,3 @@ func on_trigger():
 				if i.targetname == target:
 					if i.has_method("on_trigger"): 
 						i.on_trigger()
-					
-	#print_debug("Triggered Status: " , on)
-	pass

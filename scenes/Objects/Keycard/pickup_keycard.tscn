@@ -1,0 +1,51 @@
+[gd_scene load_steps=9 format=3 uid="uid://cgef6t6ptvjma"]
+
+[ext_resource type="PackedScene" uid="uid://dvgcsgg7oo2xp" path="res://scenes/Parents/pickup.tscn" id="1_njqhy"]
+[ext_resource type="Script" path="res://scenes/Objects/Keycard/pickup_keycard.gd" id="2_kudf3"]
+[ext_resource type="PackedScene" uid="uid://cr6f7k3l7uvph" path="res://models/objects/KeycardRed/keycard_red.glb" id="3_lbfsl"]
+[ext_resource type="PackedScene" uid="uid://cuovfkuqruq8f" path="res://models/objects/KeycardYellow/keycard_yellow.glb" id="4_1mqk3"]
+[ext_resource type="Material" uid="uid://dhtf56c0ccn6h" path="res://materials/keycard_red.tres" id="4_q5e0t"]
+[ext_resource type="PackedScene" uid="uid://c6lgj1pr1n1hc" path="res://models/objects/KeycardBlue/keycard_blue.glb" id="5_rpcwj"]
+[ext_resource type="Material" uid="uid://dgrkiit3k5i1" path="res://materials/keycard_yellow.tres" id="6_ows2s"]
+[ext_resource type="Material" uid="uid://big0lfaank8vf" path="res://materials/keycard_blue.tres" id="6_sbopn"]
+
+[node name="Keycard" groups=["Entity", "Keycard_Red", "keycard_Red"] instance=ExtResource("1_njqhy")]
+transform = Transform3D(-0.732244, 0, 0.68105, 0, 1, 0, -0.68105, 0, -0.732244, 0, 0.5, 0)
+script = ExtResource("2_kudf3")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." index="1"]
+unique_name_in_owner = true
+transform = Transform3D(0.999995, 0, -2.08616e-07, 0, 1, 0, 2.08616e-07, 0, 0.999995, -0.0113586, 1.52656, 0.0455896)
+light_color = Color(1, 0.36, 0.835, 1)
+light_energy = 5.0
+light_size = 0.233
+distance_fade_begin = 525.69
+
+[node name="keycard_red" parent="." index="2" instance=ExtResource("3_lbfsl")]
+unique_name_in_owner = true
+transform = Transform3D(0.5, 0, -1.49012e-08, 0, 0.5, 0, 1.49012e-08, 0, 0.5, 0, 0.0491654, 0)
+
+[node name="Cube" parent="keycard_red" index="0"]
+surface_material_override/0 = ExtResource("4_q5e0t")
+
+[node name="keycard_yellow" parent="." index="3" instance=ExtResource("4_1mqk3")]
+unique_name_in_owner = true
+transform = Transform3D(0.5, 0, -1.49012e-08, 0, 0.5, 0, 1.49012e-08, 0, 0.5, 0, 0.0491654, 0)
+visible = false
+
+[node name="Cube" parent="keycard_yellow" index="0"]
+surface_material_override/0 = ExtResource("6_ows2s")
+
+[node name="keycard_blue" parent="." index="4" instance=ExtResource("5_rpcwj")]
+unique_name_in_owner = true
+transform = Transform3D(0.5, 0, -1.49012e-08, 0, 0.5, 0, 1.49012e-08, 0, 0.5, 0, 0.0491654, 0)
+visible = false
+
+[node name="Cube" parent="keycard_blue" index="0"]
+surface_material_override/0 = ExtResource("6_sbopn")
+
+[connection signal="area_entered" from="." to="." method="_on_body_entered"]
+
+[editable path="keycard_red"]
+[editable path="keycard_yellow"]
+[editable path="keycard_blue"]

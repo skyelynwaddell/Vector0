@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://5yvk64dr83ra"]
+
+[ext_resource type="Script" path="res://scripts/loading_screen.gd" id="1_ggbu7"]
+[ext_resource type="Theme" uid="uid://d2f0bmoftf5uf" path="res://godot/theme.tres" id="2_yallg"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_5tada"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qpj1l"]
+bg_color = Color(0, 0, 0, 1)
+
+[node name="LoadingScreen" type="Node3D"]
+script = ExtResource("1_ggbu7")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+mesh = SubResource("BoxMesh_5tada")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 30
+
+[node name="Panel" type="Panel" parent="CanvasLayer"]
+anchors_preset = -1
+anchor_left = -0.017
+offset_left = 5.584
+offset_top = -14.0
+offset_right = 1169.0
+offset_bottom = 665.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_qpj1l")
+
+[node name="LoadingText" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+texture_filter = 1
+offset_right = 1152.0
+offset_bottom = 648.0
+theme = ExtResource("2_yallg")
+theme_override_font_sizes/font_size = 36
+text = "Loading..."
+horizontal_alignment = 1
+vertical_alignment = 1

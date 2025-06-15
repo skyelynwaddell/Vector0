@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" path="res://scripts/func/func_switch.gd" id="1_3qdmf"]
 
-[node name="FuncSwitch" type="Node3D"]
+[node name="FuncSwitch" type="Node3D" groups=["Switch"]]
 script = ExtResource("1_3qdmf")

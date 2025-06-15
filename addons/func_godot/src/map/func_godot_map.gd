@@ -267,26 +267,26 @@ func build_map() -> void:
 
 ## Recursively unwrap UV2s for [code]node[/code] and its children, in preparation for baked lighting.
 func unwrap_uv2(node: Node = null) -> void:
-	pass
-	#var target_node: Node = null
 	
-	#if node:
-		#target_node = node
-	#else:
-		#target_node = self
-		#print("Unwrapping mesh UV2s")
-	#
-	#if target_node is MeshInstance3D:
-		#var mesh: Mesh = target_node.get_mesh()
-		#if mesh is ArrayMesh:
-			#mesh.lightmap_unwrap(Transform3D.IDENTITY, map_settings.uv_unwrap_texel_size / map_settings.inverse_scale_factor)
-	#
-	#for child in target_node.get_children():
-		#unwrap_uv2(child)
-	#
-	#if not node:
-		#print("Unwrap complete")
-		#emit_signal("unwrap_uv2_complete")
+	var target_node: Node = null
+	
+	if node:
+		target_node = node
+	else:
+		target_node = self
+		print("Unwrapping mesh UV2s")
+	
+	if target_node is MeshInstance3D:
+		var mesh: Mesh = target_node.get_mesh()
+		if mesh is ArrayMesh:
+			mesh.lightmap_unwrap(Transform3D.IDENTITY, map_settings.uv_unwrap_texel_size / map_settings.inverse_scale_factor)
+	
+	for child in target_node.get_children():
+		unwrap_uv2(child)
+	
+	if not node:
+		print("Unwrap complete")
+		emit_signal("unwrap_uv2_complete")
 
 # Build Steps
 ## Recursively remove and delete all children of this node

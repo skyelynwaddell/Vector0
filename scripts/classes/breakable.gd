@@ -47,7 +47,15 @@ func Destroy():
 	match(particleType):
 		"Smoke":
 			var player : Player = get_tree().get_first_node_in_group("Player")
-			player.Hurt(50)
+			if player == null: 
+				printerr("player is gonee")
+				return
+				
+			var dist = global_position.distance_to(player.global_position)
+			var damage_range = 5.0
+			
+			if dist <= damage_range:
+				player.Hurt(50)
 			pass
 	
 	# Remove the Model & Collision when it blows up
@@ -56,6 +64,10 @@ func Destroy():
 			node.queue_free()
 	
 	particle.emitting = true
+
+
+func on_trigger(): Destroy() ## yaknow what why not be able to trigger explosives for cool stuff maybe a cutscene or something 😎
+
 
 ## Called when particles are finished emitting
 func _on_smoke_finished():

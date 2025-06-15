@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://bwi27awnregvb"]
+
+[ext_resource type="Script" path="res://scripts/lava_blob.gd" id="1_yyame"]
+[ext_resource type="Material" uid="uid://chb8ua3d0ji8r" path="res://materials/firetorch.tres" id="2_g5ob4"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_40t4i"]
+radius = 0.05
+height = 0.5
+
+[sub_resource type="SphereMesh" id="SphereMesh_1l1ba"]
+material = ExtResource("2_g5ob4")
+radial_segments = 10
+rings = 3
+
+[node name="LavaBlob" type="CharacterBody3D"]
+collision_layer = 16384
+script = ExtResource("1_yyame")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_40t4i")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.447528, 0, 0, 0, 0.447528, 0, 0, 0, 0.447528, 0, 0, 0)
+mesh = SubResource("SphereMesh_1l1ba")
+
+[node name="OmniLight3D5" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00842878, 0.386935, 0.00459623)
+light_color = Color(1, 0.552941, 0, 1)
+light_energy = 5.0
+light_size = 1.0
+light_bake_mode = 1

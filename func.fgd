@@ -22,6 +22,14 @@
 [
 	targetname(string) : "Target Name" : : ""
 	target(target_destination) : "Target" : : ""
+
+	difficulty_spawn(flags) =
+	[
+		1 : "Not on EASY" : 0
+		2 : "Not on NORMAL" : 0 
+		4 : "Not on HARD" : 0
+		8 : "Not on INSANE" : 0
+	]
 ]
 
 //In the Scale Property (You will have to add this to Entities)
@@ -67,7 +75,23 @@
 // Functions that you can apply to any brush to make them -do stuff- in the game.
 
 //Worldspawn
-@SolidClass color(204 204 204) = worldspawn : "Default static world geometry. Builds a StaticBody3D with a single MeshInstance3D and a single convex CollisionShape3D shape. Also builds Occluder3D to aid in render culling of other VisualInstance3D nodes." []
+@SolidClass color(204 204 204) = worldspawn : "Default static world geometry. Builds a StaticBody3D with a single MeshInstance3D and a single convex CollisionShape3D shape. Also builds Occluder3D to aid in render culling of other VisualInstance3D nodes." 
+[
+
+	// the current name of the game
+	game_name(string) : "Game Name" : "vector0" : "The current game name. Helpful for easier spinoffs, total revamps, or dlc levels."
+
+	// the current map name, example "Escape the Laboratory"
+	map_name(string) : "Map Name" : "E1M1" : "The current level/map name."
+
+	//when you enter a room should a text be displayed?
+	enter_text(string) : "Enter Text" : "E1M1 - Escape the Laboratory" : "The text to be displayed when starting this level"
+
+	//the starting song played on level start
+	starting_song(string) : "Starting Song Soundtrack Filepath" : "res://audio/music/creepy_ambience.wav" : "The song that will be played when the level first starts. Leave empty for no song!"
+	starting_song_volume(float) : "Starting Song Volume" : 0.6 : "Control how loud the starting song is 0.0 - 1.0"
+
+]
 
 //Func Detail
 @SolidClass color(204 204 204) base(func_entity) = func_detail : "Static collidable geometry. Builds a StaticBody3D with a MeshInstance3D and a single convex CollisionShape3D. Does not occlude other VisualInstance3D nodes." []
@@ -77,6 +101,18 @@
 
 //Func Detail Illusionary
 @SolidClass color(204 204 204) base(func_entity) = func_detail_illusionary : "Static geometry with no collision and uses Alpha for Decals/Fencing. Builds a Node3D with a MeshInstance3D. Does not occlude other VisualInstance3D nodes." []
+
+//Func Hurt
+@SolidClass color(204 204 204) base(func_entity) = func_hurt : "Hurt whatever touches this by an amount" 
+[
+	damage(integer) : "damage" : 10 : "The amount of damage the toucher takes"
+]
+
+//Func Crusher Zone
+@SolidClass color(204 204 204) base(func_entity) = func_crusherzone : "Replace the floor or wall that a sliding door touches with this func brush. It will detect if the door has touched it, and if a player is touching it and deal correct damage to the player. ALERT: The door must have this crushers TargetName set as it's Target to work correctly!" 
+[
+	crush_damage(integer) : "crush_damage" : 100 : "The amount of damage the player receives if they are touching this floor/wall and a door also touches this floor/wall."
+]
 
 //Func Glass
 @SolidClass color(204 204 204) base(func_entity) = func_glass : "Transparent Glass Mesh" []
@@ -125,7 +161,7 @@
 @SolidClass color(204 204 204) base(func_detail) = func_ladder : "Turns brush into a Ladder for the player." []
 
 //Func Animated
-@SolidClass color(204 204 204) base(func_detail) = func_animated : "Turns brush into an animated texture that plays at 30FPS (up to 10 frames)." 
+@SolidClass color(204 204 204) base(func_detail) = func_animated : "Turns brush into an animated texture (up to 10 frames)." 
 [
 	fps(float) : "Animation Speed FPS" : 15.0 : "Control the animation speed of the brush"
 
@@ -160,6 +196,26 @@
 		1 : "HAS POWER"
 	]
 
+	toggles(choices): "Does the texture toggle, or go back to OFF after pressed." : 1 =
+	[
+		0 : "FALSE"
+		1 : "TRUE"
+	]
+
+	toggle_time(float) : "Toggle Time" : 0.1 : "How long until the toggle reverts back in seconds. ONLY WORKS IF TOGGLE=0"
+
+	toggle_triggers(choices) : "When the toggle timer runs out and the texture turns back to the off-state, does it call on_trigger again. Maybe a timed Door? ONLY WORKS IF TOGGLE=0" : 0 =
+	[
+		0 : "FALSE"
+		1 : "TRUE"
+	]
+
+	shoot_can_toggle(choices): "Can this switch be toggled by shooting it?" : 0 =
+	[
+		0 : "FALSE"
+		1 : "TRUE"
+	]
+
 ]
 
 //Func Door Slide
@@ -167,7 +223,7 @@
 [
 	speed(float) : "Door Speed (float)" : 6.0 : "Control how fast the door opens. Use negative values to move the door the other way. DEFAULT=6.0"
 
-	opensize(float) : "Open Size (float)" : 2.1 : "Determines how far the door should open. DEFAULT=2.1"
+	opensize(float) : "Open Size (float)" : 2.1 : "Determines how far the door should open. 1 Door Unit is 32 pixels in Trenchbroom. DEFAULT=2.1"
 
 	open(choices): "Controls if door is open by default. DEFAULT=0" : 0 =
 	[
@@ -177,12 +233,12 @@
 
 	direction(choices): "Controls which direction the door opens. DEFAULT=0" : 0 =
 	[
-		0 : "X"
-		1 : "Y"
-		2 : "Z"
+		0 : "X - GREEN AXIS"
+		1 : "Y - BLUE AXIS"
+		2 : "Z - RED AXIS"
 	]
 
-	autoclose(choices): "Controls if door closes automatically when the player walks away. DEFAULT=1" : 1 =
+	autoclose(choices): "Controls if door closes automatically when the player walks away. Has a tendency to not work right with doors larger than 4x4 map units. DEFAULT=1" : 1 =
 	[
 		0 : "FALSE"
 		1 : "TRUE"
@@ -194,6 +250,18 @@
 		1 : "Locked and can only open WHEN triggered"
 		2 : "Locked and can only open on Interact AFTER triggered"
 	]
+
+	lockmessage(string) : "Lock Message" : "" : "Text displayed on the screen when the door is locked. Leave empty for no text to appear."
+
+	sound_opened(string) : "Sound Opened" : "res://audio/door_metal.ogg" : "Type the location of the sound file that will be played when the door is opened. Leave empty for no sound to be played."
+	sound_locked(string) : "Sound Locked" : "res://audio/door_locked.ogg" : "Type the location of the sound file that will be played when the door is attempted to being opened but is locked. Leave empty for no sound to be played."
+
+	secret(choices) : "Is this door secretly hidden? Wont display a popup/console message or locked sound effects" : 0 =
+	[
+		0 : "FALSE"
+		1 : "TRUE"
+	]
+
 ]
  
 ///////////////////////////
@@ -252,6 +320,9 @@
 	damage(integer) : "Damage Amount" : 10 : ""
 ]
 
+//Trigger Secret
+@SolidClass color(204 204 204) base(func_detail_illusionary) = trigger_secret : "When triggered it will increase the secret count of the player." []
+
 //Trigger Autosave
 @SolidClass color(204 204 204) base(func_detail_illusionary) = trigger_autosave : "When triggered it will AutoSave the game" []
 
@@ -288,6 +359,7 @@
 //Player
 @PointClass base(func_entity) color(204 204 204) model({"path":"glb/debug_player/debug_player.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = info_player_start : "Player Entity Spawn Point." 
 [
+	// the direction the player spawns in
 	spawndir(choices): "spawndir" : 0 =
 	[
 		0: "forward"
@@ -295,6 +367,11 @@
 		2: "left"
 		3: "right"
 	]
+
+	/// MAYBE TODO:
+	// add all the weapons here, there stats, the viewmodel filepaths, and viewmodel positions/rotations.
+	// then you could essentially mod all the weapon stats in the game, and the viewmodels in the game
+	// all from each map, as long as each viewmodel has the correct animations etc. etc.
 ]
 
 //////////////////////////
@@ -317,8 +394,26 @@
 //Light Default (no model)
 @PointClass base(Light) color(204 204 204) size(-8 -8 -8, 8 8 8) = light_default : "Light Default" []
 
-//Light #1
-@PointClass base(func_entity) color(204 204 204) model({"path":"glb/light1/light_light1.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = light_light1 : "Light 1" []
+//Hanging Office Lights
+@PointClass base(func_entity) color(204 204 204) model({"path":"glb/light1/light_light1.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = light_light1 : "Hanging Office Lights" []
+
+//Torch Light
+@PointClass base(ammo) color(204 204 204) size(-8 -8 -8, 8 8 50) = light_torch : "Torch Light" []
+
+//Lava Blob Light Emitter
+@PointClass base(func_entity) color(204 204 204) size(-8 -8 -8, 8 8 8) = light_lavablob : "Lava Blob" []
+
+//Audio Emitter
+@PointClass base(func_entity) color(204 204 204) size(-8 -8 -8, 8 8 8) = audio_emitter : "Audio Emitter" 
+[
+	audio_filepath(string) : "Audio Filepath" : : ""
+	volume(float) : "Volume" : 1.0 : "How loud this sound is. 0.0-1.0"
+	loops(choices) : "Does the Audio Loop?" : 1 = 
+	[
+		0 : "FALSE"
+		1 : "TRUE"
+	]
+]
 
 ///////////////
 ///**ITEMS**///
@@ -328,20 +423,36 @@
 //Health Pack
 @PointClass base(func_entity) color(204 204 204) model({"path":"glb/healthpack/item_healthpack.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = item_healthpack : "Health Pack" []
 
+//Armor
+@PointClass base(func_entity) color(204 204 204) model({"path":"glb/armor/item_armor.glb", "scale":"16"}) size(-8 -8 -8, 8 8 8) = item_armor : "Armor" []
+
+//Key Card
+@PointClass base(func_entity) color(204 204 204) model({"path":"glb/healthpack/item_healthpack.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = item_keycard : "Key Card" 
+[
+	key_type(choices) : "Key Type" : 0 = 
+	[
+		0 : "RED"
+		1 : "YELLOW"
+		2 : "BLUE"
+	]
+]
+
+
 //////////////////////////////
 ///////**AMMO PICKUPS**///////
 //////////////////////////////
-@PointClass base(ammo) color(204 204 204) model({"path":"glb/ammo/9mm_large/ammo_9mm_large.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8)         = ammo_9mm_large     : "9mm Ammo" []
-@PointClass base(ammo) color(204 204 204) model({"path":"glb/ammo/357_large/ammo_357_large.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8)         = ammo_357_large     : "357 Ammo" []
-@PointClass base(ammo) color(204 204 204) model({"path":"glb/ammo/carbine_large/ammo_carbine_large.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = ammo_carbine_large : "Carbine Ammo" []
-@PointClass base(ammo) color(204 204 204) model({"path":"glb/ammo/shotgun_large/ammo_shotgun_large.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = ammo_shotgun_large : "Shotgun Ammo" []
+@PointClass base(ammo) color(204 204 204) model({"path":"glb/ammo/9mm_large/ammo_9mm_large.glb", "scale":"32"}) size(-8 -8 0, 8 8 0)          = ammo_9mm_large     : "9mm Ammo" []
+@PointClass base(ammo) color(204 204 204) model({"path":"glb/ammo/357_large/ammo_357_large.glb", "scale":"32"}) size(-8 -8 0, 8 8 0)         = ammo_357_large     : "357 Ammo" []
+@PointClass base(ammo) color(204 204 204) model({"path":"glb/ammo/carbine_large/ammo_carbine_large.glb", "scale":"32"}) size(-8 -8 0, 8 8 0) = ammo_carbine_large : "Carbine Ammo" []
+@PointClass base(ammo) color(204 204 204) model({"path":"glb/ammo/shotgun_large/ammo_shotgun_large.glb", "scale":"32"}) size(-8 -8 0, 8 8 0) = ammo_shotgun_large : "Shotgun Ammo" []
 
 //////////////////////////////
 ///////**WEAPON PICKUPS**///////
 //////////////////////////////
-@PointClass base(ammo) color(204 204 204) model({"path":"glb/weapons/pistol/weapon_pistol.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = weapon_pistol        : "9mm Pistol"      [ weapontype(integer) : "Weapon Type" : 1 : "" ]
+@PointClass base(ammo) color(204 204 204) model({"path":"glb/weapons/pistol/weapon_pistol.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = weapon_pistol        : "9mm Pistol"      [ weapontype(integer) : "Weapon Type" : 10 : "" ]
 @PointClass base(ammo) color(204 204 204) model({"path":"glb/weapons/carbine/weapon_carbine.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = weapon_carbine       : "Carbine"         [ weapontype(integer) : "Weapon Type" : 2 : "" ]
 @PointClass base(ammo) color(204 204 204) model({"path":"glb/weapons/shotgun/weapon_shotgun.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = weapon_shotgun       : "Shotgun"         [ weapontype(integer) : "Weapon Type" : 3 : "" ]
+@PointClass base(ammo) color(204 204 204) model({"path":"glb/weapons/shotgun/shotgun2.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = weapon_shotgun2      : "Shotgun New"         [ weapontype(integer) : "Weapon Type" : 9 : "" ]
 @PointClass base(ammo) color(204 204 204) model({"path":"glb/weapons/revolver/weapon_revolver.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = weapon_revolver      : "Revolver"        [ weapontype(integer) : "Weapon Type" : 4 : "" ]
 //@PointClass base(ammo) color(204 204 204) model({"path":"glb/ammo/9mm_large/ammo_9mm_large.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = weapon_crowbar       : "Crowbar"         [ weapontype(integer) : "Weapon Type" : 5 : "" ]
 //@PointClass base(ammo) color(204 204 204) model({"path":"glb/ammo/9mm_large/ammo_9mm_large.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = weapon_submachinegun : "Sub Machine Gun" [ weapontype(integer) : "Weapon Type" : 6 : "" ]
@@ -366,6 +477,12 @@
 
 //Spitting Alien - GarbleJarble the Mecha Leech from Outerspace!
 @PointClass base(func_entity) color(204 204 204) model({"path":"glb/monster_garblejarble/monster_garblejarble.glb", "scale":"10"}) size(-8 -8 -8, 8 8 8) = monster_garblejarble : "Garble Jarble Spitter Alien" []
+
+//Zombie - Gotta have a zombie
+@PointClass base(func_entity) color(204 204 204) model({"path":"glb/monster_zombie/monster_zombie.glb", "scale":"10"}) size(-8 -8 -50, 8 8 50) = monster_zombie : "Zombie" []
+
+//Eyeball - Flying eyeball creature
+@PointClass base(func_entity) color(204 204 204) model({"path":"glb/monster_eye/monster_eye.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = monster_eye : "Flying Eyeball" []
 
 //Laser Eye Alien
 @PointClass base(func_entity) color(204 204 204) model({"path":"glb/monster_lasereye/lasereye.glb", "scale":"32"}) size(-8 -8 -8, 8 8 8) = monster_lasereye : "Laser Eye Alien" []

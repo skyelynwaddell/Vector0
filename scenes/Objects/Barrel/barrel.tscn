@@ -14,7 +14,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.989886, 0)
 
 [connection signal="finished" from="BreakableParticles/Smoke" to="." method="_on_smoke_finished"]
 [connection signal="finished" from="BreakableParticles/Wood" to="." method="_on_smoke_finished"]
-[connection signal="finished" from="BreakableParticles/Paper" to="." method="_on_smoke_finished"]
 [connection signal="finished" from="BreakableParticles/Metal" to="." method="_on_smoke_finished"]
+[connection signal="finished" from="BreakableParticles/Paper" to="." method="_on_smoke_finished"]
 
 [editable path="BreakableParticles"]

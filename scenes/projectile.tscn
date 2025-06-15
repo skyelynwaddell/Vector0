@@ -1,32 +1,12 @@
-[gd_scene load_steps=13 format=3 uid="uid://uqi5gidr5t0x"]
+[gd_scene load_steps=10 format=3 uid="uid://uqi5gidr5t0x"]
 
 [ext_resource type="Script" path="res://scripts/projectile.gd" id="1_jvjxd"]
-[ext_resource type="Shader" path="res://shaders/projectile_electric.gdshader" id="2_tuygj"]
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_r2hjh"]
-fractal_octaves = 10
-fractal_lacunarity = 3.525
-fractal_gain = -0.52
-fractal_weighted_strength = 0.62
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_td8u1"]
-width = 405
-height = 468
-invert = true
-in_3d_space = true
-bump_strength = 0.0
-normalize = false
-noise = SubResource("FastNoiseLite_r2hjh")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dvyxw"]
-render_priority = 0
-shader = ExtResource("2_tuygj")
-shader_parameter/time = null
-shader_parameter/main_color = Color(0.333382, 0.659841, 3.85046e-07, 1)
-shader_parameter/noise_tex = SubResource("NoiseTexture2D_td8u1")
+[ext_resource type="Material" uid="uid://btf30vo4xkdae" path="res://shaders/projectile_slime.tres" id="2_7qtvr"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_b3ht2"]
-material = SubResource("ShaderMaterial_dvyxw")
+material = ExtResource("2_7qtvr")
+radial_segments = 6
+rings = 4
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ydq15"]
 albedo_color = Color(0.417097, 0.957781, 7.70092e-07, 1)
@@ -35,7 +15,7 @@ billboard_mode = 2
 
 [sub_resource type="QuadMesh" id="QuadMesh_bphxm"]
 material = SubResource("StandardMaterial3D_ydq15")
-size = Vector2(0.1, 0.1)
+size = Vector2(0.02, 0.02)
 
 [sub_resource type="Animation" id="Animation_n52m8"]
 length = 0.001
@@ -78,11 +58,13 @@ _data = {
 radius = 0.513133
 
 [node name="ProjectileBall" type="CharacterBody3D"]
+collision_layer = 4
 script = ExtResource("1_jvjxd")
 
 [node name="ElectricBall" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(0.700219, 0, 0, 0, 0.700219, 0, 0, 0, 0.700219, 0, 0, 0)
+visible = false
 mesh = SubResource("SphereMesh_b3ht2")
 
 [node name="CPUParticles3D" type="CPUParticles3D" parent="ElectricBall"]
@@ -105,6 +87,24 @@ light_size = 1.0
 omni_range = 0.572
 omni_attenuation = 2.483
 
+[node name="Slime" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(0.700219, 0, 0, 0, 0.700219, 0, 0, 0, 0.700219, 0, 0, 0)
+mesh = SubResource("SphereMesh_b3ht2")
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="Slime"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0652837, 0)
+amount = 50
+lifetime = 0.4
+speed_scale = 1.63
+mesh = SubResource("QuadMesh_bphxm")
+emission_shape = 3
+emission_box_extents = Vector3(0.5, 0.5, 0.5)
+gravity = Vector3(0, 0, 0)
+scale_amount_min = 0.1
+scale_amount_max = 0.2
+color = Color(0, 1, 0, 1)
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_kjb7e")
@@ -112,6 +112,9 @@ libraries = {
 autoplay = "electric"
 
 [node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(0.548535, 0, 0, 0, 0.548535, 0, 0, 0, 0.548535, 0, 0, 0)
+collision_layer = 4
+collision_mask = 11
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 shape = SubResource("SphereShape3D_uwryc")

@@ -1,10 +1,6 @@
 extends CharacterBody3D
 
-enum PROJECTILE_TYPE {
-	ELECTRIC_BALL,
-	BULLET,
-}
-@export var current_projectile_type := PROJECTILE_TYPE.ELECTRIC_BALL
+@export var current_projectile_type := Defs.PROJECTILE_TYPE.ELECTRIC_BALL
 @export var power : int = 20
 @export var speed: float = 15.0
 @export var spin_speed : float = 10.0
@@ -17,11 +13,12 @@ func _ready() -> void:
 	
 	## Hide all the projectile models
 	%ElectricBall.hide()
+	%Slime.hide()
 	
 	## Show the correct projectile model
 	match(current_projectile_type):
-		PROJECTILE_TYPE.ELECTRIC_BALL:
-			%ElectricBall.show()
+		Defs.PROJECTILE_TYPE.ELECTRIC_BALL: %ElectricBall.show()
+		Defs.PROJECTILE_TYPE.SLIME: %Slime.show()
 
 func _physics_process(delta: float) -> void:	
 	self.velocity.x = direction.x * speed
@@ -35,7 +32,14 @@ func _physics_process(delta: float) -> void:
 		
 
 func _on_entered(body: Node3D) -> void:	
+	#return
 	## check if the projectile hit a wall
-	if body.get_parent().has_method("Hurt"): body.get_parent().Hurt(power)
+	if body == null: return
+		
+	var parent = body.get_parent()
+	if parent != null:
+		if parent.is_in_group("Enemy") == false:
+			if parent.has_method("Hurt"): parent.Hurt(power)
+			
 	if body.collision_layer & (1 << 0): queue_free() # Layer 1 = bit 0
 	

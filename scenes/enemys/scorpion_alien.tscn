@@ -99,4 +99,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0157295, 0.314417, -0.2990
 [node name="BloodTimer" type="Timer" parent="GibParticles"]
 unique_name_in_owner = true
 
+[connection signal="finished" from="GibParticles/GibParticles" to="." method="_on_gib_particles_finished"]
+
 [editable path="GibParticles"]

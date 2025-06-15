@@ -1,6 +1,10 @@
 @tool
 extends CharacterBody3D
 class_name Player
+
+## i promised this player controller wouldnt get messy
+## it is unavoidable and it is what it is.
+
 #NODE REFS
 @onready var ray_cast_3d = %RayCast3D
 @onready var camera_3d = %Camera3D
@@ -11,6 +15,7 @@ class_name Player
 
 #animation trees
 @onready var animPistol = %arms_pistol/AnimationTree
+@onready var animPistol2 = %NewPistol/AnimationTree
 @onready var animCarbine = %arms_carbine/AnimationTree
 @onready var animPumpShotgun = %PumpShotgun/AnimationTree
 @onready var animRevolver = %Revolver/AnimationTree
@@ -39,9 +44,16 @@ class_name Player
 @onready var hudKeycardRed = %CardRed
 @onready var hudKeycardYellow = %CardYellow
 @onready var hudKeycardBlue = %CardBlue
-@onready var hudInteract = %Interact
+#@onready var hudInteract = %Interact
 @onready var sBullet = %Bullet
 @onready var hudAnimPlayer = %AnimationPlayer
+
+var shoot_knockback_str = 4.0
+var shoot_knockback_damping = 5.0
+var shoot_knocback_vel = Vector3.ZERO
+var sway_tilt_max = 1.0
+var sway_tilt_speed = 8.0
+var current_tilt = 0.0
 
 #SFX
 #@onready var sfxInteractNowork = %sfxInteractNowork
@@ -67,6 +79,14 @@ signal PlayerShootSignal
 ## Mouse Sensitivity
 @export_range(0,1) var mouseSens : float = 0.2
 
+#BOBBING
+var bobFreq = 1.0
+var movebob = 0.2
+var bobOffset = Vector3.ZERO
+var tBob = 0
+var headPosY = 0.0
+var base_head_pos:= Vector3.ZERO
+
 @export_group("Weapon Properties")
 ## Gun Bullet Distance
 @export var bulletDistance : float = 2000.0
@@ -74,7 +94,7 @@ signal PlayerShootSignal
 
 @export_group("Speed")
 ## Default Movement Speed
-@export_range(0,50) var spdDefault : float = 10.0
+@export_range(0,50) var spdDefault : float = 12.0
 ## Walking Speed
 @export_range(0,50) var spdWalk : float = 8.0
 ## Crouching Speed
@@ -152,7 +172,7 @@ var swimming = false
 
 #flashlight
 #var flashlightModel = %Flashlight
-var flashlight = false
+var flashlight = true
 
 #amimation speeds
 var runVal = 0.0
@@ -160,28 +180,30 @@ var runSpd = 0.0
 var shootSpd = 0.0
 var shootVal = 0.0
 
-#BOBBING
-var bobFreq = 2.0
-var bobAmp = 0.05
-var tBob = 0
-var headPosY = 0.0
+
 
 #STATE MACHINE
 const DEFAULT  = 0
 const CLIMBING = 1
 const SWIMMING = 2
 const WALKING = 3
+const DEATH = 4
 var state = DEFAULT
 var direction = 0
 
 #Load player data from mapping software
 func _func_godot_apply_properties(props : Dictionary):
-	spawndir = props.spawndir
-	targetname = props.targetname
-	pass
+	if "spawndir" in props: spawndir = props.spawndir
+	if "targetname" in props: targetname = props.targetname
+		
+
+func EmissionSet(amt:int):
+	%WorldEnvironment.environment.background_energy_multiplier = amt
 
 #READY EVENT
-func _ready():
+func _ready() -> void:
+	Signals.EmissionSet.connect(EmissionSet)
+	print("PLAYER OBJECT CREATED")
 	# Make player face the spawn direction
 	match(spawndir):
 		"0":
@@ -200,8 +222,21 @@ func _ready():
 	InputMap.load_from_project_settings()	#IMPORTANT DONT REMOVE OR HELL WILL BREAK LOOSE! NOT JOKING THE MOUSE WILL DISAPPEAR AND 100000 ERRORS WILL SPIT OUT AND THE PROJECT WONT BE ABLE TO OPEN ANYMORE. IDEK WTF ITS A GODOT ERROR APPARENTLY WITH USING @TOOL
 	### DONT FUCKING TOUCH
 	
-	UpdateHUD()
-	ChangeWeapon(Game.currentWeapon)
+	#Game.ammoPool = Game.ammoPoolDefault.duplicate(true)
+	#Game.weapons = Game.weaponsDefault.duplicate(true)
+	ChangeWeapon(0)
+	
+	
+	print("### WEAPONS: " + str(Game.weapons))
+	print("### AMMO POOLS: " + str(Game.ammoPool))
+	
+	if Game.last_data != null: 
+		print("GAME LAST_DATA WAS NOT NULL!!")
+		var weaponIndex = Game.GetData(self)
+		print("Changing weapon to : " + str(weaponIndex))
+		ChangeWeapon(weaponIndex)
+		
+		
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED ## Hide the mouse
 	
 	#initiate head height
@@ -209,6 +244,10 @@ func _ready():
 	SetHeadHeight(headPosY)
 	
 	Signals.UpdateHUD.connect(UpdateHUD)
+	UpdateHUD()
+	
+	base_head_pos = camera_3d.transform.origin
+	
 	pass
 
 func CheckIfImInLavaSoItCanBurnMe():
@@ -223,14 +262,24 @@ func CheckIfImInLavaSoItCanBurnMe():
 		
 	pass
 
+func CheckIfImDeadYet():
+	if Game.hp.current <= 0 and state != DEATH:
+		#finally
+		state = DEATH
+
 #STEP EVENT
 func _process(delta): 
 	if Engine.is_editor_hint(): return
 	
+	%fps.text = str(Engine.get_frames_per_second())
+	
 	CheckIfImInLavaSoItCanBurnMe()
+	CheckIfImDeadYet()
 	
 	#set camera position if we are not in the console
-	if Console.is_visible(): return
+	if Console != null: 
+		if Console.is_visible(): return
+		
 	if Game.IsPaused(): return
 	
 	# If you want to see your arms or anything to make sense in 3d space basically
@@ -276,6 +325,19 @@ func _process(delta):
 			ApplyGravity(delta,grvty)
 			StateWalking()
 			pass
+			
+		DEATH:
+			
+			if not in_gameover:
+				ChangeWeapon(0)
+				StateDefault()
+				in_gameover = true
+				Game.CreateGameOverScreen()
+				
+			
+				
+				
+			return
 	
 	# Functions allowed for all states
 	HandleReload()
@@ -288,7 +350,19 @@ func _process(delta):
 	MovePlayer(delta)
 	#HandlePlayerDirection(delta)
 	ChangeCrosshair()
+	
+	if shoot_knocback_vel.length() > 0.01:
+		camera_3d.position -= shoot_knocback_vel * delta
+		shoot_knocback_vel.x = lerp(shoot_knocback_vel.x,0.0, delta*shoot_knockback_damping) 
+		shoot_knocback_vel.y = lerp(shoot_knocback_vel.x,0.0, delta*shoot_knockback_damping) 
+		shoot_knocback_vel.z = lerp(shoot_knocback_vel.x,0.0, delta*shoot_knockback_damping) 
 	pass
+
+var in_gameover = false
+
+func ShootKnockback():
+	var bckwrd = -camera_3d.global_transform.basis.z
+	shoot_knocback_vel = lerp(shoot_knocback_vel, bckwrd * shoot_knockback_str,1.0)
 
 #PHYSICS PROCESS
 func _physics_process(delta):
@@ -297,9 +371,36 @@ func _physics_process(delta):
 	if Game.IsPaused(): return
 	
 	var lastVelocity = velocity
-	push_rigid_bodies(lastVelocity,delta)
+	if state != DEATH: push_rigid_bodies(lastVelocity,delta)
 	HandleCrouch(delta)
-	move_and_slide()
+	if state != DEATH: move_and_slide()
+	
+	HeadTilt(delta)
+	
+func HeadTilt(delta):	
+	if state == DEATH: return
+	
+	# Get raw input direction
+	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
+
+	# Strafe is just the x-axis of input (left/right)
+	var strafe_input = input_dir.x
+	
+	# Deadzone
+	if abs(strafe_input) < 0.05:
+		strafe_input = 0.0
+
+	# Target tilt is based only on input
+	var target_tilt = -strafe_input * sway_tilt_max
+	var return_tilt = 10.0
+	# Faster return when idle
+	var speed = sway_tilt_speed#return_tilt if strafe_input == 0.0 else sway_tilt_speed
+	current_tilt = lerp(current_tilt, target_tilt, delta * speed)
+
+	# Apply tilt to camera
+	var camera_rot = camera_3d.rotation_degrees
+	camera_rot.z = current_tilt
+	camera_3d.rotation_degrees = camera_rot
 	pass
 
 func push_rigid_bodies(lastVelocity, delta):
@@ -445,7 +546,6 @@ func ApplyVelocity(delta, dir):
 			#if (latest_x == "left" and last_mouse_dir < 0) or (latest_x == "right" and last_mouse_dir > 0):
 				#strafe_boost = 0.25
 			#
-			## 🔁 Rotate input direction by view direction (e.g., head or camera yaw)
 			#var rotated_dir = head.global_transform.basis * dir
 			##rotated_dir.y = 0  # Ignore vertical component
 			#var wish_dir = rotated_dir.normalized()
@@ -464,8 +564,18 @@ func ApplyVelocity(delta, dir):
 
 
 	# Head Bobbing
-	tBob += delta * velocity.length() * float(is_on_floor())
-	camera_3d.transform.origin = HeadBob(tBob)
+	var speed := velocity.length()
+	
+	# Only increase bobbing time if moving and on floor
+	if is_on_floor() and speed >= 0.1:
+		tBob += delta * speed
+		bobOffset = HeadBob(tBob)
+
+	var cam_transform = camera_3d.transform
+	cam_transform.origin = base_head_pos + bobOffset
+	camera_3d.transform = cam_transform
+	#tBob += delta * velocity.length() * float(is_on_floor())
+	#camera_3d.transform.origin = HeadBob(tBob)
 
 func MovePlayer(delta):
 	## Stop moving player if paused or something 
@@ -530,12 +640,13 @@ func HandleFlashlight():
 	#Flashlight [F]
 	if Input.is_action_just_pressed("Flashlight"):
 		flashlight = !flashlight
-		%Flashlight.visible = flashlight	
+		%Flashlight.visible = flashlight
 
 #UPDATE HUD
 func UpdateHUD():
 	#hpGoto = lerpf(hpGoto,Game.hp.current,0.1)
 	lblHealth.text = str(Game.hp.current)
+	%lblArmor.text = str(Game.armor.current)
 	healthbar.value = hpGoto
 	hudKeycardRed.visible = Game.keycard.red
 	hudKeycardYellow.visible = Game.keycard.yellow
@@ -565,13 +676,13 @@ func GetCurrentWeaponAmmoCount():
 
 #ALLOW WEAPON CHANGE
 func AllowWeaponChange():
-	#Change to Weapon 1 [1]
-	if Input.is_action_pressed("Weapon1"):
-		ChangeWeapon(0)
-	
-	#Change to Weapon 2 [2]
-	if Input.is_action_pressed("Weapon2"):
-		ChangeWeapon(1)	
+	##Change to Weapon 1 [1]
+	#if Input.is_action_pressed("Weapon1"):
+		#ChangeWeapon(0)
+	#
+	##Change to Weapon 2 [2]
+	#if Input.is_action_pressed("Weapon2"):
+		#ChangeWeapon(1)	
 	
 	#Change Weapon Up [SCROLL WHEEL UP]
 	if Input.is_action_just_released("ChangeWeaponUp"):
@@ -641,6 +752,8 @@ func HandleCrouch(delta):
 		crouching = true
 	elif crouching and not self.test_move(self.global_transform,Vector3(0,crouchHeight,0)):
 		crouching = false
+		
+	if state == DEATH: crouching = true
 	
 	var translateY = 0.0
 	if wasCrouching != crouching and not is_on_floor():
@@ -686,7 +799,7 @@ func Reload():
 	reloading = true
 	
 	# Play Reloading Sound Effect
-	MusicPlayer.Sound(sfxReload, MusicPlayer.AUDIO_CHANNEL.SFX, 1.0)
+	MusicPlayer.Sound(sfxReload, MusicPlayer.AUDIO_CHANNEL.SFX, 0.5)
 	
 	# Set all of our animation blend speeds to 0 to avoid wonky animations during reloading
 	runVal = 0.0
@@ -751,10 +864,16 @@ func Restart():
 	pass
 
 #CHANGE WEAPON
-func ChangeWeapon(type):
-	# Check if we can shoot (prevents changing weapons during animations like reloading and grenades, etc.)
-	if canShoot == false: return
+func ChangeWeapon(_type):
+	var type = int(_type)
 	
+	## make sure when we are dead we cannot switch to any weapon except NO WEAPON
+	if state == DEATH:
+		if type != 0: return 
+	
+	# Check if we can shoot (prevents changing weapons during animations like reloading and grenades, etc.)
+	#if canShoot == false: return
+	print("#### CHANGING WEAPON....... #####")
 	#reset all gun models invisible initially
 	modelPistol.visible = false
 	modelCarbine.visible = false
@@ -765,6 +884,7 @@ func ChangeWeapon(type):
 	modelKnife.visible = false
 	modelMP.visible = false
 	modelPump2.visible = false
+	%NewPistol.visible = false
 	
 	#Update data for other entities
 	canShoot = false
@@ -777,7 +897,7 @@ func ChangeWeapon(type):
 	#set current sound effect of weapon
 	#set current animationtree of the weapon (found in the weapon's scene)
 	match type:
-		#NO WEAPON
+		#NO WEAPON - hands
 		0:
 			anim_tree = animPistol
 			%MuzzleParticles.global_position = %Knife.get_node("WepBarrel").global_position
@@ -851,10 +971,20 @@ func ChangeWeapon(type):
 			anim_tree = animPump2
 			modelPump2.visible = true
 			%MuzzleParticles.global_position = %NewPump.get_node("WepBarrel").global_position
+			pass		
+		#Pistol 2
+		10:
+			print("Showing pistol 2")
+			weaponSFX = MusicPlayer.SFX.PISTOL_SHOT
+			sfxReload = MusicPlayer.SFX.PISTOL_RELOAD
+			anim_tree = animPistol2
+			%NewPistol.visible = true
+			%MuzzleParticles.global_position = %NewPistol.get_node("WepBarrel").global_position
 			pass
 			
 	
 	# Get current weapon data
+	print("GAME WEAPONS ON LOAD: " + str(Game.weapons))
 	var _weapon = Game.weapons[Game.currentWeapon]
 	var weaponIndex = _weapon.index
 	
@@ -881,7 +1011,6 @@ func ChangeWeapon(type):
 	pass
 
 #PUSH AWAY RIGID BODIES
-# CC0/public domain/use for whatever you want no need to credit
 # Call this function directly before move_and_slide() on your CharacterBody3D script
 func _push_away_rigid_bodies():
 	for i in get_slide_collision_count():
@@ -900,7 +1029,8 @@ func _push_away_rigid_bodies():
 				continue
 			# Don't push object from above/below
 			push_dir.y = 0
-			# 5.0 is a magic number, adjust to your needs
+			
+			
 			var push_force = mass_ratio
 			c.get_collider().apply_impulse(push_dir * velocity_diff_in_push_dir * push_force, c.get_position() - c.get_collider().global_position)
 
@@ -934,6 +1064,8 @@ func ChangeWeaponScroll(isUp):
 	var weaponIndex = Game.weapons[Game.currentWeapon].index
 	ChangeWeapon(weaponIndex)
 	
+	
+@onready var current_grunt = MusicPlayer.SFX.PLAYER_GRUNT_1
 #HURT
 func Hurt(dmg):
 	
@@ -945,9 +1077,31 @@ func Hurt(dmg):
 	
 	# Apply hurt, and damage calculations to player & Update HUD accordingly	
 	isHurt = true
-	Game.hp.current = Game.hp.current - dmg
-	Game.hp.current = clamp(Game.hp.current,0,Game.hp.maximum)
+	
+	if current_grunt == MusicPlayer.SFX.PLAYER_GRUNT_1:
+		current_grunt = MusicPlayer.SFX.PLAYER_GRUNT_2
+	else:
+		current_grunt = MusicPlayer.SFX.PLAYER_GRUNT_1
+		
+	MusicPlayer.Sound(current_grunt, MusicPlayer.AUDIO_CHANNEL.VOICE, 1.0)
+	
+	## check if we have armor
+	if Game.armor.current <= 0:
+		## no armor -> decrease our health points
+		Game.hp.current = Game.hp.current - dmg
+		Game.hp.current = clamp(Game.hp.current,0,Game.hp.maximum)
+	else:
+		## we have armor -> we can decrease that instead of our health
+		Game.armor.current = Game.armor.current - dmg
+		Game.armor.current = clamp(Game.armor.current,0,Game.armor.maximum)
+	
+	
 	UpdateHUD()
+	
+#INCREASE Armor useful for ARMOR?
+func IncreaseArmor(amount):
+	Game.armor.current = Game.armor.current + amount
+	Game.armor.current = clamp(Game.armor.current,0,Game.armor.maximum)
 
 #INCREASE HEALTH useful for healthkits
 func IncreaseHealth(amount):
@@ -985,7 +1139,7 @@ func Jump():
 			state = DEFAULT
 			
 		
-		MusicPlayer.Sound(MusicPlayer.SFX.PLAYER_JUMP, MusicPlayer.AUDIO_CHANNEL.VOICE, 1.0)
+		MusicPlayer.Sound(MusicPlayer.SFX.PLAYER_JUMP, MusicPlayer.AUDIO_CHANNEL.VOICE, 0.5)
 		velocity.y = jumpHeight
 
 #SET JUMP HEIGHT
@@ -1035,29 +1189,39 @@ func CreateRayCast():
 		var target = ray_cast_3d.get_collider()
 		if target == null: return
 		
-		#Create Bullet Hole Decal on the surface we just shot
+		if "shoot_can_toggle" in target:
+			if target.shoot_can_toggle == 1:
+				target.on_trigger()
+		
+		## Create Bullet Hole Decal on the surface we just shot ##
+		
+		## get current weapon power &&
+		## figure out if our current weapon is a melee weapon, shotgun, or explosive to apply correct bullet hole decals
 		var weaponPower = 0
 		var _weapon = Game.weapons[Game.currentWeapon]
 		var isMelee = false
 		var isShotgun = false
 		for w in Game.weaponList:
 			if w.index == _weapon.index:
+				
+				# get power & check if the weapon is melee
 				weaponPower = w.power
 				isMelee = w.melee
+				
+				# check if the weapon is a shotgun
 				if w.ammoPool == "shotgun":
 					isShotgun = true
-					print("IS A SHOTTY BRO")
+				
+				#TODO: check if the weapon is a rocket launcher
+				
 				break
 		
-		# Create Bullet Hole / Scratch Decal on wall when shooting		
-		if target.is_in_group("Enemy") == false:
+		# Create Bullet Hole / Scratch Decal on walls when shooting		
+		if target.is_in_group("Enemy") == false and target.is_in_group("Switch") == false:
 			
-			#if (target.collision_layer & (1 << 3)) != 0:
-				#print("Collision mask layer 4 is enabled!")
-				#return
-			#else:
-				#print("Layer 4 is disabled.")
-			
+			## We need to check if shot with shotgun so we can make a bunch of bullet holes
+			## because just having one bullet hole after a shotgun shot
+			## looked completely dumb and lame
 			if isShotgun:
 				for i in range(6):
 					var offset_range = 0.5  # Spread radius
@@ -1079,9 +1243,6 @@ func CreateRayCast():
 					var offset_col_point = colPoint + offset
 
 					CreateBulletHole(isMelee, target, offset_col_point, normal)
-
-
-
 			else:
 				CreateBulletHole(isMelee,target,colPoint,normal)
 		
@@ -1089,6 +1250,11 @@ func CreateRayCast():
 		#Enemies
 		if target.is_in_group("Enemy"): 
 			target.Hurt(weaponPower)
+			
+		if target.is_in_group("Switch"):
+			var par = target.get_parent()
+			if par.has_method("on_trigger"):
+				par.on_trigger()
 		
 		#Breakables
 		if target.is_in_group("Breakable"): target.Destroy()
@@ -1096,6 +1262,9 @@ func CreateRayCast():
 		return target
 
 func CreateBulletHole(isMelee,target,colPoint,normal):
+	
+	if target.is_in_group("Breakable"): return ## so we dont leave bullet holes in the damn air after it the breakable breaks
+	
 	var decal = decalBulletHole.instantiate()
 					
 	if isMelee: decal.type = 2
@@ -1114,8 +1283,6 @@ func CreateBulletHole(isMelee,target,colPoint,normal):
 
 #SHOOT
 func Shoot():
-	
-	
 	#Get global weapon properties 
 	var currentWeapon = Game.weapons[Game.currentWeapon]
 	var weaponIndex = currentWeapon.index
@@ -1143,25 +1310,27 @@ func Shoot():
 	if reloading || changingWeapon :
 		return
 	
-	#Displays muzzle flash
-	#%arms_carbine.get_node("MuzzleFlash").Start()	
-	#%arms_pistol.get_node("MuzzleFlash").Start()	
-	
 	#If already shooting dont do the below stuff
 	if canShoot == false: return
 	
+	## SHOOT CHECK SUCCEESS DO ANY SHOOT LOGIC AFTER HERE, ANY THING ABOVE SHOOTING HAS FAILED
 	#Shooting checks succeeded, perform the shot
 	canShoot = false
 	
+	ShootKnockback()
 	#Play Shoot audio for the correct weapon
+	
+	## cycle the melee whip sound effect everytime it is swung
 	if weaponSFX == MusicPlayer.SFX.WHIP_1: weaponSFX = MusicPlayer.SFX.WHIP_2
 	elif weaponSFX == MusicPlayer.SFX.WHIP_2: weaponSFX = MusicPlayer.SFX.WHIP_1
 	
-	MusicPlayer.Sound(weaponSFX, MusicPlayer.AUDIO_CHANNEL.SFX, 1.0)
-	
+	MusicPlayer.Sound(weaponSFX, MusicPlayer.AUDIO_CHANNEL.SFX, 0.3)
 	
 	#Display muzzle flash	
 	%MuzzleParticles.restart()
+	if not isMelee:
+		%MuzzleFlashAnim.stop()
+		%MuzzleFlashAnim.play("muzzle_flash")
 	
 	#Create a raycast to the point we just shot to get collider
 	CreateRayCast()
@@ -1203,13 +1372,13 @@ func ShootAnimDone():
 #HEAD BOB
 func HeadBob(time) -> Vector3:
 	var pos = Vector3.ZERO
-	pos.y = sin(time * bobFreq) * bobAmp
-	pos.x = cos(time * bobFreq / 2) * bobAmp
+	pos.y = sin(time * bobFreq) * movebob
+	pos.x = cos(time * bobFreq / 2) * movebob
 	return pos
 	
 #HIDE HUD INTERACT 
 func _on_hide_hud_interact():
-	hudInteract.visible = false
+	#hudInteract.visible = false
 	pass 
 
 #ANIM CHANGED
@@ -1219,16 +1388,17 @@ func _on_animation_player_animation_changed(old_name, new_name):
 
 #ANIM FINISHED
 func _on_animation_player_animation_finished(anim_name):
-	
 	#Damage Pain HUD Flash Finished
 	if anim_name == "Pain":
 		isHurt = false
 		return
 	
 	#Finished Shooting
+	## blender keeps exporting the animation names all funky so idk here is a hack incase it changes your anim names like it kept doing for me
 	if (anim_name == "Armature|Shoot_001" ||
 		anim_name == "Armature|Shoot" ||
 		anim_name == "Shoot" ||
+		anim_name == "Armature|SHOOT" ||
 		anim_name == "Armature|Shoot2"):
 		ShootAnimDone()
 		return
@@ -1236,6 +1406,7 @@ func _on_animation_player_animation_finished(anim_name):
 	#Finished Reloading
 	if (anim_name == "Armature|Reload_001" ||
 		anim_name == "Armature|Reload" ||
+		anim_name == "Armature|RELOAD" ||
 		anim_name == "Reload"):
 		reloading = false
 		ReloadAmmo()
@@ -1245,6 +1416,25 @@ func _on_animation_player_animation_finished(anim_name):
 	pass
 
 var in_lava := false
+
+func onLavaEntered(area):
+	#WATER
+	if area.is_in_group("Water"):
+		if area.is_dangerous == "1":
+			lava_hurt_timer = lava_hurt_time
+			in_lava = true
+	pass
+	
+func onLavaExited(area):
+	#WATER
+	if area.is_in_group("Water"):
+		if state == CLIMBING: return
+		if area.is_dangerous == "1":
+			lava_hurt_timer = 0
+			in_lava = false
+		
+		#state = DEFAULT
+		#grvty = grvtyDefault
 
 #ON COLLISION ENTERED CHECKS
 func onAreaEntered(area):
@@ -1256,10 +1446,15 @@ func onAreaEntered(area):
 	#WATER
 	if area.is_in_group("Water"):
 		
-		if area.is_dangerous == "1":
-			lava_hurt_timer = lava_hurt_time
-			in_lava = true
+		#if area.is_dangerous == "1":
+			#lava_hurt_timer = lava_hurt_time
+			#in_lava = true
 		
+		## quick hack to prevent being able to hop on top of lava without being hurt
+		if "is_dangerous" in area:
+			if str(area.is_dangerous) == "1":
+				return
+				
 		grvty = grvtyWater
 		state = SWIMMING
 	
@@ -1279,10 +1474,10 @@ func onAreaExited(area):
 	
 	#WATER
 	if area.is_in_group("Water"):
-		
-		if area.is_dangerous == "1":
-			lava_hurt_timer = 0
-			in_lava = false
+		if state == CLIMBING: return
+		#if area.is_dangerous == "1":
+			#lava_hurt_timer = 0
+			#in_lava = false
 		
 		state = DEFAULT
 		grvty = grvtyDefault
@@ -1291,4 +1486,6 @@ func onAreaExited(area):
 	if area.is_in_group("Ladder"):
 		state = DEFAULT
 		currentLadder = null
+		state = DEFAULT
+		grvty = grvtyDefault
 	pass 

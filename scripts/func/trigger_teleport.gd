@@ -30,7 +30,7 @@ func on_trigger():
 	
 	if _target != null && _teleporttarget != null:
 		if _target is CharacterBody3D && _teleporttarget is Node3D:
-			_target.position = _teleporttarget.position
+			_target.global_position = _teleporttarget.global_position
 			print_debug("teleported")
 		pass			
 

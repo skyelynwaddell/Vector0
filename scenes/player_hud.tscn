@@ -1,0 +1,309 @@
+[gd_scene load_steps=18 format=3 uid="uid://dcba2l3bd7n8q"]
+
+[ext_resource type="Texture2D" uid="uid://c85mhre0pjf8e" path="res://textures/textures/bullet_blue_gui.png" id="1_pf0rb"]
+[ext_resource type="Theme" uid="uid://d2f0bmoftf5uf" path="res://godot/theme.tres" id="2_jjj4v"]
+[ext_resource type="Texture2D" uid="uid://cq2ha3s12iatq" path="res://textures/hud/fps_pain.png" id="3_o4e4q"]
+[ext_resource type="Texture2D" uid="uid://ia04tihaustu" path="res://textures/textures/keycardblue_small.png" id="4_chkif"]
+[ext_resource type="FontFile" uid="uid://b37kky5j3f8pv" path="res://fonts/AldotheApache.ttf" id="5_02pq7"]
+[ext_resource type="Texture2D" uid="uid://bjlk5vhl4mkcy" path="res://textures/textures/keycardred_small.png" id="6_rqpsr"]
+[ext_resource type="Texture2D" uid="uid://cbmw1agygwvgq" path="res://textures/textures/keycardyellow_small.png" id="7_dxm8b"]
+[ext_resource type="Texture2D" uid="uid://bs7ef4mci574q" path="res://textures/textures/heart_gui_blue.png" id="8_tp6ug"]
+[ext_resource type="Texture2D" uid="uid://7wof5jsp5gk" path="res://textures/textures/armor_gui_blue.png" id="9_bd1rn"]
+[ext_resource type="Script" path="res://scripts/console_hud.gd" id="10_g1cmk"]
+[ext_resource type="PackedScene" uid="uid://covx0dmud1jk1" path="res://scenes/console_label.tscn" id="11_v3x27"]
+
+[sub_resource type="Theme" id="Theme_qev2e"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8my5l"]
+bg_color = Color(0.176471, 0.172549, 0.164706, 0.541176)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.733333, 0.960784, 1, 0.862745)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bugqy"]
+bg_color = Color(0.352941, 0.87451, 1, 0.776471)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0.941176, 0.952941, 0.921569)
+
+[sub_resource type="Animation" id="Animation_rwebl"]
+resource_name = "Pain"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SubViewportContainer/SubViewport/PlayerHUD/FpsPain:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_l5rxc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SubViewportContainer/SubViewport/PlayerHUD/FpsPain:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lvw2h"]
+_data = {
+"Pain": SubResource("Animation_rwebl"),
+"RESET": SubResource("Animation_l5rxc")
+}
+
+[node name="PlayerHUD" type="Node3D"]
+
+[node name="Subviewport_camera" type="Camera3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.10801, 0)
+cull_mask = 524288
+current = true
+
+[node name="Health" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+visible = false
+offset_left = 12.0
+offset_top = 605.0
+offset_right = 154.0
+offset_bottom = 626.0
+scale = Vector2(1.40709, 1.3881)
+theme = SubResource("Theme_qev2e")
+theme_override_styles/background = SubResource("StyleBoxFlat_8my5l")
+theme_override_styles/fill = SubResource("StyleBoxFlat_bugqy")
+value = 69.0
+show_percentage = false
+
+[node name="Bullet" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(1118, 623)
+scale = Vector2(0.564469, 0.420793)
+texture = ExtResource("1_pf0rb")
+
+[node name="lblAmmo" type="Label" parent="."]
+unique_name_in_owner = true
+texture_filter = 1
+anchors_preset = -1
+anchor_left = -0.279514
+anchor_right = 0.360243
+anchor_bottom = 0.0833332
+offset_left = 1184.0
+offset_top = 611.0
+offset_right = 1569.41
+offset_bottom = 694.667
+scale = Vector2(0.2199, 0.246109)
+theme = ExtResource("2_jjj4v")
+theme_override_colors/font_color = Color(0.638256, 0.891348, 0.959366, 1)
+theme_override_font_sizes/font_size = 86
+text = "15 | 75"
+horizontal_alignment = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="lblHealth" type="Label" parent="."]
+unique_name_in_owner = true
+texture_filter = 1
+anchors_preset = -1
+anchor_left = 0.049
+anchor_top = 0.022
+anchor_right = 0.115
+anchor_bottom = 0.069
+offset_left = 22.552
+offset_top = 595.744
+offset_right = 62.912
+offset_bottom = 610.864
+scale = Vector2(1.23004, 1.23004)
+theme = ExtResource("2_jjj4v")
+theme_override_colors/font_color = Color(0.639216, 0.890196, 0.960784, 1)
+theme_override_constants/line_spacing = 0
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/outline_size = 1
+theme_override_constants/shadow_outline_size = 0
+text = "200"
+
+[node name="FpsPain" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(576, 324)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("3_o4e4q")
+
+[node name="Keycards" type="Node2D" parent="."]
+position = Vector2(455, -55)
+scale = Vector2(0.61, 0.61)
+
+[node name="CardBlue" type="Sprite2D" parent="Keycards"]
+unique_name_in_owner = true
+position = Vector2(1096.72, 142.623)
+scale = Vector2(0.902693, 0.601055)
+texture = ExtResource("4_chkif")
+
+[node name="Label" type="Label" parent="Keycards/CardBlue"]
+visible = false
+texture_filter = 2
+offset_left = -43.6701
+offset_top = 200.868
+offset_right = 4.32988
+offset_bottom = 284.868
+scale = Vector2(2.34786, 2.34786)
+theme_override_fonts/font = ExtResource("5_02pq7")
+theme_override_font_sizes/font_size = 100
+text = "b"
+
+[node name="CardRed" type="Sprite2D" parent="Keycards"]
+unique_name_in_owner = true
+position = Vector2(934.426, 142.623)
+scale = Vector2(0.911403, 0.609958)
+texture = ExtResource("6_rqpsr")
+
+[node name="Label" type="Label" parent="Keycards/CardRed"]
+visible = false
+texture_filter = 2
+offset_left = -67.2697
+offset_top = 200.537
+offset_right = -19.2697
+offset_bottom = 284.537
+scale = Vector2(2.34786, 2.34786)
+theme_override_fonts/font = ExtResource("5_02pq7")
+theme_override_font_sizes/font_size = 100
+text = "R"
+
+[node name="CardYellow" type="Sprite2D" parent="Keycards"]
+unique_name_in_owner = true
+position = Vector2(1016.39, 142.75)
+scale = Vector2(0.89953, 0.601246)
+texture = ExtResource("7_dxm8b")
+
+[node name="Label" type="Label" parent="Keycards/CardYellow"]
+visible = false
+texture_filter = 2
+offset_left = -54.8335
+offset_top = 207.603
+offset_right = -3.8335
+offset_bottom = 291.603
+scale = Vector2(2.34786, 2.34786)
+theme_override_fonts/font = ExtResource("5_02pq7")
+theme_override_font_sizes/font_size = 100
+text = "Y"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+root_node = NodePath("../../../..")
+libraries = {
+"": SubResource("AnimationLibrary_lvw2h")
+}
+
+[node name="Crosshair" type="ColorRect" parent="."]
+unique_name_in_owner = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1.00006
+offset_top = -3.05176e-05
+offset_right = 8.99994
+offset_bottom = 9.99997
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.196177, 0.196345)
+size_flags_horizontal = 6
+size_flags_vertical = 4
+metadata/_edit_use_anchors_ = true
+
+[node name="sHeart" type="TextureRect" parent="."]
+texture_filter = 1
+offset_left = 13.0
+offset_top = 596.0
+offset_right = 213.0
+offset_bottom = 724.0
+scale = Vector2(0.398298, 0.398298)
+texture = ExtResource("8_tp6ug")
+
+[node name="lblArmor" type="Label" parent="."]
+unique_name_in_owner = true
+texture_filter = 1
+anchors_preset = -1
+anchor_left = 0.161
+anchor_top = 0.022
+anchor_right = 0.265
+anchor_bottom = 0.069
+offset_left = 22.528
+offset_top = 596.744
+offset_right = 61.368
+offset_bottom = 611.864
+scale = Vector2(1.23004, 1.23004)
+theme = ExtResource("2_jjj4v")
+theme_override_colors/font_color = Color(0.639216, 0.890196, 0.960784, 1)
+theme_override_constants/line_spacing = 0
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/outline_size = 1
+theme_override_constants/shadow_outline_size = 0
+text = "200"
+
+[node name="sArmor" type="TextureRect" parent="."]
+texture_filter = 1
+offset_left = 139.0
+offset_top = 598.0
+offset_right = 339.0
+offset_bottom = 726.0
+scale = Vector2(0.398298, 0.398298)
+texture = ExtResource("9_bd1rn")
+
+[node name="ConsoleContainer" type="ScrollContainer" parent="."]
+texture_filter = 1
+offset_right = 1200.0
+offset_bottom = 274.0
+scale = Vector2(0.289806, 0.289806)
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 0
+
+[node name="ConsoleScrollbox" type="VBoxContainer" parent="ConsoleContainer"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+theme_override_constants/separation = -10
+script = ExtResource("10_g1cmk")
+
+[node name="ConsoleLabel" parent="ConsoleContainer/ConsoleScrollbox" instance=ExtResource("11_v3x27")]
+layout_mode = 2
+
+[node name="fps" type="Label" parent="."]
+unique_name_in_owner = true
+texture_filter = 1
+anchors_preset = -1
+anchor_left = -0.279514
+anchor_right = 0.330373
+anchor_bottom = 0.0838472
+offset_left = 1384.0
+offset_right = 1769.41
+offset_bottom = 83.667
+scale = Vector2(0.0826971, 0.0925534)
+theme = ExtResource("2_jjj4v")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 86
+text = "60"
+horizontal_alignment = 2
+metadata/_edit_use_anchors_ = true

@@ -4,11 +4,14 @@
 [ext_resource type="Script" path="res://scripts/ammo.gd" id="2_qh33m"]
 [ext_resource type="PackedScene" uid="uid://cviusrewdbct3" path="res://models/objects/ammo_9mm_large/ammo_9mmlarge.fbx" id="3_l6ocr"]
 
-[node name="Pickup" instance=ExtResource("1_bhecv")]
+[node name="Pickup" groups=["Entity"] instance=ExtResource("1_bhecv")]
 script = ExtResource("2_qh33m")
 ammoType = 0
 
+[node name="CollisionShape3D" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00853729, 0, -0.0559003)
+
 [node name="ammo_9mmlarge" parent="." index="1" instance=ExtResource("3_l6ocr")]
-transform = Transform3D(0.28, -7.99361e-15, 0, 7.99361e-15, 0.28, 0, 0, 0, 0.28, -0.035739, -0.5, 0.255751)
+transform = Transform3D(0.28, -7.99361e-15, 0, 7.99361e-15, 0.28, 0, 0, 0, 0.28, -0.035739, 0, 0.255751)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
