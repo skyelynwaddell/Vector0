@@ -7,7 +7,7 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_7le5x"]
 size = Vector3(0.630615, 2.846, 0.8)
 
-[node name="Pistol" type="Area3D"]
+[node name="Pistol" type="Area3D" groups=["Entity"]]
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_ork32")
@@ -17,7 +17,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.111694, 0.977002, 1.19209e-
 shape = SubResource("BoxShape3D_7le5x")
 
 [node name="Root Scene" parent="." instance=ExtResource("2_ylfr7")]
-transform = Transform3D(3.08653e-16, 0.161541, -7.06117e-09, 7.06117e-09, -7.06117e-09, -0.161541, -0.161541, 0, -7.06117e-09, 0.127322, -0.235174, 0)
+transform = Transform3D(3.08653e-16, 0.161541, -7.06117e-09, 7.06117e-09, -7.06117e-09, -0.161541, -0.161541, 0, -7.06117e-09, 0.127, -0.07, 0)
 
 [node name="Model" parent="." instance=ExtResource("3_iw273")]
 transform = Transform3D(0.0849922, 0.996195, -0.0192988, 0.971466, -0.0871557, -0.220586, -0.221429, -9.67898e-09, -0.975177, -0.36463, -0.773679, -1.32149)

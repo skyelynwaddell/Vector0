@@ -1,0 +1,205 @@
+[gd_scene load_steps=22 format=3 uid="uid://843jdh1s08qt"]
+
+[ext_resource type="Script" path="res://scripts/monster_garblejarble.gd" id="1_mcyw4"]
+[ext_resource type="PackedScene" uid="uid://bkyxdm7t5qmw3" path="res://scenes/other/gib_particles.tscn" id="3_dvcak"]
+[ext_resource type="Material" uid="uid://cdeixa7ullhg5" path="res://materials/monster_garblejarble.tres" id="3_guf36"]
+[ext_resource type="AudioStream" uid="uid://cci7bxrjnxumv" path="res://audio/monster/monster_growl3.ogg" id="4_fby6u"]
+[ext_resource type="PackedScene" uid="uid://dlwrj1i5kiyvx" path="res://blender/monster_garblejarble/monster_garblejarble.fbx" id="4_r4x6t"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kd7oq"]
+animation = &"Armature|ATTACK"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fqv46"]
+animation = &"Armature|DIE"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_cu7ih"]
+animation = &"Armature|IDLE"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3t4pd"]
+animation = &"Armature|TPOSE"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1q3aw"]
+animation = &"Armature|TPOSE"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_x2wp8"]
+animation = &"Armature|WALK"
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_nu4kh"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_8q3fa"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_y46pj"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_doltx"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_o3pog"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_b0hth"]
+nodes/AnimAttack/node = SubResource("AnimationNodeAnimation_kd7oq")
+nodes/AnimAttack/position = Vector2(60, 340)
+nodes/AnimDeath/node = SubResource("AnimationNodeAnimation_fqv46")
+nodes/AnimDeath/position = Vector2(980, 320)
+nodes/AnimIdle/node = SubResource("AnimationNodeAnimation_cu7ih")
+nodes/AnimIdle/position = Vector2(-180, 140)
+nodes/AnimJumpOnHead/node = SubResource("AnimationNodeAnimation_3t4pd")
+nodes/AnimJumpOnHead/position = Vector2(360, 300)
+nodes/AnimSuckOnHead/node = SubResource("AnimationNodeAnimation_1q3aw")
+nodes/AnimSuckOnHead/position = Vector2(620, 300)
+nodes/AnimWalk/node = SubResource("AnimationNodeAnimation_x2wp8")
+nodes/AnimWalk/position = Vector2(-160, 320)
+nodes/Attack/node = SubResource("AnimationNodeBlend2_nu4kh")
+nodes/Attack/position = Vector2(300, 80)
+nodes/Death/node = SubResource("AnimationNodeBlend2_8q3fa")
+nodes/Death/position = Vector2(1160, 120)
+nodes/JumpOnHead/node = SubResource("AnimationNodeBlend2_y46pj")
+nodes/JumpOnHead/position = Vector2(540, 100)
+nodes/SuckOnHead/node = SubResource("AnimationNodeBlend2_doltx")
+nodes/SuckOnHead/position = Vector2(860, 100)
+nodes/Walk/node = SubResource("AnimationNodeBlend2_o3pog")
+nodes/Walk/position = Vector2(20, 100)
+nodes/output/position = Vector2(1320, 140)
+node_connections = [&"Attack", 0, &"Walk", &"Attack", 1, &"AnimAttack", &"Death", 0, &"SuckOnHead", &"Death", 1, &"AnimDeath", &"JumpOnHead", 0, &"Attack", &"JumpOnHead", 1, &"AnimJumpOnHead", &"SuckOnHead", 0, &"JumpOnHead", &"SuckOnHead", 1, &"AnimSuckOnHead", &"Walk", 0, &"AnimIdle", &"Walk", 1, &"AnimWalk", &"output", 0, &"Death"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fi1kn"]
+size = Vector3(1.50879, 2.76376, 1.87552)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_642ki"]
+size = Vector3(1, 1.71826, 1.98752)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hxvxa"]
+transparency = 1
+albedo_color = Color(0, 1, 0, 0.411765)
+
+[sub_resource type="SphereMesh" id="SphereMesh_y7100"]
+material = SubResource("StandardMaterial3D_hxvxa")
+radial_segments = 10
+rings = 2
+
+[node name="GarbleJarble" type="CharacterBody3D" groups=["Enemy", "Entity"]]
+collision_layer = 14
+collision_mask = 15
+script = ExtResource("1_mcyw4")
+targetname = &""
+collisionRange = 2
+hp = 140
+hpcurrent = 140
+
+[node name="Model" parent="." instance=ExtResource("4_r4x6t")]
+transform = Transform3D(-0.448644, 0, -3.92216e-08, 0, 0.448644, 0, 3.92216e-08, 0, -0.448644, 0, 0, 0)
+
+[node name="Skeleton3D" parent="Model/Armature" index="0"]
+bones/0/position = Vector3(-0.000356975, 3.68963e-05, 0.00533836)
+bones/0/rotation = Quaternion(0.011647, 0.530507, 0.834687, -0.147393)
+bones/1/position = Vector3(-1.27473e-11, 0.00804272, -3.52301e-11)
+bones/1/rotation = Quaternion(0.372192, -0.0324618, 0.035229, 0.926919)
+bones/1/scale = Vector3(1, 1, 1)
+bones/2/position = Vector3(-1.6458e-11, 0.00860895, 5.73511e-10)
+bones/2/rotation = Quaternion(0.288239, -0.0216003, 0.0159861, 0.957181)
+bones/2/scale = Vector3(1, 1, 1)
+bones/3/position = Vector3(2.38419e-11, 0.0091561, 4.40039e-10)
+bones/3/rotation = Quaternion(-0.0191956, 0.91345, 0.40639, 0.00930755)
+bones/3/scale = Vector3(1, 1, 1)
+bones/5/position = Vector3(0.00745175, 0.00360107, 0.00383464)
+bones/5/rotation = Quaternion(-0.0430145, -0.154677, 0.987028, -0.00132038)
+bones/5/scale = Vector3(1, 1, 1)
+bones/6/position = Vector3(-8.8971e-12, 0.00695718, -5.38123e-10)
+bones/6/rotation = Quaternion(-0.781095, 0.0649983, -0.009639, 0.620945)
+bones/6/scale = Vector3(1, 1, 1)
+bones/7/position = Vector3(6.62191e-10, 0.00970553, -4.31754e-10)
+bones/7/rotation = Quaternion(0.243042, 0.00652472, 0.0152627, 0.969874)
+bones/7/scale = Vector3(1, 1, 1)
+bones/8/position = Vector3(2.14969e-10, 0.00275533, -7.96696e-11)
+bones/8/rotation = Quaternion(0.816596, -0.0446589, 0.129879, 0.560632)
+bones/8/scale = Vector3(1, 1, 1)
+bones/10/position = Vector3(-0.00784347, 0.00304386, 0.00352359)
+bones/10/rotation = Quaternion(0.0499009, 0.15011, 0.986926, 0.0308718)
+bones/10/scale = Vector3(1.00003, 1, 1)
+bones/11/position = Vector3(5.97702e-11, 0.00695718, -1.23369e-09)
+bones/11/rotation = Quaternion(-0.640655, -0.0877943, -0.0385897, 0.761816)
+bones/11/scale = Vector3(1, 1, 1)
+bones/12/position = Vector3(1.63887e-09, 0.00970552, -2.75757e-11)
+bones/12/rotation = Quaternion(0.243042, -0.00652426, -0.0152626, 0.969874)
+bones/12/scale = Vector3(1, 1, 1)
+bones/13/position = Vector3(-9.7729e-10, 0.00275533, -1.73366e-10)
+bones/13/rotation = Quaternion(0.835695, 0.158507, -0.156554, 0.501976)
+bones/13/scale = Vector3(1.00001, 0.999999, 1)
+bones/15/position = Vector3(0.00122851, 0.0308091, 0.0207194)
+bones/15/rotation = Quaternion(-0.0211842, 0.0378204, 0.0080189, 0.999028)
+bones/17/position = Vector3(-0.000362992, -1.54494e-05, 0.00426847)
+bones/17/rotation = Quaternion(0.0366313, 0.027442, 0.998927, -0.00710782)
+bones/18/position = Vector3(-1.89906e-16, 0.00929043, -3.02478e-10)
+bones/18/rotation = Quaternion(0.204093, 0.000849827, -0.0009634, 0.978951)
+bones/18/scale = Vector3(1, 1, 1)
+bones/19/position = Vector3(-6.60846e-17, 0.0153029, 6.37683e-10)
+bones/19/rotation = Quaternion(0.448503, 0.000358797, -0.000712841, 0.893781)
+bones/19/scale = Vector3(1, 0.999997, 1)
+bones/21/position = Vector3(0.00186254, -0.0263315, 0.0310136)
+bones/21/rotation = Quaternion(0.0380204, -0.00768022, 0.999235, -0.00491524)
+bones/23/position = Vector3(-0.00804861, 0.0111282, 0.00381936)
+bones/23/rotation = Quaternion(-0.000795603, 0.037976, 0.00724569, 0.999252)
+bones/25/position = Vector3(-0.00663681, -0.00692381, 0.00597661)
+bones/25/rotation = Quaternion(0.90923, 0.0746835, -0.0279039, 0.408588)
+bones/27/position = Vector3(0.00726666, 0.011338, 0.0026034)
+bones/27/rotation = Quaternion(-0.000795603, 0.037976, 0.00724569, 0.999252)
+bones/29/position = Vector3(0.0075082, 0.00340409, -0.00405454)
+bones/29/rotation = Quaternion(0.974567, -0.0138737, -0.139566, -0.17478)
+
+[node name="monster_garblejarble" parent="Model/Armature/Skeleton3D" index="0"]
+surface_material_override/0 = ExtResource("3_guf36")
+
+[node name="AnimationPlayer" parent="Model" index="1"]
+autoplay = "Armature|IDLE"
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+root_node = NodePath("../Model")
+tree_root = SubResource("AnimationNodeBlendTree_b0hth")
+anim_player = NodePath("../Model/AnimationPlayer")
+parameters/Attack/blend_amount = 0.0
+parameters/Death/blend_amount = 0
+parameters/JumpOnHead/blend_amount = 0.0
+parameters/SuckOnHead/blend_amount = 0.0
+parameters/Walk/blend_amount = 0.63
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.00481004, 0.869352, 0.013623)
+shape = SubResource("BoxShape3D_fi1kn")
+
+[node name="Area3D" type="Area3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.509953, 0)
+collision_layer = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.359131, -0.0370636)
+shape = SubResource("BoxShape3D_642ki")
+
+[node name="GibParticles" parent="." instance=ExtResource("3_dvcak")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0157295, 0.314417, -0.299007)
+
+[node name="BloodTimer" type="Timer" parent="GibParticles"]
+unique_name_in_owner = true
+
+[node name="DrippingMouthParticles" type="CPUParticles3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01567, 1.37365)
+amount = 11
+local_coords = true
+mesh = SubResource("SphereMesh_y7100")
+emission_shape = 3
+emission_box_extents = Vector3(0.5, 0, 0)
+gravity = Vector3(0, -2, 0)
+scale_amount_min = 0.01
+scale_amount_max = 0.1
+
+[node name="Growl" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("4_fby6u")
+volume_db = 5.0
+max_db = 5.0
+bus = &"Voices"
+
+[connection signal="finished" from="GibParticles/GibParticles" to="." method="_on_gib_particles_finished"]
+
+[editable path="Model"]
+[editable path="GibParticles"]

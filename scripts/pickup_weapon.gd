@@ -16,34 +16,47 @@ class_name PickupWeapon
 	"Crowbar",
 	"Sub Machine Gun",
 	"Knife",
-	"MP"
-) var weaponType : int = 1
+	"MP",
+	"Pump2",
+	"Pistol2"
+) var weaponType : int = 10
 
 var shouldDestroy = false
 
 func _ready():
+	Game.DestroyOnDifficultyFlag(difficulty_spawn, self)
+	add_to_group("Entity", true)
+	Game.UpdateEntity(self,0)
 	pass
 	
 func SetSFX(sfx):
 	pass
 
+@export var difficulty_spawn = 0
+
 func _func_godot_apply_properties(props:Dictionary):
+	
+	print(str(props))
 	if "amount" in props: AmmoAmount = props.amount as int
+	if "difficulty_spawn" in props: difficulty_spawn = props.difficulty_spawn as int
 	pass
 
 func _on_body_entered(body):
+	if spawn_wait == true: return
 	if body == null: return
 	
 	# Check if player collided with Ammo
 	if body.is_in_group("Player"):
-		
 		self.visible = false
-		
+		Game.UpdateEntity(self,1)
+	
 		print_debug("Picking up weapon!!")
 		shouldDestroy = true
 		
 		var isMelee : bool = false
 		var ammoPoolType = null
+		
+		var weapon_name := "NULL"
 		
 		match(weaponType):
 			0: ammoPoolType = null
@@ -64,14 +77,18 @@ func _on_body_entered(body):
 				pass
 				
 		if (hasweapon == false):
+			weapon_name = Game.weaponList[weaponType].title
 			var newweapon = {
 				index = weaponType,
 				clip = Game.weaponList[weaponType].magSize # start with a full clip
 			}
 			Game.weapons.append(newweapon)
-			print_debug("Player got: " + Game.weaponList[weaponType].title)
+			#print_debug("Player got: " + Game.weaponList[weaponType].title)
 		
-		MusicPlayer.Sound(MusicPlayer.SFX.PICKUP, MusicPlayer.AUDIO_CHANNEL.SFX, 1.0)
+		MusicPlayer.Sound(MusicPlayer.SFX.PICKUP, MusicPlayer.AUDIO_CHANNEL.SFX, 0.2)
+		
+		if hasweapon == false:
+			Console.print_line("Picked up a " + str(weapon_name) + ".")
 		
 		#we dont need ammo if it was a melee weapon so return here
 		if ammoPoolType == null: return
@@ -102,6 +119,9 @@ func _on_body_entered(body):
 				pass
 		
 		# Update HUD & Remove self from scene
+		if ammoPoolType != null:
+			Console.print_line("Picked up x" + str(AmmoAmount) + " " + str(ammoPoolType) + " ammo.")
+		
 		if isMelee == false: Signals.UpdateHUD.emit()
 		
 		#queue_free()
@@ -110,4 +130,5 @@ func _on_body_entered(body):
 func _process(delta):
 	if Engine.is_editor_hint() : return
 	if shouldDestroy: queue_free()
+	SpawnWait(delta)
 	pass

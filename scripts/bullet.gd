@@ -34,7 +34,10 @@ func _on_area_3d_body_entered(body):
 			print_debug("Wall")
 		"Barrel":
 			body.BlowUp()
-		
+	
+	if "hpcurrent" in body:
+		if body.hpcurrent <= 0: return
+	
 	if body.name != "Player":
 		queue_free()
 	

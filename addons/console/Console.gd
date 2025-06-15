@@ -16,6 +16,9 @@ func AddCommands():
 	add_command("load", loadgame, 0)
 	add_command("texturemode", texturemode, 1)
 	add_command("sound", MusicPlayer.Sound, 3)
+	add_command("map", map, 1)
+	add_command("lights_toggle", Game.LightsToggle,0)
+	add_command("delete_saves", Game.DeleteSaves,0)
 
 var helpLabel = "	[color=medium_orchid]Built in commands[/color]:
 		[color=light_green]calc[/color]: Calculates a given expresion
@@ -27,7 +30,11 @@ var helpLabel = "	[color=medium_orchid]Built in commands[/color]:
 		[color=light_green]quit[/color]: Quits the game
 		[color=light_green]save[/color]: Creates a new save file
 		[color=light_green]load[/color]: Loads the most recent save file
+		[color=light_green]delete_saves[/color]: Delete all save files
 		[color=light_green]sound[/color]: Plays a sound from string filepath ie. \"res://audio/player/player_jump.ogg\"
+		[color=light_green]map[/color]: Load a level from the \"/scenes/levels/\" folder.
+		[color=light_green]lights_toggle[/color]: Toggle lights in the map.
+		
 		
 	[color=medium_orchid]Cheats[/color]:
 		[color=orange]godmode[/color]: Infinite health
@@ -46,6 +53,7 @@ var was_paused_already := false
 
 signal console_opened
 signal console_closed
+signal console_newline
 signal console_unknown_command
 
 class ConsoleCommand:
@@ -88,7 +96,7 @@ func _ready() -> void:
 	rich_label.add_theme_stylebox_override("normal", style)
 	setfont()
 	control.add_child(rich_label)
-	rich_label.append_text("[rainbow freq=1.0 sat=0.8 val=0.8 speed=1.0]### vector0 - game console ###[/rainbow]\n")
+	rich_label.append_text(str(Game.game_name) + "\n")
 	var empty_style = StyleBoxEmpty.new()
 	line_edit.add_theme_stylebox_override("focus", empty_style)
 
@@ -113,15 +121,19 @@ func _ready() -> void:
 func restart():
 	get_tree().reload_current_scene()
 
+
+## load a map
+func map(map_name:String):
+	Game.RoomGoto("res://scenes/levels/" + str(map_name) + ".tscn")
+	
+
 ## savegame - saves the current game
 func savegame():
 	Game.SaveGame()
-	print_line("Game Saved!",false)
 
 ## loadgame - load the most recent save file
 func loadgame():
 	Game.LoadGame()
-	print_line("Game Loaded!",false)
 
 ## godmode - infinite health
 func godmode():
@@ -311,6 +323,10 @@ func print_line(text : String, print_godot := false) -> void:
 			print(text)
 			
 	setfont()
+	console_newline.emit(text)
+	print(str(text))
+	
+	
 			
 func setfont():
 	rich_label.push_font(Game.gamefont,0)

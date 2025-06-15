@@ -7,13 +7,10 @@
 [node name="KeycardBlue" instance=ExtResource("1_nt4of")]
 script = ExtResource("2_c71yo")
 
-[node name="healthpack" parent="." index="2"]
-visible = false
-
-[node name="keycard_blue" parent="." index="3" instance=ExtResource("2_puglr")]
+[node name="keycard_blue" parent="." index="1" instance=ExtResource("2_puglr")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, -0.5, 0)
 
-[node name="OmniLight3D" type="OmniLight3D" parent="." index="4"]
+[node name="OmniLight3D" type="OmniLight3D" parent="." index="2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0.966009, 0)
 light_color = Color(0.420268, 0.660298, 0.984697, 1)
 light_energy = 5.0

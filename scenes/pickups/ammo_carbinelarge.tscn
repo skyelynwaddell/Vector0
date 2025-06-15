@@ -1,13 +1,22 @@
-[gd_scene load_steps=4 format=3 uid="uid://dbwwrbpyspnmj"]
+[gd_scene load_steps=5 format=3 uid="uid://dbwwrbpyspnmj"]
 
 [ext_resource type="PackedScene" uid="uid://dvgcsgg7oo2xp" path="res://scenes/Parents/pickup.tscn" id="1_st0xw"]
 [ext_resource type="Script" path="res://scripts/ammo.gd" id="2_202t0"]
-[ext_resource type="PackedScene" uid="uid://cxj6mrtg5ebdc" path="res://models/objects/ammo_carbine_large/ammocrate.fbx" id="3_as3ls"]
+[ext_resource type="PackedScene" uid="uid://kby4oji68wtd" path="res://models/objects/ammo_carbine_large/ammocrate.fbx" id="3_as3ls"]
+[ext_resource type="Material" uid="uid://b6ewb7vymdd7w" path="res://materials/9mmbulletbox.tres" id="4_o2ypq"]
 
-[node name="Pickup" instance=ExtResource("1_st0xw")]
+[node name="Pickup" groups=["Entity"] instance=ExtResource("1_st0xw")]
 script = ExtResource("2_202t0")
 
+[node name="CollisionShape3D" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00853729, 0, -0.0559003)
+
 [node name="Root Scene" parent="." index="1" instance=ExtResource("3_as3ls")]
-transform = Transform3D(0.24, 2.55795e-15, 0, -2.55795e-15, 0.24, 0, 0, 0, 0.24, 0.00277269, -0.494212, 0)
+transform = Transform3D(0.24, 2.55795e-15, 0, -2.55795e-15, 0.24, 0, 0, 0, 0.24, 0.00277269, 0, 0)
+
+[node name="Cube" parent="Root Scene" index="0"]
+surface_material_override/0 = ExtResource("4_o2ypq")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+
+[editable path="Root Scene"]

@@ -26,6 +26,7 @@ func _ready():
 func _process(delta):
 	if Engine.is_editor_hint(): return
 	
+	if player == null: return
 	distToPlayer = transform.origin.distance_to(player.position)
 	#print_debug(distToPlayer)
 	if distToPlayer > 2: return
@@ -59,13 +60,13 @@ func rotateValve():
 	
 	## Turned the valve all the way on
 	if (rotation_degrees.z <= -rotAmt && state == ON) || (rotation_degrees.z >= rotAmt && state == OFF): 
-		#print_debug("trigger")
-		if target and (rotated >= rotAmt || rotated <= -rotAmt):
-			for _target in get_tree().get_nodes_in_group(&"Trigger"):
-				#print_debug(_target)
+		print_debug("valve trigger")
+		if target != "" and (rotated >= rotAmt || rotated <= -rotAmt):
+			for _target in get_tree().get_nodes_in_group("Trigger"):
+				print_debug(_target)
 				if "targetname" in _target:
 					if _target.targetname == target:
-						#print_debug("found trigger " , _target.targetname)
+						print_debug("valve found trigger " , _target.targetname)
 						_target.Trigger()
 						rotated = 0
 						break

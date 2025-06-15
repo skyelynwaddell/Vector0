@@ -56,6 +56,8 @@ func _func_godot_apply_properties(props : Dictionary):
 			_scaleVals[2].to_float() * conversion,
 			_scaleVals[0].to_float() * conversion)
 		scale = _scale
+		
+	add_to_group("Entity", true)
 	pass
 
 func _ready():
@@ -78,6 +80,8 @@ func _ready():
 	timer = Timer.new()
 	
 	# Add Area3D and CollisionShape3D to the scene
+	area3d.add_to_group("Trigger", true)
+	self.add_to_group("Trigger", true)
 	area3d.add_child(coll) 
 	self.add_child(area3d)
 	self.add_child(timer)
@@ -85,11 +89,14 @@ func _ready():
 	area3d.connect("area_entered",_on_area_3d_area_entered)
 	area3d.connect("area_exited",_on_area_3d_area_exited)
 	self.visible = false
+	
+	Game.UpdateEntity(self, 0)
 	pass
 	
 # When Player Entity collides with this Trigger
 func _on_area_3d_area_entered(area):
 	if Engine.is_editor_hint(): return
+	if area.is_in_group("Player") == false: return
 	print_debug("trigger")
 	##  Trigger Typing : 
 	## 0 = Can't Trigger
@@ -103,8 +110,23 @@ func _on_area_3d_area_entered(area):
 	pass
 	pass # Replace with function body.
 	
+var spawn_wait = true
+var spawn_timer = 0.0
+var spawn_timer_max = 1.0
+func SpawnWait(delta):
+	if spawn_wait == false: return
+	
+	if spawn_timer < spawn_timer_max:
+		spawn_timer+=delta
+		
+	if spawn_timer >= spawn_timer_max:
+		spawn_wait = false
+		
+	
 #Trigger this entity, check if ChainTrigger needs to be triggered, and destroy self if not permanent
 func Trigger():
+	if spawn_wait == true: return
+	
 	if countMax != null:
 		counter += 1
 		if counter < countMax: return
@@ -113,7 +135,9 @@ func Trigger():
 	GetTriggerEffect(function)
 	self.triggered = true
 	#if chaintrigger != null && chaintrigger != "" && chaintrigger != "0":
-	if permanent == "0": queue_free()
+	if permanent == "0": 
+		Game.UpdateEntity(self,1)
+		queue_free()
 
 # Get Trigger Effect Depending on Type of Trigger
 func GetTriggerEffect(fn):
@@ -174,6 +198,8 @@ func _on_area_3d_area_exited(area):
 
 func _process(delta):
 	if Engine.is_editor_hint(): return
+	SpawnWait(delta)
+	
 	#print_debug(inArea)
 	if inArea == false: return
 	#Interact Type

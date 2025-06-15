@@ -2,10 +2,4 @@
 
 [ext_resource type="PackedScene" uid="uid://dxve5objyw2rs" path="res://models/objects/lights/light1/light1.fbx" id="1_l28aj"]
 
-[node name="Light" instance=ExtResource("1_l28aj")]
-
-[node name="OmniLight3D" type="OmniLight3D" parent="." index="1"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.242883, 0)
-light_energy = 3.0
-light_bake_mode = 1
-omni_range = 10.0
+[node name="Light" groups=["Light"] instance=ExtResource("1_l28aj")]

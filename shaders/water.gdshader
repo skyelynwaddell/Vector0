@@ -244,7 +244,7 @@ vec3 water(vec2 uv, vec3 cdir, float iTime)
 
     uv += a * h;
 
-    
+
 
     // Texture distortion
 
@@ -264,7 +264,7 @@ vec3 water(vec2 uv, vec3 cdir, float iTime)
 
     );
 
-    
+
 
     vec3 ret = mix(WATER_COL.rgb, WATER2_COL.rgb, waterlayer(uv + dist.xy));
 
@@ -278,20 +278,20 @@ vec3 water(vec2 uv, vec3 cdir, float iTime)
 
 void fragment() {
 	vec2 uv = UV;
-	
+
 	// TWEAK THE COEFFS AND/OR EQUATION FOR A DIFFERENT WARP PATTERN
-	uv.x += sin(uv.y * wave_speed * PI + TIME) * cos(uv.y * wave_speed * PI + TIME) * 0.1; 
-	uv.y += cos(uv.x * wave_speed * PI + TIME) * -sin(uv.y * wave_speed * PI + TIME) * 0.1; 
+	uv.x += sin(uv.y * wave_speed * PI + TIME) * cos(uv.y * wave_speed * PI + TIME) * 0.1;
+	uv.y += cos(uv.x * wave_speed * PI + TIME) * -sin(uv.y * wave_speed * PI + TIME) * 0.1;
 
 	vec4 color = texture(tex, uv);
-	
+
 	if (is_opaque){
 		color.a = 1.0;
 		ALPHA = water_transparency;
-		
+
 	} else {
 		ALPHA = water_transparency * color.a;
 	}
-	
+
 	ALBEDO = color.xyz;
 }

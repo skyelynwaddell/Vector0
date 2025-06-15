@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://br3biywpqyl00"]
+[gd_scene load_steps=14 format=3 uid="uid://br3biywpqyl00"]
 
 [ext_resource type="Texture2D" uid="uid://b20qpk74gsyre" path="res://textures/textures/fire.png" id="1_pku4b"]
+[ext_resource type="Texture2D" uid="uid://dofklrlxgtsm" path="res://textures/textures/metal_rusty.png" id="3_bnfr7"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ly0dl"]
 transparency = 1
@@ -27,11 +28,50 @@ scale_max = 10.0
 scale_curve = SubResource("CurveTexture_cav7e")
 
 [sub_resource type="QuadMesh" id="QuadMesh_ejikk"]
+size = Vector2(0.2, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vm3vt"]
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.417009, 0.241515, 0.148278, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_nn1ai"]
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector3(0, 1, 0)
+spread = 67.38
+initial_velocity_max = 10.0
+gravity = Vector3(0, -20, 0)
+scale_min = 0.1
+scale_max = 0.6
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2se7t"]
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector3(0, 1, 0)
+spread = 67.38
+initial_velocity_max = 10.0
+gravity = Vector3(0, -20, 0)
+scale_min = 0.05
+scale_max = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hopo1"]
+albedo_color = Color(0.686035, 0.778479, 0.797898, 1)
+albedo_texture = ExtResource("3_bnfr7")
+
+[sub_resource type="QuadMesh" id="QuadMesh_8k40e"]
+material = SubResource("StandardMaterial3D_hopo1")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ngna2"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.886262, 0.886261, 0.886262, 1)
 
 [node name="BreakableParticles" type="Node3D"]
 
 [node name="Smoke" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.212424, 0)
 layers = 7
 material_override = SubResource("StandardMaterial3D_ly0dl")
 emitting = false
@@ -48,49 +88,42 @@ process_material = SubResource("ParticleProcessMaterial_fj8le")
 draw_pass_1 = SubResource("QuadMesh_ejikk")
 
 [node name="Wood" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
-material_override = SubResource("StandardMaterial3D_ly0dl")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.216731, 0)
+material_override = SubResource("StandardMaterial3D_vm3vt")
 emitting = false
-amount = 30
+amount = 60
 sub_emitter = NodePath(".")
-lifetime = 0.48
 one_shot = true
 explosiveness = 1.0
 randomness = 1.0
 fixed_fps = 60
-collision_base_size = 2.0
 transform_align = 1
-process_material = SubResource("ParticleProcessMaterial_fj8le")
-draw_pass_1 = SubResource("QuadMesh_ejikk")
-
-[node name="Paper" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0)
-material_override = SubResource("StandardMaterial3D_ly0dl")
-emitting = false
-amount = 30
-sub_emitter = NodePath(".")
-lifetime = 0.48
-one_shot = true
-explosiveness = 1.0
-randomness = 1.0
-fixed_fps = 60
-collision_base_size = 2.0
-transform_align = 1
-process_material = SubResource("ParticleProcessMaterial_fj8le")
+process_material = SubResource("ParticleProcessMaterial_nn1ai")
 draw_pass_1 = SubResource("QuadMesh_ejikk")
 
 [node name="Metal" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
-material_override = SubResource("StandardMaterial3D_ly0dl")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.216731, 0)
 emitting = false
 amount = 30
 sub_emitter = NodePath(".")
-lifetime = 0.48
 one_shot = true
 explosiveness = 1.0
 randomness = 1.0
 fixed_fps = 60
-collision_base_size = 2.0
 transform_align = 1
-process_material = SubResource("ParticleProcessMaterial_fj8le")
+process_material = SubResource("ParticleProcessMaterial_2se7t")
+draw_pass_1 = SubResource("QuadMesh_8k40e")
+
+[node name="Paper" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.216731, 0)
+material_override = SubResource("StandardMaterial3D_ngna2")
+emitting = false
+amount = 30
+sub_emitter = NodePath(".")
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+fixed_fps = 60
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_nn1ai")
 draw_pass_1 = SubResource("QuadMesh_ejikk")

@@ -222,4 +222,3 @@ func on_trigger():
 	timer = 0
 	
 	open = !open as int
-

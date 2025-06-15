@@ -1,14 +1,26 @@
-[gd_scene load_steps=4 format=3 uid="uid://cnqd0tuvxg2f5"]
+[gd_scene load_steps=6 format=3 uid="uid://cnqd0tuvxg2f5"]
 
 [ext_resource type="PackedScene" uid="uid://dvgcsgg7oo2xp" path="res://scenes/Parents/pickup.tscn" id="1_ls7bf"]
 [ext_resource type="Script" path="res://scripts/ammo.gd" id="2_5em42"]
 [ext_resource type="PackedScene" uid="uid://difodgajn03g7" path="res://scenes/items/ammo_357_large.tscn" id="2_ikcfa"]
+[ext_resource type="Material" uid="uid://bic18grbng22m" path="res://materials/ammo_357_large.tres" id="4_hp6rd"]
+[ext_resource type="Material" uid="uid://b27kljlvrcl83" path="res://materials/ammo_357_small.tres" id="5_4t2ld"]
 
-[node name="Pickup" instance=ExtResource("1_ls7bf")]
+[node name="Pickup" groups=["Entity"] instance=ExtResource("1_ls7bf")]
 script = ExtResource("2_5em42")
 ammoType = 3
 
 [node name="RigidBody3D#Ammo357Large" parent="." index="0" instance=ExtResource("2_ikcfa")]
-transform = Transform3D(0.4, -4.61853e-14, 0, 4.61853e-14, 0.4, 0, 0, 0, 0.4, 0.169626, -0.496289, 0)
+transform = Transform3D(0.4, -4.61853e-14, 0, 4.61853e-14, 0.4, 0, 0, 0, 0.4, 0.169626, 0, 0)
+
+[node name="Cube" parent="RigidBody3D#Ammo357Large/Root Scene" index="0"]
+surface_material_override/0 = ExtResource("4_hp6rd")
+surface_material_override/1 = ExtResource("5_4t2ld")
+
+[node name="CollisionShape3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00853729, 0, -0.0559003)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+
+[editable path="RigidBody3D#Ammo357Large"]
+[editable path="RigidBody3D#Ammo357Large/Root Scene"]

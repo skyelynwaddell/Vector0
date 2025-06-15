@@ -1,0 +1,50 @@
+[gd_scene load_steps=8 format=3 uid="uid://bj5eu7c0kbom8"]
+
+[ext_resource type="Script" path="res://scripts/pickup_armor.gd" id="1_c4mw8"]
+[ext_resource type="PackedScene" uid="uid://dy1uyngks1kbc" path="res://blender/item_armor.glb" id="4_fj0oa"]
+[ext_resource type="PackedScene" uid="uid://b6wpq15t2a0nu" path="res://scenes/other/item_circle.tscn" id="4_hu6vu"]
+[ext_resource type="Shader" path="res://shaders/itemcircle.gdshader" id="5_ihl8w"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6fwby"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f74xq"]
+render_priority = 0
+shader = ExtResource("5_ihl8w")
+shader_parameter/circle_color = Color(0.760784, 0, 0.0745098, 0.0823529)
+shader_parameter/softness = 1.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_j41wt"]
+material = SubResource("ShaderMaterial_f74xq")
+
+[node name="ItemArmor" type="Area3D" groups=["Entity"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
+script = ExtResource("1_c4mw8")
+can_collect = null
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(2.51305, 0, 0, 0, 2.51305, 0, 0, 0, 2.51305, 0.00397301, 1.23808, 0.00499201)
+shape = SubResource("BoxShape3D_6fwby")
+
+[node name="ItemCircle" parent="." instance=ExtResource("4_hu6vu")]
+transform = Transform3D(1.45188, 0, 0, 0, 1.17525, 0, 0, 0, 1.45188, 0, 0, 0)
+visible = false
+
+[node name="MeshInstance3D" parent="ItemCircle" index="0"]
+mesh = SubResource("CylinderMesh_j41wt")
+
+[node name="item_armor" parent="." instance=ExtResource("4_fj0oa")]
+transform = Transform3D(-1.78428e-08, 0, 0.408196, 0, 0.408196, 0, -0.408196, 0, -1.78428e-08, 0, 0.4, 0)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.726236, 1.44615, 0)
+light_color = Color(0.95168, 0.791705, 0.0224455, 1)
+light_size = 0.644
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.673764, 1.44615, 0)
+light_color = Color(0.95168, 0.791705, 0.0224455, 1)
+light_size = 0.644
+
+[connection signal="area_entered" from="." to="." method="_on_body_entered"]
+
+[editable path="ItemCircle"]

@@ -15,20 +15,31 @@ class_name Ammo
 
 var shouldDestroy = false
 
+@export var difficulty_spawn = 0
+
+func _ready():
+	Game.DestroyOnDifficultyFlag(difficulty_spawn, self)
+	add_to_group("Entity", true)
+	Game.UpdateEntity(self,0)
+
 func _func_godot_apply_properties(props:Dictionary):
 	if "amount" in props: AmmoAmount = props.amount as int
+	if "difficulty_spawn" in props: difficulty_spawn = props.difficulty_spawn as int
 	pass
 
 func _on_body_entered(body):
+	if spawn_wait == true: return
+	
 	if body == null: return
 	
 	# Check if player collided with Ammo
 	if body.is_in_group("Player"):
 		
 		self.visible = false
-		
+		Game.UpdateEntity(self,1)
 		print_debug("Picking up ammo!!")
 		shouldDestroy = true
+
 		
 		var isMelee : bool = false
 		var ammoPoolType = null
@@ -66,16 +77,18 @@ func _on_body_entered(body):
 				i.ammo += AmmoAmount
 				i.ammo = clamp(i.ammo,0,maxAmmo)
 				print_debug(i.ammo)
-				MusicPlayer.Sound(MusicPlayer.SFX.PICKUP, MusicPlayer.AUDIO_CHANNEL.SFX, 1.0);
+				MusicPlayer.Sound(MusicPlayer.SFX.PICKUP, MusicPlayer.AUDIO_CHANNEL.SFX, 0.2);
 				
 				pass
 		
 		# Update HUD & Remove self from scene
+		Console.print_line("Picked up x" + str(AmmoAmount) + " " + str(ammoPoolType) + " ammo.")
 		if isMelee == false: body.UpdateHUDSignal.emit()
 		#queue_free()
 		pass
 
 func _process(delta):
 	if Engine.is_editor_hint() : return
+	SpawnWait(delta)
 	if shouldDestroy: queue_free()
 	pass

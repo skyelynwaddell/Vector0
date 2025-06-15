@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://d16g2xqgj2api"]
+
+[ext_resource type="Script" path="res://scripts/3d_audio.gd" id="1_thgbj"]
+[ext_resource type="AudioStream" uid="uid://b4no0np8rp8vn" path="res://audio/health.ogg" id="2_g7nbg"]
+
+[node name="3DAudio" type="Node3D"]
+script = ExtResource("1_thgbj")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_g7nbg")
+volume_db = 10.0
+
+[connection signal="finished" from="AudioStreamPlayer3D" to="." method="_on_audio_stream_player_3d_finished"]

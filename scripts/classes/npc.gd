@@ -7,11 +7,11 @@ signal findtarget
 @onready var player : CharacterBody3D = get_tree().get_first_node_in_group("Player")
 #@onready var navAgent = $NavigationAgent3D
 ## The name of this entity
-@export var targetname = name
+@export var targetname := name
 ## The target of this entity
 @export var target = ""
 ## Max collision range between self and Player
-@export var collisionRange = 2
+@export var collisionRange = 3
 ## Movement Speed
 @export var speed = 2
 ## Velocity
@@ -23,18 +23,37 @@ signal findtarget
 ## The current HP of this entity on spawn.
 @export var hpcurrent = 100
 
+@export var difficulty_spawn := 0
+
+var stop_processing := false
+
+var lag_timer_max = 1
+var lag_timer = 0.0
+
+func LagTimer(delta) -> bool:
+	if lag_timer >= lag_timer_max:
+		lag_timer = 0.0
+		return true
+	return false
+		
+
 func _func_godot_apply_properties(props:Dictionary):
 	rotation_degrees.y -= 90
 	if "targetname" in props:
 		targetname = props["targetname"] as String
+		
+	if "difficulty_spawn" in props: difficulty_spawn = props.difficulty_spawn as int
+	
 	pass
 
 var targetOrigin = null
 
 var distToPlayer = 0
 var direction = 0
-var waittime = 1
+var waittime = 0.1
 var timer = 0.0
+
+
 
 func MoveToTarget(delta):
 	if targetOrigin == null: return
@@ -57,9 +76,11 @@ func MoveToTarget(delta):
 	
 	else:
 		velocity = Vector3.ZERO 
+		move_and_slide()
 	pass
 	
-func FacePlayer(delta):
+func FacePlayer(delta, wait=true):
+	if wait==true and LagTimer(delta) == false: return
 	if player == null: return
 	var direction = position.direction_to(player.position)
 	direction.y = 0

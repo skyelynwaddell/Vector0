@@ -1,9 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://b1nvm5ienfdhv"]
+[gd_scene load_steps=4 format=3 uid="uid://b1nvm5ienfdhv"]
 
-[ext_resource type="FontFile" uid="uid://b37kky5j3f8pv" path="res://fonts/AldotheApache.ttf" id="1_1s772"]
+[ext_resource type="FontFile" uid="uid://cysenlbr31yxb" path="res://fonts/AldotheApache.ttf" id="1_1s772"]
 [ext_resource type="Script" path="res://scripts/mainmenu.gd" id="1_w3qql"]
 
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_yewjn"]
+size = Vector2(1280, 720)
+
 [node name="MainMenu" type="CanvasLayer"]
+follow_viewport_enabled = true
 script = ExtResource("1_w3qql")
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -54,10 +58,10 @@ text = "MAIN MENU"
 [node name="lblVersion" type="Label" parent="."]
 texture_filter = 3
 layout_direction = 3
-offset_left = -1851.0
-offset_top = 589.0
-offset_right = -1010.0
-offset_bottom = 801.0
+offset_left = -697.0
+offset_top = 585.0
+offset_right = 144.0
+offset_bottom = 797.0
 scale = Vector2(0.104551, 0.104551)
 theme_override_fonts/font = ExtResource("1_1s772")
 theme_override_font_sizes/font_size = 256
@@ -89,3 +93,14 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(295, 0)
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="Screenshot" type="TextureRect" parent="."]
+unique_name_in_owner = true
+visible = false
+offset_left = 368.0
+offset_top = 97.0
+offset_right = 767.0
+offset_bottom = 240.0
+texture = SubResource("PlaceholderTexture2D_yewjn")
+expand_mode = 2
+stretch_mode = 4
