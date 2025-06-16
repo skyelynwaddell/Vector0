@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://bpweqreocqkw8"]
+[gd_scene load_steps=6 format=3 uid="uid://bpweqreocqkw8"]
 
 [ext_resource type="Script" path="res://scripts/pickup_weapon.gd" id="1_ork32"]
-[ext_resource type="PackedScene" uid="uid://y8nu8g3ue3j0" path="res://models/Weapons/Pistol/9mm.fbx" id="2_ylfr7"]
-[ext_resource type="PackedScene" uid="uid://nqv5tod20eug" path="res://models/Weapons/Pistol/weapon_pistol.fbx" id="3_iw273"]
+[ext_resource type="PackedScene" uid="uid://dpyjfu60v1xeb" path="res://models/Weapons/Pistol/9mm.fbx" id="2_ylfr7"]
+[ext_resource type="Material" uid="uid://ckoyqtdvqtpwx" path="res://materials/pixelpistol.tres" id="3_832k8"]
+[ext_resource type="PackedScene" uid="uid://b7gtrkf843hij" path="res://models/Weapons/Pistol/weapon_pistol.fbx" id="3_iw273"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7le5x"]
 size = Vector3(0.630615, 2.846, 0.8)
@@ -19,8 +20,24 @@ shape = SubResource("BoxShape3D_7le5x")
 [node name="Root Scene" parent="." instance=ExtResource("2_ylfr7")]
 transform = Transform3D(3.08653e-16, 0.161541, -7.06117e-09, 7.06117e-09, -7.06117e-09, -0.161541, -0.161541, 0, -7.06117e-09, 0.127, -0.07, 0)
 
+[node name="Pistol" parent="Root Scene/Armature/Skeleton3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.87897e-10, -4.65661e-10)
+bone_idx = 1
+
+[node name="Pistol" parent="Root Scene/Armature/Skeleton3D/Pistol" index="0"]
+surface_material_override/0 = ExtResource("3_832k8")
+
+[node name="Magazine" parent="Root Scene/Armature/Skeleton3D" index="1"]
+transform = Transform3D(0.999999, 1.24734e-06, -8.34465e-07, -1.25792e-06, 1, 3.86991e-08, -8.34465e-07, -2.17997e-08, 1, 4.65661e-09, 1.24576e-10, -3.25963e-09)
+bone_idx = 3
+
+[node name="Magazine" parent="Root Scene/Armature/Skeleton3D/Magazine" index="0"]
+surface_material_override/0 = ExtResource("3_832k8")
+
 [node name="Model" parent="." instance=ExtResource("3_iw273")]
 transform = Transform3D(0.0849922, 0.996195, -0.0192988, 0.971466, -0.0871557, -0.220586, -0.221429, -9.67898e-09, -0.975177, -0.36463, -0.773679, -1.32149)
 visible = false
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+
+[editable path="Root Scene"]

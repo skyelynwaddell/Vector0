@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bdc14kijcygpd"]
+[gd_scene load_steps=5 format=3 uid="uid://bdc14kijcygpd"]
 
 [ext_resource type="Script" path="res://scripts/pickup_weapon.gd" id="1_ws12r"]
-[ext_resource type="PackedScene" uid="uid://c3onys8rh5rg3" path="res://models/Weapons/revolver/weapon_magnum.fbx" id="2_ewcwf"]
+[ext_resource type="PackedScene" uid="uid://ha6hdxb0flwd" path="res://models/Weapons/revolver/weapon_magnum.fbx" id="2_ewcwf"]
+[ext_resource type="Material" uid="uid://c5r4584nox4bs" path="res://materials/revolver.tres" id="3_w2th6"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7le5x"]
 size = Vector3(0.704651, 2.7283, 1.36826)
@@ -19,18 +20,35 @@ shape = SubResource("BoxShape3D_7le5x")
 [node name="Model" parent="." instance=ExtResource("2_ewcwf")]
 transform = Transform3D(-3.93403e-09, 0.09, 3.55271e-15, 3.93403e-09, 3.55271e-15, -0.09, -0.09, -3.93403e-09, -3.93403e-09, 0.00670582, -0.215988, 0.0364556)
 
-[node name="44_004" parent="Model/RootNode/Armature/Skeleton3D" index="0"]
-transform = Transform3D(0.32244, -6.98348e-08, 0.521989, -5.8993e-08, 0.613548, 7.09211e-08, -0.52199, -8.3627e-08, 0.32244, 0.0325343, -0.0170358, -0.0388019)
-visible = false
+[node name="44_004" parent="Model/Armature/Skeleton3D" index="0"]
+transform = Transform3D(0.32244, -5.15496e-08, 0.521989, -2.2483e-08, 0.613548, 7.302e-08, -0.52199, -8.3627e-08, 0.32244, 0.0325343, -0.0170358, -0.0388019)
+bone_idx = 3
 
-[node name="44" parent="Model/RootNode/Armature/Skeleton3D" index="1"]
-transform = Transform3D(0.32244, -1.20141e-07, 0.521989, 1.73226e-07, 0.613547, 5.7742e-08, -0.52199, 1.30385e-07, 0.32244, -0.00404619, -5.16593e-09, 0.0191007)
+[node name="44_004" parent="Model/Armature/Skeleton3D/44_004" index="0"]
+surface_material_override/0 = ExtResource("3_w2th6")
+surface_material_override/1 = ExtResource("3_w2th6")
 
-[node name="44_001" parent="Model/RootNode/Armature/Skeleton3D" index="2"]
-transform = Transform3D(0.32244, -6.50182e-08, 0.521989, 1.60902e-07, 0.613547, 8.1989e-09, -0.52199, 1.22483e-07, 0.32244, -0.00495718, 0.00061422, 0.0219798)
+[node name="44" parent="Model/Armature/Skeleton3D" index="1"]
+transform = Transform3D(0.32244, -1.02445e-07, 0.52199, 2.44007e-07, 0.613547, -8.56817e-08, -0.521989, 2.81259e-07, 0.32244, -0.00404619, -7.49424e-09, 0.0191007)
+bone_idx = 6
 
-[node name="44_002" parent="Model/RootNode/Armature/Skeleton3D" index="3"]
-transform = Transform3D(0.32244, -6.61782e-08, 0.521989, 1.63195e-07, 0.613547, 8.14633e-09, -0.52199, 1.24461e-07, 0.32244, -0.00315757, 9.37012e-06, 0.0185002)
+[node name="44" parent="Model/Armature/Skeleton3D/44" index="0"]
+surface_material_override/0 = ExtResource("3_w2th6")
+
+[node name="44_001" parent="Model/Armature/Skeleton3D" index="2"]
+transform = Transform3D(0.32244, -7.53035e-08, 0.521989, 2.29044e-07, 0.613547, -2.22249e-08, -0.52199, 1.97909e-07, 0.32244, -0.00495718, 0.000614217, 0.0219798)
+bone_idx = 8
+
+[node name="44_001" parent="Model/Armature/Skeleton3D/44_001" index="0"]
+surface_material_override/0 = ExtResource("3_w2th6")
+surface_material_override/1 = ExtResource("3_w2th6")
+
+[node name="44_002" parent="Model/Armature/Skeleton3D" index="3"]
+transform = Transform3D(0.32244, -7.64636e-08, 0.521989, 2.31337e-07, 0.613547, -2.22775e-08, -0.521989, 1.99887e-07, 0.32244, -0.00315757, 9.36785e-06, 0.0185002)
+bone_idx = 10
+
+[node name="44_002" parent="Model/Armature/Skeleton3D/44_002" index="0"]
+surface_material_override/0 = ExtResource("3_w2th6")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 

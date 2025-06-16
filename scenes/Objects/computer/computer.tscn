@@ -1,6 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://0fmtdu3gigjv"]
+[gd_scene load_steps=7 format=3 uid="uid://0fmtdu3gigjv"]
 
-[ext_resource type="PackedScene" uid="uid://boorqhxdsqnxr" path="res://models/objects/computer/computer.fbx" id="1_ax4uu"]
+[ext_resource type="PackedScene" uid="uid://bfohotbjbs8e" path="res://models/objects/computer/computer.fbx" id="1_ax4uu"]
+[ext_resource type="Material" uid="uid://bvgdm6jl8w0qo" path="res://materials/computer_front.tres" id="2_6n4ld"]
+[ext_resource type="Material" uid="uid://cgge4tj60w4qf" path="res://materials/computer_top.tres" id="3_wjulv"]
+[ext_resource type="Material" uid="uid://cqp1b8gphusav" path="res://materials/computer_side.tres" id="4_w0ij6"]
+[ext_resource type="Material" uid="uid://dg1sfiy40oqfg" path="res://materials/computer_screen.tres" id="5_r26pv"]
+[ext_resource type="Material" uid="uid://oab2pd6va0b1" path="res://materials/computer_keyboard.tres" id="6_n88se"]
 
 [node name="Computer" instance=ExtResource("1_ax4uu")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+
+[node name="Cube" parent="." index="0"]
+surface_material_override/0 = ExtResource("2_6n4ld")
+surface_material_override/1 = ExtResource("3_wjulv")
+surface_material_override/2 = ExtResource("4_w0ij6")
+surface_material_override/3 = ExtResource("5_r26pv")
+
+[node name="Cube_001" parent="." index="1"]
+surface_material_override/0 = ExtResource("6_n88se")

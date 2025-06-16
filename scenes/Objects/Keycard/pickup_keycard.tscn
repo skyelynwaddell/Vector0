@@ -9,7 +9,7 @@
 [ext_resource type="Material" uid="uid://dgrkiit3k5i1" path="res://materials/keycard_yellow.tres" id="6_ows2s"]
 [ext_resource type="Material" uid="uid://big0lfaank8vf" path="res://materials/keycard_blue.tres" id="6_sbopn"]
 
-[node name="Keycard" groups=["Entity", "Keycard_Red", "keycard_Red"] instance=ExtResource("1_njqhy")]
+[node name="Keycard_Red" groups=["Entity", "Keycard_Red", "keycard_Red"] instance=ExtResource("1_njqhy")]
 transform = Transform3D(-0.732244, 0, 0.68105, 0, 1, 0, -0.68105, 0, -0.732244, 0, 0.5, 0)
 script = ExtResource("2_kudf3")
 

@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://do1as3v6dsxml"]
 
 [ext_resource type="Script" path="res://scripts/pickup_weapon.gd" id="1_oixd5"]
-[ext_resource type="PackedScene" uid="uid://fb40ffbafr4q" path="res://models/Weapons/pump/weapon_shotgun.fbx" id="2_oymj8"]
-[ext_resource type="PackedScene" uid="uid://21vlocdpgi6c" path="res://blender/newpump.blend" id="3_tyxb4"]
+[ext_resource type="PackedScene" uid="uid://c2qok4t5sbi7m" path="res://models/Weapons/pump/weapon_shotgun.fbx" id="2_oymj8"]
+[ext_resource type="PackedScene" uid="uid://c4p0trxkmhffn" path="res://blender/newpump.blend" id="3_tyxb4"]
 [ext_resource type="Material" uid="uid://ckgnjchwv5ueu" path="res://materials/pumpshotgun2.tres" id="4_vwqlc"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7le5x"]

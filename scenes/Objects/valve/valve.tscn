@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://bbraoikbo4s8w"]
+[gd_scene load_steps=4 format=3 uid="uid://bbraoikbo4s8w"]
 
 [ext_resource type="PackedScene" uid="uid://bh3vhhcxuglp0" path="res://scenes/Objects/valve/root_valve.tscn" id="1_6a85u"]
 [ext_resource type="Script" path="res://scripts/valve.gd" id="2_xijt0"]
+[ext_resource type="Material" uid="uid://uocuo4c0cwjj" path="res://materials/valve.tres" id="3_8d78s"]
 
 [node name="Valve" type="Node3D" groups=["Entity"]]
 script = ExtResource("2_xijt0")
@@ -9,3 +10,9 @@ state = 1
 
 [node name="Root Scene" parent="." instance=ExtResource("1_6a85u")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+
+[node name="Cylinder" parent="Root Scene" index="0"]
+transform = Transform3D(100, 0, 0, 0, -1.19209e-05, 100, 0, -100, -1.19209e-05, 0, 0, 0)
+surface_material_override/0 = ExtResource("3_8d78s")
+
+[editable path="Root Scene"]

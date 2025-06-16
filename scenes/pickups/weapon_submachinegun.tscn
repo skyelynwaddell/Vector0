@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cp6j2jxll7ynu"]
+[gd_scene load_steps=5 format=3 uid="uid://cp6j2jxll7ynu"]
 
 [ext_resource type="Script" path="res://scripts/pickup_weapon.gd" id="1_8dwhm"]
-[ext_resource type="PackedScene" uid="uid://dvfyqipguq5g2" path="res://models/Weapons/submachinegun2/weapon_mp5.fbx" id="1_cg22p"]
+[ext_resource type="PackedScene" uid="uid://fifwrrqrfoph" path="res://models/Weapons/submachinegun2/weapon_mp5.fbx" id="1_cg22p"]
+[ext_resource type="Material" uid="uid://dj12d23wannj6" path="res://materials/mp.tres" id="3_atfof"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7le5x"]
 size = Vector3(1, 4, 2)
@@ -15,8 +16,16 @@ weaponType = 8
 [node name="Model" parent="." instance=ExtResource("1_cg22p")]
 transform = Transform3D(-1.5299e-08, 0.35, 6.11959e-08, -0.35, -1.5299e-08, 1.48231e-22, 2.67496e-15, -6.11959e-08, 0.35, -0.450424, -0.155233, -0.295487)
 
+[node name="submachinegun" parent="Model" index="0"]
+surface_material_override/0 = ExtResource("3_atfof")
+
+[node name="submachinegun_001" parent="Model" index="1"]
+surface_material_override/0 = ExtResource("3_atfof")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0324707, 1.7, 0)
 shape = SubResource("BoxShape3D_7le5x")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+
+[editable path="Model"]

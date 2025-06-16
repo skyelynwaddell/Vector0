@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://d37a7g3ralqju"]
 
 [ext_resource type="Script" path="res://scripts/pickup_weapon.gd" id="1_wir32"]
-[ext_resource type="PackedScene" uid="uid://fb40ffbafr4q" path="res://models/Weapons/pump/weapon_shotgun.fbx" id="3_pe2v1"]
+[ext_resource type="PackedScene" uid="uid://c2qok4t5sbi7m" path="res://models/Weapons/pump/weapon_shotgun.fbx" id="3_pe2v1"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7le5x"]
 size = Vector3(0.796997, 2.64749, 2)

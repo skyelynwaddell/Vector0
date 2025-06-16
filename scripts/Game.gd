@@ -492,9 +492,9 @@ func GetData(player):
 	
 	#print("Loaded Weapons: " + str(Game.weapons))
 	#print("Loaded Current Weapon: " + str(Game.currentWeapon))
-	if Game.keycard.red == true: UnlockKeyDoor("door_red")
-	if Game.keycard.yellow == true: UnlockKeyDoor("door_yellow")
-	if Game.keycard.blue == true: UnlockKeyDoor("door_blue")
+	#if Game.keycard.red == true: UnlockKeyDoor("door_red")
+	#if Game.keycard.yellow == true: UnlockKeyDoor("door_yellow")
+	#if Game.keycard.blue == true: UnlockKeyDoor("door_blue")
 	
 	Game.map_name = data.map_name if "map_name" in data else "E1M1"
 	Game.armor = data.armor if "armor" in data else { current=0, maximum=200 }
@@ -581,7 +581,7 @@ func UpdateEntity(node:Node3D, collected:=0):
 	for i in range(map_entities.size()):
 		var e = map_entities[i]
 		if str(e.targetname) == str(data.targetname):
-			if collected != 0:
+			if str(collected) != "0":
 				map_entities[i] = data.duplicate(true)
 			return
 	

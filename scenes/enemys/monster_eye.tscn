@@ -134,24 +134,24 @@ bus = &"Voices"
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.31819, -0.788569, 0.156668)
 
 [node name="Skeleton3D" parent="monster_eyeball/Armature" index="0"]
-bones/0/position = Vector3(-0.000716386, 0, 0.01)
-bones/0/rotation = Quaternion(0.662524, -0.238982, 0.235446, 0.669713)
+bones/0/position = Vector3(-0.000630186, 0, 0.01)
+bones/0/rotation = Quaternion(0.666927, -0.233336, 0.232741, 0.668277)
 bones/1/position = Vector3(-2.24056e-10, 0.00563018, -8.53058e-17)
-bones/1/rotation = Quaternion(-0.00218769, 0.0014633, 0.564649, 0.825327)
+bones/1/rotation = Quaternion(-0.000108062, 7.21572e-05, 0.560853, 0.827915)
 bones/1/scale = Vector3(1, 1, 1)
 bones/2/position = Vector3(-1.22472e-09, 0.00663701, -1.17419e-16)
-bones/2/rotation = Quaternion(0.00103793, 0.00289237, -0.19263, 0.981267)
+bones/2/rotation = Quaternion(3.23835e-05, 9.01866e-05, -0.179112, 0.983829)
 bones/3/position = Vector3(1.35327e-09, 0.00407935, 4.22807e-16)
-bones/3/rotation = Quaternion(-0.00128255, 0.00316383, -0.545995, 0.837782)
+bones/3/rotation = Quaternion(-3.99399e-05, 9.85964e-05, -0.526855, 0.849955)
 bones/3/scale = Vector3(1, 1, 1)
 bones/4/position = Vector3(9.96558e-10, 0.0100476, -6.56547e-16)
-bones/4/rotation = Quaternion(-0.00150415, 0.000754208, -0.232455, 0.972606)
+bones/4/rotation = Quaternion(-4.67917e-05, 2.35128e-05, -0.196001, 0.980604)
 bones/4/scale = Vector3(1, 1, 1)
-bones/6/rotation = Quaternion(0.939163, -0.343451, -0.00130877, -0.00359764)
+bones/6/rotation = Quaternion(0.944305, -0.32907, 0.000343582, -0.00114299)
 bones/6/scale = Vector3(1, 1, 1)
 
 [node name="Eyeball" parent="monster_eyeball/Armature/Skeleton3D" index="0"]
-transform = Transform3D(-0.00955278, 0.00185409, 0.563202, -0.00107193, 0.563283, -0.00187252, -0.563205, -0.00110351, -0.00954909, -0.000711021, -9.20062e-06, 0.00531272)
+transform = Transform3D(0.000592672, 0.000741996, 0.563286, 0.000483378, 0.563286, -0.000742525, -0.563286, 0.000484184, 0.000592065, -0.000540398, 3.9097e-06, 0.00531357)
 bone_idx = 7
 
 [connection signal="finished" from="GibParticles/GibParticles" to="." method="_on_gib_particles_finished"]

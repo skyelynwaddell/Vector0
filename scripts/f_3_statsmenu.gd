@@ -17,7 +17,9 @@ func round_decimal(value: float, decimals: int) -> float:
 func _process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("F3"):
-		if not visible: show()
+		if not visible: 
+			print("open stats")
+			show()
 		else: hide()
 	
 	if not visible: return

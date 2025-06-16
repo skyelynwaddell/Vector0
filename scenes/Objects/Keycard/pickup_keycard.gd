@@ -17,28 +17,33 @@ func ApplyProperties():
 	%keycard_red.hide()
 	%keycard_yellow.hide()
 	%keycard_blue.hide()
+	var targetname = ""
 	
 	match(key_type):
 		KEY_TYPE.RED : 
 			%OmniLight3D.light_color = Color(1.0, 0.36, 0.835)
 			%keycard_red.show()
 			target = "door_red"
-			add_to_group("Keycard_Red", true)
+			targetname = "Keycard_Red"
+			add_to_group(targetname, true)
 		KEY_TYPE.YELLOW : 
 			%OmniLight3D.light_color = Color(0.94, 0.804, 0.003)
 			%keycard_yellow.show()
 			target = "door_yellow"
-			add_to_group("Keycard_Yellow", true)
+			targetname = "Keycard_Yellow"
+			add_to_group(targetname, true)
 		KEY_TYPE.BLUE : 
 			%OmniLight3D.light_color = Color(0.367, 0.685, 0.989)
 			%keycard_blue.show()
 			target = "door_blue"
-			add_to_group("Keycard_Blue", true)
-	pass
+			targetname = "Keycard_Blue"
+			add_to_group(targetname, true)
+
 
 func _ready() -> void:
 	ApplyProperties()
 	Game.UpdateEntity(self,0)
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

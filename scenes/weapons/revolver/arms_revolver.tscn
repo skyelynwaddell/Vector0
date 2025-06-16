@@ -8,7 +8,6 @@
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xceln"]
 resource_name = "Gun"
 vertex_color_use_as_albedo = true
-albedo_color = Color(1, 1, 1, 1)
 emission_enabled = true
 emission = Color(1, 1, 1, 1)
 emission_energy_multiplier = 0.0
@@ -50,7 +49,6 @@ shadow_mesh = SubResource("ArrayMesh_vwjxl")
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1p73f"]
 resource_name = "CLIP"
 vertex_color_use_as_albedo = true
-albedo_color = Color(1, 1, 1, 1)
 emission_enabled = true
 emission = Color(1, 1, 1, 1)
 emission_energy_multiplier = 0.0
@@ -208,7 +206,6 @@ shadow_mesh = SubResource("ArrayMesh_ei0vt")
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3bg7k"]
 resource_name = "Material.001"
 vertex_color_use_as_albedo = true
-albedo_color = Color(1, 1, 1, 1)
 emission_enabled = true
 emission = Color(1, 1, 1, 1)
 emission_energy_multiplier = 0.0
@@ -216,7 +213,6 @@ emission_energy_multiplier = 0.0
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3vg7p"]
 resource_name = "Material.002"
 vertex_color_use_as_albedo = true
-albedo_color = Color(1, 1, 1, 1)
 emission_enabled = true
 emission = Color(1, 1, 1, 1)
 emission_energy_multiplier = 0.0
@@ -918,8 +914,17 @@ skin = SubResource("Skin_1jpnb")
 surface_material_override/0 = ExtResource("3_suupg")
 surface_material_override/1 = ExtResource("4_b8kif")
 
-[node name="AnimationPlayer" parent="." index="1"]
-autoplay = "Armature|Idle"
+[node name="44" parent="Armature/Skeleton3D" index="0"]
+bone_idx = 54
+
+[node name="44_001" parent="Armature/Skeleton3D" index="1"]
+bone_idx = 56
+
+[node name="44_002" parent="Armature/Skeleton3D" index="2"]
+bone_idx = 58
+
+[node name="44_004" parent="Armature/Skeleton3D" index="3"]
+bone_idx = 60
 
 [node name="AnimationTree" type="AnimationTree" parent="." index="2"]
 tree_root = SubResource("AnimationNodeBlendTree_p3jft")
@@ -934,3 +939,6 @@ parameters/Shoot/request = 0
 
 [node name="WepBarrel" type="Node3D" parent="." index="3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.50486, 2.99507, -7.63203)
+
+[node name="AnimationPlayer" parent="." index="4"]
+autoplay = "Armature|Idle"

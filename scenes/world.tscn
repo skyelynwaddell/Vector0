@@ -18,5 +18,5 @@ layer = 7
 unique_name_in_owner = true
 
 [node name="f3statsmenu" parent="." instance=ExtResource("3_pl18t")]
-layer = 9
+layer = 100
 visible = false

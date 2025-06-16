@@ -48,15 +48,15 @@ func rotateValve():
 	
 	if state == ON:
 		## Rotate the valve counter clock-wise
-		if rotation_degrees.z > -rotAmt: 
-			rotation_degrees.z -= 1
+		if global_rotation_degrees.z > -rotAmt: 
+			global_rotation_degrees.z -= 1
 			rotated -= 1
 	else:
 		## Rotate the valve clock-wise
-		if rotation_degrees.z < rotAmt: 
-			rotation_degrees.z += 1
+		if global_rotation_degrees.z < rotAmt: 
+			global_rotation_degrees.z += 1
 			rotated += 1
-	rotation_degrees.z = clamp(rotation_degrees.z, -rotAmt, rotAmt)
+	global_rotation_degrees.z = clamp(global_rotation_degrees.z, -rotAmt, rotAmt)
 	
 	## Turned the valve all the way on
 	if (rotation_degrees.z <= -rotAmt && state == ON) || (rotation_degrees.z >= rotAmt && state == OFF): 
