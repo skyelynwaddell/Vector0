@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://dvkurd2y2t1s7" path="res://scenes/fire.tscn" id="1_rfw1n"]
 [ext_resource type="Material" uid="uid://b3py3htpm2kx2" path="res://materials/wood_counter.tres" id="2_rdllb"]
 [ext_resource type="Material" uid="uid://c5mthbpwhgoc5" path="res://textures/textures/stone_black1.tres" id="3_pjvnk"]
-[ext_resource type="AudioStream" uid="uid://drfadi7xrsrj7" path="res://audio/fire_crackle.ogg" id="4_2sha1"]
+[ext_resource type="AudioStream" uid="uid://ojtsydfe70xo" path="res://audio/fire_crackle.ogg" id="4_2sha1"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_7scsx"]
 
@@ -16,8 +16,8 @@ transform = Transform3D(0.15058, 0, 0, 0, 0.15058, 0, 0, 0, 0.15058, 0, 0.465902
 transform = Transform3D(0.809142, 0, 0, 0, 0.809142, 0, 0, 0, 0.809142, 0, 0, 0)
 
 [node name="Sphere" parent="Fire/fire" index="0"]
-transform = Transform3D(69.041, 0, 0, 0, -3.01788e-06, 69.041, 0, -69.041, -3.01788e-06, 0, 1, 0)
-"blend_shapes/Key 1" = 0.0
+transform = Transform3D(99.8765, 0, 0, 0, -4.36574e-06, 99.8765, 0, -99.8765, -4.36574e-06, 0, 1, 0)
+"blend_shapes/Key 1" = 0.00873945
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.0985304, 0, 0.00175942, 0, 0.431763, 0, -0.00175942, 0, 0.0985304, 0, 0.358984, 0)

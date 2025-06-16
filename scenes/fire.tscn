@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://dvkurd2y2t1s7"]
+[gd_scene load_steps=5 format=3 uid="uid://dvkurd2y2t1s7"]
 
-[ext_resource type="PackedScene" uid="uid://c0n2vo6i8b3l8" path="res://blender/fire/fire.fbx" id="1_1xm2f"]
+[ext_resource type="PackedScene" uid="uid://bjipm1y2177r" path="res://blender/fire/fire.fbx" id="1_1xm2f"]
+[ext_resource type="Material" uid="uid://chb8ua3d0ji8r" path="res://materials/firetorch.tres" id="2_4j24j"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_in540"]
 albedo_color = Color(1, 0.545098, 0, 1)
@@ -16,8 +17,10 @@ orientation = 2
 [node name="fire" parent="." instance=ExtResource("1_1xm2f")]
 
 [node name="Sphere" parent="fire" index="0"]
-transform = Transform3D(99.6143, 0, 0, 0, -4.35428e-06, 99.6143, 0, -99.6143, -4.35428e-06, 0, 1, 0)
-"blend_shapes/Key 1" = 0.987062
+transform = Transform3D(100, 0, 0, 0, -4.37114e-06, 100, 0, -100, -4.37114e-06, 0, 1, 0)
+"blend_shapes/Key 1" = 0.11889
+"blend_shapes/Key 2" = 0.380447
+surface_material_override/0 = ExtResource("2_4j24j")
 
 [node name="AnimationPlayer" parent="fire" index="1"]
 autoplay = "Sphere|Fire"

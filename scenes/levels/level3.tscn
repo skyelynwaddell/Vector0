@@ -1,4 +1,4 @@
-[gd_scene load_steps=1415 format=4 uid="uid://cv1r5k1ehlsf2"]
+[gd_scene load_steps=1443 format=4 uid="uid://cv1r5k1ehlsf2"]
 
 [ext_resource type="Script" path="res://addons/func_godot/src/map/func_godot_map.gd" id="1_qc1c8"]
 [ext_resource type="Resource" uid="uid://bkhxcqsquw1yg" path="res://addons/func_godot/func_godot_default_map_settings.tres" id="2_exfxl"]
@@ -3741,6 +3741,321 @@ _surfaces = [{
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_kvcev"]
 points = PackedVector3Array(-0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5)
 
+[sub_resource type="Shader" id="Shader_d4e8s"]
+code = "shader_type spatial;
+render_mode shadows_disabled;
+render_mode unshaded;
+//render_mode cull_disabled;
+//render_mode depth_draw_opaque;
+render_mode blend_mix;
+
+uniform bool is_opaque = false;
+uniform sampler2D tex;
+
+uniform vec2 uv_scale;
+
+uniform vec2 uv_offset;
+
+uniform bool warp_ScreenSpace = true;
+
+uniform vec4 WATER_COL : source_color =  vec4(0.67, 0.73, 0.46, 1.0);
+
+uniform vec4 WATER2_COL : source_color =  vec4(0.40, 0.44, 0.28, 1.0);
+
+uniform vec4 FOAM_COL : source_color = vec4(0.8125, 0.9609, 0.9648, 1.0);
+
+uniform float water_transparency : hint_range(0.0, 1.0) = 1.0;
+
+uniform float distortion_speed = 2.0;
+
+uniform vec2 tile = vec2(5.0, 5.0);
+
+uniform float wave_speed = 1.5;
+
+
+
+const float TWOPI = 6.283185307;
+
+const float SIXPI = 18.84955592;
+
+
+
+
+
+
+
+float circ(vec2 pos, vec2 c, float s)
+
+{
+
+    c = abs(pos - c);
+
+    c = min(c, 1.0 - c);
+
+
+
+    return smoothstep(0.0, 0.06, sqrt(s) - sqrt(dot(c, c))) * -1.0;
+
+}
+
+
+
+
+
+float waterlayer(vec2 uv)
+
+{
+
+    uv = mod(uv, 1.0); // Clamp to [0..1]
+
+    float ret = 1.0;
+
+    ret += circ(uv, vec2(0.37378, 0.277169), 0.0268181);
+
+    ret += circ(uv, vec2(0.0317477, 0.540372), 0.0193742);
+
+    ret += circ(uv, vec2(0.430044, 0.882218), 0.0232337);
+
+    ret += circ(uv, vec2(0.641033, 0.695106), 0.0117864);
+
+    ret += circ(uv, vec2(0.0146398, 0.0791346), 0.0299458);
+
+    ret += circ(uv, vec2(0.43871, 0.394445), 0.0289087);
+
+    ret += circ(uv, vec2(0.909446, 0.878141), 0.028466);
+
+    ret += circ(uv, vec2(0.310149, 0.686637), 0.0128496);
+
+    ret += circ(uv, vec2(0.928617, 0.195986), 0.0152041);
+
+    ret += circ(uv, vec2(0.0438506, 0.868153), 0.0268601);
+
+    ret += circ(uv, vec2(0.308619, 0.194937), 0.00806102);
+
+    ret += circ(uv, vec2(0.349922, 0.449714), 0.00928667);
+
+    ret += circ(uv, vec2(0.0449556, 0.953415), 0.023126);
+
+    ret += circ(uv, vec2(0.117761, 0.503309), 0.0151272);
+
+    ret += circ(uv, vec2(0.563517, 0.244991), 0.0292322);
+
+    ret += circ(uv, vec2(0.566936, 0.954457), 0.00981141);
+
+    ret += circ(uv, vec2(0.0489944, 0.200931), 0.0178746);
+
+    ret += circ(uv, vec2(0.569297, 0.624893), 0.0132408);
+
+    ret += circ(uv, vec2(0.298347, 0.710972), 0.0114426);
+
+    ret += circ(uv, vec2(0.878141, 0.771279), 0.00322719);
+
+    ret += circ(uv, vec2(0.150995, 0.376221), 0.00216157);
+
+    ret += circ(uv, vec2(0.119673, 0.541984), 0.0124621);
+
+    ret += circ(uv, vec2(0.629598, 0.295629), 0.0198736);
+
+    ret += circ(uv, vec2(0.334357, 0.266278), 0.0187145);
+
+    ret += circ(uv, vec2(0.918044, 0.968163), 0.0182928);
+
+    ret += circ(uv, vec2(0.965445, 0.505026), 0.006348);
+
+    ret += circ(uv, vec2(0.514847, 0.865444), 0.00623523);
+
+    ret += circ(uv, vec2(0.710575, 0.0415131), 0.00322689);
+
+    ret += circ(uv, vec2(0.71403, 0.576945), 0.0215641);
+
+    ret += circ(uv, vec2(0.748873, 0.413325), 0.0110795);
+
+    ret += circ(uv, vec2(0.0623365, 0.896713), 0.0236203);
+
+    ret += circ(uv, vec2(0.980482, 0.473849), 0.00573439);
+
+    ret += circ(uv, vec2(0.647463, 0.654349), 0.0188713);
+
+    ret += circ(uv, vec2(0.651406, 0.981297), 0.00710875);
+
+    ret += circ(uv, vec2(0.428928, 0.382426), 0.0298806);
+
+    ret += circ(uv, vec2(0.811545, 0.62568), 0.00265539);
+
+    ret += circ(uv, vec2(0.400787, 0.74162), 0.00486609);
+
+    ret += circ(uv, vec2(0.331283, 0.418536), 0.00598028);
+
+    ret += circ(uv, vec2(0.894762, 0.0657997), 0.00760375);
+
+    ret += circ(uv, vec2(0.525104, 0.572233), 0.0141796);
+
+    ret += circ(uv, vec2(0.431526, 0.911372), 0.0213234);
+
+    ret += circ(uv, vec2(0.658212, 0.910553), 0.000741023);
+
+    ret += circ(uv, vec2(0.514523, 0.243263), 0.0270685);
+
+    ret += circ(uv, vec2(0.0249494, 0.252872), 0.00876653);
+
+    ret += circ(uv, vec2(0.502214, 0.47269), 0.0234534);
+
+    ret += circ(uv, vec2(0.693271, 0.431469), 0.0246533);
+
+    ret += circ(uv, vec2(0.415, 0.884418), 0.0271696);
+
+    ret += circ(uv, vec2(0.149073, 0.41204), 0.00497198);
+
+    ret += circ(uv, vec2(0.533816, 0.897634), 0.00650833);
+
+    ret += circ(uv, vec2(0.0409132, 0.83406), 0.0191398);
+
+    ret += circ(uv, vec2(0.638585, 0.646019), 0.0206129);
+
+    ret += circ(uv, vec2(0.660342, 0.966541), 0.0053511);
+
+    ret += circ(uv, vec2(0.513783, 0.142233), 0.00471653);
+
+    ret += circ(uv, vec2(0.124305, 0.644263), 0.00116724);
+
+    ret += circ(uv, vec2(0.99871, 0.583864), 0.0107329);
+
+    ret += circ(uv, vec2(0.894879, 0.233289), 0.00667092);
+
+    ret += circ(uv, vec2(0.246286, 0.682766), 0.00411623);
+
+    ret += circ(uv, vec2(0.0761895, 0.16327), 0.0145935);
+
+    ret += circ(uv, vec2(0.949386, 0.802936), 0.0100873);
+
+    ret += circ(uv, vec2(0.480122, 0.196554), 0.0110185);
+
+    ret += circ(uv, vec2(0.896854, 0.803707), 0.013969);
+
+    ret += circ(uv, vec2(0.292865, 0.762973), 0.00566413);
+
+    ret += circ(uv, vec2(0.0995585, 0.117457), 0.00869407);
+
+    ret += circ(uv, vec2(0.377713, 0.00335442), 0.0063147);
+
+    ret += circ(uv, vec2(0.506365, 0.531118), 0.0144016);
+
+    ret += circ(uv, vec2(0.408806, 0.894771), 0.0243923);
+
+    ret += circ(uv, vec2(0.143579, 0.85138), 0.00418529);
+
+    ret += circ(uv, vec2(0.0902811, 0.181775), 0.0108896);
+
+    ret += circ(uv, vec2(0.780695, 0.394644), 0.00475475);
+
+    ret += circ(uv, vec2(0.298036, 0.625531), 0.00325285);
+
+    ret += circ(uv, vec2(0.218423, 0.714537), 0.00157212);
+
+    ret += circ(uv, vec2(0.658836, 0.159556), 0.00225897);
+
+    ret += circ(uv, vec2(0.987324, 0.146545), 0.0288391);
+
+    ret += circ(uv, vec2(0.222646, 0.251694), 0.00092276);
+
+    ret += circ(uv, vec2(0.159826, 0.528063), 0.00605293);
+
+	return max(ret, 0.0);
+
+}
+
+
+
+vec3 water(vec2 uv, vec3 cdir, float iTime)
+
+{
+
+    uv *= vec2(0.25);
+
+
+
+    // Parallax height distortion with two directional waves at
+
+    // slightly different angles.
+
+    vec2 a = 0.025 * cdir.xz / cdir.y; // Parallax offset
+
+    float h = sin(uv.x + iTime); // Height at UV
+
+    uv += a * h;
+
+    h = sin(0.841471 * uv.x - 0.540302 * uv.y + iTime);
+
+    uv += a * h;
+
+
+
+    // Texture distortion
+
+    float d1 = mod(uv.x + uv.y, TWOPI);
+
+    float d2 = mod((uv.x + uv.y + 0.25) * 1.3, SIXPI);
+
+    d1 = iTime * 0.07 + d1;
+
+    d2 = iTime * 0.5 + d2;
+
+    vec2 dist = vec2(
+
+    	sin(d1) * 0.15 + sin(d2) * 0.05,
+
+    	cos(d1) * 0.15 + cos(d2) * 0.05
+
+    );
+
+
+
+    vec3 ret = mix(WATER_COL.rgb, WATER2_COL.rgb, waterlayer(uv + dist.xy));
+
+    ret = mix(ret, FOAM_COL.rgb, waterlayer(vec2(1.0) - uv - dist.yx));
+
+    return ret;
+
+}
+
+
+
+void fragment() {
+	vec2 uv = UV;
+
+	// TWEAK THE COEFFS AND/OR EQUATION FOR A DIFFERENT WARP PATTERN
+	uv.x += sin(uv.y * wave_speed * PI + TIME) * cos(uv.y * wave_speed * PI + TIME) * 0.1;
+	uv.y += cos(uv.x * wave_speed * PI + TIME) * -sin(uv.y * wave_speed * PI + TIME) * 0.1;
+
+	vec4 color = texture(tex, uv);
+
+	if (is_opaque){
+		color.a = 1.0;
+		ALPHA = water_transparency;
+
+	} else {
+		ALPHA = water_transparency * color.a;
+	}
+
+	ALBEDO = color.xyz;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gbd1t"]
+render_priority = 1
+shader = SubResource("Shader_d4e8s")
+shader_parameter/is_opaque = false
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/warp_ScreenSpace = true
+shader_parameter/WATER_COL = Color(0.67, 0.73, 0.46, 1)
+shader_parameter/WATER2_COL = Color(0.4, 0.44, 0.28, 1)
+shader_parameter/FOAM_COL = Color(0.8125, 0.9609, 0.9648, 1)
+shader_parameter/water_transparency = 0.6
+shader_parameter/distortion_speed = 2.0
+shader_parameter/tile = Vector2(20, 20)
+shader_parameter/wave_speed = 1.0
+shader_parameter/tex = ExtResource("62_no5nh")
+
 [sub_resource type="Shader" id="Shader_ybm8r"]
 code = "shader_type spatial;
 render_mode shadows_disabled;
@@ -4234,6 +4549,321 @@ _surfaces = [{
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_rwkab"]
 points = PackedVector3Array(-0.25, 1, -7.5, -0.25, -1, -7.5, 0.25, -1, -7.5, 0.25, 1, -7.5, -0.25, 1, 7.5, -0.25, -1, 7.5, 0.25, -1, 7.5, 0.25, 1, 7.5)
+
+[sub_resource type="Shader" id="Shader_apxda"]
+code = "shader_type spatial;
+render_mode shadows_disabled;
+render_mode unshaded;
+//render_mode cull_disabled;
+//render_mode depth_draw_opaque;
+render_mode blend_mix;
+
+uniform bool is_opaque = false;
+uniform sampler2D tex;
+
+uniform vec2 uv_scale;
+
+uniform vec2 uv_offset;
+
+uniform bool warp_ScreenSpace = true;
+
+uniform vec4 WATER_COL : source_color =  vec4(0.67, 0.73, 0.46, 1.0);
+
+uniform vec4 WATER2_COL : source_color =  vec4(0.40, 0.44, 0.28, 1.0);
+
+uniform vec4 FOAM_COL : source_color = vec4(0.8125, 0.9609, 0.9648, 1.0);
+
+uniform float water_transparency : hint_range(0.0, 1.0) = 1.0;
+
+uniform float distortion_speed = 2.0;
+
+uniform vec2 tile = vec2(5.0, 5.0);
+
+uniform float wave_speed = 1.5;
+
+
+
+const float TWOPI = 6.283185307;
+
+const float SIXPI = 18.84955592;
+
+
+
+
+
+
+
+float circ(vec2 pos, vec2 c, float s)
+
+{
+
+    c = abs(pos - c);
+
+    c = min(c, 1.0 - c);
+
+
+
+    return smoothstep(0.0, 0.06, sqrt(s) - sqrt(dot(c, c))) * -1.0;
+
+}
+
+
+
+
+
+float waterlayer(vec2 uv)
+
+{
+
+    uv = mod(uv, 1.0); // Clamp to [0..1]
+
+    float ret = 1.0;
+
+    ret += circ(uv, vec2(0.37378, 0.277169), 0.0268181);
+
+    ret += circ(uv, vec2(0.0317477, 0.540372), 0.0193742);
+
+    ret += circ(uv, vec2(0.430044, 0.882218), 0.0232337);
+
+    ret += circ(uv, vec2(0.641033, 0.695106), 0.0117864);
+
+    ret += circ(uv, vec2(0.0146398, 0.0791346), 0.0299458);
+
+    ret += circ(uv, vec2(0.43871, 0.394445), 0.0289087);
+
+    ret += circ(uv, vec2(0.909446, 0.878141), 0.028466);
+
+    ret += circ(uv, vec2(0.310149, 0.686637), 0.0128496);
+
+    ret += circ(uv, vec2(0.928617, 0.195986), 0.0152041);
+
+    ret += circ(uv, vec2(0.0438506, 0.868153), 0.0268601);
+
+    ret += circ(uv, vec2(0.308619, 0.194937), 0.00806102);
+
+    ret += circ(uv, vec2(0.349922, 0.449714), 0.00928667);
+
+    ret += circ(uv, vec2(0.0449556, 0.953415), 0.023126);
+
+    ret += circ(uv, vec2(0.117761, 0.503309), 0.0151272);
+
+    ret += circ(uv, vec2(0.563517, 0.244991), 0.0292322);
+
+    ret += circ(uv, vec2(0.566936, 0.954457), 0.00981141);
+
+    ret += circ(uv, vec2(0.0489944, 0.200931), 0.0178746);
+
+    ret += circ(uv, vec2(0.569297, 0.624893), 0.0132408);
+
+    ret += circ(uv, vec2(0.298347, 0.710972), 0.0114426);
+
+    ret += circ(uv, vec2(0.878141, 0.771279), 0.00322719);
+
+    ret += circ(uv, vec2(0.150995, 0.376221), 0.00216157);
+
+    ret += circ(uv, vec2(0.119673, 0.541984), 0.0124621);
+
+    ret += circ(uv, vec2(0.629598, 0.295629), 0.0198736);
+
+    ret += circ(uv, vec2(0.334357, 0.266278), 0.0187145);
+
+    ret += circ(uv, vec2(0.918044, 0.968163), 0.0182928);
+
+    ret += circ(uv, vec2(0.965445, 0.505026), 0.006348);
+
+    ret += circ(uv, vec2(0.514847, 0.865444), 0.00623523);
+
+    ret += circ(uv, vec2(0.710575, 0.0415131), 0.00322689);
+
+    ret += circ(uv, vec2(0.71403, 0.576945), 0.0215641);
+
+    ret += circ(uv, vec2(0.748873, 0.413325), 0.0110795);
+
+    ret += circ(uv, vec2(0.0623365, 0.896713), 0.0236203);
+
+    ret += circ(uv, vec2(0.980482, 0.473849), 0.00573439);
+
+    ret += circ(uv, vec2(0.647463, 0.654349), 0.0188713);
+
+    ret += circ(uv, vec2(0.651406, 0.981297), 0.00710875);
+
+    ret += circ(uv, vec2(0.428928, 0.382426), 0.0298806);
+
+    ret += circ(uv, vec2(0.811545, 0.62568), 0.00265539);
+
+    ret += circ(uv, vec2(0.400787, 0.74162), 0.00486609);
+
+    ret += circ(uv, vec2(0.331283, 0.418536), 0.00598028);
+
+    ret += circ(uv, vec2(0.894762, 0.0657997), 0.00760375);
+
+    ret += circ(uv, vec2(0.525104, 0.572233), 0.0141796);
+
+    ret += circ(uv, vec2(0.431526, 0.911372), 0.0213234);
+
+    ret += circ(uv, vec2(0.658212, 0.910553), 0.000741023);
+
+    ret += circ(uv, vec2(0.514523, 0.243263), 0.0270685);
+
+    ret += circ(uv, vec2(0.0249494, 0.252872), 0.00876653);
+
+    ret += circ(uv, vec2(0.502214, 0.47269), 0.0234534);
+
+    ret += circ(uv, vec2(0.693271, 0.431469), 0.0246533);
+
+    ret += circ(uv, vec2(0.415, 0.884418), 0.0271696);
+
+    ret += circ(uv, vec2(0.149073, 0.41204), 0.00497198);
+
+    ret += circ(uv, vec2(0.533816, 0.897634), 0.00650833);
+
+    ret += circ(uv, vec2(0.0409132, 0.83406), 0.0191398);
+
+    ret += circ(uv, vec2(0.638585, 0.646019), 0.0206129);
+
+    ret += circ(uv, vec2(0.660342, 0.966541), 0.0053511);
+
+    ret += circ(uv, vec2(0.513783, 0.142233), 0.00471653);
+
+    ret += circ(uv, vec2(0.124305, 0.644263), 0.00116724);
+
+    ret += circ(uv, vec2(0.99871, 0.583864), 0.0107329);
+
+    ret += circ(uv, vec2(0.894879, 0.233289), 0.00667092);
+
+    ret += circ(uv, vec2(0.246286, 0.682766), 0.00411623);
+
+    ret += circ(uv, vec2(0.0761895, 0.16327), 0.0145935);
+
+    ret += circ(uv, vec2(0.949386, 0.802936), 0.0100873);
+
+    ret += circ(uv, vec2(0.480122, 0.196554), 0.0110185);
+
+    ret += circ(uv, vec2(0.896854, 0.803707), 0.013969);
+
+    ret += circ(uv, vec2(0.292865, 0.762973), 0.00566413);
+
+    ret += circ(uv, vec2(0.0995585, 0.117457), 0.00869407);
+
+    ret += circ(uv, vec2(0.377713, 0.00335442), 0.0063147);
+
+    ret += circ(uv, vec2(0.506365, 0.531118), 0.0144016);
+
+    ret += circ(uv, vec2(0.408806, 0.894771), 0.0243923);
+
+    ret += circ(uv, vec2(0.143579, 0.85138), 0.00418529);
+
+    ret += circ(uv, vec2(0.0902811, 0.181775), 0.0108896);
+
+    ret += circ(uv, vec2(0.780695, 0.394644), 0.00475475);
+
+    ret += circ(uv, vec2(0.298036, 0.625531), 0.00325285);
+
+    ret += circ(uv, vec2(0.218423, 0.714537), 0.00157212);
+
+    ret += circ(uv, vec2(0.658836, 0.159556), 0.00225897);
+
+    ret += circ(uv, vec2(0.987324, 0.146545), 0.0288391);
+
+    ret += circ(uv, vec2(0.222646, 0.251694), 0.00092276);
+
+    ret += circ(uv, vec2(0.159826, 0.528063), 0.00605293);
+
+	return max(ret, 0.0);
+
+}
+
+
+
+vec3 water(vec2 uv, vec3 cdir, float iTime)
+
+{
+
+    uv *= vec2(0.25);
+
+
+
+    // Parallax height distortion with two directional waves at
+
+    // slightly different angles.
+
+    vec2 a = 0.025 * cdir.xz / cdir.y; // Parallax offset
+
+    float h = sin(uv.x + iTime); // Height at UV
+
+    uv += a * h;
+
+    h = sin(0.841471 * uv.x - 0.540302 * uv.y + iTime);
+
+    uv += a * h;
+
+
+
+    // Texture distortion
+
+    float d1 = mod(uv.x + uv.y, TWOPI);
+
+    float d2 = mod((uv.x + uv.y + 0.25) * 1.3, SIXPI);
+
+    d1 = iTime * 0.07 + d1;
+
+    d2 = iTime * 0.5 + d2;
+
+    vec2 dist = vec2(
+
+    	sin(d1) * 0.15 + sin(d2) * 0.05,
+
+    	cos(d1) * 0.15 + cos(d2) * 0.05
+
+    );
+
+
+
+    vec3 ret = mix(WATER_COL.rgb, WATER2_COL.rgb, waterlayer(uv + dist.xy));
+
+    ret = mix(ret, FOAM_COL.rgb, waterlayer(vec2(1.0) - uv - dist.yx));
+
+    return ret;
+
+}
+
+
+
+void fragment() {
+	vec2 uv = UV;
+
+	// TWEAK THE COEFFS AND/OR EQUATION FOR A DIFFERENT WARP PATTERN
+	uv.x += sin(uv.y * wave_speed * PI + TIME) * cos(uv.y * wave_speed * PI + TIME) * 0.1;
+	uv.y += cos(uv.x * wave_speed * PI + TIME) * -sin(uv.y * wave_speed * PI + TIME) * 0.1;
+
+	vec4 color = texture(tex, uv);
+
+	if (is_opaque){
+		color.a = 1.0;
+		ALPHA = water_transparency;
+
+	} else {
+		ALPHA = water_transparency * color.a;
+	}
+
+	ALBEDO = color.xyz;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2764v"]
+render_priority = 1
+shader = SubResource("Shader_apxda")
+shader_parameter/is_opaque = true
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/warp_ScreenSpace = true
+shader_parameter/WATER_COL = Color(0.67, 0.73, 0.46, 1)
+shader_parameter/WATER2_COL = Color(0.4, 0.44, 0.28, 1)
+shader_parameter/FOAM_COL = Color(0.8125, 0.9609, 0.9648, 1)
+shader_parameter/water_transparency = 1.0
+shader_parameter/distortion_speed = 2.0
+shader_parameter/tile = Vector2(20, 20)
+shader_parameter/wave_speed = 1.0
+shader_parameter/tex = ExtResource("80_mhkne")
 
 [sub_resource type="Shader" id="Shader_3djlg"]
 code = "shader_type spatial;
@@ -4928,6 +5558,321 @@ _surfaces = [{
 "vertex_count": 24,
 "vertex_data": PackedByteArray("AACAvwAAAD8AAIC/AACAvwAAAL8AAIC/AACAPwAAAL8AAIC/AACAPwAAAD8AAIC/AACAvwAAAD8AAIC/AACAvwAAAD8AAIA/AACAvwAAAL8AAIA/AACAvwAAAL8AAIC/AACAPwAAAL8AAIC/AACAvwAAAL8AAIC/AACAvwAAAL8AAIA/AACAPwAAAL8AAIA/AACAPwAAAD8AAIC/AACAPwAAAD8AAIA/AACAvwAAAD8AAIA/AACAvwAAAD8AAIC/AACAPwAAAD8AAIC/AACAPwAAAL8AAIC/AACAPwAAAL8AAIA/AACAPwAAAD8AAIA/AACAvwAAAD8AAIA/AACAPwAAAD8AAIA/AACAPwAAAL8AAIA/AACAvwAAAL8AAIA//////wAA/7//////AAD/v/////8AAP+//////wAA/78AAP9//3//vwAA/3//f/+/AAD/f/9//78AAP9//3//v/9/AAD//////38AAP//////fwAA//////9/AAD//////3////9//7//f////3//v/9/////f/+//3////9//7////9//////////3//////////f/////////9///////9//3////+//3//f////7//f/9/////v/9//3////+/")
 }]
+
+[sub_resource type="Shader" id="Shader_05le5"]
+code = "shader_type spatial;
+render_mode shadows_disabled;
+render_mode unshaded;
+//render_mode cull_disabled;
+//render_mode depth_draw_opaque;
+render_mode blend_mix;
+
+uniform bool is_opaque = false;
+uniform sampler2D tex;
+
+uniform vec2 uv_scale;
+
+uniform vec2 uv_offset;
+
+uniform bool warp_ScreenSpace = true;
+
+uniform vec4 WATER_COL : source_color =  vec4(0.67, 0.73, 0.46, 1.0);
+
+uniform vec4 WATER2_COL : source_color =  vec4(0.40, 0.44, 0.28, 1.0);
+
+uniform vec4 FOAM_COL : source_color = vec4(0.8125, 0.9609, 0.9648, 1.0);
+
+uniform float water_transparency : hint_range(0.0, 1.0) = 1.0;
+
+uniform float distortion_speed = 2.0;
+
+uniform vec2 tile = vec2(5.0, 5.0);
+
+uniform float wave_speed = 1.5;
+
+
+
+const float TWOPI = 6.283185307;
+
+const float SIXPI = 18.84955592;
+
+
+
+
+
+
+
+float circ(vec2 pos, vec2 c, float s)
+
+{
+
+    c = abs(pos - c);
+
+    c = min(c, 1.0 - c);
+
+
+
+    return smoothstep(0.0, 0.06, sqrt(s) - sqrt(dot(c, c))) * -1.0;
+
+}
+
+
+
+
+
+float waterlayer(vec2 uv)
+
+{
+
+    uv = mod(uv, 1.0); // Clamp to [0..1]
+
+    float ret = 1.0;
+
+    ret += circ(uv, vec2(0.37378, 0.277169), 0.0268181);
+
+    ret += circ(uv, vec2(0.0317477, 0.540372), 0.0193742);
+
+    ret += circ(uv, vec2(0.430044, 0.882218), 0.0232337);
+
+    ret += circ(uv, vec2(0.641033, 0.695106), 0.0117864);
+
+    ret += circ(uv, vec2(0.0146398, 0.0791346), 0.0299458);
+
+    ret += circ(uv, vec2(0.43871, 0.394445), 0.0289087);
+
+    ret += circ(uv, vec2(0.909446, 0.878141), 0.028466);
+
+    ret += circ(uv, vec2(0.310149, 0.686637), 0.0128496);
+
+    ret += circ(uv, vec2(0.928617, 0.195986), 0.0152041);
+
+    ret += circ(uv, vec2(0.0438506, 0.868153), 0.0268601);
+
+    ret += circ(uv, vec2(0.308619, 0.194937), 0.00806102);
+
+    ret += circ(uv, vec2(0.349922, 0.449714), 0.00928667);
+
+    ret += circ(uv, vec2(0.0449556, 0.953415), 0.023126);
+
+    ret += circ(uv, vec2(0.117761, 0.503309), 0.0151272);
+
+    ret += circ(uv, vec2(0.563517, 0.244991), 0.0292322);
+
+    ret += circ(uv, vec2(0.566936, 0.954457), 0.00981141);
+
+    ret += circ(uv, vec2(0.0489944, 0.200931), 0.0178746);
+
+    ret += circ(uv, vec2(0.569297, 0.624893), 0.0132408);
+
+    ret += circ(uv, vec2(0.298347, 0.710972), 0.0114426);
+
+    ret += circ(uv, vec2(0.878141, 0.771279), 0.00322719);
+
+    ret += circ(uv, vec2(0.150995, 0.376221), 0.00216157);
+
+    ret += circ(uv, vec2(0.119673, 0.541984), 0.0124621);
+
+    ret += circ(uv, vec2(0.629598, 0.295629), 0.0198736);
+
+    ret += circ(uv, vec2(0.334357, 0.266278), 0.0187145);
+
+    ret += circ(uv, vec2(0.918044, 0.968163), 0.0182928);
+
+    ret += circ(uv, vec2(0.965445, 0.505026), 0.006348);
+
+    ret += circ(uv, vec2(0.514847, 0.865444), 0.00623523);
+
+    ret += circ(uv, vec2(0.710575, 0.0415131), 0.00322689);
+
+    ret += circ(uv, vec2(0.71403, 0.576945), 0.0215641);
+
+    ret += circ(uv, vec2(0.748873, 0.413325), 0.0110795);
+
+    ret += circ(uv, vec2(0.0623365, 0.896713), 0.0236203);
+
+    ret += circ(uv, vec2(0.980482, 0.473849), 0.00573439);
+
+    ret += circ(uv, vec2(0.647463, 0.654349), 0.0188713);
+
+    ret += circ(uv, vec2(0.651406, 0.981297), 0.00710875);
+
+    ret += circ(uv, vec2(0.428928, 0.382426), 0.0298806);
+
+    ret += circ(uv, vec2(0.811545, 0.62568), 0.00265539);
+
+    ret += circ(uv, vec2(0.400787, 0.74162), 0.00486609);
+
+    ret += circ(uv, vec2(0.331283, 0.418536), 0.00598028);
+
+    ret += circ(uv, vec2(0.894762, 0.0657997), 0.00760375);
+
+    ret += circ(uv, vec2(0.525104, 0.572233), 0.0141796);
+
+    ret += circ(uv, vec2(0.431526, 0.911372), 0.0213234);
+
+    ret += circ(uv, vec2(0.658212, 0.910553), 0.000741023);
+
+    ret += circ(uv, vec2(0.514523, 0.243263), 0.0270685);
+
+    ret += circ(uv, vec2(0.0249494, 0.252872), 0.00876653);
+
+    ret += circ(uv, vec2(0.502214, 0.47269), 0.0234534);
+
+    ret += circ(uv, vec2(0.693271, 0.431469), 0.0246533);
+
+    ret += circ(uv, vec2(0.415, 0.884418), 0.0271696);
+
+    ret += circ(uv, vec2(0.149073, 0.41204), 0.00497198);
+
+    ret += circ(uv, vec2(0.533816, 0.897634), 0.00650833);
+
+    ret += circ(uv, vec2(0.0409132, 0.83406), 0.0191398);
+
+    ret += circ(uv, vec2(0.638585, 0.646019), 0.0206129);
+
+    ret += circ(uv, vec2(0.660342, 0.966541), 0.0053511);
+
+    ret += circ(uv, vec2(0.513783, 0.142233), 0.00471653);
+
+    ret += circ(uv, vec2(0.124305, 0.644263), 0.00116724);
+
+    ret += circ(uv, vec2(0.99871, 0.583864), 0.0107329);
+
+    ret += circ(uv, vec2(0.894879, 0.233289), 0.00667092);
+
+    ret += circ(uv, vec2(0.246286, 0.682766), 0.00411623);
+
+    ret += circ(uv, vec2(0.0761895, 0.16327), 0.0145935);
+
+    ret += circ(uv, vec2(0.949386, 0.802936), 0.0100873);
+
+    ret += circ(uv, vec2(0.480122, 0.196554), 0.0110185);
+
+    ret += circ(uv, vec2(0.896854, 0.803707), 0.013969);
+
+    ret += circ(uv, vec2(0.292865, 0.762973), 0.00566413);
+
+    ret += circ(uv, vec2(0.0995585, 0.117457), 0.00869407);
+
+    ret += circ(uv, vec2(0.377713, 0.00335442), 0.0063147);
+
+    ret += circ(uv, vec2(0.506365, 0.531118), 0.0144016);
+
+    ret += circ(uv, vec2(0.408806, 0.894771), 0.0243923);
+
+    ret += circ(uv, vec2(0.143579, 0.85138), 0.00418529);
+
+    ret += circ(uv, vec2(0.0902811, 0.181775), 0.0108896);
+
+    ret += circ(uv, vec2(0.780695, 0.394644), 0.00475475);
+
+    ret += circ(uv, vec2(0.298036, 0.625531), 0.00325285);
+
+    ret += circ(uv, vec2(0.218423, 0.714537), 0.00157212);
+
+    ret += circ(uv, vec2(0.658836, 0.159556), 0.00225897);
+
+    ret += circ(uv, vec2(0.987324, 0.146545), 0.0288391);
+
+    ret += circ(uv, vec2(0.222646, 0.251694), 0.00092276);
+
+    ret += circ(uv, vec2(0.159826, 0.528063), 0.00605293);
+
+	return max(ret, 0.0);
+
+}
+
+
+
+vec3 water(vec2 uv, vec3 cdir, float iTime)
+
+{
+
+    uv *= vec2(0.25);
+
+
+
+    // Parallax height distortion with two directional waves at
+
+    // slightly different angles.
+
+    vec2 a = 0.025 * cdir.xz / cdir.y; // Parallax offset
+
+    float h = sin(uv.x + iTime); // Height at UV
+
+    uv += a * h;
+
+    h = sin(0.841471 * uv.x - 0.540302 * uv.y + iTime);
+
+    uv += a * h;
+
+
+
+    // Texture distortion
+
+    float d1 = mod(uv.x + uv.y, TWOPI);
+
+    float d2 = mod((uv.x + uv.y + 0.25) * 1.3, SIXPI);
+
+    d1 = iTime * 0.07 + d1;
+
+    d2 = iTime * 0.5 + d2;
+
+    vec2 dist = vec2(
+
+    	sin(d1) * 0.15 + sin(d2) * 0.05,
+
+    	cos(d1) * 0.15 + cos(d2) * 0.05
+
+    );
+
+
+
+    vec3 ret = mix(WATER_COL.rgb, WATER2_COL.rgb, waterlayer(uv + dist.xy));
+
+    ret = mix(ret, FOAM_COL.rgb, waterlayer(vec2(1.0) - uv - dist.yx));
+
+    return ret;
+
+}
+
+
+
+void fragment() {
+	vec2 uv = UV;
+
+	// TWEAK THE COEFFS AND/OR EQUATION FOR A DIFFERENT WARP PATTERN
+	uv.x += sin(uv.y * wave_speed * PI + TIME) * cos(uv.y * wave_speed * PI + TIME) * 0.1;
+	uv.y += cos(uv.x * wave_speed * PI + TIME) * -sin(uv.y * wave_speed * PI + TIME) * 0.1;
+
+	vec4 color = texture(tex, uv);
+
+	if (is_opaque){
+		color.a = 1.0;
+		ALPHA = water_transparency;
+
+	} else {
+		ALPHA = water_transparency * color.a;
+	}
+
+	ALBEDO = color.xyz;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hsims"]
+render_priority = 1
+shader = SubResource("Shader_05le5")
+shader_parameter/is_opaque = false
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/warp_ScreenSpace = true
+shader_parameter/WATER_COL = Color(0.67, 0.73, 0.46, 1)
+shader_parameter/WATER2_COL = Color(0.4, 0.44, 0.28, 1)
+shader_parameter/FOAM_COL = Color(0.8125, 0.9609, 0.9648, 1)
+shader_parameter/water_transparency = 0.6
+shader_parameter/distortion_speed = 2.0
+shader_parameter/tile = Vector2(20, 20)
+shader_parameter/wave_speed = 1.0
+shader_parameter/tex = ExtResource("62_no5nh")
 
 [sub_resource type="Shader" id="Shader_gcflo"]
 code = "shader_type spatial;
@@ -6117,6 +7062,321 @@ _surfaces = [{
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_buu4v"]
 points = PackedVector3Array(-0.25, 2, -2, -0.25, -2, -2, 0.25, -2, -2, 0.25, 2, -2, -0.25, 2, 2, -0.25, -2, 2, 0.25, -2, 2, 0.25, 2, 2)
 
+[sub_resource type="Shader" id="Shader_4nf6q"]
+code = "shader_type spatial;
+render_mode shadows_disabled;
+render_mode unshaded;
+//render_mode cull_disabled;
+//render_mode depth_draw_opaque;
+render_mode blend_mix;
+
+uniform bool is_opaque = false;
+uniform sampler2D tex;
+
+uniform vec2 uv_scale;
+
+uniform vec2 uv_offset;
+
+uniform bool warp_ScreenSpace = true;
+
+uniform vec4 WATER_COL : source_color =  vec4(0.67, 0.73, 0.46, 1.0);
+
+uniform vec4 WATER2_COL : source_color =  vec4(0.40, 0.44, 0.28, 1.0);
+
+uniform vec4 FOAM_COL : source_color = vec4(0.8125, 0.9609, 0.9648, 1.0);
+
+uniform float water_transparency : hint_range(0.0, 1.0) = 1.0;
+
+uniform float distortion_speed = 2.0;
+
+uniform vec2 tile = vec2(5.0, 5.0);
+
+uniform float wave_speed = 1.5;
+
+
+
+const float TWOPI = 6.283185307;
+
+const float SIXPI = 18.84955592;
+
+
+
+
+
+
+
+float circ(vec2 pos, vec2 c, float s)
+
+{
+
+    c = abs(pos - c);
+
+    c = min(c, 1.0 - c);
+
+
+
+    return smoothstep(0.0, 0.06, sqrt(s) - sqrt(dot(c, c))) * -1.0;
+
+}
+
+
+
+
+
+float waterlayer(vec2 uv)
+
+{
+
+    uv = mod(uv, 1.0); // Clamp to [0..1]
+
+    float ret = 1.0;
+
+    ret += circ(uv, vec2(0.37378, 0.277169), 0.0268181);
+
+    ret += circ(uv, vec2(0.0317477, 0.540372), 0.0193742);
+
+    ret += circ(uv, vec2(0.430044, 0.882218), 0.0232337);
+
+    ret += circ(uv, vec2(0.641033, 0.695106), 0.0117864);
+
+    ret += circ(uv, vec2(0.0146398, 0.0791346), 0.0299458);
+
+    ret += circ(uv, vec2(0.43871, 0.394445), 0.0289087);
+
+    ret += circ(uv, vec2(0.909446, 0.878141), 0.028466);
+
+    ret += circ(uv, vec2(0.310149, 0.686637), 0.0128496);
+
+    ret += circ(uv, vec2(0.928617, 0.195986), 0.0152041);
+
+    ret += circ(uv, vec2(0.0438506, 0.868153), 0.0268601);
+
+    ret += circ(uv, vec2(0.308619, 0.194937), 0.00806102);
+
+    ret += circ(uv, vec2(0.349922, 0.449714), 0.00928667);
+
+    ret += circ(uv, vec2(0.0449556, 0.953415), 0.023126);
+
+    ret += circ(uv, vec2(0.117761, 0.503309), 0.0151272);
+
+    ret += circ(uv, vec2(0.563517, 0.244991), 0.0292322);
+
+    ret += circ(uv, vec2(0.566936, 0.954457), 0.00981141);
+
+    ret += circ(uv, vec2(0.0489944, 0.200931), 0.0178746);
+
+    ret += circ(uv, vec2(0.569297, 0.624893), 0.0132408);
+
+    ret += circ(uv, vec2(0.298347, 0.710972), 0.0114426);
+
+    ret += circ(uv, vec2(0.878141, 0.771279), 0.00322719);
+
+    ret += circ(uv, vec2(0.150995, 0.376221), 0.00216157);
+
+    ret += circ(uv, vec2(0.119673, 0.541984), 0.0124621);
+
+    ret += circ(uv, vec2(0.629598, 0.295629), 0.0198736);
+
+    ret += circ(uv, vec2(0.334357, 0.266278), 0.0187145);
+
+    ret += circ(uv, vec2(0.918044, 0.968163), 0.0182928);
+
+    ret += circ(uv, vec2(0.965445, 0.505026), 0.006348);
+
+    ret += circ(uv, vec2(0.514847, 0.865444), 0.00623523);
+
+    ret += circ(uv, vec2(0.710575, 0.0415131), 0.00322689);
+
+    ret += circ(uv, vec2(0.71403, 0.576945), 0.0215641);
+
+    ret += circ(uv, vec2(0.748873, 0.413325), 0.0110795);
+
+    ret += circ(uv, vec2(0.0623365, 0.896713), 0.0236203);
+
+    ret += circ(uv, vec2(0.980482, 0.473849), 0.00573439);
+
+    ret += circ(uv, vec2(0.647463, 0.654349), 0.0188713);
+
+    ret += circ(uv, vec2(0.651406, 0.981297), 0.00710875);
+
+    ret += circ(uv, vec2(0.428928, 0.382426), 0.0298806);
+
+    ret += circ(uv, vec2(0.811545, 0.62568), 0.00265539);
+
+    ret += circ(uv, vec2(0.400787, 0.74162), 0.00486609);
+
+    ret += circ(uv, vec2(0.331283, 0.418536), 0.00598028);
+
+    ret += circ(uv, vec2(0.894762, 0.0657997), 0.00760375);
+
+    ret += circ(uv, vec2(0.525104, 0.572233), 0.0141796);
+
+    ret += circ(uv, vec2(0.431526, 0.911372), 0.0213234);
+
+    ret += circ(uv, vec2(0.658212, 0.910553), 0.000741023);
+
+    ret += circ(uv, vec2(0.514523, 0.243263), 0.0270685);
+
+    ret += circ(uv, vec2(0.0249494, 0.252872), 0.00876653);
+
+    ret += circ(uv, vec2(0.502214, 0.47269), 0.0234534);
+
+    ret += circ(uv, vec2(0.693271, 0.431469), 0.0246533);
+
+    ret += circ(uv, vec2(0.415, 0.884418), 0.0271696);
+
+    ret += circ(uv, vec2(0.149073, 0.41204), 0.00497198);
+
+    ret += circ(uv, vec2(0.533816, 0.897634), 0.00650833);
+
+    ret += circ(uv, vec2(0.0409132, 0.83406), 0.0191398);
+
+    ret += circ(uv, vec2(0.638585, 0.646019), 0.0206129);
+
+    ret += circ(uv, vec2(0.660342, 0.966541), 0.0053511);
+
+    ret += circ(uv, vec2(0.513783, 0.142233), 0.00471653);
+
+    ret += circ(uv, vec2(0.124305, 0.644263), 0.00116724);
+
+    ret += circ(uv, vec2(0.99871, 0.583864), 0.0107329);
+
+    ret += circ(uv, vec2(0.894879, 0.233289), 0.00667092);
+
+    ret += circ(uv, vec2(0.246286, 0.682766), 0.00411623);
+
+    ret += circ(uv, vec2(0.0761895, 0.16327), 0.0145935);
+
+    ret += circ(uv, vec2(0.949386, 0.802936), 0.0100873);
+
+    ret += circ(uv, vec2(0.480122, 0.196554), 0.0110185);
+
+    ret += circ(uv, vec2(0.896854, 0.803707), 0.013969);
+
+    ret += circ(uv, vec2(0.292865, 0.762973), 0.00566413);
+
+    ret += circ(uv, vec2(0.0995585, 0.117457), 0.00869407);
+
+    ret += circ(uv, vec2(0.377713, 0.00335442), 0.0063147);
+
+    ret += circ(uv, vec2(0.506365, 0.531118), 0.0144016);
+
+    ret += circ(uv, vec2(0.408806, 0.894771), 0.0243923);
+
+    ret += circ(uv, vec2(0.143579, 0.85138), 0.00418529);
+
+    ret += circ(uv, vec2(0.0902811, 0.181775), 0.0108896);
+
+    ret += circ(uv, vec2(0.780695, 0.394644), 0.00475475);
+
+    ret += circ(uv, vec2(0.298036, 0.625531), 0.00325285);
+
+    ret += circ(uv, vec2(0.218423, 0.714537), 0.00157212);
+
+    ret += circ(uv, vec2(0.658836, 0.159556), 0.00225897);
+
+    ret += circ(uv, vec2(0.987324, 0.146545), 0.0288391);
+
+    ret += circ(uv, vec2(0.222646, 0.251694), 0.00092276);
+
+    ret += circ(uv, vec2(0.159826, 0.528063), 0.00605293);
+
+	return max(ret, 0.0);
+
+}
+
+
+
+vec3 water(vec2 uv, vec3 cdir, float iTime)
+
+{
+
+    uv *= vec2(0.25);
+
+
+
+    // Parallax height distortion with two directional waves at
+
+    // slightly different angles.
+
+    vec2 a = 0.025 * cdir.xz / cdir.y; // Parallax offset
+
+    float h = sin(uv.x + iTime); // Height at UV
+
+    uv += a * h;
+
+    h = sin(0.841471 * uv.x - 0.540302 * uv.y + iTime);
+
+    uv += a * h;
+
+
+
+    // Texture distortion
+
+    float d1 = mod(uv.x + uv.y, TWOPI);
+
+    float d2 = mod((uv.x + uv.y + 0.25) * 1.3, SIXPI);
+
+    d1 = iTime * 0.07 + d1;
+
+    d2 = iTime * 0.5 + d2;
+
+    vec2 dist = vec2(
+
+    	sin(d1) * 0.15 + sin(d2) * 0.05,
+
+    	cos(d1) * 0.15 + cos(d2) * 0.05
+
+    );
+
+
+
+    vec3 ret = mix(WATER_COL.rgb, WATER2_COL.rgb, waterlayer(uv + dist.xy));
+
+    ret = mix(ret, FOAM_COL.rgb, waterlayer(vec2(1.0) - uv - dist.yx));
+
+    return ret;
+
+}
+
+
+
+void fragment() {
+	vec2 uv = UV;
+
+	// TWEAK THE COEFFS AND/OR EQUATION FOR A DIFFERENT WARP PATTERN
+	uv.x += sin(uv.y * wave_speed * PI + TIME) * cos(uv.y * wave_speed * PI + TIME) * 0.1;
+	uv.y += cos(uv.x * wave_speed * PI + TIME) * -sin(uv.y * wave_speed * PI + TIME) * 0.1;
+
+	vec4 color = texture(tex, uv);
+
+	if (is_opaque){
+		color.a = 1.0;
+		ALPHA = water_transparency;
+
+	} else {
+		ALPHA = water_transparency * color.a;
+	}
+
+	ALBEDO = color.xyz;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ub2m0"]
+render_priority = 1
+shader = SubResource("Shader_4nf6q")
+shader_parameter/is_opaque = true
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/warp_ScreenSpace = true
+shader_parameter/WATER_COL = Color(0.67, 0.73, 0.46, 1)
+shader_parameter/WATER2_COL = Color(0.4, 0.44, 0.28, 1)
+shader_parameter/FOAM_COL = Color(0.8125, 0.9609, 0.9648, 1)
+shader_parameter/water_transparency = 1.0
+shader_parameter/distortion_speed = 2.0
+shader_parameter/tile = Vector2(20, 20)
+shader_parameter/wave_speed = 1.0
+shader_parameter/tex = ExtResource("80_mhkne")
+
 [sub_resource type="Shader" id="Shader_qrupp"]
 code = "shader_type spatial;
 render_mode shadows_disabled;
@@ -6797,6 +8057,321 @@ _surfaces = [{
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_n8q2v"]
 points = PackedVector3Array(-1, 0.75, -0.125, -1, -0.75, -0.125, 1, -0.75, -0.125, 1, 0.75, -0.125, -1, 0.75, 0.125, -1, -0.75, 0.125, 1, -0.75, 0.125, 1, 0.75, 0.125)
+
+[sub_resource type="Shader" id="Shader_iwnan"]
+code = "shader_type spatial;
+render_mode shadows_disabled;
+render_mode unshaded;
+//render_mode cull_disabled;
+//render_mode depth_draw_opaque;
+render_mode blend_mix;
+
+uniform bool is_opaque = false;
+uniform sampler2D tex;
+
+uniform vec2 uv_scale;
+
+uniform vec2 uv_offset;
+
+uniform bool warp_ScreenSpace = true;
+
+uniform vec4 WATER_COL : source_color =  vec4(0.67, 0.73, 0.46, 1.0);
+
+uniform vec4 WATER2_COL : source_color =  vec4(0.40, 0.44, 0.28, 1.0);
+
+uniform vec4 FOAM_COL : source_color = vec4(0.8125, 0.9609, 0.9648, 1.0);
+
+uniform float water_transparency : hint_range(0.0, 1.0) = 1.0;
+
+uniform float distortion_speed = 2.0;
+
+uniform vec2 tile = vec2(5.0, 5.0);
+
+uniform float wave_speed = 1.5;
+
+
+
+const float TWOPI = 6.283185307;
+
+const float SIXPI = 18.84955592;
+
+
+
+
+
+
+
+float circ(vec2 pos, vec2 c, float s)
+
+{
+
+    c = abs(pos - c);
+
+    c = min(c, 1.0 - c);
+
+
+
+    return smoothstep(0.0, 0.06, sqrt(s) - sqrt(dot(c, c))) * -1.0;
+
+}
+
+
+
+
+
+float waterlayer(vec2 uv)
+
+{
+
+    uv = mod(uv, 1.0); // Clamp to [0..1]
+
+    float ret = 1.0;
+
+    ret += circ(uv, vec2(0.37378, 0.277169), 0.0268181);
+
+    ret += circ(uv, vec2(0.0317477, 0.540372), 0.0193742);
+
+    ret += circ(uv, vec2(0.430044, 0.882218), 0.0232337);
+
+    ret += circ(uv, vec2(0.641033, 0.695106), 0.0117864);
+
+    ret += circ(uv, vec2(0.0146398, 0.0791346), 0.0299458);
+
+    ret += circ(uv, vec2(0.43871, 0.394445), 0.0289087);
+
+    ret += circ(uv, vec2(0.909446, 0.878141), 0.028466);
+
+    ret += circ(uv, vec2(0.310149, 0.686637), 0.0128496);
+
+    ret += circ(uv, vec2(0.928617, 0.195986), 0.0152041);
+
+    ret += circ(uv, vec2(0.0438506, 0.868153), 0.0268601);
+
+    ret += circ(uv, vec2(0.308619, 0.194937), 0.00806102);
+
+    ret += circ(uv, vec2(0.349922, 0.449714), 0.00928667);
+
+    ret += circ(uv, vec2(0.0449556, 0.953415), 0.023126);
+
+    ret += circ(uv, vec2(0.117761, 0.503309), 0.0151272);
+
+    ret += circ(uv, vec2(0.563517, 0.244991), 0.0292322);
+
+    ret += circ(uv, vec2(0.566936, 0.954457), 0.00981141);
+
+    ret += circ(uv, vec2(0.0489944, 0.200931), 0.0178746);
+
+    ret += circ(uv, vec2(0.569297, 0.624893), 0.0132408);
+
+    ret += circ(uv, vec2(0.298347, 0.710972), 0.0114426);
+
+    ret += circ(uv, vec2(0.878141, 0.771279), 0.00322719);
+
+    ret += circ(uv, vec2(0.150995, 0.376221), 0.00216157);
+
+    ret += circ(uv, vec2(0.119673, 0.541984), 0.0124621);
+
+    ret += circ(uv, vec2(0.629598, 0.295629), 0.0198736);
+
+    ret += circ(uv, vec2(0.334357, 0.266278), 0.0187145);
+
+    ret += circ(uv, vec2(0.918044, 0.968163), 0.0182928);
+
+    ret += circ(uv, vec2(0.965445, 0.505026), 0.006348);
+
+    ret += circ(uv, vec2(0.514847, 0.865444), 0.00623523);
+
+    ret += circ(uv, vec2(0.710575, 0.0415131), 0.00322689);
+
+    ret += circ(uv, vec2(0.71403, 0.576945), 0.0215641);
+
+    ret += circ(uv, vec2(0.748873, 0.413325), 0.0110795);
+
+    ret += circ(uv, vec2(0.0623365, 0.896713), 0.0236203);
+
+    ret += circ(uv, vec2(0.980482, 0.473849), 0.00573439);
+
+    ret += circ(uv, vec2(0.647463, 0.654349), 0.0188713);
+
+    ret += circ(uv, vec2(0.651406, 0.981297), 0.00710875);
+
+    ret += circ(uv, vec2(0.428928, 0.382426), 0.0298806);
+
+    ret += circ(uv, vec2(0.811545, 0.62568), 0.00265539);
+
+    ret += circ(uv, vec2(0.400787, 0.74162), 0.00486609);
+
+    ret += circ(uv, vec2(0.331283, 0.418536), 0.00598028);
+
+    ret += circ(uv, vec2(0.894762, 0.0657997), 0.00760375);
+
+    ret += circ(uv, vec2(0.525104, 0.572233), 0.0141796);
+
+    ret += circ(uv, vec2(0.431526, 0.911372), 0.0213234);
+
+    ret += circ(uv, vec2(0.658212, 0.910553), 0.000741023);
+
+    ret += circ(uv, vec2(0.514523, 0.243263), 0.0270685);
+
+    ret += circ(uv, vec2(0.0249494, 0.252872), 0.00876653);
+
+    ret += circ(uv, vec2(0.502214, 0.47269), 0.0234534);
+
+    ret += circ(uv, vec2(0.693271, 0.431469), 0.0246533);
+
+    ret += circ(uv, vec2(0.415, 0.884418), 0.0271696);
+
+    ret += circ(uv, vec2(0.149073, 0.41204), 0.00497198);
+
+    ret += circ(uv, vec2(0.533816, 0.897634), 0.00650833);
+
+    ret += circ(uv, vec2(0.0409132, 0.83406), 0.0191398);
+
+    ret += circ(uv, vec2(0.638585, 0.646019), 0.0206129);
+
+    ret += circ(uv, vec2(0.660342, 0.966541), 0.0053511);
+
+    ret += circ(uv, vec2(0.513783, 0.142233), 0.00471653);
+
+    ret += circ(uv, vec2(0.124305, 0.644263), 0.00116724);
+
+    ret += circ(uv, vec2(0.99871, 0.583864), 0.0107329);
+
+    ret += circ(uv, vec2(0.894879, 0.233289), 0.00667092);
+
+    ret += circ(uv, vec2(0.246286, 0.682766), 0.00411623);
+
+    ret += circ(uv, vec2(0.0761895, 0.16327), 0.0145935);
+
+    ret += circ(uv, vec2(0.949386, 0.802936), 0.0100873);
+
+    ret += circ(uv, vec2(0.480122, 0.196554), 0.0110185);
+
+    ret += circ(uv, vec2(0.896854, 0.803707), 0.013969);
+
+    ret += circ(uv, vec2(0.292865, 0.762973), 0.00566413);
+
+    ret += circ(uv, vec2(0.0995585, 0.117457), 0.00869407);
+
+    ret += circ(uv, vec2(0.377713, 0.00335442), 0.0063147);
+
+    ret += circ(uv, vec2(0.506365, 0.531118), 0.0144016);
+
+    ret += circ(uv, vec2(0.408806, 0.894771), 0.0243923);
+
+    ret += circ(uv, vec2(0.143579, 0.85138), 0.00418529);
+
+    ret += circ(uv, vec2(0.0902811, 0.181775), 0.0108896);
+
+    ret += circ(uv, vec2(0.780695, 0.394644), 0.00475475);
+
+    ret += circ(uv, vec2(0.298036, 0.625531), 0.00325285);
+
+    ret += circ(uv, vec2(0.218423, 0.714537), 0.00157212);
+
+    ret += circ(uv, vec2(0.658836, 0.159556), 0.00225897);
+
+    ret += circ(uv, vec2(0.987324, 0.146545), 0.0288391);
+
+    ret += circ(uv, vec2(0.222646, 0.251694), 0.00092276);
+
+    ret += circ(uv, vec2(0.159826, 0.528063), 0.00605293);
+
+	return max(ret, 0.0);
+
+}
+
+
+
+vec3 water(vec2 uv, vec3 cdir, float iTime)
+
+{
+
+    uv *= vec2(0.25);
+
+
+
+    // Parallax height distortion with two directional waves at
+
+    // slightly different angles.
+
+    vec2 a = 0.025 * cdir.xz / cdir.y; // Parallax offset
+
+    float h = sin(uv.x + iTime); // Height at UV
+
+    uv += a * h;
+
+    h = sin(0.841471 * uv.x - 0.540302 * uv.y + iTime);
+
+    uv += a * h;
+
+
+
+    // Texture distortion
+
+    float d1 = mod(uv.x + uv.y, TWOPI);
+
+    float d2 = mod((uv.x + uv.y + 0.25) * 1.3, SIXPI);
+
+    d1 = iTime * 0.07 + d1;
+
+    d2 = iTime * 0.5 + d2;
+
+    vec2 dist = vec2(
+
+    	sin(d1) * 0.15 + sin(d2) * 0.05,
+
+    	cos(d1) * 0.15 + cos(d2) * 0.05
+
+    );
+
+
+
+    vec3 ret = mix(WATER_COL.rgb, WATER2_COL.rgb, waterlayer(uv + dist.xy));
+
+    ret = mix(ret, FOAM_COL.rgb, waterlayer(vec2(1.0) - uv - dist.yx));
+
+    return ret;
+
+}
+
+
+
+void fragment() {
+	vec2 uv = UV;
+
+	// TWEAK THE COEFFS AND/OR EQUATION FOR A DIFFERENT WARP PATTERN
+	uv.x += sin(uv.y * wave_speed * PI + TIME) * cos(uv.y * wave_speed * PI + TIME) * 0.1;
+	uv.y += cos(uv.x * wave_speed * PI + TIME) * -sin(uv.y * wave_speed * PI + TIME) * 0.1;
+
+	vec4 color = texture(tex, uv);
+
+	if (is_opaque){
+		color.a = 1.0;
+		ALPHA = water_transparency;
+
+	} else {
+		ALPHA = water_transparency * color.a;
+	}
+
+	ALBEDO = color.xyz;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v8fr2"]
+render_priority = 1
+shader = SubResource("Shader_iwnan")
+shader_parameter/is_opaque = true
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/warp_ScreenSpace = true
+shader_parameter/WATER_COL = Color(0.67, 0.73, 0.46, 1)
+shader_parameter/WATER2_COL = Color(0.4, 0.44, 0.28, 1)
+shader_parameter/FOAM_COL = Color(0.8125, 0.9609, 0.9648, 1)
+shader_parameter/water_transparency = 1.0
+shader_parameter/distortion_speed = 2.0
+shader_parameter/tile = Vector2(20, 20)
+shader_parameter/wave_speed = 1.0
+shader_parameter/tex = ExtResource("101_5fhd7")
 
 [sub_resource type="Shader" id="Shader_ommuj"]
 code = "shader_type spatial;
@@ -7558,6 +9133,321 @@ _surfaces = [{
 "vertex_data": PackedByteArray("AAAAvwAAAD8AAIC9AAAAvwAAAL8AAIC9AAAAPwAAAL8AAIC9AAAAPwAAAD8AAIC9AAAAvwAAAD8AAIC9AAAAvwAAAD8AAIA9AAAAvwAAAL8AAIA9AAAAvwAAAL8AAIC9AAAAPwAAAL8AAIC9AAAAvwAAAL8AAIC9AAAAvwAAAL8AAIA9AAAAPwAAAL8AAIA9AAAAPwAAAD8AAIC9AAAAPwAAAD8AAIA9AAAAvwAAAD8AAIA9AAAAvwAAAD8AAIC9AAAAPwAAAD8AAIC9AAAAPwAAAL8AAIC9AAAAPwAAAL8AAIA9AAAAPwAAAD8AAIA9AAAAvwAAAD8AAIA9AAAAPwAAAD8AAIA9AAAAPwAAAL8AAIA9AAAAvwAAAL8AAIA9/////wAA/7//////AAD/v/////8AAP+//////wAA/78AAP9//3//vwAA/3//f/+/AAD/f/9//78AAP9//3//v/9/AAD//////38AAP//////fwAA//////9/AAD//////3////9//7//f////3//v/9/////f/+//3////9//7////9//////////3//////////f/////////9///////9//3////+//3//f////7//f/9/////v/9//3////+/")
 }]
 
+[sub_resource type="Shader" id="Shader_tgey8"]
+code = "shader_type spatial;
+render_mode shadows_disabled;
+render_mode unshaded;
+//render_mode cull_disabled;
+//render_mode depth_draw_opaque;
+render_mode blend_mix;
+
+uniform bool is_opaque = false;
+uniform sampler2D tex;
+
+uniform vec2 uv_scale;
+
+uniform vec2 uv_offset;
+
+uniform bool warp_ScreenSpace = true;
+
+uniform vec4 WATER_COL : source_color =  vec4(0.67, 0.73, 0.46, 1.0);
+
+uniform vec4 WATER2_COL : source_color =  vec4(0.40, 0.44, 0.28, 1.0);
+
+uniform vec4 FOAM_COL : source_color = vec4(0.8125, 0.9609, 0.9648, 1.0);
+
+uniform float water_transparency : hint_range(0.0, 1.0) = 1.0;
+
+uniform float distortion_speed = 2.0;
+
+uniform vec2 tile = vec2(5.0, 5.0);
+
+uniform float wave_speed = 1.5;
+
+
+
+const float TWOPI = 6.283185307;
+
+const float SIXPI = 18.84955592;
+
+
+
+
+
+
+
+float circ(vec2 pos, vec2 c, float s)
+
+{
+
+    c = abs(pos - c);
+
+    c = min(c, 1.0 - c);
+
+
+
+    return smoothstep(0.0, 0.06, sqrt(s) - sqrt(dot(c, c))) * -1.0;
+
+}
+
+
+
+
+
+float waterlayer(vec2 uv)
+
+{
+
+    uv = mod(uv, 1.0); // Clamp to [0..1]
+
+    float ret = 1.0;
+
+    ret += circ(uv, vec2(0.37378, 0.277169), 0.0268181);
+
+    ret += circ(uv, vec2(0.0317477, 0.540372), 0.0193742);
+
+    ret += circ(uv, vec2(0.430044, 0.882218), 0.0232337);
+
+    ret += circ(uv, vec2(0.641033, 0.695106), 0.0117864);
+
+    ret += circ(uv, vec2(0.0146398, 0.0791346), 0.0299458);
+
+    ret += circ(uv, vec2(0.43871, 0.394445), 0.0289087);
+
+    ret += circ(uv, vec2(0.909446, 0.878141), 0.028466);
+
+    ret += circ(uv, vec2(0.310149, 0.686637), 0.0128496);
+
+    ret += circ(uv, vec2(0.928617, 0.195986), 0.0152041);
+
+    ret += circ(uv, vec2(0.0438506, 0.868153), 0.0268601);
+
+    ret += circ(uv, vec2(0.308619, 0.194937), 0.00806102);
+
+    ret += circ(uv, vec2(0.349922, 0.449714), 0.00928667);
+
+    ret += circ(uv, vec2(0.0449556, 0.953415), 0.023126);
+
+    ret += circ(uv, vec2(0.117761, 0.503309), 0.0151272);
+
+    ret += circ(uv, vec2(0.563517, 0.244991), 0.0292322);
+
+    ret += circ(uv, vec2(0.566936, 0.954457), 0.00981141);
+
+    ret += circ(uv, vec2(0.0489944, 0.200931), 0.0178746);
+
+    ret += circ(uv, vec2(0.569297, 0.624893), 0.0132408);
+
+    ret += circ(uv, vec2(0.298347, 0.710972), 0.0114426);
+
+    ret += circ(uv, vec2(0.878141, 0.771279), 0.00322719);
+
+    ret += circ(uv, vec2(0.150995, 0.376221), 0.00216157);
+
+    ret += circ(uv, vec2(0.119673, 0.541984), 0.0124621);
+
+    ret += circ(uv, vec2(0.629598, 0.295629), 0.0198736);
+
+    ret += circ(uv, vec2(0.334357, 0.266278), 0.0187145);
+
+    ret += circ(uv, vec2(0.918044, 0.968163), 0.0182928);
+
+    ret += circ(uv, vec2(0.965445, 0.505026), 0.006348);
+
+    ret += circ(uv, vec2(0.514847, 0.865444), 0.00623523);
+
+    ret += circ(uv, vec2(0.710575, 0.0415131), 0.00322689);
+
+    ret += circ(uv, vec2(0.71403, 0.576945), 0.0215641);
+
+    ret += circ(uv, vec2(0.748873, 0.413325), 0.0110795);
+
+    ret += circ(uv, vec2(0.0623365, 0.896713), 0.0236203);
+
+    ret += circ(uv, vec2(0.980482, 0.473849), 0.00573439);
+
+    ret += circ(uv, vec2(0.647463, 0.654349), 0.0188713);
+
+    ret += circ(uv, vec2(0.651406, 0.981297), 0.00710875);
+
+    ret += circ(uv, vec2(0.428928, 0.382426), 0.0298806);
+
+    ret += circ(uv, vec2(0.811545, 0.62568), 0.00265539);
+
+    ret += circ(uv, vec2(0.400787, 0.74162), 0.00486609);
+
+    ret += circ(uv, vec2(0.331283, 0.418536), 0.00598028);
+
+    ret += circ(uv, vec2(0.894762, 0.0657997), 0.00760375);
+
+    ret += circ(uv, vec2(0.525104, 0.572233), 0.0141796);
+
+    ret += circ(uv, vec2(0.431526, 0.911372), 0.0213234);
+
+    ret += circ(uv, vec2(0.658212, 0.910553), 0.000741023);
+
+    ret += circ(uv, vec2(0.514523, 0.243263), 0.0270685);
+
+    ret += circ(uv, vec2(0.0249494, 0.252872), 0.00876653);
+
+    ret += circ(uv, vec2(0.502214, 0.47269), 0.0234534);
+
+    ret += circ(uv, vec2(0.693271, 0.431469), 0.0246533);
+
+    ret += circ(uv, vec2(0.415, 0.884418), 0.0271696);
+
+    ret += circ(uv, vec2(0.149073, 0.41204), 0.00497198);
+
+    ret += circ(uv, vec2(0.533816, 0.897634), 0.00650833);
+
+    ret += circ(uv, vec2(0.0409132, 0.83406), 0.0191398);
+
+    ret += circ(uv, vec2(0.638585, 0.646019), 0.0206129);
+
+    ret += circ(uv, vec2(0.660342, 0.966541), 0.0053511);
+
+    ret += circ(uv, vec2(0.513783, 0.142233), 0.00471653);
+
+    ret += circ(uv, vec2(0.124305, 0.644263), 0.00116724);
+
+    ret += circ(uv, vec2(0.99871, 0.583864), 0.0107329);
+
+    ret += circ(uv, vec2(0.894879, 0.233289), 0.00667092);
+
+    ret += circ(uv, vec2(0.246286, 0.682766), 0.00411623);
+
+    ret += circ(uv, vec2(0.0761895, 0.16327), 0.0145935);
+
+    ret += circ(uv, vec2(0.949386, 0.802936), 0.0100873);
+
+    ret += circ(uv, vec2(0.480122, 0.196554), 0.0110185);
+
+    ret += circ(uv, vec2(0.896854, 0.803707), 0.013969);
+
+    ret += circ(uv, vec2(0.292865, 0.762973), 0.00566413);
+
+    ret += circ(uv, vec2(0.0995585, 0.117457), 0.00869407);
+
+    ret += circ(uv, vec2(0.377713, 0.00335442), 0.0063147);
+
+    ret += circ(uv, vec2(0.506365, 0.531118), 0.0144016);
+
+    ret += circ(uv, vec2(0.408806, 0.894771), 0.0243923);
+
+    ret += circ(uv, vec2(0.143579, 0.85138), 0.00418529);
+
+    ret += circ(uv, vec2(0.0902811, 0.181775), 0.0108896);
+
+    ret += circ(uv, vec2(0.780695, 0.394644), 0.00475475);
+
+    ret += circ(uv, vec2(0.298036, 0.625531), 0.00325285);
+
+    ret += circ(uv, vec2(0.218423, 0.714537), 0.00157212);
+
+    ret += circ(uv, vec2(0.658836, 0.159556), 0.00225897);
+
+    ret += circ(uv, vec2(0.987324, 0.146545), 0.0288391);
+
+    ret += circ(uv, vec2(0.222646, 0.251694), 0.00092276);
+
+    ret += circ(uv, vec2(0.159826, 0.528063), 0.00605293);
+
+	return max(ret, 0.0);
+
+}
+
+
+
+vec3 water(vec2 uv, vec3 cdir, float iTime)
+
+{
+
+    uv *= vec2(0.25);
+
+
+
+    // Parallax height distortion with two directional waves at
+
+    // slightly different angles.
+
+    vec2 a = 0.025 * cdir.xz / cdir.y; // Parallax offset
+
+    float h = sin(uv.x + iTime); // Height at UV
+
+    uv += a * h;
+
+    h = sin(0.841471 * uv.x - 0.540302 * uv.y + iTime);
+
+    uv += a * h;
+
+
+
+    // Texture distortion
+
+    float d1 = mod(uv.x + uv.y, TWOPI);
+
+    float d2 = mod((uv.x + uv.y + 0.25) * 1.3, SIXPI);
+
+    d1 = iTime * 0.07 + d1;
+
+    d2 = iTime * 0.5 + d2;
+
+    vec2 dist = vec2(
+
+    	sin(d1) * 0.15 + sin(d2) * 0.05,
+
+    	cos(d1) * 0.15 + cos(d2) * 0.05
+
+    );
+
+
+
+    vec3 ret = mix(WATER_COL.rgb, WATER2_COL.rgb, waterlayer(uv + dist.xy));
+
+    ret = mix(ret, FOAM_COL.rgb, waterlayer(vec2(1.0) - uv - dist.yx));
+
+    return ret;
+
+}
+
+
+
+void fragment() {
+	vec2 uv = UV;
+
+	// TWEAK THE COEFFS AND/OR EQUATION FOR A DIFFERENT WARP PATTERN
+	uv.x += sin(uv.y * wave_speed * PI + TIME) * cos(uv.y * wave_speed * PI + TIME) * 0.1;
+	uv.y += cos(uv.x * wave_speed * PI + TIME) * -sin(uv.y * wave_speed * PI + TIME) * 0.1;
+
+	vec4 color = texture(tex, uv);
+
+	if (is_opaque){
+		color.a = 1.0;
+		ALPHA = water_transparency;
+
+	} else {
+		ALPHA = water_transparency * color.a;
+	}
+
+	ALBEDO = color.xyz;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nbvmi"]
+render_priority = 1
+shader = SubResource("Shader_tgey8")
+shader_parameter/is_opaque = true
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/warp_ScreenSpace = true
+shader_parameter/WATER_COL = Color(0.67, 0.73, 0.46, 1)
+shader_parameter/WATER2_COL = Color(0.4, 0.44, 0.28, 1)
+shader_parameter/FOAM_COL = Color(0.8125, 0.9609, 0.9648, 1)
+shader_parameter/water_transparency = 1.0
+shader_parameter/distortion_speed = 2.0
+shader_parameter/tile = Vector2(20, 20)
+shader_parameter/wave_speed = 1.0
+shader_parameter/tex = ExtResource("101_5fhd7")
+
 [sub_resource type="Shader" id="Shader_bhecr"]
 code = "shader_type spatial;
 render_mode shadows_disabled;
@@ -8154,6 +10044,321 @@ _surfaces = [{
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_nd4d2"]
 points = PackedVector3Array(-0.25, 1.75, -1, -0.25, -1.75, -1, 0.25, -1.75, -1, 0.25, 1.75, -1, -0.25, 1.75, 1, -0.25, -1.75, 1, 0.25, -1.75, 1, 0.25, 1.75, 1)
 
+[sub_resource type="Shader" id="Shader_erhr3"]
+code = "shader_type spatial;
+render_mode shadows_disabled;
+render_mode unshaded;
+//render_mode cull_disabled;
+//render_mode depth_draw_opaque;
+render_mode blend_mix;
+
+uniform bool is_opaque = false;
+uniform sampler2D tex;
+
+uniform vec2 uv_scale;
+
+uniform vec2 uv_offset;
+
+uniform bool warp_ScreenSpace = true;
+
+uniform vec4 WATER_COL : source_color =  vec4(0.67, 0.73, 0.46, 1.0);
+
+uniform vec4 WATER2_COL : source_color =  vec4(0.40, 0.44, 0.28, 1.0);
+
+uniform vec4 FOAM_COL : source_color = vec4(0.8125, 0.9609, 0.9648, 1.0);
+
+uniform float water_transparency : hint_range(0.0, 1.0) = 1.0;
+
+uniform float distortion_speed = 2.0;
+
+uniform vec2 tile = vec2(5.0, 5.0);
+
+uniform float wave_speed = 1.5;
+
+
+
+const float TWOPI = 6.283185307;
+
+const float SIXPI = 18.84955592;
+
+
+
+
+
+
+
+float circ(vec2 pos, vec2 c, float s)
+
+{
+
+    c = abs(pos - c);
+
+    c = min(c, 1.0 - c);
+
+
+
+    return smoothstep(0.0, 0.06, sqrt(s) - sqrt(dot(c, c))) * -1.0;
+
+}
+
+
+
+
+
+float waterlayer(vec2 uv)
+
+{
+
+    uv = mod(uv, 1.0); // Clamp to [0..1]
+
+    float ret = 1.0;
+
+    ret += circ(uv, vec2(0.37378, 0.277169), 0.0268181);
+
+    ret += circ(uv, vec2(0.0317477, 0.540372), 0.0193742);
+
+    ret += circ(uv, vec2(0.430044, 0.882218), 0.0232337);
+
+    ret += circ(uv, vec2(0.641033, 0.695106), 0.0117864);
+
+    ret += circ(uv, vec2(0.0146398, 0.0791346), 0.0299458);
+
+    ret += circ(uv, vec2(0.43871, 0.394445), 0.0289087);
+
+    ret += circ(uv, vec2(0.909446, 0.878141), 0.028466);
+
+    ret += circ(uv, vec2(0.310149, 0.686637), 0.0128496);
+
+    ret += circ(uv, vec2(0.928617, 0.195986), 0.0152041);
+
+    ret += circ(uv, vec2(0.0438506, 0.868153), 0.0268601);
+
+    ret += circ(uv, vec2(0.308619, 0.194937), 0.00806102);
+
+    ret += circ(uv, vec2(0.349922, 0.449714), 0.00928667);
+
+    ret += circ(uv, vec2(0.0449556, 0.953415), 0.023126);
+
+    ret += circ(uv, vec2(0.117761, 0.503309), 0.0151272);
+
+    ret += circ(uv, vec2(0.563517, 0.244991), 0.0292322);
+
+    ret += circ(uv, vec2(0.566936, 0.954457), 0.00981141);
+
+    ret += circ(uv, vec2(0.0489944, 0.200931), 0.0178746);
+
+    ret += circ(uv, vec2(0.569297, 0.624893), 0.0132408);
+
+    ret += circ(uv, vec2(0.298347, 0.710972), 0.0114426);
+
+    ret += circ(uv, vec2(0.878141, 0.771279), 0.00322719);
+
+    ret += circ(uv, vec2(0.150995, 0.376221), 0.00216157);
+
+    ret += circ(uv, vec2(0.119673, 0.541984), 0.0124621);
+
+    ret += circ(uv, vec2(0.629598, 0.295629), 0.0198736);
+
+    ret += circ(uv, vec2(0.334357, 0.266278), 0.0187145);
+
+    ret += circ(uv, vec2(0.918044, 0.968163), 0.0182928);
+
+    ret += circ(uv, vec2(0.965445, 0.505026), 0.006348);
+
+    ret += circ(uv, vec2(0.514847, 0.865444), 0.00623523);
+
+    ret += circ(uv, vec2(0.710575, 0.0415131), 0.00322689);
+
+    ret += circ(uv, vec2(0.71403, 0.576945), 0.0215641);
+
+    ret += circ(uv, vec2(0.748873, 0.413325), 0.0110795);
+
+    ret += circ(uv, vec2(0.0623365, 0.896713), 0.0236203);
+
+    ret += circ(uv, vec2(0.980482, 0.473849), 0.00573439);
+
+    ret += circ(uv, vec2(0.647463, 0.654349), 0.0188713);
+
+    ret += circ(uv, vec2(0.651406, 0.981297), 0.00710875);
+
+    ret += circ(uv, vec2(0.428928, 0.382426), 0.0298806);
+
+    ret += circ(uv, vec2(0.811545, 0.62568), 0.00265539);
+
+    ret += circ(uv, vec2(0.400787, 0.74162), 0.00486609);
+
+    ret += circ(uv, vec2(0.331283, 0.418536), 0.00598028);
+
+    ret += circ(uv, vec2(0.894762, 0.0657997), 0.00760375);
+
+    ret += circ(uv, vec2(0.525104, 0.572233), 0.0141796);
+
+    ret += circ(uv, vec2(0.431526, 0.911372), 0.0213234);
+
+    ret += circ(uv, vec2(0.658212, 0.910553), 0.000741023);
+
+    ret += circ(uv, vec2(0.514523, 0.243263), 0.0270685);
+
+    ret += circ(uv, vec2(0.0249494, 0.252872), 0.00876653);
+
+    ret += circ(uv, vec2(0.502214, 0.47269), 0.0234534);
+
+    ret += circ(uv, vec2(0.693271, 0.431469), 0.0246533);
+
+    ret += circ(uv, vec2(0.415, 0.884418), 0.0271696);
+
+    ret += circ(uv, vec2(0.149073, 0.41204), 0.00497198);
+
+    ret += circ(uv, vec2(0.533816, 0.897634), 0.00650833);
+
+    ret += circ(uv, vec2(0.0409132, 0.83406), 0.0191398);
+
+    ret += circ(uv, vec2(0.638585, 0.646019), 0.0206129);
+
+    ret += circ(uv, vec2(0.660342, 0.966541), 0.0053511);
+
+    ret += circ(uv, vec2(0.513783, 0.142233), 0.00471653);
+
+    ret += circ(uv, vec2(0.124305, 0.644263), 0.00116724);
+
+    ret += circ(uv, vec2(0.99871, 0.583864), 0.0107329);
+
+    ret += circ(uv, vec2(0.894879, 0.233289), 0.00667092);
+
+    ret += circ(uv, vec2(0.246286, 0.682766), 0.00411623);
+
+    ret += circ(uv, vec2(0.0761895, 0.16327), 0.0145935);
+
+    ret += circ(uv, vec2(0.949386, 0.802936), 0.0100873);
+
+    ret += circ(uv, vec2(0.480122, 0.196554), 0.0110185);
+
+    ret += circ(uv, vec2(0.896854, 0.803707), 0.013969);
+
+    ret += circ(uv, vec2(0.292865, 0.762973), 0.00566413);
+
+    ret += circ(uv, vec2(0.0995585, 0.117457), 0.00869407);
+
+    ret += circ(uv, vec2(0.377713, 0.00335442), 0.0063147);
+
+    ret += circ(uv, vec2(0.506365, 0.531118), 0.0144016);
+
+    ret += circ(uv, vec2(0.408806, 0.894771), 0.0243923);
+
+    ret += circ(uv, vec2(0.143579, 0.85138), 0.00418529);
+
+    ret += circ(uv, vec2(0.0902811, 0.181775), 0.0108896);
+
+    ret += circ(uv, vec2(0.780695, 0.394644), 0.00475475);
+
+    ret += circ(uv, vec2(0.298036, 0.625531), 0.00325285);
+
+    ret += circ(uv, vec2(0.218423, 0.714537), 0.00157212);
+
+    ret += circ(uv, vec2(0.658836, 0.159556), 0.00225897);
+
+    ret += circ(uv, vec2(0.987324, 0.146545), 0.0288391);
+
+    ret += circ(uv, vec2(0.222646, 0.251694), 0.00092276);
+
+    ret += circ(uv, vec2(0.159826, 0.528063), 0.00605293);
+
+	return max(ret, 0.0);
+
+}
+
+
+
+vec3 water(vec2 uv, vec3 cdir, float iTime)
+
+{
+
+    uv *= vec2(0.25);
+
+
+
+    // Parallax height distortion with two directional waves at
+
+    // slightly different angles.
+
+    vec2 a = 0.025 * cdir.xz / cdir.y; // Parallax offset
+
+    float h = sin(uv.x + iTime); // Height at UV
+
+    uv += a * h;
+
+    h = sin(0.841471 * uv.x - 0.540302 * uv.y + iTime);
+
+    uv += a * h;
+
+
+
+    // Texture distortion
+
+    float d1 = mod(uv.x + uv.y, TWOPI);
+
+    float d2 = mod((uv.x + uv.y + 0.25) * 1.3, SIXPI);
+
+    d1 = iTime * 0.07 + d1;
+
+    d2 = iTime * 0.5 + d2;
+
+    vec2 dist = vec2(
+
+    	sin(d1) * 0.15 + sin(d2) * 0.05,
+
+    	cos(d1) * 0.15 + cos(d2) * 0.05
+
+    );
+
+
+
+    vec3 ret = mix(WATER_COL.rgb, WATER2_COL.rgb, waterlayer(uv + dist.xy));
+
+    ret = mix(ret, FOAM_COL.rgb, waterlayer(vec2(1.0) - uv - dist.yx));
+
+    return ret;
+
+}
+
+
+
+void fragment() {
+	vec2 uv = UV;
+
+	// TWEAK THE COEFFS AND/OR EQUATION FOR A DIFFERENT WARP PATTERN
+	uv.x += sin(uv.y * wave_speed * PI + TIME) * cos(uv.y * wave_speed * PI + TIME) * 0.1;
+	uv.y += cos(uv.x * wave_speed * PI + TIME) * -sin(uv.y * wave_speed * PI + TIME) * 0.1;
+
+	vec4 color = texture(tex, uv);
+
+	if (is_opaque){
+		color.a = 1.0;
+		ALPHA = water_transparency;
+
+	} else {
+		ALPHA = water_transparency * color.a;
+	}
+
+	ALBEDO = color.xyz;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4xhvd"]
+render_priority = 1
+shader = SubResource("Shader_erhr3")
+shader_parameter/is_opaque = true
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/warp_ScreenSpace = true
+shader_parameter/WATER_COL = Color(0.67, 0.73, 0.46, 1)
+shader_parameter/WATER2_COL = Color(0.4, 0.44, 0.28, 1)
+shader_parameter/FOAM_COL = Color(0.8125, 0.9609, 0.9648, 1)
+shader_parameter/water_transparency = 1.0
+shader_parameter/distortion_speed = 2.0
+shader_parameter/tile = Vector2(20, 20)
+shader_parameter/wave_speed = 1.0
+shader_parameter/tex = ExtResource("80_mhkne")
+
 [sub_resource type="Shader" id="Shader_k4djf"]
 code = "shader_type spatial;
 render_mode shadows_disabled;
@@ -8504,6 +10709,321 @@ _surfaces = [{
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ygp2f"]
 points = PackedVector3Array(-0.25, 1.75, -3.5, -0.25, -1.75, -3.5, 0.25, -1.75, -3.5, 0.25, 1.75, -3.5, -0.25, 1.75, 3.5, -0.25, -1.75, 3.5, 0.25, -1.75, 3.5, 0.25, 1.75, 3.5)
+
+[sub_resource type="Shader" id="Shader_itk3v"]
+code = "shader_type spatial;
+render_mode shadows_disabled;
+render_mode unshaded;
+//render_mode cull_disabled;
+//render_mode depth_draw_opaque;
+render_mode blend_mix;
+
+uniform bool is_opaque = false;
+uniform sampler2D tex;
+
+uniform vec2 uv_scale;
+
+uniform vec2 uv_offset;
+
+uniform bool warp_ScreenSpace = true;
+
+uniform vec4 WATER_COL : source_color =  vec4(0.67, 0.73, 0.46, 1.0);
+
+uniform vec4 WATER2_COL : source_color =  vec4(0.40, 0.44, 0.28, 1.0);
+
+uniform vec4 FOAM_COL : source_color = vec4(0.8125, 0.9609, 0.9648, 1.0);
+
+uniform float water_transparency : hint_range(0.0, 1.0) = 1.0;
+
+uniform float distortion_speed = 2.0;
+
+uniform vec2 tile = vec2(5.0, 5.0);
+
+uniform float wave_speed = 1.5;
+
+
+
+const float TWOPI = 6.283185307;
+
+const float SIXPI = 18.84955592;
+
+
+
+
+
+
+
+float circ(vec2 pos, vec2 c, float s)
+
+{
+
+    c = abs(pos - c);
+
+    c = min(c, 1.0 - c);
+
+
+
+    return smoothstep(0.0, 0.06, sqrt(s) - sqrt(dot(c, c))) * -1.0;
+
+}
+
+
+
+
+
+float waterlayer(vec2 uv)
+
+{
+
+    uv = mod(uv, 1.0); // Clamp to [0..1]
+
+    float ret = 1.0;
+
+    ret += circ(uv, vec2(0.37378, 0.277169), 0.0268181);
+
+    ret += circ(uv, vec2(0.0317477, 0.540372), 0.0193742);
+
+    ret += circ(uv, vec2(0.430044, 0.882218), 0.0232337);
+
+    ret += circ(uv, vec2(0.641033, 0.695106), 0.0117864);
+
+    ret += circ(uv, vec2(0.0146398, 0.0791346), 0.0299458);
+
+    ret += circ(uv, vec2(0.43871, 0.394445), 0.0289087);
+
+    ret += circ(uv, vec2(0.909446, 0.878141), 0.028466);
+
+    ret += circ(uv, vec2(0.310149, 0.686637), 0.0128496);
+
+    ret += circ(uv, vec2(0.928617, 0.195986), 0.0152041);
+
+    ret += circ(uv, vec2(0.0438506, 0.868153), 0.0268601);
+
+    ret += circ(uv, vec2(0.308619, 0.194937), 0.00806102);
+
+    ret += circ(uv, vec2(0.349922, 0.449714), 0.00928667);
+
+    ret += circ(uv, vec2(0.0449556, 0.953415), 0.023126);
+
+    ret += circ(uv, vec2(0.117761, 0.503309), 0.0151272);
+
+    ret += circ(uv, vec2(0.563517, 0.244991), 0.0292322);
+
+    ret += circ(uv, vec2(0.566936, 0.954457), 0.00981141);
+
+    ret += circ(uv, vec2(0.0489944, 0.200931), 0.0178746);
+
+    ret += circ(uv, vec2(0.569297, 0.624893), 0.0132408);
+
+    ret += circ(uv, vec2(0.298347, 0.710972), 0.0114426);
+
+    ret += circ(uv, vec2(0.878141, 0.771279), 0.00322719);
+
+    ret += circ(uv, vec2(0.150995, 0.376221), 0.00216157);
+
+    ret += circ(uv, vec2(0.119673, 0.541984), 0.0124621);
+
+    ret += circ(uv, vec2(0.629598, 0.295629), 0.0198736);
+
+    ret += circ(uv, vec2(0.334357, 0.266278), 0.0187145);
+
+    ret += circ(uv, vec2(0.918044, 0.968163), 0.0182928);
+
+    ret += circ(uv, vec2(0.965445, 0.505026), 0.006348);
+
+    ret += circ(uv, vec2(0.514847, 0.865444), 0.00623523);
+
+    ret += circ(uv, vec2(0.710575, 0.0415131), 0.00322689);
+
+    ret += circ(uv, vec2(0.71403, 0.576945), 0.0215641);
+
+    ret += circ(uv, vec2(0.748873, 0.413325), 0.0110795);
+
+    ret += circ(uv, vec2(0.0623365, 0.896713), 0.0236203);
+
+    ret += circ(uv, vec2(0.980482, 0.473849), 0.00573439);
+
+    ret += circ(uv, vec2(0.647463, 0.654349), 0.0188713);
+
+    ret += circ(uv, vec2(0.651406, 0.981297), 0.00710875);
+
+    ret += circ(uv, vec2(0.428928, 0.382426), 0.0298806);
+
+    ret += circ(uv, vec2(0.811545, 0.62568), 0.00265539);
+
+    ret += circ(uv, vec2(0.400787, 0.74162), 0.00486609);
+
+    ret += circ(uv, vec2(0.331283, 0.418536), 0.00598028);
+
+    ret += circ(uv, vec2(0.894762, 0.0657997), 0.00760375);
+
+    ret += circ(uv, vec2(0.525104, 0.572233), 0.0141796);
+
+    ret += circ(uv, vec2(0.431526, 0.911372), 0.0213234);
+
+    ret += circ(uv, vec2(0.658212, 0.910553), 0.000741023);
+
+    ret += circ(uv, vec2(0.514523, 0.243263), 0.0270685);
+
+    ret += circ(uv, vec2(0.0249494, 0.252872), 0.00876653);
+
+    ret += circ(uv, vec2(0.502214, 0.47269), 0.0234534);
+
+    ret += circ(uv, vec2(0.693271, 0.431469), 0.0246533);
+
+    ret += circ(uv, vec2(0.415, 0.884418), 0.0271696);
+
+    ret += circ(uv, vec2(0.149073, 0.41204), 0.00497198);
+
+    ret += circ(uv, vec2(0.533816, 0.897634), 0.00650833);
+
+    ret += circ(uv, vec2(0.0409132, 0.83406), 0.0191398);
+
+    ret += circ(uv, vec2(0.638585, 0.646019), 0.0206129);
+
+    ret += circ(uv, vec2(0.660342, 0.966541), 0.0053511);
+
+    ret += circ(uv, vec2(0.513783, 0.142233), 0.00471653);
+
+    ret += circ(uv, vec2(0.124305, 0.644263), 0.00116724);
+
+    ret += circ(uv, vec2(0.99871, 0.583864), 0.0107329);
+
+    ret += circ(uv, vec2(0.894879, 0.233289), 0.00667092);
+
+    ret += circ(uv, vec2(0.246286, 0.682766), 0.00411623);
+
+    ret += circ(uv, vec2(0.0761895, 0.16327), 0.0145935);
+
+    ret += circ(uv, vec2(0.949386, 0.802936), 0.0100873);
+
+    ret += circ(uv, vec2(0.480122, 0.196554), 0.0110185);
+
+    ret += circ(uv, vec2(0.896854, 0.803707), 0.013969);
+
+    ret += circ(uv, vec2(0.292865, 0.762973), 0.00566413);
+
+    ret += circ(uv, vec2(0.0995585, 0.117457), 0.00869407);
+
+    ret += circ(uv, vec2(0.377713, 0.00335442), 0.0063147);
+
+    ret += circ(uv, vec2(0.506365, 0.531118), 0.0144016);
+
+    ret += circ(uv, vec2(0.408806, 0.894771), 0.0243923);
+
+    ret += circ(uv, vec2(0.143579, 0.85138), 0.00418529);
+
+    ret += circ(uv, vec2(0.0902811, 0.181775), 0.0108896);
+
+    ret += circ(uv, vec2(0.780695, 0.394644), 0.00475475);
+
+    ret += circ(uv, vec2(0.298036, 0.625531), 0.00325285);
+
+    ret += circ(uv, vec2(0.218423, 0.714537), 0.00157212);
+
+    ret += circ(uv, vec2(0.658836, 0.159556), 0.00225897);
+
+    ret += circ(uv, vec2(0.987324, 0.146545), 0.0288391);
+
+    ret += circ(uv, vec2(0.222646, 0.251694), 0.00092276);
+
+    ret += circ(uv, vec2(0.159826, 0.528063), 0.00605293);
+
+	return max(ret, 0.0);
+
+}
+
+
+
+vec3 water(vec2 uv, vec3 cdir, float iTime)
+
+{
+
+    uv *= vec2(0.25);
+
+
+
+    // Parallax height distortion with two directional waves at
+
+    // slightly different angles.
+
+    vec2 a = 0.025 * cdir.xz / cdir.y; // Parallax offset
+
+    float h = sin(uv.x + iTime); // Height at UV
+
+    uv += a * h;
+
+    h = sin(0.841471 * uv.x - 0.540302 * uv.y + iTime);
+
+    uv += a * h;
+
+
+
+    // Texture distortion
+
+    float d1 = mod(uv.x + uv.y, TWOPI);
+
+    float d2 = mod((uv.x + uv.y + 0.25) * 1.3, SIXPI);
+
+    d1 = iTime * 0.07 + d1;
+
+    d2 = iTime * 0.5 + d2;
+
+    vec2 dist = vec2(
+
+    	sin(d1) * 0.15 + sin(d2) * 0.05,
+
+    	cos(d1) * 0.15 + cos(d2) * 0.05
+
+    );
+
+
+
+    vec3 ret = mix(WATER_COL.rgb, WATER2_COL.rgb, waterlayer(uv + dist.xy));
+
+    ret = mix(ret, FOAM_COL.rgb, waterlayer(vec2(1.0) - uv - dist.yx));
+
+    return ret;
+
+}
+
+
+
+void fragment() {
+	vec2 uv = UV;
+
+	// TWEAK THE COEFFS AND/OR EQUATION FOR A DIFFERENT WARP PATTERN
+	uv.x += sin(uv.y * wave_speed * PI + TIME) * cos(uv.y * wave_speed * PI + TIME) * 0.1;
+	uv.y += cos(uv.x * wave_speed * PI + TIME) * -sin(uv.y * wave_speed * PI + TIME) * 0.1;
+
+	vec4 color = texture(tex, uv);
+
+	if (is_opaque){
+		color.a = 1.0;
+		ALPHA = water_transparency;
+
+	} else {
+		ALPHA = water_transparency * color.a;
+	}
+
+	ALBEDO = color.xyz;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tkpyi"]
+render_priority = 1
+shader = SubResource("Shader_itk3v")
+shader_parameter/is_opaque = true
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/warp_ScreenSpace = true
+shader_parameter/WATER_COL = Color(0.67, 0.73, 0.46, 1)
+shader_parameter/WATER2_COL = Color(0.4, 0.44, 0.28, 1)
+shader_parameter/FOAM_COL = Color(0.8125, 0.9609, 0.9648, 1)
+shader_parameter/water_transparency = 1.0
+shader_parameter/distortion_speed = 2.0
+shader_parameter/tile = Vector2(20, 20)
+shader_parameter/wave_speed = 1.0
+shader_parameter/tex = ExtResource("101_5fhd7")
 
 [sub_resource type="Shader" id="Shader_5e1my"]
 code = "shader_type spatial;
@@ -9108,6 +11628,321 @@ _surfaces = [{
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_peook"]
 points = PackedVector3Array(-3.5, 0.467213, -4.5, -3.5, -0.467213, -4.5, 3.5, -0.467213, -4.5, 3.5, 0.467213, -4.5, -3.5, 0.467213, 4.5, -3.5, -0.467213, 4.5, 3.5, -0.467213, 4.5, 3.5, 0.467213, 4.5)
 
+[sub_resource type="Shader" id="Shader_73dap"]
+code = "shader_type spatial;
+render_mode shadows_disabled;
+render_mode unshaded;
+//render_mode cull_disabled;
+//render_mode depth_draw_opaque;
+render_mode blend_mix;
+
+uniform bool is_opaque = false;
+uniform sampler2D tex;
+
+uniform vec2 uv_scale;
+
+uniform vec2 uv_offset;
+
+uniform bool warp_ScreenSpace = true;
+
+uniform vec4 WATER_COL : source_color =  vec4(0.67, 0.73, 0.46, 1.0);
+
+uniform vec4 WATER2_COL : source_color =  vec4(0.40, 0.44, 0.28, 1.0);
+
+uniform vec4 FOAM_COL : source_color = vec4(0.8125, 0.9609, 0.9648, 1.0);
+
+uniform float water_transparency : hint_range(0.0, 1.0) = 1.0;
+
+uniform float distortion_speed = 2.0;
+
+uniform vec2 tile = vec2(5.0, 5.0);
+
+uniform float wave_speed = 1.5;
+
+
+
+const float TWOPI = 6.283185307;
+
+const float SIXPI = 18.84955592;
+
+
+
+
+
+
+
+float circ(vec2 pos, vec2 c, float s)
+
+{
+
+    c = abs(pos - c);
+
+    c = min(c, 1.0 - c);
+
+
+
+    return smoothstep(0.0, 0.06, sqrt(s) - sqrt(dot(c, c))) * -1.0;
+
+}
+
+
+
+
+
+float waterlayer(vec2 uv)
+
+{
+
+    uv = mod(uv, 1.0); // Clamp to [0..1]
+
+    float ret = 1.0;
+
+    ret += circ(uv, vec2(0.37378, 0.277169), 0.0268181);
+
+    ret += circ(uv, vec2(0.0317477, 0.540372), 0.0193742);
+
+    ret += circ(uv, vec2(0.430044, 0.882218), 0.0232337);
+
+    ret += circ(uv, vec2(0.641033, 0.695106), 0.0117864);
+
+    ret += circ(uv, vec2(0.0146398, 0.0791346), 0.0299458);
+
+    ret += circ(uv, vec2(0.43871, 0.394445), 0.0289087);
+
+    ret += circ(uv, vec2(0.909446, 0.878141), 0.028466);
+
+    ret += circ(uv, vec2(0.310149, 0.686637), 0.0128496);
+
+    ret += circ(uv, vec2(0.928617, 0.195986), 0.0152041);
+
+    ret += circ(uv, vec2(0.0438506, 0.868153), 0.0268601);
+
+    ret += circ(uv, vec2(0.308619, 0.194937), 0.00806102);
+
+    ret += circ(uv, vec2(0.349922, 0.449714), 0.00928667);
+
+    ret += circ(uv, vec2(0.0449556, 0.953415), 0.023126);
+
+    ret += circ(uv, vec2(0.117761, 0.503309), 0.0151272);
+
+    ret += circ(uv, vec2(0.563517, 0.244991), 0.0292322);
+
+    ret += circ(uv, vec2(0.566936, 0.954457), 0.00981141);
+
+    ret += circ(uv, vec2(0.0489944, 0.200931), 0.0178746);
+
+    ret += circ(uv, vec2(0.569297, 0.624893), 0.0132408);
+
+    ret += circ(uv, vec2(0.298347, 0.710972), 0.0114426);
+
+    ret += circ(uv, vec2(0.878141, 0.771279), 0.00322719);
+
+    ret += circ(uv, vec2(0.150995, 0.376221), 0.00216157);
+
+    ret += circ(uv, vec2(0.119673, 0.541984), 0.0124621);
+
+    ret += circ(uv, vec2(0.629598, 0.295629), 0.0198736);
+
+    ret += circ(uv, vec2(0.334357, 0.266278), 0.0187145);
+
+    ret += circ(uv, vec2(0.918044, 0.968163), 0.0182928);
+
+    ret += circ(uv, vec2(0.965445, 0.505026), 0.006348);
+
+    ret += circ(uv, vec2(0.514847, 0.865444), 0.00623523);
+
+    ret += circ(uv, vec2(0.710575, 0.0415131), 0.00322689);
+
+    ret += circ(uv, vec2(0.71403, 0.576945), 0.0215641);
+
+    ret += circ(uv, vec2(0.748873, 0.413325), 0.0110795);
+
+    ret += circ(uv, vec2(0.0623365, 0.896713), 0.0236203);
+
+    ret += circ(uv, vec2(0.980482, 0.473849), 0.00573439);
+
+    ret += circ(uv, vec2(0.647463, 0.654349), 0.0188713);
+
+    ret += circ(uv, vec2(0.651406, 0.981297), 0.00710875);
+
+    ret += circ(uv, vec2(0.428928, 0.382426), 0.0298806);
+
+    ret += circ(uv, vec2(0.811545, 0.62568), 0.00265539);
+
+    ret += circ(uv, vec2(0.400787, 0.74162), 0.00486609);
+
+    ret += circ(uv, vec2(0.331283, 0.418536), 0.00598028);
+
+    ret += circ(uv, vec2(0.894762, 0.0657997), 0.00760375);
+
+    ret += circ(uv, vec2(0.525104, 0.572233), 0.0141796);
+
+    ret += circ(uv, vec2(0.431526, 0.911372), 0.0213234);
+
+    ret += circ(uv, vec2(0.658212, 0.910553), 0.000741023);
+
+    ret += circ(uv, vec2(0.514523, 0.243263), 0.0270685);
+
+    ret += circ(uv, vec2(0.0249494, 0.252872), 0.00876653);
+
+    ret += circ(uv, vec2(0.502214, 0.47269), 0.0234534);
+
+    ret += circ(uv, vec2(0.693271, 0.431469), 0.0246533);
+
+    ret += circ(uv, vec2(0.415, 0.884418), 0.0271696);
+
+    ret += circ(uv, vec2(0.149073, 0.41204), 0.00497198);
+
+    ret += circ(uv, vec2(0.533816, 0.897634), 0.00650833);
+
+    ret += circ(uv, vec2(0.0409132, 0.83406), 0.0191398);
+
+    ret += circ(uv, vec2(0.638585, 0.646019), 0.0206129);
+
+    ret += circ(uv, vec2(0.660342, 0.966541), 0.0053511);
+
+    ret += circ(uv, vec2(0.513783, 0.142233), 0.00471653);
+
+    ret += circ(uv, vec2(0.124305, 0.644263), 0.00116724);
+
+    ret += circ(uv, vec2(0.99871, 0.583864), 0.0107329);
+
+    ret += circ(uv, vec2(0.894879, 0.233289), 0.00667092);
+
+    ret += circ(uv, vec2(0.246286, 0.682766), 0.00411623);
+
+    ret += circ(uv, vec2(0.0761895, 0.16327), 0.0145935);
+
+    ret += circ(uv, vec2(0.949386, 0.802936), 0.0100873);
+
+    ret += circ(uv, vec2(0.480122, 0.196554), 0.0110185);
+
+    ret += circ(uv, vec2(0.896854, 0.803707), 0.013969);
+
+    ret += circ(uv, vec2(0.292865, 0.762973), 0.00566413);
+
+    ret += circ(uv, vec2(0.0995585, 0.117457), 0.00869407);
+
+    ret += circ(uv, vec2(0.377713, 0.00335442), 0.0063147);
+
+    ret += circ(uv, vec2(0.506365, 0.531118), 0.0144016);
+
+    ret += circ(uv, vec2(0.408806, 0.894771), 0.0243923);
+
+    ret += circ(uv, vec2(0.143579, 0.85138), 0.00418529);
+
+    ret += circ(uv, vec2(0.0902811, 0.181775), 0.0108896);
+
+    ret += circ(uv, vec2(0.780695, 0.394644), 0.00475475);
+
+    ret += circ(uv, vec2(0.298036, 0.625531), 0.00325285);
+
+    ret += circ(uv, vec2(0.218423, 0.714537), 0.00157212);
+
+    ret += circ(uv, vec2(0.658836, 0.159556), 0.00225897);
+
+    ret += circ(uv, vec2(0.987324, 0.146545), 0.0288391);
+
+    ret += circ(uv, vec2(0.222646, 0.251694), 0.00092276);
+
+    ret += circ(uv, vec2(0.159826, 0.528063), 0.00605293);
+
+	return max(ret, 0.0);
+
+}
+
+
+
+vec3 water(vec2 uv, vec3 cdir, float iTime)
+
+{
+
+    uv *= vec2(0.25);
+
+
+
+    // Parallax height distortion with two directional waves at
+
+    // slightly different angles.
+
+    vec2 a = 0.025 * cdir.xz / cdir.y; // Parallax offset
+
+    float h = sin(uv.x + iTime); // Height at UV
+
+    uv += a * h;
+
+    h = sin(0.841471 * uv.x - 0.540302 * uv.y + iTime);
+
+    uv += a * h;
+
+
+
+    // Texture distortion
+
+    float d1 = mod(uv.x + uv.y, TWOPI);
+
+    float d2 = mod((uv.x + uv.y + 0.25) * 1.3, SIXPI);
+
+    d1 = iTime * 0.07 + d1;
+
+    d2 = iTime * 0.5 + d2;
+
+    vec2 dist = vec2(
+
+    	sin(d1) * 0.15 + sin(d2) * 0.05,
+
+    	cos(d1) * 0.15 + cos(d2) * 0.05
+
+    );
+
+
+
+    vec3 ret = mix(WATER_COL.rgb, WATER2_COL.rgb, waterlayer(uv + dist.xy));
+
+    ret = mix(ret, FOAM_COL.rgb, waterlayer(vec2(1.0) - uv - dist.yx));
+
+    return ret;
+
+}
+
+
+
+void fragment() {
+	vec2 uv = UV;
+
+	// TWEAK THE COEFFS AND/OR EQUATION FOR A DIFFERENT WARP PATTERN
+	uv.x += sin(uv.y * wave_speed * PI + TIME) * cos(uv.y * wave_speed * PI + TIME) * 0.1;
+	uv.y += cos(uv.x * wave_speed * PI + TIME) * -sin(uv.y * wave_speed * PI + TIME) * 0.1;
+
+	vec4 color = texture(tex, uv);
+
+	if (is_opaque){
+		color.a = 1.0;
+		ALPHA = water_transparency;
+
+	} else {
+		ALPHA = water_transparency * color.a;
+	}
+
+	ALBEDO = color.xyz;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cwqaw"]
+render_priority = 1
+shader = SubResource("Shader_73dap")
+shader_parameter/is_opaque = true
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/warp_ScreenSpace = true
+shader_parameter/WATER_COL = Color(0.67, 0.73, 0.46, 1)
+shader_parameter/WATER2_COL = Color(0.4, 0.44, 0.28, 1)
+shader_parameter/FOAM_COL = Color(0.8125, 0.9609, 0.9648, 1)
+shader_parameter/water_transparency = 1.0
+shader_parameter/distortion_speed = 2.0
+shader_parameter/tile = Vector2(20, 20)
+shader_parameter/wave_speed = 1.0
+shader_parameter/tex = ExtResource("80_mhkne")
+
 [sub_resource type="Shader" id="Shader_0r6pl"]
 code = "shader_type spatial;
 render_mode shadows_disabled;
@@ -9440,6 +12275,321 @@ _surfaces = [{
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_0ympk"]
 points = PackedVector3Array(-4, 0.75, -7, -4, -0.75, -7, 4, -0.75, -7, 4, 0.75, -7, -4, 0.75, 7, -4, -0.75, 7, 4, -0.75, 7, 4, 0.75, 7)
+
+[sub_resource type="Shader" id="Shader_i7k3e"]
+code = "shader_type spatial;
+render_mode shadows_disabled;
+render_mode unshaded;
+//render_mode cull_disabled;
+//render_mode depth_draw_opaque;
+render_mode blend_mix;
+
+uniform bool is_opaque = false;
+uniform sampler2D tex;
+
+uniform vec2 uv_scale;
+
+uniform vec2 uv_offset;
+
+uniform bool warp_ScreenSpace = true;
+
+uniform vec4 WATER_COL : source_color =  vec4(0.67, 0.73, 0.46, 1.0);
+
+uniform vec4 WATER2_COL : source_color =  vec4(0.40, 0.44, 0.28, 1.0);
+
+uniform vec4 FOAM_COL : source_color = vec4(0.8125, 0.9609, 0.9648, 1.0);
+
+uniform float water_transparency : hint_range(0.0, 1.0) = 1.0;
+
+uniform float distortion_speed = 2.0;
+
+uniform vec2 tile = vec2(5.0, 5.0);
+
+uniform float wave_speed = 1.5;
+
+
+
+const float TWOPI = 6.283185307;
+
+const float SIXPI = 18.84955592;
+
+
+
+
+
+
+
+float circ(vec2 pos, vec2 c, float s)
+
+{
+
+    c = abs(pos - c);
+
+    c = min(c, 1.0 - c);
+
+
+
+    return smoothstep(0.0, 0.06, sqrt(s) - sqrt(dot(c, c))) * -1.0;
+
+}
+
+
+
+
+
+float waterlayer(vec2 uv)
+
+{
+
+    uv = mod(uv, 1.0); // Clamp to [0..1]
+
+    float ret = 1.0;
+
+    ret += circ(uv, vec2(0.37378, 0.277169), 0.0268181);
+
+    ret += circ(uv, vec2(0.0317477, 0.540372), 0.0193742);
+
+    ret += circ(uv, vec2(0.430044, 0.882218), 0.0232337);
+
+    ret += circ(uv, vec2(0.641033, 0.695106), 0.0117864);
+
+    ret += circ(uv, vec2(0.0146398, 0.0791346), 0.0299458);
+
+    ret += circ(uv, vec2(0.43871, 0.394445), 0.0289087);
+
+    ret += circ(uv, vec2(0.909446, 0.878141), 0.028466);
+
+    ret += circ(uv, vec2(0.310149, 0.686637), 0.0128496);
+
+    ret += circ(uv, vec2(0.928617, 0.195986), 0.0152041);
+
+    ret += circ(uv, vec2(0.0438506, 0.868153), 0.0268601);
+
+    ret += circ(uv, vec2(0.308619, 0.194937), 0.00806102);
+
+    ret += circ(uv, vec2(0.349922, 0.449714), 0.00928667);
+
+    ret += circ(uv, vec2(0.0449556, 0.953415), 0.023126);
+
+    ret += circ(uv, vec2(0.117761, 0.503309), 0.0151272);
+
+    ret += circ(uv, vec2(0.563517, 0.244991), 0.0292322);
+
+    ret += circ(uv, vec2(0.566936, 0.954457), 0.00981141);
+
+    ret += circ(uv, vec2(0.0489944, 0.200931), 0.0178746);
+
+    ret += circ(uv, vec2(0.569297, 0.624893), 0.0132408);
+
+    ret += circ(uv, vec2(0.298347, 0.710972), 0.0114426);
+
+    ret += circ(uv, vec2(0.878141, 0.771279), 0.00322719);
+
+    ret += circ(uv, vec2(0.150995, 0.376221), 0.00216157);
+
+    ret += circ(uv, vec2(0.119673, 0.541984), 0.0124621);
+
+    ret += circ(uv, vec2(0.629598, 0.295629), 0.0198736);
+
+    ret += circ(uv, vec2(0.334357, 0.266278), 0.0187145);
+
+    ret += circ(uv, vec2(0.918044, 0.968163), 0.0182928);
+
+    ret += circ(uv, vec2(0.965445, 0.505026), 0.006348);
+
+    ret += circ(uv, vec2(0.514847, 0.865444), 0.00623523);
+
+    ret += circ(uv, vec2(0.710575, 0.0415131), 0.00322689);
+
+    ret += circ(uv, vec2(0.71403, 0.576945), 0.0215641);
+
+    ret += circ(uv, vec2(0.748873, 0.413325), 0.0110795);
+
+    ret += circ(uv, vec2(0.0623365, 0.896713), 0.0236203);
+
+    ret += circ(uv, vec2(0.980482, 0.473849), 0.00573439);
+
+    ret += circ(uv, vec2(0.647463, 0.654349), 0.0188713);
+
+    ret += circ(uv, vec2(0.651406, 0.981297), 0.00710875);
+
+    ret += circ(uv, vec2(0.428928, 0.382426), 0.0298806);
+
+    ret += circ(uv, vec2(0.811545, 0.62568), 0.00265539);
+
+    ret += circ(uv, vec2(0.400787, 0.74162), 0.00486609);
+
+    ret += circ(uv, vec2(0.331283, 0.418536), 0.00598028);
+
+    ret += circ(uv, vec2(0.894762, 0.0657997), 0.00760375);
+
+    ret += circ(uv, vec2(0.525104, 0.572233), 0.0141796);
+
+    ret += circ(uv, vec2(0.431526, 0.911372), 0.0213234);
+
+    ret += circ(uv, vec2(0.658212, 0.910553), 0.000741023);
+
+    ret += circ(uv, vec2(0.514523, 0.243263), 0.0270685);
+
+    ret += circ(uv, vec2(0.0249494, 0.252872), 0.00876653);
+
+    ret += circ(uv, vec2(0.502214, 0.47269), 0.0234534);
+
+    ret += circ(uv, vec2(0.693271, 0.431469), 0.0246533);
+
+    ret += circ(uv, vec2(0.415, 0.884418), 0.0271696);
+
+    ret += circ(uv, vec2(0.149073, 0.41204), 0.00497198);
+
+    ret += circ(uv, vec2(0.533816, 0.897634), 0.00650833);
+
+    ret += circ(uv, vec2(0.0409132, 0.83406), 0.0191398);
+
+    ret += circ(uv, vec2(0.638585, 0.646019), 0.0206129);
+
+    ret += circ(uv, vec2(0.660342, 0.966541), 0.0053511);
+
+    ret += circ(uv, vec2(0.513783, 0.142233), 0.00471653);
+
+    ret += circ(uv, vec2(0.124305, 0.644263), 0.00116724);
+
+    ret += circ(uv, vec2(0.99871, 0.583864), 0.0107329);
+
+    ret += circ(uv, vec2(0.894879, 0.233289), 0.00667092);
+
+    ret += circ(uv, vec2(0.246286, 0.682766), 0.00411623);
+
+    ret += circ(uv, vec2(0.0761895, 0.16327), 0.0145935);
+
+    ret += circ(uv, vec2(0.949386, 0.802936), 0.0100873);
+
+    ret += circ(uv, vec2(0.480122, 0.196554), 0.0110185);
+
+    ret += circ(uv, vec2(0.896854, 0.803707), 0.013969);
+
+    ret += circ(uv, vec2(0.292865, 0.762973), 0.00566413);
+
+    ret += circ(uv, vec2(0.0995585, 0.117457), 0.00869407);
+
+    ret += circ(uv, vec2(0.377713, 0.00335442), 0.0063147);
+
+    ret += circ(uv, vec2(0.506365, 0.531118), 0.0144016);
+
+    ret += circ(uv, vec2(0.408806, 0.894771), 0.0243923);
+
+    ret += circ(uv, vec2(0.143579, 0.85138), 0.00418529);
+
+    ret += circ(uv, vec2(0.0902811, 0.181775), 0.0108896);
+
+    ret += circ(uv, vec2(0.780695, 0.394644), 0.00475475);
+
+    ret += circ(uv, vec2(0.298036, 0.625531), 0.00325285);
+
+    ret += circ(uv, vec2(0.218423, 0.714537), 0.00157212);
+
+    ret += circ(uv, vec2(0.658836, 0.159556), 0.00225897);
+
+    ret += circ(uv, vec2(0.987324, 0.146545), 0.0288391);
+
+    ret += circ(uv, vec2(0.222646, 0.251694), 0.00092276);
+
+    ret += circ(uv, vec2(0.159826, 0.528063), 0.00605293);
+
+	return max(ret, 0.0);
+
+}
+
+
+
+vec3 water(vec2 uv, vec3 cdir, float iTime)
+
+{
+
+    uv *= vec2(0.25);
+
+
+
+    // Parallax height distortion with two directional waves at
+
+    // slightly different angles.
+
+    vec2 a = 0.025 * cdir.xz / cdir.y; // Parallax offset
+
+    float h = sin(uv.x + iTime); // Height at UV
+
+    uv += a * h;
+
+    h = sin(0.841471 * uv.x - 0.540302 * uv.y + iTime);
+
+    uv += a * h;
+
+
+
+    // Texture distortion
+
+    float d1 = mod(uv.x + uv.y, TWOPI);
+
+    float d2 = mod((uv.x + uv.y + 0.25) * 1.3, SIXPI);
+
+    d1 = iTime * 0.07 + d1;
+
+    d2 = iTime * 0.5 + d2;
+
+    vec2 dist = vec2(
+
+    	sin(d1) * 0.15 + sin(d2) * 0.05,
+
+    	cos(d1) * 0.15 + cos(d2) * 0.05
+
+    );
+
+
+
+    vec3 ret = mix(WATER_COL.rgb, WATER2_COL.rgb, waterlayer(uv + dist.xy));
+
+    ret = mix(ret, FOAM_COL.rgb, waterlayer(vec2(1.0) - uv - dist.yx));
+
+    return ret;
+
+}
+
+
+
+void fragment() {
+	vec2 uv = UV;
+
+	// TWEAK THE COEFFS AND/OR EQUATION FOR A DIFFERENT WARP PATTERN
+	uv.x += sin(uv.y * wave_speed * PI + TIME) * cos(uv.y * wave_speed * PI + TIME) * 0.1;
+	uv.y += cos(uv.x * wave_speed * PI + TIME) * -sin(uv.y * wave_speed * PI + TIME) * 0.1;
+
+	vec4 color = texture(tex, uv);
+
+	if (is_opaque){
+		color.a = 1.0;
+		ALPHA = water_transparency;
+
+	} else {
+		ALPHA = water_transparency * color.a;
+	}
+
+	ALBEDO = color.xyz;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t5dyx"]
+render_priority = 1
+shader = SubResource("Shader_i7k3e")
+shader_parameter/is_opaque = true
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/warp_ScreenSpace = true
+shader_parameter/WATER_COL = Color(0.67, 0.73, 0.46, 1)
+shader_parameter/WATER2_COL = Color(0.4, 0.44, 0.28, 1)
+shader_parameter/FOAM_COL = Color(0.8125, 0.9609, 0.9648, 1)
+shader_parameter/water_transparency = 1.0
+shader_parameter/distortion_speed = 2.0
+shader_parameter/tile = Vector2(20, 20)
+shader_parameter/wave_speed = 1.0
+shader_parameter/tex = ExtResource("80_mhkne")
 
 [sub_resource type="Shader" id="Shader_40wv2"]
 code = "shader_type spatial;
@@ -9788,6 +12938,321 @@ points = PackedVector3Array(-17.7917, 0.4375, 13.375, -17.7917, -0.5625, 13.375,
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ww4mm"]
 points = PackedVector3Array(3.70833, 0.4375, 13.125, 3.70833, -0.3125, 13.125, 18.2083, -0.3125, 13.125, 18.2083, 0.4375, 13.125, 3.70833, 0.4375, 17.625, 3.70833, -0.3125, 17.625, 18.2083, -0.3125, 17.625, 18.2083, 0.4375, 17.625)
+
+[sub_resource type="Shader" id="Shader_jxigr"]
+code = "shader_type spatial;
+render_mode shadows_disabled;
+render_mode unshaded;
+//render_mode cull_disabled;
+//render_mode depth_draw_opaque;
+render_mode blend_mix;
+
+uniform bool is_opaque = false;
+uniform sampler2D tex;
+
+uniform vec2 uv_scale;
+
+uniform vec2 uv_offset;
+
+uniform bool warp_ScreenSpace = true;
+
+uniform vec4 WATER_COL : source_color =  vec4(0.67, 0.73, 0.46, 1.0);
+
+uniform vec4 WATER2_COL : source_color =  vec4(0.40, 0.44, 0.28, 1.0);
+
+uniform vec4 FOAM_COL : source_color = vec4(0.8125, 0.9609, 0.9648, 1.0);
+
+uniform float water_transparency : hint_range(0.0, 1.0) = 1.0;
+
+uniform float distortion_speed = 2.0;
+
+uniform vec2 tile = vec2(5.0, 5.0);
+
+uniform float wave_speed = 1.5;
+
+
+
+const float TWOPI = 6.283185307;
+
+const float SIXPI = 18.84955592;
+
+
+
+
+
+
+
+float circ(vec2 pos, vec2 c, float s)
+
+{
+
+    c = abs(pos - c);
+
+    c = min(c, 1.0 - c);
+
+
+
+    return smoothstep(0.0, 0.06, sqrt(s) - sqrt(dot(c, c))) * -1.0;
+
+}
+
+
+
+
+
+float waterlayer(vec2 uv)
+
+{
+
+    uv = mod(uv, 1.0); // Clamp to [0..1]
+
+    float ret = 1.0;
+
+    ret += circ(uv, vec2(0.37378, 0.277169), 0.0268181);
+
+    ret += circ(uv, vec2(0.0317477, 0.540372), 0.0193742);
+
+    ret += circ(uv, vec2(0.430044, 0.882218), 0.0232337);
+
+    ret += circ(uv, vec2(0.641033, 0.695106), 0.0117864);
+
+    ret += circ(uv, vec2(0.0146398, 0.0791346), 0.0299458);
+
+    ret += circ(uv, vec2(0.43871, 0.394445), 0.0289087);
+
+    ret += circ(uv, vec2(0.909446, 0.878141), 0.028466);
+
+    ret += circ(uv, vec2(0.310149, 0.686637), 0.0128496);
+
+    ret += circ(uv, vec2(0.928617, 0.195986), 0.0152041);
+
+    ret += circ(uv, vec2(0.0438506, 0.868153), 0.0268601);
+
+    ret += circ(uv, vec2(0.308619, 0.194937), 0.00806102);
+
+    ret += circ(uv, vec2(0.349922, 0.449714), 0.00928667);
+
+    ret += circ(uv, vec2(0.0449556, 0.953415), 0.023126);
+
+    ret += circ(uv, vec2(0.117761, 0.503309), 0.0151272);
+
+    ret += circ(uv, vec2(0.563517, 0.244991), 0.0292322);
+
+    ret += circ(uv, vec2(0.566936, 0.954457), 0.00981141);
+
+    ret += circ(uv, vec2(0.0489944, 0.200931), 0.0178746);
+
+    ret += circ(uv, vec2(0.569297, 0.624893), 0.0132408);
+
+    ret += circ(uv, vec2(0.298347, 0.710972), 0.0114426);
+
+    ret += circ(uv, vec2(0.878141, 0.771279), 0.00322719);
+
+    ret += circ(uv, vec2(0.150995, 0.376221), 0.00216157);
+
+    ret += circ(uv, vec2(0.119673, 0.541984), 0.0124621);
+
+    ret += circ(uv, vec2(0.629598, 0.295629), 0.0198736);
+
+    ret += circ(uv, vec2(0.334357, 0.266278), 0.0187145);
+
+    ret += circ(uv, vec2(0.918044, 0.968163), 0.0182928);
+
+    ret += circ(uv, vec2(0.965445, 0.505026), 0.006348);
+
+    ret += circ(uv, vec2(0.514847, 0.865444), 0.00623523);
+
+    ret += circ(uv, vec2(0.710575, 0.0415131), 0.00322689);
+
+    ret += circ(uv, vec2(0.71403, 0.576945), 0.0215641);
+
+    ret += circ(uv, vec2(0.748873, 0.413325), 0.0110795);
+
+    ret += circ(uv, vec2(0.0623365, 0.896713), 0.0236203);
+
+    ret += circ(uv, vec2(0.980482, 0.473849), 0.00573439);
+
+    ret += circ(uv, vec2(0.647463, 0.654349), 0.0188713);
+
+    ret += circ(uv, vec2(0.651406, 0.981297), 0.00710875);
+
+    ret += circ(uv, vec2(0.428928, 0.382426), 0.0298806);
+
+    ret += circ(uv, vec2(0.811545, 0.62568), 0.00265539);
+
+    ret += circ(uv, vec2(0.400787, 0.74162), 0.00486609);
+
+    ret += circ(uv, vec2(0.331283, 0.418536), 0.00598028);
+
+    ret += circ(uv, vec2(0.894762, 0.0657997), 0.00760375);
+
+    ret += circ(uv, vec2(0.525104, 0.572233), 0.0141796);
+
+    ret += circ(uv, vec2(0.431526, 0.911372), 0.0213234);
+
+    ret += circ(uv, vec2(0.658212, 0.910553), 0.000741023);
+
+    ret += circ(uv, vec2(0.514523, 0.243263), 0.0270685);
+
+    ret += circ(uv, vec2(0.0249494, 0.252872), 0.00876653);
+
+    ret += circ(uv, vec2(0.502214, 0.47269), 0.0234534);
+
+    ret += circ(uv, vec2(0.693271, 0.431469), 0.0246533);
+
+    ret += circ(uv, vec2(0.415, 0.884418), 0.0271696);
+
+    ret += circ(uv, vec2(0.149073, 0.41204), 0.00497198);
+
+    ret += circ(uv, vec2(0.533816, 0.897634), 0.00650833);
+
+    ret += circ(uv, vec2(0.0409132, 0.83406), 0.0191398);
+
+    ret += circ(uv, vec2(0.638585, 0.646019), 0.0206129);
+
+    ret += circ(uv, vec2(0.660342, 0.966541), 0.0053511);
+
+    ret += circ(uv, vec2(0.513783, 0.142233), 0.00471653);
+
+    ret += circ(uv, vec2(0.124305, 0.644263), 0.00116724);
+
+    ret += circ(uv, vec2(0.99871, 0.583864), 0.0107329);
+
+    ret += circ(uv, vec2(0.894879, 0.233289), 0.00667092);
+
+    ret += circ(uv, vec2(0.246286, 0.682766), 0.00411623);
+
+    ret += circ(uv, vec2(0.0761895, 0.16327), 0.0145935);
+
+    ret += circ(uv, vec2(0.949386, 0.802936), 0.0100873);
+
+    ret += circ(uv, vec2(0.480122, 0.196554), 0.0110185);
+
+    ret += circ(uv, vec2(0.896854, 0.803707), 0.013969);
+
+    ret += circ(uv, vec2(0.292865, 0.762973), 0.00566413);
+
+    ret += circ(uv, vec2(0.0995585, 0.117457), 0.00869407);
+
+    ret += circ(uv, vec2(0.377713, 0.00335442), 0.0063147);
+
+    ret += circ(uv, vec2(0.506365, 0.531118), 0.0144016);
+
+    ret += circ(uv, vec2(0.408806, 0.894771), 0.0243923);
+
+    ret += circ(uv, vec2(0.143579, 0.85138), 0.00418529);
+
+    ret += circ(uv, vec2(0.0902811, 0.181775), 0.0108896);
+
+    ret += circ(uv, vec2(0.780695, 0.394644), 0.00475475);
+
+    ret += circ(uv, vec2(0.298036, 0.625531), 0.00325285);
+
+    ret += circ(uv, vec2(0.218423, 0.714537), 0.00157212);
+
+    ret += circ(uv, vec2(0.658836, 0.159556), 0.00225897);
+
+    ret += circ(uv, vec2(0.987324, 0.146545), 0.0288391);
+
+    ret += circ(uv, vec2(0.222646, 0.251694), 0.00092276);
+
+    ret += circ(uv, vec2(0.159826, 0.528063), 0.00605293);
+
+	return max(ret, 0.0);
+
+}
+
+
+
+vec3 water(vec2 uv, vec3 cdir, float iTime)
+
+{
+
+    uv *= vec2(0.25);
+
+
+
+    // Parallax height distortion with two directional waves at
+
+    // slightly different angles.
+
+    vec2 a = 0.025 * cdir.xz / cdir.y; // Parallax offset
+
+    float h = sin(uv.x + iTime); // Height at UV
+
+    uv += a * h;
+
+    h = sin(0.841471 * uv.x - 0.540302 * uv.y + iTime);
+
+    uv += a * h;
+
+
+
+    // Texture distortion
+
+    float d1 = mod(uv.x + uv.y, TWOPI);
+
+    float d2 = mod((uv.x + uv.y + 0.25) * 1.3, SIXPI);
+
+    d1 = iTime * 0.07 + d1;
+
+    d2 = iTime * 0.5 + d2;
+
+    vec2 dist = vec2(
+
+    	sin(d1) * 0.15 + sin(d2) * 0.05,
+
+    	cos(d1) * 0.15 + cos(d2) * 0.05
+
+    );
+
+
+
+    vec3 ret = mix(WATER_COL.rgb, WATER2_COL.rgb, waterlayer(uv + dist.xy));
+
+    ret = mix(ret, FOAM_COL.rgb, waterlayer(vec2(1.0) - uv - dist.yx));
+
+    return ret;
+
+}
+
+
+
+void fragment() {
+	vec2 uv = UV;
+
+	// TWEAK THE COEFFS AND/OR EQUATION FOR A DIFFERENT WARP PATTERN
+	uv.x += sin(uv.y * wave_speed * PI + TIME) * cos(uv.y * wave_speed * PI + TIME) * 0.1;
+	uv.y += cos(uv.x * wave_speed * PI + TIME) * -sin(uv.y * wave_speed * PI + TIME) * 0.1;
+
+	vec4 color = texture(tex, uv);
+
+	if (is_opaque){
+		color.a = 1.0;
+		ALPHA = water_transparency;
+
+	} else {
+		ALPHA = water_transparency * color.a;
+	}
+
+	ALBEDO = color.xyz;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_h7qex"]
+render_priority = 1
+shader = SubResource("Shader_jxigr")
+shader_parameter/is_opaque = true
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/warp_ScreenSpace = true
+shader_parameter/WATER_COL = Color(0.67, 0.73, 0.46, 1)
+shader_parameter/WATER2_COL = Color(0.4, 0.44, 0.28, 1)
+shader_parameter/FOAM_COL = Color(0.8125, 0.9609, 0.9648, 1)
+shader_parameter/water_transparency = 1.0
+shader_parameter/distortion_speed = 2.0
+shader_parameter/tile = Vector2(20, 20)
+shader_parameter/wave_speed = 1.0
+shader_parameter/tex = ExtResource("80_mhkne")
 
 [sub_resource type="Shader" id="Shader_gqckr"]
 code = "shader_type spatial;
@@ -10417,6 +13882,321 @@ _surfaces = [{
 "vertex_data": PackedByteArray("AACAwAAAYEAAAAC/AACAwAAAYMAAAAC/AACAQAAAYMAAAAC/AACAQAAAYEAAAAC/AACAwAAAYEAAAAC/AACAwAAAYEAAAAA/AACAwAAAYMAAAAA/AACAwAAAYMAAAAC/AACAQAAAYMAAAAC/AACAwAAAYMAAAAC/AACAwAAAYMAAAAA/AACAQAAAYMAAAAA/AACAQAAAYEAAAAC/AACAQAAAYEAAAAA/AACAwAAAYEAAAAA/AACAwAAAYEAAAAC/AACAQAAAYEAAAAC/AACAQAAAYMAAAAC/AACAQAAAYMAAAAA/AACAQAAAYEAAAAA/AACAwAAAYEAAAAA/AACAQAAAYEAAAAA/AACAQAAAYMAAAAA/AACAwAAAYMAAAAA//////////z//////////P/////////8//////////z8AAP9//3//vwAA/3//f/+/AAD/f/9//78AAP9//3//v/9/AAD/f/8//38AAP9//z//fwAA/3//P/9/AAD/f/8//3////9//7//f////3//v/9/////f/+//3////9//7////9//3//P////3//f/8/////f/9//z////9//3//P/9//3////+//3//f////7//f/9/////v/9//3////+/")
 }]
 
+[sub_resource type="Shader" id="Shader_yjbmt"]
+code = "shader_type spatial;
+render_mode shadows_disabled;
+render_mode unshaded;
+//render_mode cull_disabled;
+//render_mode depth_draw_opaque;
+render_mode blend_mix;
+
+uniform bool is_opaque = false;
+uniform sampler2D tex;
+
+uniform vec2 uv_scale;
+
+uniform vec2 uv_offset;
+
+uniform bool warp_ScreenSpace = true;
+
+uniform vec4 WATER_COL : source_color =  vec4(0.67, 0.73, 0.46, 1.0);
+
+uniform vec4 WATER2_COL : source_color =  vec4(0.40, 0.44, 0.28, 1.0);
+
+uniform vec4 FOAM_COL : source_color = vec4(0.8125, 0.9609, 0.9648, 1.0);
+
+uniform float water_transparency : hint_range(0.0, 1.0) = 1.0;
+
+uniform float distortion_speed = 2.0;
+
+uniform vec2 tile = vec2(5.0, 5.0);
+
+uniform float wave_speed = 1.5;
+
+
+
+const float TWOPI = 6.283185307;
+
+const float SIXPI = 18.84955592;
+
+
+
+
+
+
+
+float circ(vec2 pos, vec2 c, float s)
+
+{
+
+    c = abs(pos - c);
+
+    c = min(c, 1.0 - c);
+
+
+
+    return smoothstep(0.0, 0.06, sqrt(s) - sqrt(dot(c, c))) * -1.0;
+
+}
+
+
+
+
+
+float waterlayer(vec2 uv)
+
+{
+
+    uv = mod(uv, 1.0); // Clamp to [0..1]
+
+    float ret = 1.0;
+
+    ret += circ(uv, vec2(0.37378, 0.277169), 0.0268181);
+
+    ret += circ(uv, vec2(0.0317477, 0.540372), 0.0193742);
+
+    ret += circ(uv, vec2(0.430044, 0.882218), 0.0232337);
+
+    ret += circ(uv, vec2(0.641033, 0.695106), 0.0117864);
+
+    ret += circ(uv, vec2(0.0146398, 0.0791346), 0.0299458);
+
+    ret += circ(uv, vec2(0.43871, 0.394445), 0.0289087);
+
+    ret += circ(uv, vec2(0.909446, 0.878141), 0.028466);
+
+    ret += circ(uv, vec2(0.310149, 0.686637), 0.0128496);
+
+    ret += circ(uv, vec2(0.928617, 0.195986), 0.0152041);
+
+    ret += circ(uv, vec2(0.0438506, 0.868153), 0.0268601);
+
+    ret += circ(uv, vec2(0.308619, 0.194937), 0.00806102);
+
+    ret += circ(uv, vec2(0.349922, 0.449714), 0.00928667);
+
+    ret += circ(uv, vec2(0.0449556, 0.953415), 0.023126);
+
+    ret += circ(uv, vec2(0.117761, 0.503309), 0.0151272);
+
+    ret += circ(uv, vec2(0.563517, 0.244991), 0.0292322);
+
+    ret += circ(uv, vec2(0.566936, 0.954457), 0.00981141);
+
+    ret += circ(uv, vec2(0.0489944, 0.200931), 0.0178746);
+
+    ret += circ(uv, vec2(0.569297, 0.624893), 0.0132408);
+
+    ret += circ(uv, vec2(0.298347, 0.710972), 0.0114426);
+
+    ret += circ(uv, vec2(0.878141, 0.771279), 0.00322719);
+
+    ret += circ(uv, vec2(0.150995, 0.376221), 0.00216157);
+
+    ret += circ(uv, vec2(0.119673, 0.541984), 0.0124621);
+
+    ret += circ(uv, vec2(0.629598, 0.295629), 0.0198736);
+
+    ret += circ(uv, vec2(0.334357, 0.266278), 0.0187145);
+
+    ret += circ(uv, vec2(0.918044, 0.968163), 0.0182928);
+
+    ret += circ(uv, vec2(0.965445, 0.505026), 0.006348);
+
+    ret += circ(uv, vec2(0.514847, 0.865444), 0.00623523);
+
+    ret += circ(uv, vec2(0.710575, 0.0415131), 0.00322689);
+
+    ret += circ(uv, vec2(0.71403, 0.576945), 0.0215641);
+
+    ret += circ(uv, vec2(0.748873, 0.413325), 0.0110795);
+
+    ret += circ(uv, vec2(0.0623365, 0.896713), 0.0236203);
+
+    ret += circ(uv, vec2(0.980482, 0.473849), 0.00573439);
+
+    ret += circ(uv, vec2(0.647463, 0.654349), 0.0188713);
+
+    ret += circ(uv, vec2(0.651406, 0.981297), 0.00710875);
+
+    ret += circ(uv, vec2(0.428928, 0.382426), 0.0298806);
+
+    ret += circ(uv, vec2(0.811545, 0.62568), 0.00265539);
+
+    ret += circ(uv, vec2(0.400787, 0.74162), 0.00486609);
+
+    ret += circ(uv, vec2(0.331283, 0.418536), 0.00598028);
+
+    ret += circ(uv, vec2(0.894762, 0.0657997), 0.00760375);
+
+    ret += circ(uv, vec2(0.525104, 0.572233), 0.0141796);
+
+    ret += circ(uv, vec2(0.431526, 0.911372), 0.0213234);
+
+    ret += circ(uv, vec2(0.658212, 0.910553), 0.000741023);
+
+    ret += circ(uv, vec2(0.514523, 0.243263), 0.0270685);
+
+    ret += circ(uv, vec2(0.0249494, 0.252872), 0.00876653);
+
+    ret += circ(uv, vec2(0.502214, 0.47269), 0.0234534);
+
+    ret += circ(uv, vec2(0.693271, 0.431469), 0.0246533);
+
+    ret += circ(uv, vec2(0.415, 0.884418), 0.0271696);
+
+    ret += circ(uv, vec2(0.149073, 0.41204), 0.00497198);
+
+    ret += circ(uv, vec2(0.533816, 0.897634), 0.00650833);
+
+    ret += circ(uv, vec2(0.0409132, 0.83406), 0.0191398);
+
+    ret += circ(uv, vec2(0.638585, 0.646019), 0.0206129);
+
+    ret += circ(uv, vec2(0.660342, 0.966541), 0.0053511);
+
+    ret += circ(uv, vec2(0.513783, 0.142233), 0.00471653);
+
+    ret += circ(uv, vec2(0.124305, 0.644263), 0.00116724);
+
+    ret += circ(uv, vec2(0.99871, 0.583864), 0.0107329);
+
+    ret += circ(uv, vec2(0.894879, 0.233289), 0.00667092);
+
+    ret += circ(uv, vec2(0.246286, 0.682766), 0.00411623);
+
+    ret += circ(uv, vec2(0.0761895, 0.16327), 0.0145935);
+
+    ret += circ(uv, vec2(0.949386, 0.802936), 0.0100873);
+
+    ret += circ(uv, vec2(0.480122, 0.196554), 0.0110185);
+
+    ret += circ(uv, vec2(0.896854, 0.803707), 0.013969);
+
+    ret += circ(uv, vec2(0.292865, 0.762973), 0.00566413);
+
+    ret += circ(uv, vec2(0.0995585, 0.117457), 0.00869407);
+
+    ret += circ(uv, vec2(0.377713, 0.00335442), 0.0063147);
+
+    ret += circ(uv, vec2(0.506365, 0.531118), 0.0144016);
+
+    ret += circ(uv, vec2(0.408806, 0.894771), 0.0243923);
+
+    ret += circ(uv, vec2(0.143579, 0.85138), 0.00418529);
+
+    ret += circ(uv, vec2(0.0902811, 0.181775), 0.0108896);
+
+    ret += circ(uv, vec2(0.780695, 0.394644), 0.00475475);
+
+    ret += circ(uv, vec2(0.298036, 0.625531), 0.00325285);
+
+    ret += circ(uv, vec2(0.218423, 0.714537), 0.00157212);
+
+    ret += circ(uv, vec2(0.658836, 0.159556), 0.00225897);
+
+    ret += circ(uv, vec2(0.987324, 0.146545), 0.0288391);
+
+    ret += circ(uv, vec2(0.222646, 0.251694), 0.00092276);
+
+    ret += circ(uv, vec2(0.159826, 0.528063), 0.00605293);
+
+	return max(ret, 0.0);
+
+}
+
+
+
+vec3 water(vec2 uv, vec3 cdir, float iTime)
+
+{
+
+    uv *= vec2(0.25);
+
+
+
+    // Parallax height distortion with two directional waves at
+
+    // slightly different angles.
+
+    vec2 a = 0.025 * cdir.xz / cdir.y; // Parallax offset
+
+    float h = sin(uv.x + iTime); // Height at UV
+
+    uv += a * h;
+
+    h = sin(0.841471 * uv.x - 0.540302 * uv.y + iTime);
+
+    uv += a * h;
+
+
+
+    // Texture distortion
+
+    float d1 = mod(uv.x + uv.y, TWOPI);
+
+    float d2 = mod((uv.x + uv.y + 0.25) * 1.3, SIXPI);
+
+    d1 = iTime * 0.07 + d1;
+
+    d2 = iTime * 0.5 + d2;
+
+    vec2 dist = vec2(
+
+    	sin(d1) * 0.15 + sin(d2) * 0.05,
+
+    	cos(d1) * 0.15 + cos(d2) * 0.05
+
+    );
+
+
+
+    vec3 ret = mix(WATER_COL.rgb, WATER2_COL.rgb, waterlayer(uv + dist.xy));
+
+    ret = mix(ret, FOAM_COL.rgb, waterlayer(vec2(1.0) - uv - dist.yx));
+
+    return ret;
+
+}
+
+
+
+void fragment() {
+	vec2 uv = UV;
+
+	// TWEAK THE COEFFS AND/OR EQUATION FOR A DIFFERENT WARP PATTERN
+	uv.x += sin(uv.y * wave_speed * PI + TIME) * cos(uv.y * wave_speed * PI + TIME) * 0.1;
+	uv.y += cos(uv.x * wave_speed * PI + TIME) * -sin(uv.y * wave_speed * PI + TIME) * 0.1;
+
+	vec4 color = texture(tex, uv);
+
+	if (is_opaque){
+		color.a = 1.0;
+		ALPHA = water_transparency;
+
+	} else {
+		ALPHA = water_transparency * color.a;
+	}
+
+	ALBEDO = color.xyz;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o6fwh"]
+render_priority = 1
+shader = SubResource("Shader_yjbmt")
+shader_parameter/is_opaque = true
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/warp_ScreenSpace = true
+shader_parameter/WATER_COL = Color(0.67, 0.73, 0.46, 1)
+shader_parameter/WATER2_COL = Color(0.4, 0.44, 0.28, 1)
+shader_parameter/FOAM_COL = Color(0.8125, 0.9609, 0.9648, 1)
+shader_parameter/water_transparency = 1.0
+shader_parameter/distortion_speed = 2.0
+shader_parameter/tile = Vector2(20, 20)
+shader_parameter/wave_speed = 1.0
+shader_parameter/tex = ExtResource("80_mhkne")
+
 [sub_resource type="Shader" id="Shader_r0krp"]
 code = "shader_type spatial;
 render_mode shadows_disabled;
@@ -10750,6 +14530,321 @@ _surfaces = [{
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_14bxl"]
 points = PackedVector3Array(-9.25, 0.75, -10.25, -9.25, -0.75, -10.25, 9.25, -0.75, -10.25, 9.25, 0.75, -10.25, -9.25, 0.75, 10.25, -9.25, -0.75, 10.25, 9.25, -0.75, 10.25, 9.25, 0.75, 10.25)
 
+[sub_resource type="Shader" id="Shader_pyh5e"]
+code = "shader_type spatial;
+render_mode shadows_disabled;
+render_mode unshaded;
+//render_mode cull_disabled;
+//render_mode depth_draw_opaque;
+render_mode blend_mix;
+
+uniform bool is_opaque = false;
+uniform sampler2D tex;
+
+uniform vec2 uv_scale;
+
+uniform vec2 uv_offset;
+
+uniform bool warp_ScreenSpace = true;
+
+uniform vec4 WATER_COL : source_color =  vec4(0.67, 0.73, 0.46, 1.0);
+
+uniform vec4 WATER2_COL : source_color =  vec4(0.40, 0.44, 0.28, 1.0);
+
+uniform vec4 FOAM_COL : source_color = vec4(0.8125, 0.9609, 0.9648, 1.0);
+
+uniform float water_transparency : hint_range(0.0, 1.0) = 1.0;
+
+uniform float distortion_speed = 2.0;
+
+uniform vec2 tile = vec2(5.0, 5.0);
+
+uniform float wave_speed = 1.5;
+
+
+
+const float TWOPI = 6.283185307;
+
+const float SIXPI = 18.84955592;
+
+
+
+
+
+
+
+float circ(vec2 pos, vec2 c, float s)
+
+{
+
+    c = abs(pos - c);
+
+    c = min(c, 1.0 - c);
+
+
+
+    return smoothstep(0.0, 0.06, sqrt(s) - sqrt(dot(c, c))) * -1.0;
+
+}
+
+
+
+
+
+float waterlayer(vec2 uv)
+
+{
+
+    uv = mod(uv, 1.0); // Clamp to [0..1]
+
+    float ret = 1.0;
+
+    ret += circ(uv, vec2(0.37378, 0.277169), 0.0268181);
+
+    ret += circ(uv, vec2(0.0317477, 0.540372), 0.0193742);
+
+    ret += circ(uv, vec2(0.430044, 0.882218), 0.0232337);
+
+    ret += circ(uv, vec2(0.641033, 0.695106), 0.0117864);
+
+    ret += circ(uv, vec2(0.0146398, 0.0791346), 0.0299458);
+
+    ret += circ(uv, vec2(0.43871, 0.394445), 0.0289087);
+
+    ret += circ(uv, vec2(0.909446, 0.878141), 0.028466);
+
+    ret += circ(uv, vec2(0.310149, 0.686637), 0.0128496);
+
+    ret += circ(uv, vec2(0.928617, 0.195986), 0.0152041);
+
+    ret += circ(uv, vec2(0.0438506, 0.868153), 0.0268601);
+
+    ret += circ(uv, vec2(0.308619, 0.194937), 0.00806102);
+
+    ret += circ(uv, vec2(0.349922, 0.449714), 0.00928667);
+
+    ret += circ(uv, vec2(0.0449556, 0.953415), 0.023126);
+
+    ret += circ(uv, vec2(0.117761, 0.503309), 0.0151272);
+
+    ret += circ(uv, vec2(0.563517, 0.244991), 0.0292322);
+
+    ret += circ(uv, vec2(0.566936, 0.954457), 0.00981141);
+
+    ret += circ(uv, vec2(0.0489944, 0.200931), 0.0178746);
+
+    ret += circ(uv, vec2(0.569297, 0.624893), 0.0132408);
+
+    ret += circ(uv, vec2(0.298347, 0.710972), 0.0114426);
+
+    ret += circ(uv, vec2(0.878141, 0.771279), 0.00322719);
+
+    ret += circ(uv, vec2(0.150995, 0.376221), 0.00216157);
+
+    ret += circ(uv, vec2(0.119673, 0.541984), 0.0124621);
+
+    ret += circ(uv, vec2(0.629598, 0.295629), 0.0198736);
+
+    ret += circ(uv, vec2(0.334357, 0.266278), 0.0187145);
+
+    ret += circ(uv, vec2(0.918044, 0.968163), 0.0182928);
+
+    ret += circ(uv, vec2(0.965445, 0.505026), 0.006348);
+
+    ret += circ(uv, vec2(0.514847, 0.865444), 0.00623523);
+
+    ret += circ(uv, vec2(0.710575, 0.0415131), 0.00322689);
+
+    ret += circ(uv, vec2(0.71403, 0.576945), 0.0215641);
+
+    ret += circ(uv, vec2(0.748873, 0.413325), 0.0110795);
+
+    ret += circ(uv, vec2(0.0623365, 0.896713), 0.0236203);
+
+    ret += circ(uv, vec2(0.980482, 0.473849), 0.00573439);
+
+    ret += circ(uv, vec2(0.647463, 0.654349), 0.0188713);
+
+    ret += circ(uv, vec2(0.651406, 0.981297), 0.00710875);
+
+    ret += circ(uv, vec2(0.428928, 0.382426), 0.0298806);
+
+    ret += circ(uv, vec2(0.811545, 0.62568), 0.00265539);
+
+    ret += circ(uv, vec2(0.400787, 0.74162), 0.00486609);
+
+    ret += circ(uv, vec2(0.331283, 0.418536), 0.00598028);
+
+    ret += circ(uv, vec2(0.894762, 0.0657997), 0.00760375);
+
+    ret += circ(uv, vec2(0.525104, 0.572233), 0.0141796);
+
+    ret += circ(uv, vec2(0.431526, 0.911372), 0.0213234);
+
+    ret += circ(uv, vec2(0.658212, 0.910553), 0.000741023);
+
+    ret += circ(uv, vec2(0.514523, 0.243263), 0.0270685);
+
+    ret += circ(uv, vec2(0.0249494, 0.252872), 0.00876653);
+
+    ret += circ(uv, vec2(0.502214, 0.47269), 0.0234534);
+
+    ret += circ(uv, vec2(0.693271, 0.431469), 0.0246533);
+
+    ret += circ(uv, vec2(0.415, 0.884418), 0.0271696);
+
+    ret += circ(uv, vec2(0.149073, 0.41204), 0.00497198);
+
+    ret += circ(uv, vec2(0.533816, 0.897634), 0.00650833);
+
+    ret += circ(uv, vec2(0.0409132, 0.83406), 0.0191398);
+
+    ret += circ(uv, vec2(0.638585, 0.646019), 0.0206129);
+
+    ret += circ(uv, vec2(0.660342, 0.966541), 0.0053511);
+
+    ret += circ(uv, vec2(0.513783, 0.142233), 0.00471653);
+
+    ret += circ(uv, vec2(0.124305, 0.644263), 0.00116724);
+
+    ret += circ(uv, vec2(0.99871, 0.583864), 0.0107329);
+
+    ret += circ(uv, vec2(0.894879, 0.233289), 0.00667092);
+
+    ret += circ(uv, vec2(0.246286, 0.682766), 0.00411623);
+
+    ret += circ(uv, vec2(0.0761895, 0.16327), 0.0145935);
+
+    ret += circ(uv, vec2(0.949386, 0.802936), 0.0100873);
+
+    ret += circ(uv, vec2(0.480122, 0.196554), 0.0110185);
+
+    ret += circ(uv, vec2(0.896854, 0.803707), 0.013969);
+
+    ret += circ(uv, vec2(0.292865, 0.762973), 0.00566413);
+
+    ret += circ(uv, vec2(0.0995585, 0.117457), 0.00869407);
+
+    ret += circ(uv, vec2(0.377713, 0.00335442), 0.0063147);
+
+    ret += circ(uv, vec2(0.506365, 0.531118), 0.0144016);
+
+    ret += circ(uv, vec2(0.408806, 0.894771), 0.0243923);
+
+    ret += circ(uv, vec2(0.143579, 0.85138), 0.00418529);
+
+    ret += circ(uv, vec2(0.0902811, 0.181775), 0.0108896);
+
+    ret += circ(uv, vec2(0.780695, 0.394644), 0.00475475);
+
+    ret += circ(uv, vec2(0.298036, 0.625531), 0.00325285);
+
+    ret += circ(uv, vec2(0.218423, 0.714537), 0.00157212);
+
+    ret += circ(uv, vec2(0.658836, 0.159556), 0.00225897);
+
+    ret += circ(uv, vec2(0.987324, 0.146545), 0.0288391);
+
+    ret += circ(uv, vec2(0.222646, 0.251694), 0.00092276);
+
+    ret += circ(uv, vec2(0.159826, 0.528063), 0.00605293);
+
+	return max(ret, 0.0);
+
+}
+
+
+
+vec3 water(vec2 uv, vec3 cdir, float iTime)
+
+{
+
+    uv *= vec2(0.25);
+
+
+
+    // Parallax height distortion with two directional waves at
+
+    // slightly different angles.
+
+    vec2 a = 0.025 * cdir.xz / cdir.y; // Parallax offset
+
+    float h = sin(uv.x + iTime); // Height at UV
+
+    uv += a * h;
+
+    h = sin(0.841471 * uv.x - 0.540302 * uv.y + iTime);
+
+    uv += a * h;
+
+
+
+    // Texture distortion
+
+    float d1 = mod(uv.x + uv.y, TWOPI);
+
+    float d2 = mod((uv.x + uv.y + 0.25) * 1.3, SIXPI);
+
+    d1 = iTime * 0.07 + d1;
+
+    d2 = iTime * 0.5 + d2;
+
+    vec2 dist = vec2(
+
+    	sin(d1) * 0.15 + sin(d2) * 0.05,
+
+    	cos(d1) * 0.15 + cos(d2) * 0.05
+
+    );
+
+
+
+    vec3 ret = mix(WATER_COL.rgb, WATER2_COL.rgb, waterlayer(uv + dist.xy));
+
+    ret = mix(ret, FOAM_COL.rgb, waterlayer(vec2(1.0) - uv - dist.yx));
+
+    return ret;
+
+}
+
+
+
+void fragment() {
+	vec2 uv = UV;
+
+	// TWEAK THE COEFFS AND/OR EQUATION FOR A DIFFERENT WARP PATTERN
+	uv.x += sin(uv.y * wave_speed * PI + TIME) * cos(uv.y * wave_speed * PI + TIME) * 0.1;
+	uv.y += cos(uv.x * wave_speed * PI + TIME) * -sin(uv.y * wave_speed * PI + TIME) * 0.1;
+
+	vec4 color = texture(tex, uv);
+
+	if (is_opaque){
+		color.a = 1.0;
+		ALPHA = water_transparency;
+
+	} else {
+		ALPHA = water_transparency * color.a;
+	}
+
+	ALBEDO = color.xyz;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rdfcq"]
+render_priority = 1
+shader = SubResource("Shader_pyh5e")
+shader_parameter/is_opaque = true
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/warp_ScreenSpace = true
+shader_parameter/WATER_COL = Color(0.67, 0.73, 0.46, 1)
+shader_parameter/WATER2_COL = Color(0.4, 0.44, 0.28, 1)
+shader_parameter/FOAM_COL = Color(0.8125, 0.9609, 0.9648, 1)
+shader_parameter/water_transparency = 1.0
+shader_parameter/distortion_speed = 2.0
+shader_parameter/tile = Vector2(20, 20)
+shader_parameter/wave_speed = 1.0
+shader_parameter/tex = ExtResource("80_mhkne")
+
 [sub_resource type="Shader" id="Shader_34iwe"]
 code = "shader_type spatial;
 render_mode shadows_disabled;
@@ -11082,6 +15177,321 @@ _surfaces = [{
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_22rjt"]
 points = PackedVector3Array(-13.75, 0.75, -3.25, -13.75, -0.75, -3.25, 13.75, -0.75, -3.25, 13.75, 0.75, -3.25, -13.75, 0.75, 3.25, -13.75, -0.75, 3.25, 13.75, -0.75, 3.25, 13.75, 0.75, 3.25)
+
+[sub_resource type="Shader" id="Shader_a8rdl"]
+code = "shader_type spatial;
+render_mode shadows_disabled;
+render_mode unshaded;
+//render_mode cull_disabled;
+//render_mode depth_draw_opaque;
+render_mode blend_mix;
+
+uniform bool is_opaque = false;
+uniform sampler2D tex;
+
+uniform vec2 uv_scale;
+
+uniform vec2 uv_offset;
+
+uniform bool warp_ScreenSpace = true;
+
+uniform vec4 WATER_COL : source_color =  vec4(0.67, 0.73, 0.46, 1.0);
+
+uniform vec4 WATER2_COL : source_color =  vec4(0.40, 0.44, 0.28, 1.0);
+
+uniform vec4 FOAM_COL : source_color = vec4(0.8125, 0.9609, 0.9648, 1.0);
+
+uniform float water_transparency : hint_range(0.0, 1.0) = 1.0;
+
+uniform float distortion_speed = 2.0;
+
+uniform vec2 tile = vec2(5.0, 5.0);
+
+uniform float wave_speed = 1.5;
+
+
+
+const float TWOPI = 6.283185307;
+
+const float SIXPI = 18.84955592;
+
+
+
+
+
+
+
+float circ(vec2 pos, vec2 c, float s)
+
+{
+
+    c = abs(pos - c);
+
+    c = min(c, 1.0 - c);
+
+
+
+    return smoothstep(0.0, 0.06, sqrt(s) - sqrt(dot(c, c))) * -1.0;
+
+}
+
+
+
+
+
+float waterlayer(vec2 uv)
+
+{
+
+    uv = mod(uv, 1.0); // Clamp to [0..1]
+
+    float ret = 1.0;
+
+    ret += circ(uv, vec2(0.37378, 0.277169), 0.0268181);
+
+    ret += circ(uv, vec2(0.0317477, 0.540372), 0.0193742);
+
+    ret += circ(uv, vec2(0.430044, 0.882218), 0.0232337);
+
+    ret += circ(uv, vec2(0.641033, 0.695106), 0.0117864);
+
+    ret += circ(uv, vec2(0.0146398, 0.0791346), 0.0299458);
+
+    ret += circ(uv, vec2(0.43871, 0.394445), 0.0289087);
+
+    ret += circ(uv, vec2(0.909446, 0.878141), 0.028466);
+
+    ret += circ(uv, vec2(0.310149, 0.686637), 0.0128496);
+
+    ret += circ(uv, vec2(0.928617, 0.195986), 0.0152041);
+
+    ret += circ(uv, vec2(0.0438506, 0.868153), 0.0268601);
+
+    ret += circ(uv, vec2(0.308619, 0.194937), 0.00806102);
+
+    ret += circ(uv, vec2(0.349922, 0.449714), 0.00928667);
+
+    ret += circ(uv, vec2(0.0449556, 0.953415), 0.023126);
+
+    ret += circ(uv, vec2(0.117761, 0.503309), 0.0151272);
+
+    ret += circ(uv, vec2(0.563517, 0.244991), 0.0292322);
+
+    ret += circ(uv, vec2(0.566936, 0.954457), 0.00981141);
+
+    ret += circ(uv, vec2(0.0489944, 0.200931), 0.0178746);
+
+    ret += circ(uv, vec2(0.569297, 0.624893), 0.0132408);
+
+    ret += circ(uv, vec2(0.298347, 0.710972), 0.0114426);
+
+    ret += circ(uv, vec2(0.878141, 0.771279), 0.00322719);
+
+    ret += circ(uv, vec2(0.150995, 0.376221), 0.00216157);
+
+    ret += circ(uv, vec2(0.119673, 0.541984), 0.0124621);
+
+    ret += circ(uv, vec2(0.629598, 0.295629), 0.0198736);
+
+    ret += circ(uv, vec2(0.334357, 0.266278), 0.0187145);
+
+    ret += circ(uv, vec2(0.918044, 0.968163), 0.0182928);
+
+    ret += circ(uv, vec2(0.965445, 0.505026), 0.006348);
+
+    ret += circ(uv, vec2(0.514847, 0.865444), 0.00623523);
+
+    ret += circ(uv, vec2(0.710575, 0.0415131), 0.00322689);
+
+    ret += circ(uv, vec2(0.71403, 0.576945), 0.0215641);
+
+    ret += circ(uv, vec2(0.748873, 0.413325), 0.0110795);
+
+    ret += circ(uv, vec2(0.0623365, 0.896713), 0.0236203);
+
+    ret += circ(uv, vec2(0.980482, 0.473849), 0.00573439);
+
+    ret += circ(uv, vec2(0.647463, 0.654349), 0.0188713);
+
+    ret += circ(uv, vec2(0.651406, 0.981297), 0.00710875);
+
+    ret += circ(uv, vec2(0.428928, 0.382426), 0.0298806);
+
+    ret += circ(uv, vec2(0.811545, 0.62568), 0.00265539);
+
+    ret += circ(uv, vec2(0.400787, 0.74162), 0.00486609);
+
+    ret += circ(uv, vec2(0.331283, 0.418536), 0.00598028);
+
+    ret += circ(uv, vec2(0.894762, 0.0657997), 0.00760375);
+
+    ret += circ(uv, vec2(0.525104, 0.572233), 0.0141796);
+
+    ret += circ(uv, vec2(0.431526, 0.911372), 0.0213234);
+
+    ret += circ(uv, vec2(0.658212, 0.910553), 0.000741023);
+
+    ret += circ(uv, vec2(0.514523, 0.243263), 0.0270685);
+
+    ret += circ(uv, vec2(0.0249494, 0.252872), 0.00876653);
+
+    ret += circ(uv, vec2(0.502214, 0.47269), 0.0234534);
+
+    ret += circ(uv, vec2(0.693271, 0.431469), 0.0246533);
+
+    ret += circ(uv, vec2(0.415, 0.884418), 0.0271696);
+
+    ret += circ(uv, vec2(0.149073, 0.41204), 0.00497198);
+
+    ret += circ(uv, vec2(0.533816, 0.897634), 0.00650833);
+
+    ret += circ(uv, vec2(0.0409132, 0.83406), 0.0191398);
+
+    ret += circ(uv, vec2(0.638585, 0.646019), 0.0206129);
+
+    ret += circ(uv, vec2(0.660342, 0.966541), 0.0053511);
+
+    ret += circ(uv, vec2(0.513783, 0.142233), 0.00471653);
+
+    ret += circ(uv, vec2(0.124305, 0.644263), 0.00116724);
+
+    ret += circ(uv, vec2(0.99871, 0.583864), 0.0107329);
+
+    ret += circ(uv, vec2(0.894879, 0.233289), 0.00667092);
+
+    ret += circ(uv, vec2(0.246286, 0.682766), 0.00411623);
+
+    ret += circ(uv, vec2(0.0761895, 0.16327), 0.0145935);
+
+    ret += circ(uv, vec2(0.949386, 0.802936), 0.0100873);
+
+    ret += circ(uv, vec2(0.480122, 0.196554), 0.0110185);
+
+    ret += circ(uv, vec2(0.896854, 0.803707), 0.013969);
+
+    ret += circ(uv, vec2(0.292865, 0.762973), 0.00566413);
+
+    ret += circ(uv, vec2(0.0995585, 0.117457), 0.00869407);
+
+    ret += circ(uv, vec2(0.377713, 0.00335442), 0.0063147);
+
+    ret += circ(uv, vec2(0.506365, 0.531118), 0.0144016);
+
+    ret += circ(uv, vec2(0.408806, 0.894771), 0.0243923);
+
+    ret += circ(uv, vec2(0.143579, 0.85138), 0.00418529);
+
+    ret += circ(uv, vec2(0.0902811, 0.181775), 0.0108896);
+
+    ret += circ(uv, vec2(0.780695, 0.394644), 0.00475475);
+
+    ret += circ(uv, vec2(0.298036, 0.625531), 0.00325285);
+
+    ret += circ(uv, vec2(0.218423, 0.714537), 0.00157212);
+
+    ret += circ(uv, vec2(0.658836, 0.159556), 0.00225897);
+
+    ret += circ(uv, vec2(0.987324, 0.146545), 0.0288391);
+
+    ret += circ(uv, vec2(0.222646, 0.251694), 0.00092276);
+
+    ret += circ(uv, vec2(0.159826, 0.528063), 0.00605293);
+
+	return max(ret, 0.0);
+
+}
+
+
+
+vec3 water(vec2 uv, vec3 cdir, float iTime)
+
+{
+
+    uv *= vec2(0.25);
+
+
+
+    // Parallax height distortion with two directional waves at
+
+    // slightly different angles.
+
+    vec2 a = 0.025 * cdir.xz / cdir.y; // Parallax offset
+
+    float h = sin(uv.x + iTime); // Height at UV
+
+    uv += a * h;
+
+    h = sin(0.841471 * uv.x - 0.540302 * uv.y + iTime);
+
+    uv += a * h;
+
+
+
+    // Texture distortion
+
+    float d1 = mod(uv.x + uv.y, TWOPI);
+
+    float d2 = mod((uv.x + uv.y + 0.25) * 1.3, SIXPI);
+
+    d1 = iTime * 0.07 + d1;
+
+    d2 = iTime * 0.5 + d2;
+
+    vec2 dist = vec2(
+
+    	sin(d1) * 0.15 + sin(d2) * 0.05,
+
+    	cos(d1) * 0.15 + cos(d2) * 0.05
+
+    );
+
+
+
+    vec3 ret = mix(WATER_COL.rgb, WATER2_COL.rgb, waterlayer(uv + dist.xy));
+
+    ret = mix(ret, FOAM_COL.rgb, waterlayer(vec2(1.0) - uv - dist.yx));
+
+    return ret;
+
+}
+
+
+
+void fragment() {
+	vec2 uv = UV;
+
+	// TWEAK THE COEFFS AND/OR EQUATION FOR A DIFFERENT WARP PATTERN
+	uv.x += sin(uv.y * wave_speed * PI + TIME) * cos(uv.y * wave_speed * PI + TIME) * 0.1;
+	uv.y += cos(uv.x * wave_speed * PI + TIME) * -sin(uv.y * wave_speed * PI + TIME) * 0.1;
+
+	vec4 color = texture(tex, uv);
+
+	if (is_opaque){
+		color.a = 1.0;
+		ALPHA = water_transparency;
+
+	} else {
+		ALPHA = water_transparency * color.a;
+	}
+
+	ALBEDO = color.xyz;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d8sak"]
+render_priority = 1
+shader = SubResource("Shader_a8rdl")
+shader_parameter/is_opaque = false
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/warp_ScreenSpace = true
+shader_parameter/WATER_COL = Color(0.67, 0.73, 0.46, 1)
+shader_parameter/WATER2_COL = Color(0.4, 0.44, 0.28, 1)
+shader_parameter/FOAM_COL = Color(0.8125, 0.9609, 0.9648, 1)
+shader_parameter/water_transparency = 0.6
+shader_parameter/distortion_speed = 2.0
+shader_parameter/tile = Vector2(20, 20)
+shader_parameter/wave_speed = 1.0
+shader_parameter/tex = ExtResource("62_no5nh")
 
 [sub_resource type="Shader" id="Shader_nxpc1"]
 code = "shader_type spatial;
@@ -14319,7 +18729,7 @@ mesh = SubResource("ArrayMesh_2prrk")
 [node name="entity_1_brush_0_collision_shape" type="CollisionShape3D" parent="entity_1_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_wy6sf")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_1_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_1_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_2_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.317, -3.5, 15.817)
@@ -14334,7 +18744,7 @@ mesh = SubResource("ArrayMesh_doe6x")
 [node name="entity_2_brush_0_collision_shape" type="CollisionShape3D" parent="entity_2_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_xkcm4")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_2_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_2_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_3_func_door_slide" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.25, 1.5, 7)
@@ -14364,7 +18774,7 @@ mesh = SubResource("ArrayMesh_jsdu1")
 [node name="entity_4_brush_0_collision_shape" type="CollisionShape3D" parent="entity_4_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_g1whf")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_4_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_4_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_5_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, 0.75, 18.5)
@@ -14379,7 +18789,7 @@ mesh = SubResource("ArrayMesh_g13i0")
 [node name="entity_5_brush_0_collision_shape" type="CollisionShape3D" parent="entity_5_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_8ypyu")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_5_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_5_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_6_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0.75, 16.5)
@@ -14394,7 +18804,7 @@ mesh = SubResource("ArrayMesh_gw2cp")
 [node name="entity_6_brush_0_collision_shape" type="CollisionShape3D" parent="entity_6_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_xijbk")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_6_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_6_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_7_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0.75, 1)
@@ -14409,7 +18819,7 @@ mesh = SubResource("ArrayMesh_mnkyx")
 [node name="entity_7_brush_0_collision_shape" type="CollisionShape3D" parent="entity_7_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_l1pua")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_7_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_7_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_8_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0.75, 2)
@@ -14424,7 +18834,7 @@ mesh = SubResource("ArrayMesh_vd3bj")
 [node name="entity_8_brush_0_collision_shape" type="CollisionShape3D" parent="entity_8_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_wgcm5")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_8_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_8_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_9_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.5, 14.5)
@@ -14439,7 +18849,7 @@ mesh = SubResource("ArrayMesh_2oyel")
 [node name="entity_9_brush_0_collision_shape" type="CollisionShape3D" parent="entity_9_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_lkrew")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_9_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_9_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_10_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, 0.5, 12.5)
@@ -14454,7 +18864,7 @@ mesh = SubResource("ArrayMesh_2wdr5")
 [node name="entity_10_brush_0_collision_shape" type="CollisionShape3D" parent="entity_10_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_kvcev")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_10_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_10_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_11_light_light1" parent="." instance=ExtResource("58_d0c7h")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -10.75, 9.25, 4.25)
@@ -14475,7 +18885,7 @@ script = ExtResource("18_8i1mq")
 color = Vector4(1, 1, 1, 1)
 color2 = Vector4(0.8, 0.8, 0.8, 1)
 colorString = "255 255 255"
-duplicateMaterial = SubResource("ShaderMaterial_xdaf7")
+duplicateMaterial = SubResource("ShaderMaterial_gbd1t")
 texture = ExtResource("62_no5nh")
 
 [node name="entity_14_mesh_instance" type="MeshInstance3D" parent="entity_14_func_water"]
@@ -14682,7 +19092,7 @@ color2 = Vector4(0.8, 0.8, 0.8, 1)
 colorString = "255 255 255"
 alpha = 1.0
 is_dangerous = "1"
-duplicateMaterial = SubResource("ShaderMaterial_2pl54")
+duplicateMaterial = SubResource("ShaderMaterial_2764v")
 texture = ExtResource("80_mhkne")
 
 [node name="entity_40_mesh_instance" type="MeshInstance3D" parent="entity_40_func_water"]
@@ -14842,7 +19252,7 @@ mesh = SubResource("ArrayMesh_i7k4f")
 [node name="entity_66_brush_0_collision_shape" type="CollisionShape3D" parent="entity_66_func_breakable"]
 shape = SubResource("ConvexPolygonShape3D_ofnag")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_66_func_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_66_func_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_67_item_armor" parent="." instance=ExtResource("69_4tsrd")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -77.25, 10.75, -23.75)
@@ -15136,7 +19546,7 @@ script = ExtResource("18_8i1mq")
 color = Vector4(1, 1, 1, 1)
 color2 = Vector4(0.8, 0.8, 0.8, 1)
 colorString = "255 255 255"
-duplicateMaterial = SubResource("ShaderMaterial_mv4wr")
+duplicateMaterial = SubResource("ShaderMaterial_hsims")
 texture = ExtResource("62_no5nh")
 
 [node name="entity_109_mesh_instance" type="MeshInstance3D" parent="entity_109_func_water"]
@@ -15310,7 +19720,7 @@ mesh = SubResource("ArrayMesh_ntudb")
 [node name="entity_149_brush_0_collision_shape" type="CollisionShape3D" parent="entity_149_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_xswua")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_149_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_149_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_150_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -96.5, 24.25, -26)
@@ -15325,7 +19735,7 @@ mesh = SubResource("ArrayMesh_titdq")
 [node name="entity_150_brush_0_collision_shape" type="CollisionShape3D" parent="entity_150_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_rjvtg")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_150_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_150_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_151_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -95.5, 24.25, -27)
@@ -15340,7 +19750,7 @@ mesh = SubResource("ArrayMesh_872w0")
 [node name="entity_151_brush_0_collision_shape" type="CollisionShape3D" parent="entity_151_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_1nic4")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_151_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_151_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_152_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -102, 17.75, -17.5)
@@ -15355,7 +19765,7 @@ mesh = SubResource("ArrayMesh_ostci")
 [node name="entity_152_brush_0_collision_shape" type="CollisionShape3D" parent="entity_152_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_se7fn")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_152_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_152_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_153_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -102, 17.75, -15.5)
@@ -15370,7 +19780,7 @@ mesh = SubResource("ArrayMesh_6r3dt")
 [node name="entity_153_brush_0_collision_shape" type="CollisionShape3D" parent="entity_153_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_gq58b")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_153_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_153_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_154_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -101, 17.75, -16.5)
@@ -15385,7 +19795,7 @@ mesh = SubResource("ArrayMesh_rlic4")
 [node name="entity_154_brush_0_collision_shape" type="CollisionShape3D" parent="entity_154_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_u3tws")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_154_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_154_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_155_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -66, 8.75, -17.5)
@@ -15400,7 +19810,7 @@ mesh = SubResource("ArrayMesh_w7i4b")
 [node name="entity_155_brush_0_collision_shape" type="CollisionShape3D" parent="entity_155_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_jud4b")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_155_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_155_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_156_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -65, 8.75, -15.5)
@@ -15415,7 +19825,7 @@ mesh = SubResource("ArrayMesh_jcsxp")
 [node name="entity_156_brush_0_collision_shape" type="CollisionShape3D" parent="entity_156_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_prn0b")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_156_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_156_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_157_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -99, 8.25, -29.5)
@@ -15430,7 +19840,7 @@ mesh = SubResource("ArrayMesh_w8hrn")
 [node name="entity_157_brush_0_collision_shape" type="CollisionShape3D" parent="entity_157_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_djtbi")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_157_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_157_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_158_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.5, 8.75, -40)
@@ -15445,7 +19855,7 @@ mesh = SubResource("ArrayMesh_dsppb")
 [node name="entity_158_brush_0_collision_shape" type="CollisionShape3D" parent="entity_158_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_dogyn")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_158_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_158_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_159_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.5, 8.75, -38)
@@ -15460,7 +19870,7 @@ mesh = SubResource("ArrayMesh_o7iy4")
 [node name="entity_159_brush_0_collision_shape" type="CollisionShape3D" parent="entity_159_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_1lnj7")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_159_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_159_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_160_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -104.5, 8.75, -39)
@@ -15475,7 +19885,7 @@ mesh = SubResource("ArrayMesh_tgwon")
 [node name="entity_160_brush_0_collision_shape" type="CollisionShape3D" parent="entity_160_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_s1x2d")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_160_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_160_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_161_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -61, 20.75, -3.5)
@@ -15490,7 +19900,7 @@ mesh = SubResource("ArrayMesh_pctbt")
 [node name="entity_161_brush_0_collision_shape" type="CollisionShape3D" parent="entity_161_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_u0oim")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_161_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_161_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_162_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -61, 20.75, -1.5)
@@ -15505,7 +19915,7 @@ mesh = SubResource("ArrayMesh_arkdl")
 [node name="entity_162_brush_0_collision_shape" type="CollisionShape3D" parent="entity_162_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_ujyyi")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_162_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_162_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_163_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 20.75, -2.5)
@@ -15520,7 +19930,7 @@ mesh = SubResource("ArrayMesh_ysr2v")
 [node name="entity_163_brush_0_collision_shape" type="CollisionShape3D" parent="entity_163_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_sab5e")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_163_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_163_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_164_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -64, 20.5, -3.5)
@@ -15535,7 +19945,7 @@ mesh = SubResource("ArrayMesh_5n1wj")
 [node name="entity_164_brush_0_collision_shape" type="CollisionShape3D" parent="entity_164_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_6tefj")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_164_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_164_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_165_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -66.317, 20.5, -2.68304)
@@ -15550,7 +19960,7 @@ mesh = SubResource("ArrayMesh_x3viu")
 [node name="entity_165_brush_0_collision_shape" type="CollisionShape3D" parent="entity_165_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_0do35")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_165_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_165_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_166_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -73, 8.5, -33.5)
@@ -15565,7 +19975,7 @@ mesh = SubResource("ArrayMesh_qarks")
 [node name="entity_166_brush_0_collision_shape" type="CollisionShape3D" parent="entity_166_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_vgii5")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_166_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_166_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_167_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -75.317, 8.5, -32.683)
@@ -15580,7 +19990,7 @@ mesh = SubResource("ArrayMesh_qvw41")
 [node name="entity_167_brush_0_collision_shape" type="CollisionShape3D" parent="entity_167_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_7ujrm")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_167_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_167_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_168_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -102.5, 17.5, -33)
@@ -15595,7 +20005,7 @@ mesh = SubResource("ArrayMesh_vdcio")
 [node name="entity_168_brush_0_collision_shape" type="CollisionShape3D" parent="entity_168_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_cfrp7")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_168_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_168_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_169_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -103.5, 17.5, -34.5)
@@ -15610,7 +20020,7 @@ mesh = SubResource("ArrayMesh_0lj7b")
 [node name="entity_169_brush_0_collision_shape" type="CollisionShape3D" parent="entity_169_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_nbgqp")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_169_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_169_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_170_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -103.5, 17.5, -32)
@@ -15625,7 +20035,7 @@ mesh = SubResource("ArrayMesh_ynxgo")
 [node name="entity_170_brush_0_collision_shape" type="CollisionShape3D" parent="entity_170_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_p4svs")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_170_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_170_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_171_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -103, 17.5, -36.5)
@@ -15640,7 +20050,7 @@ mesh = SubResource("ArrayMesh_u06cj")
 [node name="entity_171_brush_0_collision_shape" type="CollisionShape3D" parent="entity_171_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_3v4e8")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_171_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_171_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_172_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -90, 8.5, -31)
@@ -15655,7 +20065,7 @@ mesh = SubResource("ArrayMesh_d2mpp")
 [node name="entity_172_brush_0_collision_shape" type="CollisionShape3D" parent="entity_172_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_u48jo")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_172_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_172_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_173_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -92.317, 8.5, -30.183)
@@ -15670,7 +20080,7 @@ mesh = SubResource("ArrayMesh_8ce3q")
 [node name="entity_173_brush_0_collision_shape" type="CollisionShape3D" parent="entity_173_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_2vx8u")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_173_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_173_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_174_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -80.5, 11.5, -11.5)
@@ -15685,7 +20095,7 @@ mesh = SubResource("ArrayMesh_2lmhs")
 [node name="entity_174_brush_0_collision_shape" type="CollisionShape3D" parent="entity_174_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_0a4aq")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_174_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_174_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_175_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -82.817, 11.5, -10.683)
@@ -15700,7 +20110,7 @@ mesh = SubResource("ArrayMesh_f1rn3")
 [node name="entity_175_brush_0_collision_shape" type="CollisionShape3D" parent="entity_175_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_urdeg")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_175_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_175_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_176_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -80.5, 11.5, -17)
@@ -15715,7 +20125,7 @@ mesh = SubResource("ArrayMesh_0cwtk")
 [node name="entity_176_brush_0_collision_shape" type="CollisionShape3D" parent="entity_176_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_d62v1")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_176_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_176_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_177_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -82.817, 11.5, -16.183)
@@ -15730,7 +20140,7 @@ mesh = SubResource("ArrayMesh_rfbq8")
 [node name="entity_177_brush_0_collision_shape" type="CollisionShape3D" parent="entity_177_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_lhv1o")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_177_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_177_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_178_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -81.5, 17.5, -17.5)
@@ -15745,7 +20155,7 @@ mesh = SubResource("ArrayMesh_xlcly")
 [node name="entity_178_brush_0_collision_shape" type="CollisionShape3D" parent="entity_178_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_io8eo")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_178_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_178_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_179_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -83.817, 17.5, -16.683)
@@ -15760,7 +20170,7 @@ mesh = SubResource("ArrayMesh_ebxg5")
 [node name="entity_179_brush_0_collision_shape" type="CollisionShape3D" parent="entity_179_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_ojlkg")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_179_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_179_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_180_func_door_slide" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -102.125, 36.5, -33)
@@ -15901,7 +20311,7 @@ color2 = Vector4(0.8, 0.8, 0.8, 1)
 colorString = "255 255 255"
 alpha = 1.0
 is_dangerous = "1"
-duplicateMaterial = SubResource("ShaderMaterial_d4yym")
+duplicateMaterial = SubResource("ShaderMaterial_ub2m0")
 texture = ExtResource("80_mhkne")
 
 [node name="entity_208_mesh_instance" type="MeshInstance3D" parent="entity_208_func_water"]
@@ -16001,7 +20411,7 @@ mesh = SubResource("ArrayMesh_c2fef")
 [node name="entity_223_brush_0_collision_shape" type="CollisionShape3D" parent="entity_223_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_vwb5n")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_223_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_223_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_224_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -97.5, 24, -39.25)
@@ -16016,7 +20426,7 @@ mesh = SubResource("ArrayMesh_rymj4")
 [node name="entity_224_brush_0_collision_shape" type="CollisionShape3D" parent="entity_224_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_c70ep")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_224_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_224_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_225_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -96.067, 35.5, -25.433)
@@ -16031,7 +20441,7 @@ mesh = SubResource("ArrayMesh_3v6vh")
 [node name="entity_225_brush_0_collision_shape" type="CollisionShape3D" parent="entity_225_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_bo1qb")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_225_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_225_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_226_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -96.25, 35.5, -27.5)
@@ -16046,7 +20456,7 @@ mesh = SubResource("ArrayMesh_26eqv")
 [node name="entity_226_brush_0_collision_shape" type="CollisionShape3D" parent="entity_226_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_jwiau")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_226_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_226_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_227_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -95.5, 35.5, -35)
@@ -16061,7 +20471,7 @@ mesh = SubResource("ArrayMesh_54fji")
 [node name="entity_227_brush_0_collision_shape" type="CollisionShape3D" parent="entity_227_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_2mic5")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_227_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_227_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_228_light_torch" parent="." instance=ExtResource("76_q33pf")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -77.25, 20.25, -13.25)
@@ -16175,7 +20585,7 @@ mesh = SubResource("ArrayMesh_lyyct")
 [node name="entity_240_brush_0_collision_shape" type="CollisionShape3D" parent="entity_240_func_breakable"]
 shape = SubResource("ConvexPolygonShape3D_7hswp")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_240_func_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_240_func_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_241_func_glass" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -130, 40.75, -54.75)
@@ -16280,7 +20690,7 @@ color2 = Vector4(0.8, 0.8, 0.8, 1)
 colorString = "255 255 255"
 alpha = 1.0
 is_dangerous = "1"
-duplicateMaterial = SubResource("ShaderMaterial_dog0o")
+duplicateMaterial = SubResource("ShaderMaterial_v8fr2")
 texture = ExtResource("101_5fhd7")
 
 [node name="entity_257_mesh_instance" type="MeshInstance3D" parent="entity_257_func_water"]
@@ -16522,7 +20932,7 @@ mesh = SubResource("ArrayMesh_kukgk")
 [node name="entity_283_brush_0_collision_shape" type="CollisionShape3D" parent="entity_283_func_breakable"]
 shape = SubResource("ConvexPolygonShape3D_mei6j")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_283_func_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_283_func_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_284_monster_scorpion" parent="." instance=ExtResource("82_kip10")]
 transform = Transform3D(0.0348995, 0, 0.999391, 0, 1, 0, -0.999391, 0, 0.0348995, -140.5, 40.25, -67.625)
@@ -16559,7 +20969,7 @@ color = Vector4(1, 1, 1, 1)
 color2 = Vector4(0.8, 0.8, 0.8, 1)
 colorString = "255 255 255"
 alpha = 1.0
-duplicateMaterial = SubResource("ShaderMaterial_cy4vk")
+duplicateMaterial = SubResource("ShaderMaterial_nbvmi")
 texture = ExtResource("101_5fhd7")
 
 [node name="entity_288_mesh_instance" type="MeshInstance3D" parent="entity_288_func_water"]
@@ -16587,7 +20997,7 @@ mesh = SubResource("ArrayMesh_yjga0")
 [node name="entity_289_brush_0_collision_shape" type="CollisionShape3D" parent="entity_289_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_hwlf8")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_289_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_289_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_290_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -114.75, 39.75, -74.75)
@@ -16602,7 +21012,7 @@ mesh = SubResource("ArrayMesh_hs8rd")
 [node name="entity_290_brush_0_collision_shape" type="CollisionShape3D" parent="entity_290_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_go13l")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_290_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_290_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_291_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -116, 39.75, -73.5)
@@ -16617,7 +21027,7 @@ mesh = SubResource("ArrayMesh_1ci6j")
 [node name="entity_291_brush_0_collision_shape" type="CollisionShape3D" parent="entity_291_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_itwal")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_291_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_291_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_292_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -120.75, 39.75, -77)
@@ -16632,7 +21042,7 @@ mesh = SubResource("ArrayMesh_elyyn")
 [node name="entity_292_brush_0_collision_shape" type="CollisionShape3D" parent="entity_292_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_1qtg0")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_292_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_292_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_293_func_physics_breakable" type="RigidBody3D" parent="." groups=["Breakable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -129.5, 39.75, -77.25)
@@ -16647,7 +21057,7 @@ mesh = SubResource("ArrayMesh_fjgji")
 [node name="entity_293_brush_0_collision_shape" type="CollisionShape3D" parent="entity_293_func_physics_breakable"]
 shape = SubResource("ConvexPolygonShape3D_b8wi1")
 
-[node name="BreakableParticles" type="Node3D" parent="entity_293_func_physics_breakable" instance=ExtResource("54_1gtbh")]
+[node name="BreakableParticles" parent="entity_293_func_physics_breakable" instance=ExtResource("54_1gtbh")]
 
 [node name="entity_294_item_keycard" parent="." instance=ExtResource("88_ov88a")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -152.75, 41.3203, -85.75)
@@ -16748,7 +21158,7 @@ color2 = Vector4(0.8, 0.8, 0.8, 1)
 colorString = "255 255 255"
 alpha = 1.0
 is_dangerous = "1"
-duplicateMaterial = SubResource("ShaderMaterial_5rbvi")
+duplicateMaterial = SubResource("ShaderMaterial_4xhvd")
 texture = ExtResource("80_mhkne")
 
 [node name="entity_301_mesh_instance" type="MeshInstance3D" parent="entity_301_func_water"]
@@ -16826,7 +21236,7 @@ color = Vector4(1, 1, 1, 1)
 color2 = Vector4(0.8, 0.8, 0.8, 1)
 colorString = "255 255 255"
 alpha = 1.0
-duplicateMaterial = SubResource("ShaderMaterial_yjf8b")
+duplicateMaterial = SubResource("ShaderMaterial_tkpyi")
 texture = ExtResource("101_5fhd7")
 
 [node name="entity_315_mesh_instance" type="MeshInstance3D" parent="entity_315_func_water"]
@@ -17113,7 +21523,7 @@ color2 = Vector4(0.8, 0.8, 0.8, 1)
 colorString = "255 255 255"
 alpha = 1.0
 is_dangerous = "1"
-duplicateMaterial = SubResource("ShaderMaterial_obqad")
+duplicateMaterial = SubResource("ShaderMaterial_cwqaw")
 texture = ExtResource("80_mhkne")
 
 [node name="entity_334_mesh_instance" type="MeshInstance3D" parent="entity_334_func_water"]
@@ -17135,7 +21545,7 @@ color2 = Vector4(0.8, 0.8, 0.8, 1)
 colorString = "255 255 255"
 alpha = 1.0
 is_dangerous = "1"
-duplicateMaterial = SubResource("ShaderMaterial_6vjn4")
+duplicateMaterial = SubResource("ShaderMaterial_t5dyx")
 texture = ExtResource("80_mhkne")
 
 [node name="entity_335_mesh_instance" type="MeshInstance3D" parent="entity_335_func_water"]
@@ -17172,7 +21582,7 @@ color2 = Vector4(0.8, 0.8, 0.8, 1)
 colorString = "255 255 255"
 alpha = 1.0
 is_dangerous = "1"
-duplicateMaterial = SubResource("ShaderMaterial_s8yw6")
+duplicateMaterial = SubResource("ShaderMaterial_h7qex")
 texture = ExtResource("80_mhkne")
 
 [node name="entity_336_mesh_instance" type="MeshInstance3D" parent="entity_336_func_water"]
@@ -17516,7 +21926,7 @@ color2 = Vector4(0.8, 0.8, 0.8, 1)
 colorString = "255 255 255"
 alpha = 1.0
 is_dangerous = "1"
-duplicateMaterial = SubResource("ShaderMaterial_0boty")
+duplicateMaterial = SubResource("ShaderMaterial_o6fwh")
 texture = ExtResource("80_mhkne")
 
 [node name="entity_373_mesh_instance" type="MeshInstance3D" parent="entity_373_func_water"]
@@ -17538,7 +21948,7 @@ color2 = Vector4(0.8, 0.8, 0.8, 1)
 colorString = "255 255 255"
 alpha = 1.0
 is_dangerous = "1"
-duplicateMaterial = SubResource("ShaderMaterial_i1aus")
+duplicateMaterial = SubResource("ShaderMaterial_rdfcq")
 texture = ExtResource("80_mhkne")
 
 [node name="entity_374_mesh_instance" type="MeshInstance3D" parent="entity_374_func_water"]
@@ -17558,7 +21968,7 @@ script = ExtResource("18_8i1mq")
 color = Vector4(1, 1, 1, 1)
 color2 = Vector4(0.8, 0.8, 0.8, 1)
 colorString = "255 255 255"
-duplicateMaterial = SubResource("ShaderMaterial_utw0y")
+duplicateMaterial = SubResource("ShaderMaterial_d8sak")
 texture = ExtResource("62_no5nh")
 
 [node name="entity_375_mesh_instance" type="MeshInstance3D" parent="entity_375_func_water"]
