@@ -4,8 +4,8 @@ class_name DestroyObject
 
 @onready var model = self
 @onready var ps = preload("res://scenes/Parents/breakable_particles.tscn")
-@onready var breakableParticles = self.get_node("BreakableParticles") if true else self
-@onready var particle = breakableParticles.get_node(particleType) if true else self
+@onready var breakableParticles = null
+@onready var particle = null
 
 # Contains the properties for the breakable object
 @export_group("Breakable Object Properties")
@@ -13,6 +13,14 @@ class_name DestroyObject
 @export var explosive : bool = false
 
 var destroy = false
+
+func ready():
+	model = self
+	ps = preload("res://scenes/Parents/breakable_particles.tscn")
+	breakableParticles = self.get_node_or_null("BreakableParticles")
+	particle = breakableParticles.get_node_or_null(particleType)
+
+	
 
 ## Called on level Build
 func _func_godot_apply_properties(props : Dictionary):
@@ -36,6 +44,9 @@ func _func_godot_apply_properties(props : Dictionary):
 	for node in new_ps.get_children():
 		if node.name != particleType:
 			node.queue_free()
+	
+	if Game.map_build == Game.MAP_BUILD.PREBUILD: return
+	ready()
 
 ## Called when this object is destroyed
 func Destroy():

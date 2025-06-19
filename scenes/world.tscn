@@ -1,18 +1,28 @@
-[gd_scene load_steps=4 format=3 uid="uid://bmo6dsq4h7dcv"]
+[gd_scene load_steps=8 format=3 uid="uid://bmo6dsq4h7dcv"]
 
 [ext_resource type="Script" path="res://scenes/world.gd" id="1_bareh"]
 [ext_resource type="PackedScene" uid="uid://b1nvm5ienfdhv" path="res://scenes/levels/main_menu.tscn" id="2_3uxdo"]
+[ext_resource type="Script" path="res://addons/func_godot/src/map/func_godot_map.gd" id="2_r04bc"]
+[ext_resource type="Resource" uid="uid://bkhxcqsquw1yg" path="res://addons/func_godot/func_godot_default_map_settings.tres" id="3_1rwbw"]
 [ext_resource type="PackedScene" uid="uid://disopq4f4xl1o" path="res://scenes/statsmenu.tscn" id="3_pl18t"]
+[ext_resource type="Theme" uid="uid://d2f0bmoftf5uf" path="res://godot/theme.tres" id="6_nh4bj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yllek"]
+bg_color = Color(0, 0, 0, 1)
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_bareh")
-level_filepath = "res://scenes/levels/level3.tscn"
+level_filepath = "res://maps/level3.map"
 
-[node name="Game" type="Node3D" parent="."]
+[node name="Game" type="Node3D" parent="." groups=["Map"]]
 unique_name_in_owner = true
+script = ExtResource("2_r04bc")
+local_map_file = "res://maps/level3.map"
+map_settings = ExtResource("3_1rwbw")
 
 [node name="MainMenu" parent="." instance=ExtResource("2_3uxdo")]
 layer = 7
+visible = false
 
 [node name="Projectiles_Throwables" type="Node3D" parent="."]
 unique_name_in_owner = true
@@ -20,3 +30,27 @@ unique_name_in_owner = true
 [node name="f3statsmenu" parent="." instance=ExtResource("3_pl18t")]
 layer = 100
 visible = false
+
+[node name="GeneratingLevel" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+layer = 100
+
+[node name="Panel" type="Panel" parent="GeneratingLevel"]
+anchors_preset = -1
+anchor_left = -0.017
+offset_left = 5.584
+offset_top = -14.0
+offset_right = 1169.0
+offset_bottom = 665.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_yllek")
+
+[node name="LoadingText" type="Label" parent="GeneratingLevel"]
+unique_name_in_owner = true
+texture_filter = 1
+offset_right = 1152.0
+offset_bottom = 648.0
+theme = ExtResource("6_nh4bj")
+theme_override_font_sizes/font_size = 36
+text = "Generating Level..."
+horizontal_alignment = 1
+vertical_alignment = 1

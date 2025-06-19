@@ -13,9 +13,16 @@ func _func_godot_apply_properties(props : Dictionary):
 	if "starting_song" in props: starting_song_str = props.starting_song as String
 	if "starting_song_volume" in props: starting_song_volume = props.starting_song_volume as float
 	if "enter_text" in props: enter_text = props.enter_text as String
+	
+	if Game.map_build == Game.MAP_BUILD.PREBUILD: return
+	ready()
 
 func _ready():
 	if Engine.is_editor_hint(): return
+	if Game.map_build == Game.MAP_BUILD.RUNTIME: return
+	ready()
+	
+func ready():
 	Game.map_name = map_name
 	if starting_song_str != "":
 		var starting_song = load(starting_song_str)

@@ -32,7 +32,7 @@ var helpLabel = "	[color=medium_orchid]Built in commands[/color]:
 		[color=light_green]load[/color]: Loads the most recent save file
 		[color=light_green]delete_saves[/color]: Delete all save files
 		[color=light_green]sound[/color]: Plays a sound from string filepath ie. \"res://audio/player/player_jump.ogg\"
-		[color=light_green]map[/color]: Load a level from the \"/scenes/levels/\" folder.
+		[color=light_green]map[/color]: Load a .map file from the \"/maps\" folder.
 		[color=light_green]lights_toggle[/color]: Toggle lights in the map.
 		
 		
@@ -76,6 +76,12 @@ var console_commands := {}
 var console_history := []
 var console_history_index := 0
 
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("QuickSave"):
+		savegame()
+	
+	if Input.is_action_just_pressed("QuickLoad"):
+		loadgame()
 
 func _ready() -> void:
 	var canvas_layer := CanvasLayer.new()
@@ -124,7 +130,11 @@ func restart():
 
 ## load a map
 func map(map_name:String):
-	Game.RoomGoto("res://scenes/levels/" + str(map_name) + ".tscn")
+	if Game.map_build == Game.MAP_BUILD.PREBUILD:
+		Game.RoomGoto("res://scenes/levels/" + str(map_name) + ".tscn")
+		
+	if Game.map_build == Game.MAP_BUILD.RUNTIME:
+		Signals.UpdateWorldMapFile.emit(map_name)
 	
 
 ## savegame - saves the current game
@@ -159,6 +169,7 @@ func texturemode(_tm : Defs.TEXTURE_MODE):
 	pass
 
 #endregion
+
 
 func _input(event : InputEvent) -> void:
 	if (event is InputEventKey):

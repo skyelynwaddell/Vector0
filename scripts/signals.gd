@@ -32,3 +32,7 @@ signal HUDShow
 signal HUDHidden
 signal MainMenuShown
 signal MainMenuHidden
+signal MapGenerated
+signal UpdateWorldMapFile
+signal MapGenerating
+signal HitmarkerDisplay

@@ -25,6 +25,7 @@ var emitted_once = false
 
 func _ready():
 	Signals.UpdateEnemyStats.connect(UpdateEnemyStats)
+	area = get_node_or_null("Area3D")
 	if kia: state = DEATH
 
 func Hurt(dmg):
@@ -81,7 +82,7 @@ func GetEnemyData():
 	}
 	return data
 
-@onready var area = %Area3D
+@onready var area = null
 func Kill():
 	state = DEATH
 	dead = true

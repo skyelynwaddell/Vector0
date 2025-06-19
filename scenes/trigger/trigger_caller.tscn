@@ -2,5 +2,6 @@
 
 [ext_resource type="Script" path="res://scripts/trigger.gd" id="1_d8vba"]
 
-[node name="TriggerCaller" type="Node3D"]
+[node name="TriggerCaller" type="Node3D" groups=["Entity"]]
 script = ExtResource("1_d8vba")
+respawn_on_reload = null

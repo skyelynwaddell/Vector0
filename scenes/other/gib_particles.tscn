@@ -70,7 +70,7 @@ size = Vector3(1, 1, 0.1)
 [node name="GibParticles" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.318567, 0)
 emitting = false
-amount = 10
+amount = 5
 lifetime = 3.0
 one_shot = true
 explosiveness = 1.0
@@ -94,4 +94,5 @@ draw_skin = SubResource("Skin_riwks")
 
 [node name="ParticleFloor" type="GPUParticlesCollisionBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00904655, -1.47397, -0.617454)
+layers = 0
 size = Vector3(35.1792, 2.14539, 20.6102)

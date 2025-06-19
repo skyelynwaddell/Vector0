@@ -58,6 +58,8 @@ var sound_opened : AudioStream
 var sound_locked : AudioStream
 @export var secret := 0
 
+var loaded = false
+
 func _func_godot_apply_properties(props:Dictionary):
 	# Set props from trenchbroom
 	if "targetname" in props: targetname = props.targetname as String
@@ -76,7 +78,11 @@ func _func_godot_apply_properties(props:Dictionary):
 	
 	if "secret" in props: secret = props.secret as int
 	
+	if Game.map_build == Game.MAP_BUILD.PREBUILD: return
+	ready()
+	
 	pass
+	
 	
 func GetDoorData():
 	var data = {
@@ -86,7 +92,8 @@ func GetDoorData():
 		"open" : open,
 	}
 	return data
-	
+
+
 func UpdateDoor():
 	var data = GetDoorData()
 	
@@ -99,11 +106,13 @@ func UpdateDoor():
 		
 	Game.doors.push_back(data.duplicate(true))
 	pass
-	
+
+
 func SetDoorProperties():
-	call_deferred("SetDoorPropertiesDeferred")
+	print("Setting door properties...")
+
+	print("Setting door properties deferred")
 	
-func SetDoorPropertiesDeferred():
 	var data = null
 	##loop through all doors
 	for i in range(Game.doors.size()):
@@ -113,15 +122,13 @@ func SetDoorPropertiesDeferred():
 			data = d
 			
 	if data == null: return
+	print("Updating door data to: " + str(data))
 	global_transform.origin = Vector3(data.origin.x, data.origin.y, data.origin.z)
 	#global_position = Vector3(data.pos.x, data.pos.y, data.pos.z)
 	open = data.open as bool
-	
-	
 	print("Set door props: " + str(data))
 
 func RegisterDoor():
-	
 	##loop through all doors
 	for i in range(Game.doors.size()):
 		var d = Game.doors[i]
@@ -135,10 +142,23 @@ func RegisterDoor():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if Engine.is_editor_hint(): return
-	ReadyDoor()
+	if Game.map_build == Game.MAP_BUILD.RUNTIME: return
+	loaded = true
+	ready()
 	
+func MapGenerated():
+	print("le map generateead")
+	SetDoorProperties()
+	
+func ready():
+	Signals.MapGenerated.connect(MapGenerated)
+	#if Engine.is_editor_hint(): return
+	
+	#if Game.map_build == Game.MAP_BUILD.PREBUILD:
+		#loaded = true
+	ReadyDoor()
 	Signals.DoorUpdateEntity.connect(UpdateDoor)
+	loaded=true
 	
 func ReadyDoor():
 	if sound_opened_str != "" : sound_opened = load(sound_opened_str)
@@ -197,10 +217,10 @@ func ReadyDoor():
 func _process(delta):
 	if Engine.is_editor_hint(): return
 	if Game.IsPaused(): return
+	if not loaded: return
 	# Check if the player is within the area and can interact
 	if canOpen and Input.is_action_just_pressed("Interact"):
-		
-		
+
 		match(targetname):
 			"door_red": if Game.keycard.red: locked = false
 			"door_yellow": if Game.keycard.yellow: locked = false
@@ -257,6 +277,7 @@ func slide_door(targetPosition: Vector3, delta: float):
 			#send_crusher_signal = true
 			#Signals.CrusherZone_CrusherEntered.emit(target)
 
+	if area3d == null: return
 	area3d.global_transform.origin = initPos
 	#area3d.global_position = global_position
 

@@ -16,7 +16,7 @@ var volume_voice := 1.0;
 var volume_sfx := 1.0;
 
 ## 2D Sound System Sounds
-var SFX = {
+@onready var SFX = {
 	"PLAYER_JUMP" : preload("res://audio/player/player_jump.ogg"),
 	"KNIFE_STAB" : preload("res://audio/weapons/knife_stab.ogg"),
 	"KNIFE_SWING_1" : preload("res://audio/weapons/knife_swing1.ogg"),
@@ -43,7 +43,8 @@ var SFX = {
 	"SWITCH_DIGITAL" : preload("res://audio/switch_digital.ogg"),
 	"PLAYER_GRUNT_1" : preload("res://audio/player/grun1.ogg"),
 	"PLAYER_GRUNT_2" : preload("res://audio/player/grunt2.ogg"),
-	"KEYCARD" : preload("res://audio/keycard.ogg")
+	"KEYCARD" : preload("res://audio/keycard.ogg"),
+	"FLASHLIGHT" : preload("res://audio/click.ogg"),
 }
 
 func IsSFXPlaying() -> bool : 

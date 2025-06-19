@@ -56,10 +56,17 @@ func _func_godot_apply_properties(props:Dictionary):
 			3: ## RIGHT
 				self.position.z -= opensize
 				pass
+	
+	if Game.map_build == Game.MAP_BUILD.PREBUILD: return
+	ready()
 	pass
 
 func _ready():
 	if Engine.is_editor_hint(): return
+	if Game.map_build == Game.MAP_BUILD.RUNTIME: return
+	ready()
+	
+func ready():
 	if type == 1:
 		var og = global_transform.origin
 		if rotatedir == 0:

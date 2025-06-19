@@ -11,9 +11,15 @@ func _func_godot_apply_properties(props:Dictionary):
 	if "damage" in props: damage = props["damage"] as int
 	
 	add_to_group("Entity", true)
+	if Game.map_build == Game.MAP_BUILD.PREBUILD: return
+	ready()
 	pass
 
 func _ready():
+	if Game.map_build == Game.MAP_BUILD.RUNTIME: return
+	ready()
+	
+func ready():
 	add_to_group("Entity", true)
 	Game.UpdateEntity(self,0)
 	pass

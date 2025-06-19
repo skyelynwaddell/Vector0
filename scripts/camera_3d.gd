@@ -32,7 +32,9 @@ func ScreenShakeHandler(delta):
 	if shake_timer <= 0 and in_screenshake == true: 
 		in_screenshake = false
 		#rotation = original_rotation
-		transform.origin = original_transform.origin
+		transform.origin.x = lerp(transform.origin.x,original_transform.origin.x,0.1)
+		transform.origin.y = lerp(transform.origin.y,original_transform.origin.y,0.1)
+		transform.origin.z = lerp(transform.origin.z,original_transform.origin.z,0.1)
 		return
 		
 	if shake_timer <= 0: return ## do this or you will be very dizzy

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bi2u0dkilagjw"]
+
+[ext_resource type="Script" path="res://scripts/func/trigger_togglecansave.gd" id="1_oqljv"]
+
+[node name="TriggerToggleCanSave" type="Node3D" groups=["Entity"]]
+script = ExtResource("1_oqljv")

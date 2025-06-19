@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://b7iulj62x0cg5"]
 
 [ext_resource type="Script" path="res://scripts/walkpoint.gd" id="1_nogdg"]
-[ext_resource type="PackedScene" uid="uid://bc4titr8m4isl" path="res://models/other/diamond.fbx" id="2_55uft"]
+[ext_resource type="PackedScene" uid="uid://bv1g7nsu3nnkl" path="res://models/other/diamond.fbx" id="2_55uft"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gqru7"]
 

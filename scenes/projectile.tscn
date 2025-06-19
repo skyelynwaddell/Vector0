@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://uqi5gidr5t0x"]
+[gd_scene load_steps=11 format=3 uid="uid://uqi5gidr5t0x"]
 
 [ext_resource type="Script" path="res://scripts/projectile.gd" id="1_jvjxd"]
 [ext_resource type="Material" uid="uid://btf30vo4xkdae" path="res://shaders/projectile_slime.tres" id="2_7qtvr"]
@@ -16,6 +16,8 @@ billboard_mode = 2
 [sub_resource type="QuadMesh" id="QuadMesh_bphxm"]
 material = SubResource("StandardMaterial3D_ydq15")
 size = Vector2(0.02, 0.02)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_nbkuu"]
 
 [sub_resource type="Animation" id="Animation_n52m8"]
 length = 0.001
@@ -90,6 +92,7 @@ omni_attenuation = 2.483
 [node name="Slime" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(0.700219, 0, 0, 0, 0.700219, 0, 0, 0, 0.700219, 0, 0, 0)
+visible = false
 mesh = SubResource("SphereMesh_b3ht2")
 
 [node name="CPUParticles3D" type="CPUParticles3D" parent="Slime"]
@@ -104,6 +107,11 @@ gravity = Vector3(0, 0, 0)
 scale_amount_min = 0.1
 scale_amount_max = 0.2
 color = Color(0, 1, 0, 1)
+
+[node name="Bullet" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(-8.27418e-09, -0.189291, 0, 0.189291, -8.27418e-09, 0, 0, 0, 0.189291, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_nbkuu")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

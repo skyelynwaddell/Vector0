@@ -24,6 +24,10 @@ class_name PickupWeapon
 var shouldDestroy = false
 
 func _ready():
+	#if Game.map_build == Game.MAP_BUILD.RUNTIME: return
+	ready()
+	
+func ready():
 	Game.DestroyOnDifficultyFlag(difficulty_spawn, self)
 	add_to_group("Entity", true)
 	Game.UpdateEntity(self,0)
@@ -39,7 +43,9 @@ func _func_godot_apply_properties(props:Dictionary):
 	print(str(props))
 	if "amount" in props: AmmoAmount = props.amount as int
 	if "difficulty_spawn" in props: difficulty_spawn = props.difficulty_spawn as int
-	pass
+	
+	if Game.map_build == Game.MAP_BUILD.PREBUILD: return
+	ready()
 
 func _on_body_entered(body):
 	if spawn_wait == true: return
@@ -68,6 +74,8 @@ func _on_body_entered(body):
 			6: ammoPoolType = "9mm"
 			7: ammoPoolType = null
 			8: ammoPoolType = "9mm"
+			9: ammoPoolType = "shotgun"
+			10: ammoPoolType = "9mm"
 		
 		# check if the player has the weapon already
 		var hasweapon = false

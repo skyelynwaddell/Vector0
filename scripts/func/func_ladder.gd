@@ -1,7 +1,15 @@
 extends Area3D
 
+func _func_godot_apply_properties(props:Dictionary):
+	if Game.map_build == Game.MAP_BUILD.PREBUILD: return
+	ready()
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if Game.map_build == Game.MAP_BUILD.RUNTIME: return
+	ready()
+
+func ready():
 	#self.add_to_group("Ladder")
 	# Find the existing CollisionShape3D with a ConvexPolygonShape3D
 	var original_shape : ConvexPolygonShape3D = null

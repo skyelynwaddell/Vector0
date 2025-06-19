@@ -11,12 +11,16 @@ var target := "door_red"
 
 func _func_godot_apply_properties(props:Dictionary):
 	if "key_type" in props: key_type = props.key_type as int
-	ApplyProperties()
+	
+	if Game.map_build == Game.MAP_BUILD.PREBUILD: return
+	ready()
+
 
 func ApplyProperties():
-	%keycard_red.hide()
-	%keycard_yellow.hide()
-	%keycard_blue.hide()
+	if is_node_ready() == false: return
+	self.get_node("keycard_red").hide()
+	self.get_node("keycard_yellow").hide()
+	self.get_node("keycard_blue").hide()
 	var targetname = ""
 	
 	match(key_type):
@@ -41,6 +45,10 @@ func ApplyProperties():
 
 
 func _ready() -> void:
+	if Game.map_build == Game.MAP_BUILD.RUNTIME: return
+	ready()
+	
+func ready():
 	ApplyProperties()
 	Game.UpdateEntity(self,0)
 	pass

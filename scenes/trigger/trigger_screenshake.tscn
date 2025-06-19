@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ypmh2mtcqq5k"]
+
+[ext_resource type="Script" path="res://scripts/func/trigger_screenshake.gd" id="1_nwrtv"]
+
+[node name="TriggerScreenshake" type="Node3D" groups=["Entity"]]
+script = ExtResource("1_nwrtv")

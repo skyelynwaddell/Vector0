@@ -14,11 +14,13 @@ func _ready() -> void:
 	## Hide all the projectile models
 	%ElectricBall.hide()
 	%Slime.hide()
+	%Bullet.hide()
 	
 	## Show the correct projectile model
 	match(current_projectile_type):
 		Defs.PROJECTILE_TYPE.ELECTRIC_BALL: %ElectricBall.show()
 		Defs.PROJECTILE_TYPE.SLIME: %Slime.show()
+		Defs.PROJECTILE_TYPE.BULLET: %Bullet.show()
 
 func _physics_process(delta: float) -> void:	
 	self.velocity.x = direction.x * speed

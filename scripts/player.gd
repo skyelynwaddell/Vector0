@@ -191,10 +191,18 @@ const DEATH = 4
 var state = DEFAULT
 var direction = 0
 
+
+var hitmarker_timer = 0.0
+var hitmarker_timer_max = 0.1
+var hitmarker_show := false
+
 #Load player data from mapping software
 func _func_godot_apply_properties(props : Dictionary):
 	if "spawndir" in props: spawndir = props.spawndir
 	if "targetname" in props: targetname = props.targetname
+	
+	if Game.map_build == Game.MAP_BUILD.PREBUILD: return
+	ready()
 		
 
 func EmissionSet(amt:int):
@@ -202,7 +210,20 @@ func EmissionSet(amt:int):
 
 #READY EVENT
 func _ready() -> void:
+	if Game.map_build == Game.MAP_BUILD.RUNTIME: return
+	ready()
+	
+
+func HitmarkerDisplay():
+	%HitmarkerSFX.play()
+	%Hitmarker.show()
+	hitmarker_show = true
+
+func ready():
 	Signals.EmissionSet.connect(EmissionSet)
+	Signals.HitmarkerDisplay.connect(HitmarkerDisplay)
+	
+	
 	print("PLAYER OBJECT CREATED")
 	# Make player face the spawn direction
 	match(spawndir):
@@ -223,15 +244,16 @@ func _ready() -> void:
 	### DONT FUCKING TOUCH
 	
 	#Game.ammoPool = Game.ammoPoolDefault.duplicate(true)
-	#Game.weapons = Game.weaponsDefault.duplicate(true)
+	#Game.weapons = Game.weaponDefault.duplicate(true)
 	ChangeWeapon(0)
-	
 	
 	print("### WEAPONS: " + str(Game.weapons))
 	print("### AMMO POOLS: " + str(Game.ammoPool))
 	
+	## Update Game World once player is initialized
 	if Game.last_data != null: 
 		print("GAME LAST_DATA WAS NOT NULL!!")
+		
 		var weaponIndex = Game.GetData(self)
 		print("Changing weapon to : " + str(weaponIndex))
 		ChangeWeapon(weaponIndex)
@@ -261,6 +283,22 @@ func CheckIfImInLavaSoItCanBurnMe():
 		if lava_hurt_timer != 0: lava_hurt_timer = 0
 		
 	pass
+	
+func HandleInteract():
+	if Console.is_visible(): return
+	
+	# Interact sound effect
+	if Input.is_action_just_pressed("Interact"): 
+		
+		## if no sound availble just play no work sound or something idek
+		if currentSFX == null:
+			currentSFX = MusicPlayer.SFX.INTERACT_NO_WORK
+			MusicPlayer.Sound(currentSFX, MusicPlayer.AUDIO_CHANNEL.SFX, 0.2)
+			return
+			
+			
+		MusicPlayer.Sound(currentSFX, MusicPlayer.AUDIO_CHANNEL.SFX, 0.2)
+		#currentSFX.play()
 
 func CheckIfImDeadYet():
 	if Game.hp.current <= 0 and state != DEATH:
@@ -271,14 +309,21 @@ func CheckIfImDeadYet():
 func _process(delta): 
 	if Engine.is_editor_hint(): return
 	
+	if hitmarker_show:
+		hitmarker_timer += delta
+		if hitmarker_timer >= hitmarker_timer_max:
+			hitmarker_timer = 0.0
+			hitmarker_show = false
+			%Hitmarker.hide()
+	
 	%fps.text = str(Engine.get_frames_per_second())
 	
 	CheckIfImInLavaSoItCanBurnMe()
 	CheckIfImDeadYet()
 	
 	#set camera position if we are not in the console
-	if Console != null: 
-		if Console.is_visible(): return
+	#if Console != null: 
+		#if Console.is_visible(): return
 		
 	if Game.IsPaused(): return
 	
@@ -289,10 +334,8 @@ func _process(delta):
 	Exit() ## exit game function
 	if dead: return
 	
-	# Interact sound effect
-	if Input.is_action_just_pressed("Interact"): 
-		MusicPlayer.Sound(currentSFX, MusicPlayer.AUDIO_CHANNEL.SFX, 1.0)
-		#currentSFX.play()
+	HandleInteract()
+	
 	
 	# State specific functionality
 	match(state):
@@ -367,7 +410,7 @@ func ShootKnockback():
 #PHYSICS PROCESS
 func _physics_process(delta):
 	if Engine.is_editor_hint(): return
-	if Console.is_visible(): return
+	#if Console.is_visible(): return
 	if Game.IsPaused(): return
 	
 	var lastVelocity = velocity
@@ -378,6 +421,8 @@ func _physics_process(delta):
 	HeadTilt(delta)
 	
 func HeadTilt(delta):	
+	
+	if Console.is_visible(): return
 	if state == DEATH: return
 	
 	# Get raw input direction
@@ -474,6 +519,8 @@ func _find_other_y() -> String:
 	return ""
 
 func HandlePlayerDirection(delta) -> Vector3:
+	if Console.is_visible(): return Vector3.ZERO
+	
 	var input_dir = Vector2.ZERO
 
 	match latest_x:
@@ -579,7 +626,7 @@ func ApplyVelocity(delta, dir):
 
 func MovePlayer(delta):
 	## Stop moving player if paused or something 
-	if Console.is_visible() or Game.IsPaused(): 
+	if Game.IsPaused(): 
 		direction = Vector3.ZERO
 		velocity = Vector3.ZERO
 		return
@@ -639,6 +686,9 @@ func HandleReload():
 func HandleFlashlight():
 	#Flashlight [F]
 	if Input.is_action_just_pressed("Flashlight"):
+		
+		MusicPlayer.Sound(MusicPlayer.SFX.FLASHLIGHT,MusicPlayer.AUDIO_CHANNEL.SFX,0.5)
+		
 		flashlight = !flashlight
 		%Flashlight.visible = flashlight
 
@@ -776,6 +826,7 @@ func HandleCrouch(delta):
 
 #RELOAD
 func Reload():
+	if Console.is_visible(): return
 	# Check if in an animation, or already reloading
 	if canShoot == false: return
 	if reloading: return
@@ -865,6 +916,7 @@ func Restart():
 
 #CHANGE WEAPON
 func ChangeWeapon(_type):
+	if Console.is_visible(): return
 	var type = int(_type)
 	
 	## make sure when we are dead we cannot switch to any weapon except NO WEAPON
@@ -1085,7 +1137,7 @@ func Hurt(dmg):
 		
 	MusicPlayer.Sound(current_grunt, MusicPlayer.AUDIO_CHANNEL.VOICE, 1.0)
 	
-	## check if we have armor
+	## check if we have armorf
 	if Game.armor.current <= 0:
 		## no armor -> decrease our health points
 		Game.hp.current = Game.hp.current - dmg
@@ -1134,6 +1186,9 @@ func Walk():
 
 #JUMP
 func Jump():
+	
+	if Console.is_visible(): return
+	
 	if is_on_floor() || state == SWIMMING || state == CLIMBING:
 		if state == CLIMBING:
 			state = DEFAULT
@@ -1249,6 +1304,16 @@ func CreateRayCast():
 		#Do stuff when specific entities are shot
 		#Enemies
 		if target.is_in_group("Enemy"): 
+			print(str(target.get_groups()))
+			
+			if target.is_in_group("HeadHitbox"):
+				target.get_parent().Hurt(weaponPower)
+				target.get_parent().headshot = true
+				if isMelee:
+					target.get_parent().headchopoff = true
+				
+				return
+				
 			target.Hurt(weaponPower)
 			
 		if target.is_in_group("Switch"):
@@ -1279,10 +1344,12 @@ func CreateBulletHole(isMelee,target,colPoint,normal):
 	decals.append(decal)
 	target.add_child(decal)
 	decal.global_transform.origin = colPoint
-	decal.look_at(colPoint + normal, Vector3.UP)
+	var up = Vector3.FORWARD if abs(normal.dot(Vector3.UP)) > 0.99 else Vector3.UP
+	decal.look_at(colPoint + normal, up)
 
 #SHOOT
 func Shoot():
+	if Console.is_visible(): return
 	#Get global weapon properties 
 	var currentWeapon = Game.weapons[Game.currentWeapon]
 	var weaponIndex = currentWeapon.index

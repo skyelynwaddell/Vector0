@@ -25,10 +25,10 @@ buses/default_bus_layout="res://audio/default_bus_layout.tres"
 [autoload]
 
 Game="*res://scripts/Game.gd"
+MusicPlayer="*res://scripts/musicplayer.gd"
 Console="*res://addons/console/Console.gd"
 Signals="*res://scripts/signals.gd"
 Defs="*res://scripts/defs.gd"
-MusicPlayer="*res://scripts/music_player.gd"
 
 [debug]
 
@@ -65,6 +65,7 @@ Camera=""
 Player=""
 Entity=""
 Map=""
+HeadHitbox=""
 
 [importer_defaults]
 
@@ -272,6 +273,16 @@ F3={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":92,"key_label":0,"unicode":92,"location":0,"echo":false,"script":null)
 , Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194334,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
+QuickSave={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":57,"key_label":0,"unicode":57,"location":0,"echo":false,"script":null)
+]
+}
+QuickLoad={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":48,"key_label":0,"unicode":48,"location":0,"echo":false,"script":null)
 ]
 }
 

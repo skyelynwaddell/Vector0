@@ -23,20 +23,24 @@ func _func_godot_apply_properties(props:Dictionary):
 	if "is_dangerous" in props: is_dangerous = props.is_dangerous
 	if "glows" in props: glows = props.glows
 	
-	var colors = colorString.split(" ")
-	var colorLimit = 255.0
-	var r = colors[0].to_float() / colorLimit
-	var g = colors[1].to_float() / colorLimit
-	var b = colors[2].to_float() / colorLimit
-	var factor = 0.8 #Darken the second color by 80%
-	color = Vector4(r,g,b,1.0)
-	color2 = Vector4(r*factor,g*factor,b*factor,1.0)
+	#var colors = colorString.split(" ")
+	#var colorLimit = 255.0
+	#var r = colors[0].to_float() / colorLimit
+	#var g = colors[1].to_float() / colorLimit
+	#var b = colors[2].to_float() / colorLimit
+	#var factor = 0.8 #Darken the second color by 80%
+	#color = Vector4(r,g,b,1.0)
+	#color2 = Vector4(r*factor,g*factor,b*factor,1.0)
 	SetMaterial()
 	
 	if glows == "1":
 		var light = OmniLight3D.new()
 		add_child(light)
 		light.global_position = global_position
+	
+	
+	if Game.map_build == Game.MAP_BUILD.PREBUILD: return
+	ready()
 
 	pass
 
@@ -79,6 +83,10 @@ func SetMaterial():
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if Game.map_build == Game.MAP_BUILD.RUNTIME: return
+	ready()
+	
+func ready():
 	self.add_to_group("Water")
 	SetMaterial()
 	var fogInstance = fog.instantiate()

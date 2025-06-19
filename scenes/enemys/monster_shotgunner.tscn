@@ -1,0 +1,480 @@
+[gd_scene load_steps=46 format=3 uid="uid://d1y5vtbkoesaf"]
+
+[ext_resource type="Script" path="res://scripts/monster_shotgunner.gd" id="1_ep80w"]
+[ext_resource type="PackedScene" uid="uid://bkyxdm7t5qmw3" path="res://scenes/other/gib_particles.tscn" id="2_c0n18"]
+[ext_resource type="AudioStream" uid="uid://bx5yrxvutwp64" path="res://audio/head_explosion.ogg" id="3_b4xu8"]
+[ext_resource type="AudioStream" uid="uid://cr1kyuuu6rldk" path="res://audio/soldier/soldier_targetspotted.ogg" id="3_sbfb6"]
+[ext_resource type="AudioStream" uid="uid://7e8gd07g5tr6" path="res://audio/monster/zombie_breath.ogg" id="4_8vj73"]
+[ext_resource type="AudioStream" uid="uid://bbyqipaad1rao" path="res://audio/shoot_impact.ogg" id="4_hyt1c"]
+[ext_resource type="AudioStream" uid="uid://dc2bdi42bdh3n" path="res://audio/soldier/soldier_hurt1.ogg" id="7_eah7v"]
+[ext_resource type="AudioStream" uid="uid://bmb13dfl22nya" path="res://audio/weapons/shotgun.ogg" id="7_icrx5"]
+[ext_resource type="PackedScene" uid="uid://b7rtlquwdk7ta" path="res://filesthatarentloading/New folder/monster_shotgunner.blend" id="7_jrwie"]
+[ext_resource type="Material" uid="uid://blg67g3if4siw" path="res://materials/monster_shotgunner.tres" id="8_lai86"]
+[ext_resource type="AudioStream" uid="uid://bknkoyeaqey0e" path="res://audio/soldier/soldier_hurt2.ogg" id="8_v6pfw"]
+[ext_resource type="AudioStream" uid="uid://ltxw31aopxho" path="res://audio/soldier/soldier_hurt3.ogg" id="9_5h1m7"]
+[ext_resource type="Material" uid="uid://ckgnjchwv5ueu" path="res://materials/pumpshotgun2.tres" id="9_wye2a"]
+[ext_resource type="AudioStream" uid="uid://bqgxxy011q86q" path="res://audio/soldier/soldier_hurt4.ogg" id="10_2d1cc"]
+[ext_resource type="AudioStream" uid="uid://b7u1s2dnde55t" path="res://audio/soldier/soldier_stayalert.ogg" id="11_5t80u"]
+[ext_resource type="AudioStream" uid="uid://bu1su0vvaptqm" path="res://audio/soldier/soldier_scanningfortarget.ogg" id="12_avv4v"]
+[ext_resource type="AudioStream" uid="uid://br3d4rool8tak" path="res://audio/soldier/soldier_holdtheperimeter.ogg" id="13_j6rtq"]
+[ext_resource type="AudioStream" uid="uid://dmwne06uuwkgd" path="res://audio/soldier/soldier_supressingfire.ogg" id="14_04byq"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kd7oq"]
+animation = &"SHOOT"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2d6bq"]
+animation = &"CROUCH"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5md5h"]
+animation = &"DEATH_1"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qs5kp"]
+animation = &"DEATH_2"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_gstk8"]
+animation = &"DEATH_3"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_b3lvx"]
+animation = &"DEATH_4"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ee6iv"]
+animation = &"HURT_1"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_f83ei"]
+animation = &"HURT_2"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_cu7ih"]
+animation = &"IDLE"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3v35w"]
+animation = &"RUN"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_x2wp8"]
+animation = &"WALK"
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_kp15o"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_5e733"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_mfrd7"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_hu2oh"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_ha20y"]
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_qbt2o"]
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_idv4r"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_6qj4d"]
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_n00oq"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_o3pog"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_b0hth"]
+graph_offset = Vector2(148.323, -4.93378)
+nodes/AnimAttack/node = SubResource("AnimationNodeAnimation_kd7oq")
+nodes/AnimAttack/position = Vector2(720, 340)
+nodes/AnimCrouch/node = SubResource("AnimationNodeAnimation_2d6bq")
+nodes/AnimCrouch/position = Vector2(420, 320)
+nodes/AnimDeath1/node = SubResource("AnimationNodeAnimation_5md5h")
+nodes/AnimDeath1/position = Vector2(1320, 320)
+nodes/AnimDeath2/node = SubResource("AnimationNodeAnimation_qs5kp")
+nodes/AnimDeath2/position = Vector2(1480, 320)
+nodes/AnimDeath3/node = SubResource("AnimationNodeAnimation_gstk8")
+nodes/AnimDeath3/position = Vector2(1640, 320)
+nodes/AnimDeath4/node = SubResource("AnimationNodeAnimation_b3lvx")
+nodes/AnimDeath4/position = Vector2(1800, 320)
+nodes/AnimHurt1/node = SubResource("AnimationNodeAnimation_ee6iv")
+nodes/AnimHurt1/position = Vector2(920, 320)
+nodes/AnimHurt2/node = SubResource("AnimationNodeAnimation_f83ei")
+nodes/AnimHurt2/position = Vector2(1120, 320)
+nodes/AnimIdle/node = SubResource("AnimationNodeAnimation_cu7ih")
+nodes/AnimIdle/position = Vector2(-180, 140)
+nodes/AnimRun/node = SubResource("AnimationNodeAnimation_3v35w")
+nodes/AnimRun/position = Vector2(200, 280)
+nodes/AnimWalk/node = SubResource("AnimationNodeAnimation_x2wp8")
+nodes/AnimWalk/position = Vector2(-160, 320)
+nodes/Crouch/node = SubResource("AnimationNodeBlend2_kp15o")
+nodes/Crouch/position = Vector2(600, 100)
+nodes/Death1/node = SubResource("AnimationNodeBlend2_5e733")
+nodes/Death1/position = Vector2(1440, 100)
+nodes/Death2/node = SubResource("AnimationNodeBlend2_mfrd7")
+nodes/Death2/position = Vector2(1620, 100)
+nodes/Death3/node = SubResource("AnimationNodeBlend2_hu2oh")
+nodes/Death3/position = Vector2(1800, 100)
+nodes/Death4/node = SubResource("AnimationNodeBlend2_ha20y")
+nodes/Death4/position = Vector2(1960, 100)
+nodes/Hurt1/node = SubResource("AnimationNodeOneShot_qbt2o")
+nodes/Hurt1/position = Vector2(1040, 60)
+nodes/Hurt2/node = SubResource("AnimationNodeOneShot_idv4r")
+nodes/Hurt2/position = Vector2(1240, 60)
+nodes/Run/node = SubResource("AnimationNodeBlend2_6qj4d")
+nodes/Run/position = Vector2(300, 80)
+nodes/Shoot/node = SubResource("AnimationNodeOneShot_n00oq")
+nodes/Shoot/position = Vector2(820, 40)
+nodes/Walk/node = SubResource("AnimationNodeBlend2_o3pog")
+nodes/Walk/position = Vector2(20, 100)
+nodes/output/position = Vector2(2200, 100)
+node_connections = [&"Crouch", 0, &"Run", &"Crouch", 1, &"AnimCrouch", &"Death1", 0, &"Hurt2", &"Death1", 1, &"AnimDeath1", &"Death2", 0, &"Death1", &"Death2", 1, &"AnimDeath2", &"Death3", 0, &"Death2", &"Death3", 1, &"AnimDeath3", &"Death4", 0, &"Death3", &"Death4", 1, &"AnimDeath4", &"Hurt1", 0, &"Shoot", &"Hurt1", 1, &"AnimHurt1", &"Hurt2", 0, &"Hurt1", &"Hurt2", 1, &"AnimHurt2", &"Run", 0, &"Walk", &"Run", 1, &"AnimRun", &"Shoot", 0, &"Crouch", &"Shoot", 1, &"AnimAttack", &"Walk", 0, &"AnimIdle", &"Walk", 1, &"AnimWalk", &"output", 0, &"Death4"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fi1kn"]
+size = Vector3(1.30469, 0.992646, 2.15014)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8axdl"]
+size = Vector3(0.822632, 0.714733, 0.660617)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_642ki"]
+size = Vector3(1.30481, 2.77477, 1.26692)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yifhu"]
+albedo_color = Color(0.739789, 1.93726e-06, 9.62615e-07, 1)
+billboard_mode = 2
+
+[sub_resource type="QuadMesh" id="QuadMesh_pig5p"]
+material = SubResource("StandardMaterial3D_yifhu")
+size = Vector2(0.05, 0.05)
+
+[node name="Shotgunner" type="CharacterBody3D" groups=["Enemy", "Entity", "Zombie"]]
+collision_layer = 14
+collision_mask = 15
+script = ExtResource("1_ep80w")
+targetname = &""
+speed = 2
+hp = 150
+hpcurrent = 150
+monster_group = null
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+unique_name_in_owner = true
+root_node = NodePath("%monster_shotgunner")
+tree_root = SubResource("AnimationNodeBlendTree_b0hth")
+anim_player = NodePath("../monster_shotgunner/AnimationPlayer")
+parameters/Crouch/blend_amount = 0.0
+parameters/Death1/blend_amount = 0.0
+parameters/Death2/blend_amount = 0.0
+parameters/Death3/blend_amount = 0.0
+parameters/Death4/blend_amount = 0.0
+parameters/Hurt1/active = false
+parameters/Hurt1/internal_active = false
+parameters/Hurt1/request = 0
+parameters/Hurt2/active = false
+parameters/Hurt2/internal_active = false
+parameters/Hurt2/request = 0
+parameters/Run/blend_amount = 0.0
+parameters/Shoot/active = false
+parameters/Shoot/internal_active = false
+parameters/Shoot/request = 0
+parameters/Walk/blend_amount = 0.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.0122069, 0.978305, 0.038617)
+shape = SubResource("BoxShape3D_fi1kn")
+
+[node name="HeadHitboxArea" type="StaticBody3D" parent="." groups=["Enemy", "HeadHitbox"]]
+collision_layer = 8
+collision_mask = 4
+
+[node name="HeadHitboxCollision" type="CollisionShape3D" parent="HeadHitboxArea"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.0139766, 2.38514, 0.177387)
+shape = SubResource("BoxShape3D_8axdl")
+
+[node name="Area3D" type="Area3D" parent="."]
+unique_name_in_owner = true
+collision_layer = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.012146, 1.3894, 0.129)
+shape = SubResource("BoxShape3D_642ki")
+
+[node name="GibParticles" parent="." instance=ExtResource("2_c0n18")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0157295, -1.14764, -0.299007)
+
+[node name="GibParticles" parent="GibParticles" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.54031, 0.416646)
+
+[node name="BloodParticles" parent="GibParticles" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65944, 0.416646)
+
+[node name="BloodTimer" type="Timer" parent="GibParticles"]
+unique_name_in_owner = true
+
+[node name="HeadExplosion" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_b4xu8")
+max_db = 1.0
+
+[node name="ShootImpact" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_hyt1c")
+volume_db = -10.0
+
+[node name="Growl" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.46206, 0)
+stream = ExtResource("3_sbfb6")
+volume_db = 10.0
+bus = &"Voices"
+
+[node name="Breath" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.46206, 0)
+stream = ExtResource("4_8vj73")
+volume_db = -12.333
+max_db = 5.0
+autoplay = true
+max_distance = 20.0
+bus = &"Voices"
+
+[node name="Shotgun" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("7_icrx5")
+volume_db = -15.0
+max_db = -10.0
+bus = &"SFX"
+
+[node name="SoldierHurt1" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("7_eah7v")
+volume_db = -5.0
+max_distance = 15.0
+bus = &"Voices"
+
+[node name="SoldierHurt2" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("8_v6pfw")
+volume_db = -5.0
+max_distance = 15.0
+bus = &"Voices"
+
+[node name="SoldierHurt3" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("9_5h1m7")
+volume_db = -5.0
+max_distance = 15.0
+bus = &"Voices"
+
+[node name="SoldierHurt4" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("10_2d1cc")
+volume_db = -5.0
+max_distance = 15.0
+bus = &"Voices"
+
+[node name="StayAlert" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("11_5t80u")
+volume_db = -5.0
+max_distance = 15.0
+bus = &"Voices"
+
+[node name="ScanningForTarget" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("12_avv4v")
+volume_db = -5.0
+max_distance = 15.0
+bus = &"Voices"
+
+[node name="HoldThePerimeter" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("13_j6rtq")
+volume_db = -5.0
+max_distance = 15.0
+bus = &"Voices"
+
+[node name="TargetSpotted" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_sbfb6")
+volume_db = -5.0
+max_distance = 15.0
+bus = &"Voices"
+
+[node name="SupressingFire" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("14_04byq")
+volume_db = -5.0
+max_distance = 15.0
+bus = &"Voices"
+
+[node name="monster_shotgunner" parent="." instance=ExtResource("7_jrwie")]
+unique_name_in_owner = true
+transform = Transform3D(0, 0, -0.34198, 0, 0.34198, 0, 0.34198, 0, 0, 0, 0, 0)
+
+[node name="Skeleton3D" parent="monster_shotgunner/Armature" index="0"]
+bones/0/position = Vector3(-0.0715982, 3.38145, 0.00832674)
+bones/0/rotation = Quaternion(3.14019e-15, 0.707107, 4.21468e-08, 0.707107)
+bones/0/scale = Vector3(1, 1, 1)
+bones/1/rotation = Quaternion(3.55272e-15, 4.62813e-30, 4.62812e-30, 1)
+bones/2/rotation = Quaternion(0.0796283, -0.00672428, -0.00117221, 0.996801)
+bones/3/rotation = Quaternion(-0.00218178, 0.0315126, 0.0162812, 0.999368)
+bones/4/rotation = Quaternion(3.57672e-08, -0.707107, 9.50773e-09, 0.707107)
+bones/4/scale = Vector3(1, 1, 1)
+bones/5/position = Vector3(0.197756, 1.08782, -3.01801e-08)
+bones/5/rotation = Quaternion(2.59853e-08, -8.79195e-08, -0.722648, 0.691216)
+bones/5/scale = Vector3(1, 1, 1)
+bones/6/rotation = Quaternion(0.132282, -0.0768371, -0.530782, 0.833588)
+bones/6/scale = Vector3(1, 1, 1)
+bones/7/rotation = Quaternion(0.175266, -0.0912091, -0.287409, 0.937208)
+bones/8/rotation = Quaternion(0.157582, -0.614506, -0.208116, 0.744472)
+bones/8/scale = Vector3(1, 1, 1)
+bones/9/rotation = Quaternion(0.482751, -0.516673, 0.482751, 0.516673)
+bones/9/scale = Vector3(0.414775, 0.483015, 0.163466)
+bones/10/rotation = Quaternion(0.520721, -0.478382, 0.520721, 0.478382)
+bones/10/scale = Vector3(0.33052, 0.384898, 0.816739)
+bones/12/position = Vector3(-0.212475, 1.08782, -0.0130095)
+bones/12/rotation = Quaternion(0.0404418, -0.040697, 0.772781, 0.632075)
+bones/13/rotation = Quaternion(0.193567, 0.0605043, 0.226146, 0.952748)
+bones/13/scale = Vector3(1, 1, 1)
+bones/14/rotation = Quaternion(0.14829, 0.26834, 0.409149, 0.859419)
+bones/15/rotation = Quaternion(0.164639, -0.225043, 0.491158, 0.825235)
+bones/15/scale = Vector3(1, 1, 1)
+bones/16/position = Vector3(-0.182803, 1.92994, 0.252682)
+bones/18/rotation = Quaternion(-0.516573, 0.478347, 0.521054, 0.482534)
+bones/18/scale = Vector3(-0.414775, -0.483015, -0.163466)
+bones/19/rotation = Quaternion(-0.018808, 0.706858, 0.706855, -0.0188079)
+bones/19/scale = Vector3(0.289779, 0.466609, 0.961803)
+bones/20/rotation = Quaternion(-0.478618, 0.516322, 0.482767, 0.520838)
+bones/20/scale = Vector3(-0.33052, -0.384898, -0.816739)
+bones/21/rotation = Quaternion(-0.444352, 0.54609, 0.448202, 0.550865)
+bones/21/scale = Vector3(-0.38289, -0.445885, -0.708961)
+bones/22/position = Vector3(0.53869, -0.0318365, 8.98699e-08)
+bones/22/rotation = Quaternion(0.112541, 0.2731, 0.950938, -0.0920159)
+bones/22/scale = Vector3(1, 1, 0.999998)
+bones/23/rotation = Quaternion(-0.451073, -2.02992e-08, -4.08658e-07, 0.892487)
+bones/24/rotation = Quaternion(0.818587, 0.0782861, -0.122489, 0.555682)
+bones/25/scale = Vector3(0.482477, 0.445888, 0.965965)
+bones/26/rotation = Quaternion(-0.501762, 0.502163, -0.500214, -0.495836)
+bones/26/scale = Vector3(0.585996, 0.509921, 1.10469)
+bones/27/position = Vector3(-0.55341, -0.0318364, -0.0130095)
+bones/27/rotation = Quaternion(-0.12228, 0.181694, 0.970911, 0.0967824)
+bones/27/scale = Vector3(1, 1, 0.999998)
+bones/28/rotation = Quaternion(-0.347828, 1.29262e-08, 3.60078e-07, 0.937559)
+bones/29/rotation = Quaternion(0.806948, -0.0708434, 0.138926, 0.569663)
+bones/30/rotation = Quaternion(-0.472216, 0.467867, 0.527938, 0.528578)
+bones/30/scale = Vector3(-0.48248, -0.445888, -0.965965)
+bones/31/rotation = Quaternion(0.528293, -0.524052, -0.47328, -0.471468)
+bones/32/position = Vector3(1.54243, 3.25527, -0.986787)
+bones/32/rotation = Quaternion(0.645315, 0.645315, 0.289082, -0.289082)
+bones/32/scale = Vector3(1, 1, 1)
+bones/33/position = Vector3(0.108897, 0.221333, -0.950837)
+bones/34/position = Vector3(1.6652, 3.46134, 1.04623)
+bones/34/rotation = Quaternion(0.67186, 0.67186, 0.220463, -0.220463)
+bones/35/position = Vector3(-0.141815, 0.06371, 1.04091)
+bones/35/rotation = Quaternion(-0.5, 0.5, 0.5, 0.5)
+
+[node name="head_2" parent="monster_shotgunner/Armature/Skeleton3D" index="0"]
+transform = Transform3D(0.986945, 0.154953, 0.0439211, -0.15331, 0.987424, -0.0386032, -0.0493504, 0.0313657, 0.998289, -0.84305, -0.275461, -0.194236)
+
+[node name="HeadshotParts" type="CPUParticles3D" parent="monster_shotgunner/Armature/Skeleton3D/head_2" index="0"]
+unique_name_in_owner = true
+transform = Transform3D(-0.16823, -1.00558, 2.74065, 0.156997, 2.7381, 1.01429, -2.91508, 0.205498, -0.103537, 0.0577636, 6.64901, 0.130037)
+emitting = false
+amount = 200
+lifetime = 5.0
+one_shot = true
+explosiveness = 0.79
+mesh = SubResource("QuadMesh_pig5p")
+emission_shape = 3
+emission_box_extents = Vector3(0.1, 0.1, 0.1)
+direction = Vector3(0, 10, 0)
+spread = 10.48
+initial_velocity_min = 4.0
+initial_velocity_max = 10.0
+color = Color(0.794399, 3.22476e-06, 9.62615e-07, 1)
+
+[node name="head_2" parent="monster_shotgunner/Armature/Skeleton3D/head_2" index="1"]
+surface_material_override/0 = ExtResource("8_lai86")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="monster_shotgunner/Armature/Skeleton3D/head_2" index="2"]
+transform = Transform3D(2.92415, -2.38419e-07, -3.77186e-08, 0, 2.92415, 3.60887e-08, 5.02914e-08, -6.75209e-08, 2.92415, 1.15062, 7.27113, -0.395484)
+light_color = Color(0.393062, 0.582303, 1, 1)
+omni_range = 0.477
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="monster_shotgunner/Armature/Skeleton3D/head_2" index="3"]
+transform = Transform3D(2.92415, -2.38419e-07, -6.42613e-08, 0, 2.92415, 6.03031e-08, 7.26432e-08, -9.73232e-08, 2.92415, 1.16392, 7.29126, 0.373016)
+light_color = Color(0.393062, 0.582303, 1, 1)
+omni_range = 0.477
+
+[node name="handL" parent="monster_shotgunner/Armature/Skeleton3D" index="1"]
+transform = Transform3D(0.113757, -0.217066, -0.138977, -0.062153, -0.431459, 0.0692814, -0.393998, 0.00538977, -0.0510553, 1.00881, 3.93754, -0.971516)
+
+[node name="handL" parent="monster_shotgunner/Armature/Skeleton3D/handL" index="0"]
+material_override = ExtResource("8_lai86")
+
+[node name="forearmL" parent="monster_shotgunner/Armature/Skeleton3D" index="2"]
+transform = Transform3D(0.292291, 0.0211138, -0.378651, 0.154105, -0.0592748, 0.711499, -0.0078035, -0.37972, -0.13212, 0.686636, 4.05617, -0.99527)
+
+[node name="forearmL" parent="monster_shotgunner/Armature/Skeleton3D/forearmL" index="0"]
+material_override = ExtResource("8_lai86")
+
+[node name="bicepL" parent="monster_shotgunner/Armature/Skeleton3D" index="3"]
+transform = Transform3D(0.376348, 0.0217719, -0.12582, 0.0459803, 0.249962, 0.580877, 0.053412, -0.36859, 0.386493, 0.25918, 4.89477, -1.0595)
+
+[node name="bicepL" parent="monster_shotgunner/Armature/Skeleton3D/bicepL" index="0"]
+material_override = ExtResource("8_lai86")
+
+[node name="weapon_02" parent="monster_shotgunner/Armature/Skeleton3D" index="4"]
+transform = Transform3D(-0.646832, 0.596022, 0.438968, 0.359173, 0.992091, -0.418526, -0.287311, -0.101611, -1.51147, 1.0215, 4.64673, 1.29766)
+
+[node name="weapon_02" parent="monster_shotgunner/Armature/Skeleton3D/weapon_02" index="0"]
+material_override = ExtResource("9_wye2a")
+
+[node name="handR" parent="monster_shotgunner/Armature/Skeleton3D" index="5"]
+transform = Transform3D(0.211862, 0.396609, -0.0416346, 0.355063, -0.221429, 0.039041, -0.0329109, 0.164237, 0.153178, 0.720307, 4.17122, 1.33104)
+
+[node name="handR" parent="monster_shotgunner/Armature/Skeleton3D/handR" index="0"]
+material_override = ExtResource("8_lai86")
+
+[node name="weapon_01" parent="monster_shotgunner/Armature/Skeleton3D" index="6"]
+transform = Transform3D(-0.23616, 0.239376, 0.259238, 0.131135, 0.398444, -0.247169, -0.104898, -0.0408101, -0.892619, 0.895561, 4.71576, 1.68244)
+
+[node name="weapon_01" parent="monster_shotgunner/Armature/Skeleton3D/weapon_01" index="0"]
+material_override = ExtResource("9_wye2a")
+
+[node name="forearmR" parent="monster_shotgunner/Armature/Skeleton3D" index="7"]
+transform = Transform3D(0.287937, -0.0336811, -0.394594, 0.15894, -0.017954, 0.715092, 0.0327719, 0.383001, -0.00117922, 0.713276, 4.27584, 1.52949)
+
+[node name="forearmR" parent="monster_shotgunner/Armature/Skeleton3D/forearmR" index="0"]
+material_override = ExtResource("8_lai86")
+
+[node name="bicepR" parent="monster_shotgunner/Armature/Skeleton3D" index="8"]
+transform = Transform3D(0.365289, 0.0594169, -0.190325, 0.00473565, 0.391243, 0.339949, -0.114658, 0.205455, -0.592315, 0.239714, 5.00492, 1.37508)
+
+[node name="bicepR" parent="monster_shotgunner/Armature/Skeleton3D/bicepR" index="0"]
+material_override = ExtResource("8_lai86")
+
+[node name="legL" parent="monster_shotgunner/Armature/Skeleton3D" index="9"]
+transform = Transform3D(0.430713, -0.119101, 0.350576, -0.165591, 0.0530098, 0.899993, -0.14089, -0.426405, 0.0139645, 0.610833, 1.21408, -0.98146)
+
+[node name="legL" parent="monster_shotgunner/Armature/Skeleton3D/legL" index="0"]
+material_override = ExtResource("8_lai86")
+
+[node name="thighL" parent="monster_shotgunner/Armature/Skeleton3D" index="10"]
+transform = Transform3D(0.480677, -0.137793, -0.556885, 0.320661, 0.0582543, 0.915969, -0.0975507, -0.487482, 0.26687, 0.529178, 2.44042, -0.813552)
+
+[node name="thighL" parent="monster_shotgunner/Armature/Skeleton3D/thighL" index="0"]
+material_override = ExtResource("8_lai86")
+
+[node name="legR" parent="monster_shotgunner/Armature/Skeleton3D" index="11"]
+transform = Transform3D(0.450981, -0.119986, 0.224245, -0.0969423, 0.061832, 0.936737, 0.141436, 0.424966, -0.0729798, 0.25021, 1.10951, 0.908635)
+
+[node name="legR" parent="monster_shotgunner/Armature/Skeleton3D/legR" index="0"]
+material_override = ExtResource("8_lai86")
+
+[node name="thighR" parent="monster_shotgunner/Armature/Skeleton3D" index="12"]
+transform = Transform3D(0.547876, -0.137005, -0.255965, 0.161491, 0.070693, 1.05081, 0.130942, 0.486057, -0.22498, 0.231756, 2.30498, 0.735788)
+
+[node name="thighR" parent="monster_shotgunner/Armature/Skeleton3D/thighR" index="0"]
+material_override = ExtResource("8_lai86")
+
+[node name="body" parent="monster_shotgunner/Armature/Skeleton3D" index="13"]
+surface_material_override/0 = ExtResource("8_lai86")
+
+[connection signal="area_entered" from="Area3D" to="." method="onAreaEntered"]
+[connection signal="body_entered" from="Area3D" to="." method="onAreaEntered"]
+[connection signal="finished" from="GibParticles/GibParticles" to="." method="_on_gib_particles_finished"]
+[connection signal="animation_finished" from="monster_shotgunner/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+
+[editable path="GibParticles"]
+[editable path="monster_shotgunner"]

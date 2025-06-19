@@ -1,5 +1,5 @@
 @tool
-extends Area3D
+extends Node3D
 class_name PickUp
 
 @onready var player : CharacterBody3D = get_tree().get_first_node_in_group("Player")

@@ -27,12 +27,15 @@ func OnMSAA2DChanged(setting:int):pass
 func OnMSAA3DChanged(setting:int):pass
 func OnScaling3DModeChanged(setting:int):pass
 
+var maps = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
 	Signals.HUDHide.connect(HUDHide)
 	Signals.HUDShow.connect(HUDShow)
+	maps = []
+	maps = GetMapFiles()
 	
 	## Default Main Menu
 	if not Game.in_game:
@@ -48,7 +51,8 @@ func _ready():
 		"Load Game" : ["Back"],
 		"Help" : ["Help", "Back"],
 		"Quit Level" : [],
-		"Mods": ["Browse", "My Mods", "Create", "Back"]
+		"Mods": ["Custom Maps", "Back"],
+		"Custom Maps": ["Back"],
 		}
 	## Menu while in game
 	else:
@@ -67,7 +71,8 @@ func _ready():
 		"Load Game" : ["Back"],
 		"Help" : ["Help", "Back"],
 		"Quit Level" : [],
-		"Mods": ["Browse", "My Mods", "Create", "Back"]
+		"Mods": ["Custom Maps", "Back"],
+		"Custom Maps": ["Back"],
 		}
 	UpdateMenu();
 	
@@ -212,6 +217,11 @@ func UpdateMenu():
 		"New Game":
 			pass
 			
+		"Custom Maps":
+			for map in maps:
+				CreateButton(str(map), true, "LoadMap")
+			pass
+			
 		"Load Game":
 			var data = Game.GetSaveData()
 			
@@ -259,13 +269,48 @@ func UpdateMenu():
 		
 		CreateButton(option,scroll)
 	pass
+	
+func LoadMap(map_name:String):
+	Game.in_game = true
+	
+	if Game.map_build == Game.MAP_BUILD.PREBUILD:
+		Game.RoomGoto("res://scenes/levels/" + str(map_name) + ".tscn")
+		
+	if Game.map_build == Game.MAP_BUILD.RUNTIME:
+		Game.last_data = null
+		Game.map_filepath = "res://maps/" + str(map_name)
+		Game.CreateLoadingScreen()
+		#Signals.UpdateWorldMapFile.emit(map_name)
+	
+func GetMapFiles():
+	var dir = DirAccess.open("res://maps")
+	if dir == null:
+		print("Failed to open maps folder.")
+		return []
 
+	var files = []
+	dir.list_dir_begin()
+	var file_name = dir.get_next()
+	while file_name != "":
+		if not dir.current_is_dir() and file_name.ends_with(".map"):
+			files.append(file_name)
+		file_name = dir.get_next()
+	dir.list_dir_end()
+
+	print("Custom maps: " + str(files))
+	return files
 
 
 var save_game_confirm_name = "" ## stores the game save name we selected after we are prompted if we 
 								## are sure we want to overwrite the save
 								
 func NewSave(na:String): 
+	if Game.can_save == false:
+		MusicPlayer.Sound(MusicPlayer.SFX.INTERACT_NO_WORK, MusicPlayer.AUDIO_CHANNEL.SFX, 0.2)
+		Console.print_line("Can't save in here.")
+		disable_window()
+		return
+		
 	currentMenu = "Main Menu"
 	hide()
 	UpdateMenu()
@@ -278,8 +323,19 @@ func SaveGameConfirm(save_name:String):
 	save_game_confirm_name = save_name
 	currentMenu = "Save Game Confirm";
 	UpdateMenu();
-	
+
+func CustomMaps(map:String):
+	currentMenu = "Custom Maps";
+	UpdateMenu();
+
 func SaveGame(na:String=""):
+	
+	if Game.can_save == false:
+		MusicPlayer.Sound(MusicPlayer.SFX.INTERACT_NO_WORK, MusicPlayer.AUDIO_CHANNEL.SFX, 0.2)
+		Console.print_line("Can't save in here.")
+		disable_window()
+		return
+	
 	currentMenu = "Main Menu"
 	hide()
 	UpdateMenu()
@@ -395,6 +451,7 @@ func OnFPSChanged(slider,label,text):
 func OnOptionPressed(option):
 	match(option):
 		"New Game": 
+			Game.last_data = null
 			Game.RestartLevel()
 			disable_window()
 			
@@ -410,6 +467,7 @@ func OnOptionPressed(option):
 		"Resume" : disable_window();
 		"Quit Level": currentMenu = "Quit Level"; UpdateMenu();
 		"Save Game Confirm": currentMenu = "Save Game Confirm"; UpdateMenu();
+		"Custom Maps": currentMenu = "Custom Maps"; UpdateMenu()
 		
 		"Quicksave": SaveGame()
 			
@@ -439,6 +497,7 @@ func OnOptionPressed(option):
 			"Save Game" : currentMenu = "Main Menu"; UpdateMenu();
 			"Tutorial" : currentMenu = "Main Menu"; UpdateMenu();
 			"Save Game Confirm" : currentMenu = "Save Game"; UpdateMenu();
+			"Custom Maps": currentMenu = "Mods"; UpdateMenu();
 	pass
 	
 func CreateSlider(text, functionToCall, min_value=0, max_value=100, default_value=100, fullyCustomText="", step:float=1.0):

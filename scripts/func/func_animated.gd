@@ -17,11 +17,16 @@ func _func_godot_apply_properties(props:Dictionary):
 	MatchExtension()
 	LoadMesh()
 	SetTextures()
+	ready()
 	pass
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if Engine.is_editor_hint(): return
+	if Game.map_build == Game.MAP_BUILD.RUNTIME: return
+	ready()
+	
+func ready():
 	SetTextures()
 	pass # Replace with function body.
 

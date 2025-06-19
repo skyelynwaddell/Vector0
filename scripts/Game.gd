@@ -1,5 +1,9 @@
 extends Node
 
+enum MAP_BUILD { PREBUILD, RUNTIME }
+#var map_build := MAP_BUILD.PREBUILD ## Use prebuilt map files loaded in a .tscn on a funcgodotmap node
+var map_build := MAP_BUILD.RUNTIME ## Generate map files on load instead of using prebuilt .tscn
+
 enum DIFFICULTY {
 	EASY=1, 
 	NORMAL=2, 
@@ -11,8 +15,9 @@ enum DIFFICULTY {
 #Player Save Data
 var game_name := "vector0"
 var map_name := "e1m1"
-var map_filepath := "" ## current level
+var map_filepath := "res://maps/level3.map" ## current level
 var next_map_filepath = "" ## next level once we hit a changelevel trigger
+var can_save = true ## There are some places in the game we cannot allow the player to save in , such as an elevator because shit gets fucked up
 
 var secrets := { current = 0, total = 3 }
 var filename = "user://savefile.sav"
@@ -315,6 +320,11 @@ func CreateSaveName() -> String:
 
 ## Creates a new save game + save name if save_name is left blank, or else it overwrites the save file with the specified name
 func SaveGame(save_name:=""):
+	
+	if can_save == false:
+		Console.print_line("Can't save in here.")
+		return
+	
 	Signals.UpdateEnemyStats.emit()
 	Signals.DoorUpdateEntity.emit()
 
@@ -364,9 +374,6 @@ func SaveGame(save_name:=""):
 		
 		"player_pos" = { "x" : player.global_position.x, "y": player.global_position.y, "z": player.global_position.z },
 		"player_rot" = { "x" : player.get_node("HeadOGPosition/Head").rotation_degrees.x, "y": player.get_node("HeadOGPosition/Head").rotation_degrees.y, "z": player.get_node("HeadOGPosition/Head").rotation_degrees.z }
-		
-		## TODO: Save current level
-		## TODO: Save current player position
 	}
 	
 	#print("Enemies in map: " + str(enemies_in_map))
@@ -437,6 +444,10 @@ func LoadGame(save_name:String=""):
 		Console.disable()
 		Console.enable()
 		Game.in_game = true
+		
+		if last_data != null and "map_filepath" in last_data: Game.map_filepath = last_data.map_filepath
+		
+		print("Map Filepath: " + Game.map_filepath)
 
 		Console.print_line("Save File Loaded.")
 		Game.CreateLoadingScreen()
@@ -514,16 +525,27 @@ func GetData(player):
 			for child in map.get_children():
 				if child.is_in_group("Entity") == false or child.is_in_group("Enemy") or child.is_in_group("Door"): continue
 				
-				print("Entity: " + str(child.name) + "\n")
 				
+				var destroy = false
+				print("child name: " + str(child.name))
+				print("entity targetname " + str(entity.targetname))
 				if str(child.name) == str(entity.targetname):
-					if str(entity.collected) == "1": child.queue_free()
+					print("comparing : " + str(child.name) + " with " + str(entity.targetname))
+					if str(entity.collected) == "1": 
+						destroy = true
+						
+						if "respawn_on_reload" in child:
+							if str(child.respawn_on_reload) == "1":
+								print("Not going to destroy this one even though it was previously collected")
+								destroy = false
 					
 					child.global_position = Vector3(entity.position.x,entity.position.y,entity.position.z)
 					child.global_rotation = Vector3(entity.rotation.x,entity.rotation.y,entity.rotation.z)
 					
+					if destroy == true:
+						print("DESTROYING ENTITY: " + child.name)
+						child.queue_free()
 
-	
 	## make sure we have killed some enemies
 	if Game.enemies_in_map.is_empty() == false:
 		## find each enemy in the list we have killed
@@ -543,9 +565,13 @@ func GetData(player):
 				if str(child.name) == str(enemy.targetname):		
 					if child.has_method("LoadEnemy"): child.LoadEnemy()
 					
-		
+	## TODO : Update switches so they save their data
+	
+	## Update all the doors
 	for d in map.get_children():
+		print("Trying to find doors...")
 		if d.has_method("SetDoorProperties") == false: continue
+		print("Door has properties")
 		d.SetDoorProperties()
 	
 	## TODO Set player position
@@ -568,7 +594,7 @@ func GetData(player):
 
 func EntityData(node:Node3D, collected:=0):
 	var data = {
-		"targetname" = node.name,
+		"targetname" = str(node.name),
 		"position" = { "x":node.global_position.x,"y":node.global_position.y,"z":node.global_position.z},
 		"rotation" = { "x":node.global_rotation.x,"y":node.global_rotation.y,"z":node.global_rotation.z},
 		"collected" = collected,
@@ -581,9 +607,10 @@ func UpdateEntity(node:Node3D, collected:=0):
 	for i in range(map_entities.size()):
 		var e = map_entities[i]
 		if str(e.targetname) == str(data.targetname):
-			if str(collected) != "0":
+			if str(collected) == "1":
 				map_entities[i] = data.duplicate(true)
-			return
+				node.queue_free()
+			return # DONT PROCESS ANYMORE THERE WAS A MATCH
 	
 	map_entities.push_back(data.duplicate(true))
 

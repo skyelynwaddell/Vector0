@@ -6,13 +6,13 @@ class_name func_switch
 ## Textures
 @export_group("Textures")
 ## Texture Directory to look for the images
-@export_dir var texture_dir : String = "res://textures/textures/"
+@export_dir var texture_dir : String = "res://textures/"
 ## Texture that is used when the switch is ON
-@export var texture_on : String = "+1_switch_brown"
+@export var texture_on : String = "textures/+1_switch_brown"
 ## Texture that is used when the switch is ON
-@export var texture_off : String = "-1_switch_brown"
+@export var texture_off : String = "textures/-1_switch_brown"
 ## Texture that is used when the switch has NO POWER
-@export var texture_nopower : String = "-1_switch_brown"
+@export var texture_nopower : String = "textures/-1_switch_brown"
 ## Choose the file extension type of the textures
 @export_flags("png","jpg","jpeg","bmp","tga","webp","tif","tiff","dds") var file_ext : int = 1
 
@@ -66,11 +66,19 @@ func _func_godot_apply_properties(props:Dictionary):
 	MatchExtension()
 	LoadMesh()
 	SetInitialTexture()
+	
+	
+	if Game.map_build == Game.MAP_BUILD.PREBUILD: return
+	ready()
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if Engine.is_editor_hint(): return
+	if Game.map_build == Game.MAP_BUILD.RUNTIME: return
+	ready()
+
+
+func ready():
 	SetInitialTexture()
 	
 	if shoot_can_toggle == 1:
@@ -113,7 +121,8 @@ func _ready():
 func _process(delta):
 	if self.inArea == true and Input.is_action_just_pressed("Interact"):
 		self.on_trigger()
-		
+	
+	if str(toggle_time) == "-1": return
 	if start_toggle_timer == true and toggles == 0:
 		toggle_timer += delta
 		
@@ -173,12 +182,19 @@ func SetExtension(type : String):
 # Get Texture
 func GetTexture(texture : String):
 	var texture_path = texture_dir + texture + "." + ext
+	
+	## if cant find texture, try searching again in textures/textures
+	if not FileAccess.file_exists(texture_path):
+		texture_path = texture_dir + "textures/" + texture + "." + ext
+		
+	if not FileAccess.file_exists(texture_path):
+		print_debug("Texture file does not exist: " + texture_path)
+		return null
+		
 	var _tex = load(texture_path)
 	if _tex and _tex is Texture2D:
 		return _tex as Texture2D
-	else:
-		print_debug("Error! Failed to load func_switch texture at path: " + texture_path)
-		return null
+
 
 
 # Set Texture
@@ -234,6 +250,9 @@ func retrigger():
 
 # On Trigger
 func on_trigger():
+	
+	if start_toggle_timer == true and toggles == 0: return
+	
 	print(str(name))
 	on = not on
 	SetTextures()

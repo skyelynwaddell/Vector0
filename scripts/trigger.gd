@@ -23,9 +23,11 @@ class_name Trigger
 ## Sound Effect played when Triggered
 @export var sounds = 0
 ## Count Max
-@export var countMax = 0 as int
+@export var countMax := 0
 
-@export var counter = 0 as int
+@export var counter := 0
+@export var respawn_on_reload = ""
+var can_trigger = false
 var targetOrigin = 0
 var TriggerEffect = null
 var inArea = false
@@ -44,6 +46,7 @@ func _func_godot_apply_properties(props : Dictionary):
 	if "targetname" in props: targetname = props["targetname"] as String
 	if "target" in props: target = props["target"] as String
 	if "countmax" in props: countMax = props["countmax"].to_int()
+	if "respawn_on_reload" in props: respawn_on_reload = props["respawn_on_reload"]
 		
 	print_debug(countMax)
 	# Set trigger scale to match the scale set in Trenchbroom
@@ -56,12 +59,25 @@ func _func_godot_apply_properties(props : Dictionary):
 			_scaleVals[2].to_float() * conversion,
 			_scaleVals[0].to_float() * conversion)
 		scale = _scale
-		
+	
 	add_to_group("Entity", true)
+	
+	if Game.map_build == Game.MAP_BUILD.PREBUILD: return
+	ready()
 	pass
 
 func _ready():
 	if Engine.is_editor_hint(): return
+	if Game.map_build == Game.MAP_BUILD.RUNTIME: return
+	ready()
+	
+func MapGenerated(): 
+	can_trigger = true	
+	for entity in Game.map_entities:
+		if str(entity.targetname) == str(name) and str(entity.collected) == "1":
+			queue_free()
+	
+func ready():
 	area3d = Area3D.new()
 		
 	# Create Area3D collision area
@@ -90,13 +106,25 @@ func _ready():
 	area3d.connect("area_exited",_on_area_3d_area_exited)
 	self.visible = false
 	
+	Signals.MapGenerated.connect(MapGenerated)
+	
+	print("updating entity ")
 	Game.UpdateEntity(self, 0)
+	
+	print("This is my trigger name: " + str(name))
+	
+	
+
 	pass
 	
 # When Player Entity collides with this Trigger
 func _on_area_3d_area_entered(area):
 	if Engine.is_editor_hint(): return
 	if area.is_in_group("Player") == false: return
+	
+	if str(respawn_on_reload) == "0":
+		Game.UpdateEntity(self,1)
+	
 	print_debug("trigger")
 	##  Trigger Typing : 
 	## 0 = Can't Trigger
@@ -127,6 +155,9 @@ func SpawnWait(delta):
 func Trigger():
 	if spawn_wait == true: return
 	
+	if str(respawn_on_reload) == "0":
+		Game.UpdateEntity(self,1)
+	
 	if countMax != null:
 		counter += 1
 		if counter < countMax: return
@@ -134,9 +165,12 @@ func Trigger():
 	#print_debug("Init trigger")
 	GetTriggerEffect(function)
 	self.triggered = true
+	
+	print("respawn_on_reload: " + str(respawn_on_reload))
 	#if chaintrigger != null && chaintrigger != "" && chaintrigger != "0":
-	if permanent == "0": 
-		Game.UpdateEntity(self,1)
+
+		
+	if permanent == "0":
 		queue_free()
 
 # Get Trigger Effect Depending on Type of Trigger
@@ -152,8 +186,13 @@ func GetTriggerEffect(fn):
 
 #On Trigger Effect
 func on_trigger(target):
+	if spawn_wait == true: return
 	if currentTriggered: return
 	currentTriggered = true
+	
+	if str(respawn_on_reload) == "0":
+		Game.UpdateEntity(self,1)
+	
 	if waittime > 0:
 		for i in self.get_children():
 			if i is Timer: timer = i
@@ -193,7 +232,9 @@ func timer_finished():
 	pass
 
 func _on_area_3d_area_exited(area):
-	if area.is_in_group("Player"): inArea = false
+	if area.is_in_group("Player"): 
+		inArea = false
+		currentTriggered = false
 	pass # Replace with function body.
 
 func _process(delta):
