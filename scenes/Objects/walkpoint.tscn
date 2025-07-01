@@ -7,6 +7,7 @@
 
 [node name="Walkpoint" type="Area3D" groups=["WalkPoint"]]
 transform = Transform3D(0.18, 0, 0, 0, 0.18, 0, 0, 0, 0.18, 0, 0, 0)
+visible = false
 script = ExtResource("1_nogdg")
 target = null
 waittime = null

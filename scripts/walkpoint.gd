@@ -13,7 +13,7 @@ func _func_godot_apply_properties(props : Dictionary):
 	add_to_group("WalkPoint", true)
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready( ):
 	add_to_group("WalkPoint", true)
 	hide()
 	pass # Replace with function body.

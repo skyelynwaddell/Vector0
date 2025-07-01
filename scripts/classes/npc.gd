@@ -110,6 +110,8 @@ func GetTarget(area):
 	if area.is_in_group("WalkPoint"):
 		#print("touched walkpoint")
 		
+		if str(area.targetname) != str(target): return
+		
 		var _target = area.target ## this is the walkpoints target
 		waittime = area.waittime
 		timer = 0.0

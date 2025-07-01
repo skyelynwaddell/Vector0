@@ -90,7 +90,7 @@ var base_head_pos:= Vector3.ZERO
 @export_group("Weapon Properties")
 ## Gun Bullet Distance
 @export var bulletDistance : float = 2000.0
-@export var meleeDistance : float = 1.5
+@export var meleeDistance : float = 3.5
 
 @export_group("Speed")
 ## Default Movement Speed

@@ -73,7 +73,6 @@ animation = &"WALK"
 [sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_o3pog"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_b0hth"]
-graph_offset = Vector2(148.323, -4.93378)
 nodes/AnimAttack/node = SubResource("AnimationNodeAnimation_kd7oq")
 nodes/AnimAttack/position = Vector2(720, 340)
 nodes/AnimCrouch/node = SubResource("AnimationNodeAnimation_2d6bq")
@@ -119,14 +118,15 @@ nodes/Walk/position = Vector2(20, 100)
 nodes/output/position = Vector2(2200, 100)
 node_connections = [&"Crouch", 0, &"Run", &"Crouch", 1, &"AnimCrouch", &"Death1", 0, &"Hurt2", &"Death1", 1, &"AnimDeath1", &"Death2", 0, &"Death1", &"Death2", 1, &"AnimDeath2", &"Death3", 0, &"Death2", &"Death3", 1, &"AnimDeath3", &"Death4", 0, &"Death3", &"Death4", 1, &"AnimDeath4", &"Hurt1", 0, &"Shoot", &"Hurt1", 1, &"AnimHurt1", &"Hurt2", 0, &"Hurt1", &"Hurt2", 1, &"AnimHurt2", &"Run", 0, &"Walk", &"Run", 1, &"AnimRun", &"Shoot", 0, &"Crouch", &"Shoot", 1, &"AnimAttack", &"Walk", 0, &"AnimIdle", &"Walk", 1, &"AnimWalk", &"output", 0, &"Death4"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_fi1kn"]
-size = Vector3(1.30469, 0.992646, 2.15014)
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_5hlvc"]
+height = 1.95256
+radius = 0.471854
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8axdl"]
 size = Vector3(0.822632, 0.714733, 0.660617)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_642ki"]
-size = Vector3(1.30481, 2.77477, 1.26692)
+size = Vector3(1.19925, 2.79879, 0.954294)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yifhu"]
 albedo_color = Color(0.739789, 1.93726e-06, 9.62615e-07, 1)
@@ -137,6 +137,7 @@ material = SubResource("StandardMaterial3D_yifhu")
 size = Vector2(0.05, 0.05)
 
 [node name="Shotgunner" type="CharacterBody3D" groups=["Enemy", "Entity", "Zombie"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.166063, 0)
 collision_layer = 14
 collision_mask = 15
 script = ExtResource("1_ep80w")
@@ -170,34 +171,36 @@ parameters/Walk/blend_amount = 0.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.0122069, 0.978305, 0.038617)
-shape = SubResource("BoxShape3D_fi1kn")
+transform = Transform3D(1, 0, 0, 0, 1, -1.06581e-14, 0, 1.06581e-14, 1, -0.0122069, 0.996995, 0.038617)
+shape = SubResource("CylinderShape3D_5hlvc")
 
 [node name="HeadHitboxArea" type="StaticBody3D" parent="." groups=["Enemy", "HeadHitbox"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.233718, 0)
 collision_layer = 8
 collision_mask = 4
 
 [node name="HeadHitboxCollision" type="CollisionShape3D" parent="HeadHitboxArea"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.0139766, 2.38514, 0.177387)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.0139766, 2.08608, 0.177387)
 shape = SubResource("BoxShape3D_8axdl")
 
 [node name="Area3D" type="Area3D" parent="."]
 unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.110709, 0)
 collision_layer = 8
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.012146, 1.3894, 0.129)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0189666, 1.39657, 0.0412388)
 shape = SubResource("BoxShape3D_642ki")
 
 [node name="GibParticles" parent="." instance=ExtResource("2_c0n18")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0157295, -1.14764, -0.299007)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0157295, -0.913922, -0.299007)
 
 [node name="GibParticles" parent="GibParticles" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.54031, 0.416646)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.78908, 0.416646)
 
 [node name="BloodParticles" parent="GibParticles" index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65944, 0.416646)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.90821, 0.416646)
 
 [node name="BloodTimer" type="Timer" parent="GibParticles"]
 unique_name_in_owner = true
@@ -299,14 +302,14 @@ bus = &"Voices"
 
 [node name="monster_shotgunner" parent="." instance=ExtResource("7_jrwie")]
 unique_name_in_owner = true
-transform = Transform3D(0, 0, -0.34198, 0, 0.34198, 0, 0.34198, 0, 0, 0, 0, 0)
+transform = Transform3D(0, 0, -0.34198, 0, 0.34198, 0, 0.34198, 0, 0, 0, 2.38419e-07, 0)
 
 [node name="Skeleton3D" parent="monster_shotgunner/Armature" index="0"]
-bones/0/position = Vector3(-0.0715982, 3.38145, 0.00832674)
+bones/0/position = Vector3(-0.0717339, 3.3278, 0.00981911)
 bones/0/rotation = Quaternion(3.14019e-15, 0.707107, 4.21468e-08, 0.707107)
 bones/0/scale = Vector3(1, 1, 1)
 bones/1/rotation = Quaternion(3.55272e-15, 4.62813e-30, 4.62812e-30, 1)
-bones/2/rotation = Quaternion(0.0796283, -0.00672428, -0.00117221, 0.996801)
+bones/2/rotation = Quaternion(0.0847063, -0.00781005, -0.00231983, 0.996373)
 bones/3/rotation = Quaternion(-0.00218178, 0.0315126, 0.0162812, 0.999368)
 bones/4/rotation = Quaternion(3.57672e-08, -0.707107, 9.50773e-09, 0.707107)
 bones/4/scale = Vector3(1, 1, 1)
@@ -339,18 +342,18 @@ bones/20/scale = Vector3(-0.33052, -0.384898, -0.816739)
 bones/21/rotation = Quaternion(-0.444352, 0.54609, 0.448202, 0.550865)
 bones/21/scale = Vector3(-0.38289, -0.445885, -0.708961)
 bones/22/position = Vector3(0.53869, -0.0318365, 8.98699e-08)
-bones/22/rotation = Quaternion(0.112541, 0.2731, 0.950938, -0.0920159)
+bones/22/rotation = Quaternion(0.11268, 0.289264, 0.945783, -0.0955198)
 bones/22/scale = Vector3(1, 1, 0.999998)
-bones/23/rotation = Quaternion(-0.451073, -2.02992e-08, -4.08658e-07, 0.892487)
-bones/24/rotation = Quaternion(0.818587, 0.0782861, -0.122489, 0.555682)
+bones/23/rotation = Quaternion(-0.479504, -1.50741e-08, -4.37876e-07, 0.87754)
+bones/24/rotation = Quaternion(0.826129, 0.0812432, -0.123371, 0.543774)
 bones/25/scale = Vector3(0.482477, 0.445888, 0.965965)
 bones/26/rotation = Quaternion(-0.501762, 0.502163, -0.500214, -0.495836)
 bones/26/scale = Vector3(0.585996, 0.509921, 1.10469)
 bones/27/position = Vector3(-0.55341, -0.0318364, -0.0130095)
-bones/27/rotation = Quaternion(-0.12228, 0.181694, 0.970911, 0.0967824)
+bones/27/rotation = Quaternion(-0.121727, 0.202103, 0.966547, 0.100614)
 bones/27/scale = Vector3(1, 1, 0.999998)
-bones/28/rotation = Quaternion(-0.347828, 1.29262e-08, 3.60078e-07, 0.937559)
-bones/29/rotation = Quaternion(0.806948, -0.0708434, 0.138926, 0.569663)
+bones/28/rotation = Quaternion(-0.385941, 3.95848e-09, 3.93827e-07, 0.922524)
+bones/29/rotation = Quaternion(0.817594, -0.0744521, 0.139273, 0.553715)
 bones/30/rotation = Quaternion(-0.472216, 0.467867, 0.527938, 0.528578)
 bones/30/scale = Vector3(-0.48248, -0.445888, -0.965965)
 bones/31/rotation = Quaternion(0.528293, -0.524052, -0.47328, -0.471468)
@@ -364,7 +367,7 @@ bones/35/position = Vector3(-0.141815, 0.06371, 1.04091)
 bones/35/rotation = Quaternion(-0.5, 0.5, 0.5, 0.5)
 
 [node name="head_2" parent="monster_shotgunner/Armature/Skeleton3D" index="0"]
-transform = Transform3D(0.986945, 0.154953, 0.0439211, -0.15331, 0.987424, -0.0386032, -0.0493504, 0.0313657, 0.998289, -0.84305, -0.275461, -0.194236)
+transform = Transform3D(0.985425, 0.164961, 0.0415408, -0.16349, 0.985864, -0.0366496, -0.0469994, 0.0293239, 0.998464, -0.893264, -0.321453, -0.182497)
 
 [node name="HeadshotParts" type="CPUParticles3D" parent="monster_shotgunner/Armature/Skeleton3D/head_2" index="0"]
 unique_name_in_owner = true
@@ -397,73 +400,73 @@ light_color = Color(0.393062, 0.582303, 1, 1)
 omni_range = 0.477
 
 [node name="handL" parent="monster_shotgunner/Armature/Skeleton3D" index="1"]
-transform = Transform3D(0.113757, -0.217066, -0.138977, -0.062153, -0.431459, 0.0692814, -0.393998, 0.00538977, -0.0510553, 1.00881, 3.93754, -0.971516)
+transform = Transform3D(0.1139, -0.221469, -0.138161, -0.0642572, -0.429208, 0.0705727, -0.393619, 0.00598138, -0.0514998, 1.00304, 3.87056, -0.966089)
 
 [node name="handL" parent="monster_shotgunner/Armature/Skeleton3D/handL" index="0"]
 material_override = ExtResource("8_lai86")
 
 [node name="forearmL" parent="monster_shotgunner/Armature/Skeleton3D" index="2"]
-transform = Transform3D(0.292291, 0.0211138, -0.378651, 0.154105, -0.0592748, 0.711499, -0.0078035, -0.37972, -0.13212, 0.686636, 4.05617, -0.99527)
+transform = Transform3D(0.293864, 0.0212623, -0.371106, 0.151096, -0.0603997, 0.715005, -0.00758275, -0.379534, -0.134577, 0.682144, 3.99241, -0.990773)
 
 [node name="forearmL" parent="monster_shotgunner/Armature/Skeleton3D/forearmL" index="0"]
 material_override = ExtResource("8_lai86")
 
 [node name="bicepL" parent="monster_shotgunner/Armature/Skeleton3D" index="3"]
-transform = Transform3D(0.376348, 0.0217719, -0.12582, 0.0459803, 0.249962, 0.580877, 0.053412, -0.36859, 0.386493, 0.25918, 4.89477, -1.0595)
+transform = Transform3D(0.376691, 0.0250545, -0.120653, 0.0422666, 0.24884, 0.583057, 0.0540593, -0.36914, 0.384854, 0.263397, 4.83517, -1.05786)
 
 [node name="bicepL" parent="monster_shotgunner/Armature/Skeleton3D/bicepL" index="0"]
 material_override = ExtResource("8_lai86")
 
 [node name="weapon_02" parent="monster_shotgunner/Armature/Skeleton3D" index="4"]
-transform = Transform3D(-0.646832, 0.596022, 0.438968, 0.359173, 0.992091, -0.418526, -0.287311, -0.101611, -1.51147, 1.0215, 4.64673, 1.29766)
+transform = Transform3D(-0.64256, 0.606318, 0.437676, 0.365062, 0.985711, -0.426615, -0.289467, -0.102776, -1.50958, 1.01846, 4.58504, 1.30141)
 
 [node name="weapon_02" parent="monster_shotgunner/Armature/Skeleton3D/weapon_02" index="0"]
 material_override = ExtResource("9_wye2a")
 
 [node name="handR" parent="monster_shotgunner/Armature/Skeleton3D" index="5"]
-transform = Transform3D(0.211862, 0.396609, -0.0416346, 0.355063, -0.221429, 0.039041, -0.0329109, 0.164237, 0.153178, 0.720307, 4.17122, 1.33104)
+transform = Transform3D(0.21554, 0.394001, -0.0415383, 0.352803, -0.225069, 0.0398319, -0.0333307, 0.165562, 0.153, 0.712363, 4.1127, 1.33532)
 
 [node name="handR" parent="monster_shotgunner/Armature/Skeleton3D/handR" index="0"]
 material_override = ExtResource("8_lai86")
 
 [node name="weapon_01" parent="monster_shotgunner/Armature/Skeleton3D" index="6"]
-transform = Transform3D(-0.23616, 0.239376, 0.259238, 0.131135, 0.398444, -0.247169, -0.104898, -0.0408101, -0.892619, 0.895561, 4.71576, 1.68244)
+transform = Transform3D(-0.234601, 0.243511, 0.258475, 0.133285, 0.395882, -0.251946, -0.105685, -0.041278, -0.891504, 0.892468, 4.65627, 1.68577)
 
 [node name="weapon_01" parent="monster_shotgunner/Armature/Skeleton3D/weapon_01" index="0"]
 material_override = ExtResource("9_wye2a")
 
 [node name="forearmR" parent="monster_shotgunner/Armature/Skeleton3D" index="7"]
-transform = Transform3D(0.287937, -0.0336811, -0.394594, 0.15894, -0.017954, 0.715092, 0.0327719, 0.383001, -0.00117922, 0.713276, 4.27584, 1.52949)
+transform = Transform3D(0.289478, -0.0346237, -0.387271, 0.156072, -0.0166888, 0.719076, 0.0329721, 0.382974, -0.00367727, 0.706007, 4.21787, 1.5335)
 
 [node name="forearmR" parent="monster_shotgunner/Armature/Skeleton3D/forearmR" index="0"]
 material_override = ExtResource("8_lai86")
 
 [node name="bicepR" parent="monster_shotgunner/Armature/Skeleton3D" index="8"]
-transform = Transform3D(0.365289, 0.0594169, -0.190325, 0.00473565, 0.391243, 0.339949, -0.114658, 0.205455, -0.592315, 0.239714, 5.00492, 1.37508)
+transform = Transform3D(0.365545, 0.0629988, -0.185668, 0.000733046, 0.39111, 0.340448, -0.113934, 0.204641, -0.593505, 0.240218, 4.95136, 1.3764)
 
 [node name="bicepR" parent="monster_shotgunner/Armature/Skeleton3D/bicepR" index="0"]
 material_override = ExtResource("8_lai86")
 
 [node name="legL" parent="monster_shotgunner/Armature/Skeleton3D" index="9"]
-transform = Transform3D(0.430713, -0.119101, 0.350576, -0.165591, 0.0530098, 0.899993, -0.14089, -0.426405, 0.0139645, 0.610833, 1.21408, -0.98146)
+transform = Transform3D(0.424677, -0.120857, 0.376325, -0.178705, 0.0539227, 0.889624, -0.143171, -0.425796, 0.00584658, 0.636506, 1.19892, -0.990518)
 
 [node name="legL" parent="monster_shotgunner/Armature/Skeleton3D/legL" index="0"]
 material_override = ExtResource("8_lai86")
 
 [node name="thighL" parent="monster_shotgunner/Armature/Skeleton3D" index="10"]
-transform = Transform3D(0.480677, -0.137793, -0.556885, 0.320661, 0.0582543, 0.915969, -0.0975507, -0.487482, 0.26687, 0.529178, 2.44042, -0.813552)
+transform = Transform3D(0.469852, -0.139896, -0.586471, 0.337319, 0.0591449, 0.894179, -0.0940467, -0.486775, 0.277193, 0.558374, 2.41018, -0.822315)
 
 [node name="thighL" parent="monster_shotgunner/Armature/Skeleton3D/thighL" index="0"]
 material_override = ExtResource("8_lai86")
 
 [node name="legR" parent="monster_shotgunner/Armature/Skeleton3D" index="11"]
-transform = Transform3D(0.450981, -0.119986, 0.224245, -0.0969423, 0.061832, 0.936737, 0.141436, 0.424966, -0.0729798, 0.25021, 1.10951, 0.908635)
+transform = Transform3D(0.445654, -0.121575, 0.260064, -0.11515, 0.0625674, 0.928206, 0.144637, 0.424407, -0.0623417, 0.289132, 1.09502, 0.921353)
 
 [node name="legR" parent="monster_shotgunner/Armature/Skeleton3D/legR" index="0"]
 material_override = ExtResource("8_lai86")
 
 [node name="thighR" parent="monster_shotgunner/Armature/Skeleton3D" index="12"]
-transform = Transform3D(0.547876, -0.137005, -0.255965, 0.161491, 0.070693, 1.05081, 0.130942, 0.486057, -0.22498, 0.231756, 2.30498, 0.735788)
+transform = Transform3D(0.541244, -0.138619, -0.298497, 0.185113, 0.0717033, 1.03655, 0.127209, 0.485451, -0.238338, 0.273738, 2.26733, 0.750388)
 
 [node name="thighR" parent="monster_shotgunner/Armature/Skeleton3D/thighR" index="0"]
 material_override = ExtResource("8_lai86")

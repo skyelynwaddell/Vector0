@@ -1,7 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://uqi5gidr5t0x"]
+[gd_scene load_steps=13 format=3 uid="uid://uqi5gidr5t0x"]
 
 [ext_resource type="Script" path="res://scripts/projectile.gd" id="1_jvjxd"]
 [ext_resource type="Material" uid="uid://btf30vo4xkdae" path="res://shaders/projectile_slime.tres" id="2_7qtvr"]
+[ext_resource type="PackedScene" uid="uid://dddhby5iv0ji8" path="res://blender/bullet.fbx" id="3_ofdgi"]
+[ext_resource type="Material" uid="uid://c8mlgdc7alrgd" path="res://materials/bullet_texture.tres" id="4_3hnw0"]
+[ext_resource type="PackedScene" uid="uid://dnvlihqmm16b0" path="res://blender/shotgun_bullet.fbx" id="4_s1efj"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_b3ht2"]
 material = ExtResource("2_7qtvr")
@@ -16,8 +19,6 @@ billboard_mode = 2
 [sub_resource type="QuadMesh" id="QuadMesh_bphxm"]
 material = SubResource("StandardMaterial3D_ydq15")
 size = Vector2(0.02, 0.02)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_nbkuu"]
 
 [sub_resource type="Animation" id="Animation_n52m8"]
 length = 0.001
@@ -108,10 +109,20 @@ scale_amount_min = 0.1
 scale_amount_max = 0.2
 color = Color(0, 1, 0, 1)
 
-[node name="Bullet" type="MeshInstance3D" parent="."]
+[node name="Bullet" parent="." instance=ExtResource("3_ofdgi")]
 unique_name_in_owner = true
-transform = Transform3D(-8.27418e-09, -0.189291, 0, 0.189291, -8.27418e-09, 0, 0, 0, 0.189291, 0, 0, 0)
-mesh = SubResource("CapsuleMesh_nbkuu")
+transform = Transform3D(-0.064, 9.70589e-24, -5.59506e-09, -1.32349e-23, 0.064, 2.22045e-16, 5.59506e-09, 2.22045e-16, -0.064, 0.0048385, 8.88178e-16, -0.187694)
+visible = false
+
+[node name="Cone" parent="Bullet" index="0"]
+material_override = ExtResource("4_3hnw0")
+
+[node name="ShotgunBullet" parent="." instance=ExtResource("4_s1efj")]
+unique_name_in_owner = true
+transform = Transform3D(2.97871e-09, 0.0681448, -5.9574e-09, 0.0681448, -2.97871e-09, 1.11022e-15, 9.80016e-16, -5.9574e-09, -0.0681448, 0.0048385, 8.88178e-16, -0.212306)
+
+[node name="Cone" parent="ShotgunBullet" index="0"]
+material_override = ExtResource("4_3hnw0")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -129,3 +140,6 @@ shape = SubResource("SphereShape3D_uwryc")
 
 [connection signal="area_entered" from="Area3D" to="." method="_on_entered"]
 [connection signal="body_entered" from="Area3D" to="." method="_on_entered"]
+
+[editable path="Bullet"]
+[editable path="ShotgunBullet"]

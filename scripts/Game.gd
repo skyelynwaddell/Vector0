@@ -75,6 +75,16 @@ func GetDirectionToPlayer(other) -> Vector3:
 	var currentpos = other.global_transform.origin
 	var dir = (Vector3(playerpos.x, currentpos.y, playerpos.z) - currentpos).normalized()
 	return dir
+	
+func GetDirectionPlusVerticalToPlayer(other) -> Vector3:
+	var player = get_tree().get_first_node_in_group("Player")
+	if player == null:
+		return Vector3.ZERO
+	
+	var aim_height_increase = 0.5
+	var target_pos = player.global_position - Vector3(0.0, aim_height_increase, 0.0)  ## Add vertical to shoot at player head
+	var dir = (target_pos - other.global_position).normalized()
+	return dir
 
 #List of all weapons in game
 var weaponList = [

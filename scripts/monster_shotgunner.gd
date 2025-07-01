@@ -24,7 +24,7 @@ var current_hb = null
 ## it spits slime at you, it does not jump at you.
 var attackDistance = 50
 var attackTimer = 0
-var attackTimerMax = 0.5 ## How long the enemy should chase you
+var attackTimerMax = 0.2 ## How long the enemy should chase you
 var attackDuration = 0
 var attackDurationMax = 1.6667 ## how long the attack animation lasts
 var attackBlend = 0.0
@@ -43,10 +43,12 @@ var loaded = false
 var headshot = false
 var headchopoff = false
 var hurt_timer := 0.0
-var hurt_timer_max := 0.8 ## stun the enemy for this amount of seconds when shot
+var hurt_timer_max := 0.3 ## stun the enemy for this amount of seconds when shot
 var after_shoot_timer = 0.0
-var after_shoot_timer_max = 0.5
+var after_shoot_timer_max = 0.1 ## how long to run around like a dumbass after shooting for
 
+## This function can either make a brain go flying, or the enemies head
+## useful in situations where the player uses a knife on the head hitbox , or shoots the head hitbox
 func HeadChopOff(brain=false):
 	var head = null
 	if brain == true:
@@ -124,13 +126,10 @@ func ready():
 
 func CreateAttack(delta):
 	%Shotgun.play()
-	var player_dir = Game.GetDirectionToPlayer(self)
-	var _padding = 0.0
-	var projspd  = 30.0
-	var _projtype = Defs.PROJECTILE_TYPE.BULLET
-	var _pos1 = player_dir + Vector3(-_padding, 0, -_padding)
-	var _pos2 = player_dir + Vector3(_padding, 0, _padding)
-	Signals.SpawnProjectile.emit(self, _pos1, _projtype, power, projspd)
+	var player_dir = Game.GetDirectionPlusVerticalToPlayer(self)
+	var projspd  = 50.0
+	var _projtype = Defs.PROJECTILE_TYPE.SHOTGUN_BULLET
+	Signals.SpawnProjectile.emit(self, player_dir, _projtype, power, projspd)
 		
 	
 		
@@ -337,10 +336,12 @@ func _physics_process(delta):
 			if after_shoot_timer >= after_shoot_timer_max:
 				#print("after shoot timer was greater than after shoot timer max")
 				after_shoot_timer = 0
-				var rndi = randi_range(0,1)
+				var rndi = randi_range(0,3)
 				match(rndi):
 					0: thing_todo_after_running_in_the_random_direction_like_a_dumbass = DO_ATTACK
-					1: thing_todo_after_running_in_the_random_direction_like_a_dumbass = CHASEPLAYER
+					1: thing_todo_after_running_in_the_random_direction_like_a_dumbass = DO_ATTACK
+					2: thing_todo_after_running_in_the_random_direction_like_a_dumbass = DO_ATTACK
+					3: thing_todo_after_running_in_the_random_direction_like_a_dumbass = CHASEPLAYER
 					#2: thing_todo_after_running_in_the_random_direction_like_a_dumbass = AFTER_SHOOT
 				
 				#print("calculating random direction...")
@@ -350,7 +351,7 @@ func _physics_process(delta):
 				
 				#print("Got some random direction")
 				
-				if thing_todo_after_running_in_the_random_direction_like_a_dumbass == state: return
+				#if thing_todo_after_running_in_the_random_direction_like_a_dumbass == state: return
 				#print("thing todo wasnt our state")
 				ChangeState(thing_todo_after_running_in_the_random_direction_like_a_dumbass)
 			

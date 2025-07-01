@@ -3565,3 +3565,61 @@
 "targetname" "enemy1"
 "monster_group" "group1"
 }
+// entity 60
+{
+"classname" "path_walkpoint"
+"origin" "536 1640 136"
+"target" "path5"
+"targetname" "path4"
+"difficulty_spawn" "0"
+"scale" ""
+"waittime" "0"
+}
+// entity 61
+{
+"classname" "monster_shotgunner"
+"origin" "536 1624 136"
+"target" "path5"
+"targetname" "enemy2"
+"monster_group" "group2"
+}
+// entity 62
+{
+"classname" "path_walkpoint"
+"origin" "-104 1720 136"
+"target" "path6"
+"targetname" "path5"
+"difficulty_spawn" "0"
+"scale" ""
+"waittime" "0"
+}
+// entity 63
+{
+"classname" "path_walkpoint"
+"origin" "-104 1160 136"
+"target" "path7"
+"targetname" "path6"
+"difficulty_spawn" "0"
+"scale" ""
+"waittime" "0"
+}
+// entity 64
+{
+"classname" "path_walkpoint"
+"origin" "-104 1752 136"
+"target" "path8"
+"targetname" "path7"
+"difficulty_spawn" "0"
+"scale" ""
+"waittime" "0"
+}
+// entity 65
+{
+"classname" "path_walkpoint"
+"origin" "536 1672 136"
+"target" "path4"
+"targetname" "path8"
+"difficulty_spawn" "0"
+"scale" ""
+"waittime" "0"
+}
